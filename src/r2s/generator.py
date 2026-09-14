@@ -130,13 +130,16 @@ def generate(
             "error",
             "No supported CLI entrypoint was found",
         )
-        findings = (*discovery.findings, finding)
+        no_capability_findings = (*discovery.findings, finding)
         status = (
             BundleReadiness.REVIEW_REQUIRED
-            if any(item.severity in {"error", "critical", "high"} for item in findings[:-1])
+            if any(
+                item.severity in {"error", "critical", "high"}
+                for item in no_capability_findings[:-1]
+            )
             else BundleReadiness.UNSUITABLE
         )
-        return BuildResult(target, None, (), status, findings)
+        return BuildResult(target, None, (), status, no_capability_findings)
     skill_names = [slugify(procedure.steps[0].action) for procedure in procedures]
     colliding_names = sorted(
         {name for name in skill_names if skill_names.count(name) > 1}

@@ -119,7 +119,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "inspect":
             discovery = discover_source(args.repo, Path(args.output), args.ref)
             run_root = write_discovery(discovery, Path(args.output))
-            result = {
+            inspect_result = {
                 "run_id": run_root.name,
                 "run_root": str(run_root),
                 "tree_sha256": discovery.tree_sha256,
@@ -130,17 +130,17 @@ def main(argv: list[str] | None = None) -> int:
                 "findings": [asdict(item) for item in discovery.findings],
             }
             if args.json:
-                print(canonical_json(result), end="")
+                print(canonical_json(inspect_result), end="")
             else:
                 print(f"{run_root.name}: {len(discovery.capabilities)} capabilities")
         elif args.command == "plan":
             discovery, _ = _discovery(args.source, Path(args.output), args.ref)
             procedures = plan(discovery, args.goal)
-            value = [asdict(item) for item in procedures]
+            plan_value = [asdict(item) for item in procedures]
             if args.json:
-                print(canonical_json(value), end="")
+                print(canonical_json(plan_value), end="")
             else:
-                print("\n".join(item["title"] for item in value))
+                print("\n".join(item["title"] for item in plan_value))
         elif args.command == "build":
             discovery, discovery_root = _discovery(
                 args.source,
@@ -148,16 +148,16 @@ def main(argv: list[str] | None = None) -> int:
                 args.ref,
             )
             compile_root = compilation_root(discovery_root, args.goal, args.target)
-            result = generate(discovery, args.goal, compile_root, args.target)
+            build_result = generate(discovery, args.goal, compile_root, args.target)
             record_compilation(
                 discovery_root,
                 compile_root,
                 args.goal,
                 args.target,
-                result.readiness.value,
+                build_result.readiness.value,
             )
-            print(canonical_json(_build_payload(result)), end="")
-            return 0 if result.readiness.value == "STATIC_READY" else 3
+            print(canonical_json(_build_payload(build_result)), end="")
+            return 0 if build_result.readiness.value == "STATIC_READY" else 3
         elif args.command == "validate":
             findings = validate_path(Path(args.bundle))
             status = readiness(findings)
@@ -173,15 +173,17 @@ def main(argv: list[str] | None = None) -> int:
             return 0 if not findings else 3
         elif args.command == "explain":
             discovery, _ = _discovery(args.source, Path(args.output), args.ref)
-            value: Any = discovery.to_dict()
             if args.claim:
-                value = next(
-                    (asdict(item) for item in discovery.claims if item.id == args.claim),
+                claim = next(
+                    (item for item in discovery.claims if item.id == args.claim),
                     None,
                 )
-                if value is None:
+                if claim is None:
                     raise ValueError(f"CLAIM_NOT_FOUND: {args.claim}")
-            print(canonical_json(value), end="")
+                explain_value: dict[str, Any] = asdict(claim)
+            else:
+                explain_value = discovery.to_dict()
+            print(canonical_json(explain_value), end="")
         elif args.command == "schema":
             content = canonical_json(schema_catalog())
             if args.output:
@@ -195,7 +197,8 @@ def main(argv: list[str] | None = None) -> int:
 
             server = make_server(Path(args.output), args.host, args.port)
             host, port = server.server_address[:2]
-            url = f"http://{host}:{port}/"
+            host_text = host.decode() if isinstance(host, bytes) else host
+            url = f"http://{host_text}:{port}/"
             print(url, flush=True)
             if args.open:
                 import webbrowser
@@ -247,7 +250,7 @@ def main(argv: list[str] | None = None) -> int:
                 )
             if args.goal and selected_affected_ids:
                 compile_root = compilation_root(current_root, args.goal, args.target)
-                result = generate(
+                update_result = generate(
                     current,
                     args.goal,
                     compile_root,
@@ -259,11 +262,11 @@ def main(argv: list[str] | None = None) -> int:
                     compile_root,
                     args.goal,
                     args.target,
-                    result.readiness.value,
+                    update_result.readiness.value,
                 )
-                payload["build"] = _build_payload(result)
+                payload["build"] = _build_payload(update_result)
                 payload["build_scope"] = "capability_delta"
-                if result.readiness.value != "STATIC_READY":
+                if update_result.readiness.value != "STATIC_READY":
                     exit_code = 3
             print(canonical_json(payload), end="")
             return exit_code

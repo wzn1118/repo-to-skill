@@ -24,6 +24,11 @@ from r2s.toml_compat import loads as toml_loads
 SCHEMA_VERSION = "1.2.0"
 
 
+class _CaseSensitiveConfigParser(configparser.ConfigParser):
+    def optionxform(self, optionstr: str) -> str:
+        return optionstr
+
+
 def _line_for(path: Path, needle: str) -> int | None:
     for index, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
         if needle in line:
@@ -91,8 +96,7 @@ def _script_entries(root: Path) -> list[tuple[str, str, Path, str]]:
                     entries.append((command, target, pyproject, f"{pointer}.{command}"))
     setup_cfg = root / "setup.cfg"
     if setup_cfg.is_file():
-        parser = configparser.ConfigParser()
-        parser.optionxform = str
+        parser = _CaseSensitiveConfigParser()
         parser.read(setup_cfg, encoding="utf-8")
         section = "options.entry_points"
         if parser.has_option(section, "console_scripts"):

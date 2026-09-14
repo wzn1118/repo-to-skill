@@ -7,7 +7,7 @@ from typing import Any
 try:
     import tomllib as _tomllib
 except ModuleNotFoundError:  # Python 3.10 bootstrap environment
-    _tomllib = None
+    _tomllib = None  # type: ignore[assignment]
 
 
 class TOMLDecodeError(ValueError):
