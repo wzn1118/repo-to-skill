@@ -1,0 +1,5 @@
+{
+  "name": "ts-tool",
+  "version": "1.0.0",
+  "bin": "src/cli.ts"
+}

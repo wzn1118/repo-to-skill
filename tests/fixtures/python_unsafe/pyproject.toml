@@ -1,0 +1,6 @@
+[project]
+name = "unsafe"
+version = "1"
+
+[project.scripts]
+"bad command" = "../../secrets:main"

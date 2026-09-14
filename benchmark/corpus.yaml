@@ -1,0 +1,21 @@
+schema_version: 1
+status: candidate-catalog
+repositories:
+  - id: click
+    url: https://github.com/pallets/click
+    type: python-library-cli-framework
+  - id: httpie
+    url: https://github.com/httpie/cli
+    type: python-cli
+  - id: typer
+    url: https://github.com/fastapi/typer
+    type: python-cli-framework
+  - id: commander
+    url: https://github.com/tj/commander.js
+    type: javascript-cli-framework
+  - id: cobra
+    url: https://github.com/spf13/cobra
+    type: go-cli-framework
+  - id: chi
+    url: https://github.com/go-chi/chi
+    type: go-http-framework

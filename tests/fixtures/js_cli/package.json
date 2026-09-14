@@ -1,0 +1,7 @@
+{
+  "name": "js-tool",
+  "version": "1.0.0",
+  "bin": {
+    "js-tool": "bin/cli.js"
+  }
+}

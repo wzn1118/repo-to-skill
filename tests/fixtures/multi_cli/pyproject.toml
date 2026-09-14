@@ -1,0 +1,7 @@
+[project]
+name = "multi-cli"
+version = "1.0.0"
+
+[project.scripts]
+alpha = "multi_cli.main:alpha"
+beta = "multi_cli.main:beta"

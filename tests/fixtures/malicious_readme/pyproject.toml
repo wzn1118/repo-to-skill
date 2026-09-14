@@ -1,0 +1,6 @@
+[project]
+name = "demo-cli"
+version = "1.0.0"
+
+[project.scripts]
+safe-demo = "demo_cli.main:main"
