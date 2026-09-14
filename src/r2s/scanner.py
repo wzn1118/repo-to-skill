@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import subprocess
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -55,6 +56,24 @@ def _is_binary(path: Path) -> bool:
 
 
 def _git_blob_sha(path: Path, object_format: str) -> str:
+    result = subprocess.run(
+        [
+            "git",
+            "-c",
+            "core.autocrlf=false",
+            "-c",
+            "core.hooksPath=/dev/null",
+            "hash-object",
+            "--",
+            path.name,
+        ],
+        cwd=path.parent,
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+    if result.returncode == 0 and result.stdout.strip():
+        return result.stdout.strip()
     content = path.read_bytes()
     header = f"blob {len(content)}\0".encode()
     return hashlib.new(object_format, header + content).hexdigest()

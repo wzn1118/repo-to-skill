@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -69,6 +71,16 @@ def _connect(output_root: Path) -> sqlite3.Connection:
     return connection
 
 
+@contextmanager
+def _database(output_root: Path) -> Iterator[sqlite3.Connection]:
+    connection = _connect(output_root)
+    try:
+        with connection:
+            yield connection
+    finally:
+        connection.close()
+
+
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()  # noqa: UP017
 
@@ -128,7 +140,7 @@ def write_discovery(discovery: DiscoveryIR, output_root: Path) -> Path:
     }
     for name, value in artifacts.items():
         (run_root / name).write_text(canonical_json(value), encoding="utf-8")
-    with _connect(output_root) as connection:
+    with _database(output_root) as connection:
         connection.execute(
             """
             INSERT OR REPLACE INTO runs(
@@ -312,7 +324,7 @@ def record_update(
     path = new_run_root / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(canonical_json(report.to_dict()), encoding="utf-8")
-    with _connect(output_root) as connection:
+    with _database(output_root) as connection:
         connection.execute(
             """
             INSERT OR REPLACE INTO run_links(
@@ -367,7 +379,7 @@ def record_compilation(
     parent_run_id = discovery_root.name
     run_id = compile_root.name
     goal_digest = stable_id("goal", " ".join(goal.split()))
-    with _connect(output_root) as connection:
+    with _database(output_root) as connection:
         connection.execute(
             """
             INSERT OR REPLACE INTO runs(
@@ -408,7 +420,7 @@ def record_compilation(
 def list_runs(output_root: Path) -> list[dict[str, Any]]:
     if not (output_root / DB_NAME).is_file():
         return []
-    with _connect(output_root) as connection:
+    with _database(output_root) as connection:
         rows = connection.execute(
             """
             SELECT run_id, stage, parent_run_id, target, outcome, readiness,
