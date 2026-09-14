@@ -81,9 +81,9 @@ def _bar_row(
         (
             _text(x, y, label, "body"),
             f'<rect x="{x + 142}" y="{y - 15}" width="{width}" height="18" rx="9" '
-            f'fill="#263449"/>',
+            + 'fill="#263449"/>',
             f'<rect x="{x + 142}" y="{y - 15}" width="{bar_width}" height="18" rx="9" '
-            f'fill="{color}"/>',
+            + f'fill="{color}"/>',
             _text(number_x, y, value, "number"),
         )
     )
