@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from contextlib import closing
 from pathlib import Path
 
 from r2s.core import discover
@@ -207,7 +208,7 @@ class PipelineTests(unittest.TestCase):
             by_stage = {item["stage"]: item for item in runs}
             self.assertEqual(set(by_stage), {"discovery", "compilation"})
             self.assertEqual(by_stage["compilation"]["parent_run_id"], run_root.name)
-            with sqlite3.connect(output_root / DB_NAME) as connection:
+            with closing(sqlite3.connect(output_root / DB_NAME)) as connection:
                 rows = connection.execute(
                     "SELECT name FROM artifacts WHERE run_id = ? ORDER BY name",
                     (run_root.name,),

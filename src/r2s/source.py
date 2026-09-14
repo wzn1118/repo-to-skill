@@ -53,7 +53,7 @@ def _git(
         "-c",
         "core.hooksPath=/dev/null",
         "-c",
-        "core.autocrlf=false",
+        "core.autocrlf=true",
         "-c",
         "submodule.recurse=false",
         "-c",

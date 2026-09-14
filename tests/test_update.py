@@ -4,6 +4,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from contextlib import closing
 from pathlib import Path
 
 from r2s.core import compare_discoveries, discover
@@ -110,7 +111,7 @@ class UpdateTests(unittest.TestCase):
             self.assertEqual(json.loads(scope_path.read_text())["scope"], "capability_delta")
             self.assertTrue(Path(payload["report_path"]).is_file())
             load_discovery(Path(payload["new_run_root"]))
-            with sqlite3.connect(output_root / DB_NAME) as connection:
+            with closing(sqlite3.connect(output_root / DB_NAME)) as connection:
                 links = connection.execute(
                     "SELECT link_type FROM run_links WHERE source_run_id = ?",
                     (old_root.name,),
