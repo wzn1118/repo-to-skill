@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" role="img"
+  aria-labelledby="title description">
+  <title id="title">Repo-to-Skill measured benchmark snapshot</title>
+  <desc id="description">Static discovery measurements from ten repository fixtures.</desc>
+  <style>
+    .title { fill: #f8fafc; font: 700 30px system-ui, sans-serif; }
+    .subtitle { fill: #9fb0c6; font: 400 15px system-ui, sans-serif; }
+    .panel-title { fill: #f8fafc; font: 700 17px system-ui, sans-serif; }
+    .body { fill: #cbd5e1; font: 500 14px system-ui, sans-serif; }
+    .number { fill: #f8fafc; font: 700 15px system-ui, sans-serif; text-anchor: end; }
+    .card-label { fill: #9fb0c6; font: 600 12px system-ui, sans-serif; }
+    .card-number { fill: #f8fafc; font: 700 28px system-ui, sans-serif; }
+    .foot { fill: #7f91aa; font: 400 12px system-ui, sans-serif; }
+  </style>
+  <rect width="1200" height="740" rx="24" fill="#0f172a"/>
+  <text x="56" y="58" class="title">Repo-to-Skill</text>
+  <text x="56" y="86" class="subtitle">Measured snapshot · static discovery only · generated from in-repo fixtures</text>
+  <g>
+    <rect x="56" y="118" width="204" height="86" rx="14" fill="#17243a"/>
+    <text x="76" y="146" class="card-label">FIXTURES</text>
+    <text x="76" y="184" class="card-number">10</text>
+    <rect x="276" y="118" width="204" height="86" rx="14" fill="#17243a"/>
+    <text x="296" y="146" class="card-label">TEST CASES</text>
+    <text x="296" y="184" class="card-number">57</text>
+    <rect x="496" y="118" width="204" height="86" rx="14" fill="#17243a"/>
+    <text x="516" y="146" class="card-label">EVIDENCE</text>
+    <text x="516" y="184" class="card-number">36</text>
+    <rect x="716" y="118" width="204" height="86" rx="14" fill="#17243a"/>
+    <text x="736" y="146" class="card-label">CAPABILITIES</text>
+    <text x="736" y="184" class="card-number">10</text>
+    <rect x="936" y="118" width="204" height="86" rx="14" fill="#17243a"/>
+    <text x="956" y="146" class="card-label">SKILL BUNDLES</text>
+    <text x="956" y="184" class="card-number">8</text>
+  </g>
+  <rect x="56" y="236" width="530" height="286" rx="16" fill="#142136"/>
+  <text x="82" y="276" class="panel-title">Readiness by fixture</text>
+  <text x="82" y="298" class="subtitle">10 controlled cases</text>
+  <text x="82" y="356" class="body">Static ready</text><rect x="224" y="341" width="350" height="18" rx="9" fill="#263449"/><rect x="224" y="341" width="350" height="18" rx="9" fill="#49d17d"/><text x="574" y="356" class="number">7</text><text x="82" y="410" class="body">Review required</text><rect x="224" y="395" width="350" height="18" rx="9" fill="#263449"/><rect x="224" y="395" width="100" height="18" rx="9" fill="#f5b84b"/><text x="574" y="410" class="number">2</text><text x="82" y="464" class="body">Unsuitable</text><rect x="224" y="449" width="350" height="18" rx="9" fill="#263449"/><rect x="224" y="449" width="50" height="18" rx="9" fill="#ff7b72"/><text x="574" y="464" class="number">1</text>
+  <rect x="614" y="236" width="530" height="286" rx="16" fill="#142136"/>
+  <text x="640" y="276" class="panel-title">Language adapters exercised</text>
+  <text x="640" y="298" class="subtitle">fixture count by detected language</text>
+  <text x="640" y="356" class="body">Python</text><rect x="782" y="341" width="300" height="18" rx="9" fill="#263449"/><rect x="782" y="341" width="300" height="18" rx="9" fill="#66b3ff"/><text x="1138" y="356" class="number">5</text><text x="640" y="404" class="body">Go</text><rect x="782" y="389" width="300" height="18" rx="9" fill="#263449"/><rect x="782" y="389" width="120" height="18" rx="9" fill="#66b3ff"/><text x="1138" y="404" class="number">2</text><text x="640" y="452" class="body">JavaScript</text><rect x="782" y="437" width="300" height="18" rx="9" fill="#263449"/><rect x="782" y="437" width="120" height="18" rx="9" fill="#66b3ff"/><text x="1138" y="452" class="number">2</text><text x="640" y="500" class="body">TypeScript</text><rect x="782" y="485" width="300" height="18" rx="9" fill="#263449"/><rect x="782" y="485" width="60" height="18" rx="9" fill="#66b3ff"/><text x="1138" y="500" class="number">1</text>
+  <rect x="56" y="544" width="1088" height="150" rx="16" fill="#142136"/>
+  <text x="82" y="574" class="panel-title">Evidence graph totals</text>
+  <text x="82" y="610" class="body">Evidence</text><rect x="224" y="595" width="250" height="18" rx="9" fill="#263449"/><rect x="224" y="595" width="250" height="18" rx="9" fill="#b38cff"/><text x="574" y="610" class="number">36</text><text x="640" y="610" class="body">Claims</text><rect x="782" y="595" width="250" height="18" rx="9" fill="#263449"/><rect x="782" y="595" width="174" height="18" rx="9" fill="#b38cff"/><text x="1138" y="610" class="number">25</text><text x="82" y="650" class="body">Capabilities</text><rect x="224" y="635" width="250" height="18" rx="9" fill="#263449"/><rect x="224" y="635" width="69" height="18" rx="9" fill="#b38cff"/><text x="574" y="650" class="number">10</text><text x="640" y="650" class="body">Skill bundles</text><rect x="782" y="635" width="250" height="18" rx="9" fill="#263449"/><rect x="782" y="635" width="56" height="18" rx="9" fill="#b38cff"/><text x="1138" y="650" class="number">8</text>
+  <text x="82" y="724" class="foot">Reproduce: PYTHONPATH=src python scripts/measure_benchmark.py</text>
+</svg>
