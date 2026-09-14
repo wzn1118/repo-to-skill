@@ -526,7 +526,13 @@ def _evidence_payload(
     }
 
 
+class R2SUIHTTPServer(ThreadingHTTPServer):
+    output_root: Path
+
+
 class R2SUIRequestHandler(BaseHTTPRequestHandler):
+    server: R2SUIHTTPServer
+
     def log_message(self, format: str, *args: Any) -> None:
         return
 
@@ -595,10 +601,10 @@ def _content_security_policy() -> str:
     )
 
 
-def make_server(output_root: Path, host: str, port: int) -> ThreadingHTTPServer:
+def make_server(output_root: Path, host: str, port: int) -> R2SUIHTTPServer:
     validate_ui_host(host)
     if not 0 <= port <= 65535:
         raise ValueError("UI_PORT_INVALID")
-    server = ThreadingHTTPServer((host, port), R2SUIRequestHandler)
-    setattr(server, "output_root", output_root.resolve())
+    server = R2SUIHTTPServer((host, port), R2SUIRequestHandler)
+    server.output_root = output_root.resolve()
     return server

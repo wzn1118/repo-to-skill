@@ -154,20 +154,26 @@ class SourceResolverTests(unittest.TestCase):
                 "git@github.com:owner/repo.git",
                 "file:///tmp/repo",
             ):
-                with self.subTest(source=source):
-                    with self.assertRaisesRegex(ValueError, "INVALID_GITHUB_URL"):
-                        resolve_source(source, Path(output))
+                with self.subTest(source=source), self.assertRaisesRegex(
+                    ValueError,
+                    "INVALID_GITHUB_URL",
+                ):
+                    resolve_source(source, Path(output))
 
     def test_malicious_refs_are_rejected(self) -> None:
         for ref in ("-main", "main..evil", "main@{1}", "main//evil", "main evil"):
-            with self.subTest(ref=ref):
-                with self.assertRaisesRegex(ValueError, "INVALID_GIT_REF"):
-                    validate_ref(ref)
+            with self.subTest(ref=ref), self.assertRaisesRegex(
+                ValueError,
+                "INVALID_GIT_REF",
+            ):
+                validate_ref(ref)
 
     def test_non_git_directory_rejects_ref(self) -> None:
-        with tempfile.TemporaryDirectory() as source:
-            with self.assertRaisesRegex(ValueError, "LOCAL_REF_REQUIRES_GIT"):
-                resolve_local(source, "main")
+        with tempfile.TemporaryDirectory() as source, self.assertRaisesRegex(
+            ValueError,
+            "LOCAL_REF_REQUIRES_GIT",
+        ):
+            resolve_local(source, "main")
 
     def test_git_environment_does_not_inherit_tokens(self) -> None:
         with patch.dict(

@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import asdict
 
-from r2s.domain import Claim, DiscoveryIR, Procedure, ProcedureStep
+from r2s.domain import DiscoveryIR, Procedure, ProcedureStep
 from r2s.serialization import stable_id
 
 MAX_GOAL_LENGTH = 500

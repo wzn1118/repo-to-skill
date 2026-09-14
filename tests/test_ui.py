@@ -1,6 +1,6 @@
 import json
-import threading
 import tempfile
+import threading
 import unittest
 from pathlib import Path
 from urllib.error import HTTPError
@@ -67,9 +67,11 @@ class UIDashboardTests(unittest.TestCase):
 
     def test_dashboard_requires_loopback_binding(self) -> None:
         for host in ("0.0.0.0", "192.168.1.2", "example.com"):
-            with self.subTest(host=host):
-                with self.assertRaisesRegex(ValueError, "UI_HOST_MUST_BE_LOOPBACK"):
-                    validate_ui_host(host)
+            with self.subTest(host=host), self.assertRaisesRegex(
+                ValueError,
+                "UI_HOST_MUST_BE_LOOPBACK",
+            ):
+                validate_ui_host(host)
 
 
 if __name__ == "__main__":

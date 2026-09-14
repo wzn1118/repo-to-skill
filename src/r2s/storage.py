@@ -70,7 +70,7 @@ def _connect(output_root: Path) -> sqlite3.Connection:
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(timezone.utc).isoformat()  # noqa: UP017
 
 
 def _record_artifacts(

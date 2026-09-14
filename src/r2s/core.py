@@ -9,8 +9,8 @@ from r2s.drift import compare_discoveries
 from r2s.generator import generate, readiness, validate_path
 from r2s.planner import plan
 from r2s.serialization import canonical_json, file_sha256, stable_id
-from r2s.storage import load_discovery, resolve_discovery, write_discovery
 from r2s.source import resolve_source, update_source
+from r2s.storage import load_discovery, resolve_discovery, write_discovery
 
 __all__ = [
     "SCHEMA_VERSION",
@@ -26,9 +26,9 @@ __all__ = [
     "resolve_discovery",
     "schema_catalog",
     "stable_id",
+    "update_source",
     "validate_path",
     "write_discovery",
-    "update_source",
 ]
 
 

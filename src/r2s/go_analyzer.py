@@ -290,6 +290,6 @@ def analyze_go(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     capability_id,
                     f"Use the {command} CLI",
                     f"Invoke the {command} command",
-                    tuple([claim_id, *option_claim_ids]),
+                    (claim_id, *option_claim_ids),
                 )
             )

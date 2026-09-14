@@ -17,9 +17,9 @@ from r2s.core import (
     readiness,
     resolve_discovery,
     schema_catalog,
+    update_source,
     validate_path,
     write_discovery,
-    update_source,
 )
 from r2s.generator import install_codex_plugin
 from r2s.storage import compilation_root, list_runs, record_compilation, record_update

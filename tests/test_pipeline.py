@@ -8,7 +8,8 @@ import unittest
 from pathlib import Path
 
 from r2s.core import discover
-from r2s.generator import generate, install_codex_plugin, readiness, validate_path
+from r2s.domain import BundleReadiness
+from r2s.generator import generate, install_codex_plugin, validate_path
 from r2s.storage import (
     DB_NAME,
     DISCOVERY_ARTIFACTS,
@@ -19,7 +20,6 @@ from r2s.storage import (
     record_compilation,
     write_discovery,
 )
-from r2s.domain import BundleReadiness
 
 ROOT = Path(__file__).parent
 

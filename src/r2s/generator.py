@@ -130,7 +130,7 @@ def generate(
             "error",
             "No supported CLI entrypoint was found",
         )
-        findings = tuple([*discovery.findings, finding])
+        findings = (*discovery.findings, finding)
         status = (
             BundleReadiness.REVIEW_REQUIRED
             if any(item.severity in {"error", "critical", "high"} for item in findings[:-1])
@@ -152,7 +152,7 @@ def generate(
             None,
             (),
             BundleReadiness.REVIEW_REQUIRED,
-            tuple([*discovery.findings, finding]),
+            (*discovery.findings, finding),
         )
     portable_root = run_root / "portable"
     if portable_root.exists():

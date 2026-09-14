@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import ast
 import configparser
+from collections.abc import Iterable
 from dataclasses import asdict, replace
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from r2s.domain import (
     Capability,
@@ -15,8 +16,8 @@ from r2s.domain import (
     RepositorySnapshot,
     SourceLocation,
 )
-from r2s.scanner import ScanResult, scan
 from r2s.policy import is_safe_command, is_safe_python_target
+from r2s.scanner import ScanResult, scan
 from r2s.serialization import file_sha256, stable_id
 from r2s.toml_compat import loads as toml_loads
 
@@ -431,7 +432,7 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                 capability_id,
                 f"Use the {command} CLI",
                 f"Invoke the {command} command",
-                tuple([claim_id, *option_claim_ids]),
+                (claim_id, *option_claim_ids),
             )
         )
 def _resolve_command_conflicts(discovery: DiscoveryIR) -> None:
