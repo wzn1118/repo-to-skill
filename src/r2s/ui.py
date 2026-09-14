@@ -538,7 +538,7 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
 
     @property
     def output_root(self) -> Path:
-        return getattr(self.server, "output_root")
+        return self.server.output_root
 
     def _send_json(self, status: HTTPStatus, value: Any) -> None:
         content = json.dumps(value, ensure_ascii=False, sort_keys=True).encode("utf-8")
