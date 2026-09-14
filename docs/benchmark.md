@@ -72,3 +72,46 @@ network-based measurements against them.
 
 `benchmark/corpus.yaml` 是后续公共仓库基准集的候选目录。由于当前快照没有声称对这些仓库完成网络实测，
 它们不计入上面的统计表。
+
+## Public Repo Benchmark 1.0 / 公共仓库基准集
+
+The public benchmark is now a pinned metadata corpus, separate from the local fixture regression
+chart above. It contains 45 repositories: 36 High-Star Core repositories, six unsupported-language
+challenge repositories, and three Tier C edge cases. The High-Star Core includes 16 Tier A
+repositories (`>=30,000` stars) and 20 Tier B repositories (`>=10,000` stars).
+
+公共基准现在是独立于上方 fixture 回归图的 commit-pinned 元数据 corpus，共 45 个仓库：36 个 High-Star Core、
+6 个不支持语言 challenge、3 个 Tier C edge case。High-Star Core 包括 16 个 Tier A（`>=30,000` stars）和
+20 个 Tier B（`>=10,000` stars）。
+
+The snapshot at [`../benchmark/repository-metadata.json`](../benchmark/repository-metadata.json) was fetched from
+the GitHub API on `2026-09-14`. It stores stars, forks, default branch, archived state, primary
+language, license, and an exact commit SHA per repository. Rendering never refreshes GitHub data.
+
+[`../benchmark/repository-metadata.json`](../benchmark/repository-metadata.json) 是 `2026-09-14` 从 GitHub API 获取的快照，
+每条记录保存 stars、forks、默认分支、归档状态、主语言、许可证和精确 commit SHA；报告渲染不会重新请求当前 stars。
+
+The current public report says **High-Star Public Repositories Tested: 0**. A metadata record is
+not an analysis result. `scripts/benchmark_public.py analyze` only analyzes explicitly supplied
+local checkouts, and its statuses preserve `NOT_TESTED`, `UNSUPPORTED_LANGUAGE`,
+`NO_ACTIONABLE_CAPABILITY`, `REVIEW_REQUIRED`, and `STATIC_READY`. Unsupported Rust, C, Haskell,
+Perl, and Shell projects are not mixed into supported-language accuracy.
+
+当前公共报告明确写 **High-Star Public Repositories Tested: 0**。元数据记录不是分析结果；
+`scripts/benchmark_public.py analyze` 只分析用户显式提供的本地 checkout，并保留 `NOT_TESTED`、
+`UNSUPPORTED_LANGUAGE`、`NO_ACTIONABLE_CAPABILITY`、`REVIEW_REQUIRED`、`STATIC_READY` 等状态。Rust、C、
+Haskell、Perl、Shell 项目不会混入受支持语言准确率。
+
+Star-weighted repository coverage is defined only over completed High-Star Core analyses:
+`sum(stars of STATIC_READY repositories) / sum(stars of tested repositories)`. It is not user
+coverage. Hallucinated executable facts remain `pending` until the ground-truth task runner checks
+every command and option against pinned source evidence.
+
+Star-weighted repository coverage 只在完成分析的 High-Star Core 上计算：
+`sum(STATIC_READY 仓库 stars) / sum(已测试仓库 stars)`，不代表用户覆盖率。ground-truth task runner 没有核对每个
+命令和参数前，幻觉可执行事实保持 `pending`。
+
+The corpus definition, task templates, and GitHub CLI official comparison are maintained in
+[`../benchmark/corpus.yaml`](../benchmark/corpus.yaml),
+[`../benchmark/ground-truth.yaml`](../benchmark/ground-truth.yaml), and
+[`case-studies/github-cli.md`](case-studies/github-cli.md).

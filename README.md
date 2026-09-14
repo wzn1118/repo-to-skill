@@ -21,6 +21,41 @@ regression snapshot, not a claim about the six public repositories listed in `be
 See the [measurement details](docs/benchmark.md) and run `PYTHONPATH=src python
 scripts/measure_benchmark.py` to refresh the chart.
 
+## Public Repo Benchmark 1.0
+
+The first public corpus is deliberately made of important, high-star repositories rather than toy
+projects. The live GitHub metadata snapshot dated `2026-09-14` contains **36 High-Star Core
+Repositories** (16 Tier A and 20 Tier B), **1,453,404 cumulative stars**, 10 manually specified
+ground-truth repositories, six unsupported-language challenge repositories, and three Tier C edge
+cases. Stars describe corpus influence; they do not represent unique users.
+
+**High-Star Public Repositories Tested: 0** in this committed snapshot. This is intentional: the
+metadata runner does not count a repository as tested until a pinned local checkout has passed the
+static analyzer. The report therefore shows `NOT_TESTED` rather than turning selection into a
+success claim. No hallucination rate is reported before ground-truth task execution.
+
+![Public Repo Benchmark snapshot](docs/assets/public-benchmark.svg)
+
+```bash
+# Refresh stars, forks, license, default branch, and exact latest commit SHA.
+python scripts/benchmark_public.py metadata
+
+# Analyze only checkouts you explicitly provide; target code is never executed.
+python scripts/benchmark_public.py analyze \
+  --repos-dir benchmark/checkouts \
+  --output benchmark/repository-metadata.json
+
+# Produce JSON and Markdown metrics from the pinned snapshot.
+python scripts/benchmark_public.py report
+```
+
+The canonical inputs are [`benchmark/corpus.yaml`](benchmark/corpus.yaml),
+[`benchmark/ground-truth.yaml`](benchmark/ground-truth.yaml), and
+[`benchmark/repository-metadata.json`](benchmark/repository-metadata.json). The generated report
+is [`benchmark/report.md`](benchmark/report.md). Unsupported-language results are kept separate
+from supported-language accuracy, and failures remain visible. See the
+[GitHub CLI official Skill comparison](docs/case-studies/github-cli.md).
+
 ## Why this exists
 
 Repository-to-Skill conversion is easy to make look intelligent and hard to make trustworthy. A
@@ -274,6 +309,28 @@ python -m unittest discover -s tests -q
 ```
 
 逐样例数据、统计口径和“候选公共仓库不计入当前结果”的说明见 [`docs/benchmark.md`](docs/benchmark.md)。
+
+### 公共高 Star 基准集
+
+首份 Public Repo Benchmark 1.0 不用小型 toy repo 凑成功率，而是固定真实、高使用量、CLI 边界复杂的公共仓库。
+`2026-09-14` 的 GitHub 元数据快照包含 **36 个 High-Star Core Repository**（Tier A 16 个、Tier B 20 个）、
+**1,453,404 个累计 stars**、10 个 ground-truth 仓库、6 个不支持语言 challenge 和 3 个 Tier C edge case。
+Stars 只描述 corpus 的开源影响力，不等于独立用户数。
+
+**High-Star Public Repositories Tested: 0**。当前提交只完成了实时元数据和 commit pin；没有提供 36 个 pinned
+checkout 前，runner 不会把仓库算作已测试，也不会提前声称零幻觉。未支持语言会单独记为
+`UNSUPPORTED_LANGUAGE`，失败和 `NOT_TESTED` 都保留。
+
+```bash
+python scripts/benchmark_public.py metadata
+python scripts/benchmark_public.py analyze --repos-dir benchmark/checkouts \
+  --output benchmark/repository-metadata.json
+python scripts/benchmark_public.py report
+```
+
+基准输入见 [`benchmark/corpus.yaml`](benchmark/corpus.yaml) 和 [`benchmark/ground-truth.yaml`](benchmark/ground-truth.yaml)，
+快照见 [`benchmark/repository-metadata.json`](benchmark/repository-metadata.json)，GitHub CLI 官方 Skill 对照见
+[`docs/case-studies/github-cli.md`](docs/case-studies/github-cli.md)。
 
 ### 安全边界
 

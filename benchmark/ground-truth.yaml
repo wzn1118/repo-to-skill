@@ -1,0 +1,73 @@
+schema_version: 1
+description: Manually verified task set for high-impact and architecturally difficult CLI repositories.
+repositories:
+  - repository: prettier/prettier
+    tier: A
+    task_source: official-cli-documentation
+    tasks:
+      - format-a-file-with-explicit-parser
+      - check-format-with-config
+      - ignore-selected-paths
+  - repository: cli/cli
+    tier: A
+    task_source: official-cli-documentation
+    tasks:
+      - inspect-repository-status
+      - create-and-list-issues
+      - query-pull-request-data
+  - repository: yt-dlp/yt-dlp
+    tier: A
+    task_source: official-cli-documentation
+    tasks:
+      - inspect-video-metadata
+      - select-format
+      - write-output-template
+  - repository: eslint/eslint
+    tier: B
+    task_source: official-cli-documentation
+    tasks:
+      - lint-selected-files
+      - apply-safe-fixes
+      - use-configured-ignores
+  - repository: gohugoio/hugo
+    tier: A
+    task_source: official-cli-documentation
+    tasks:
+      - create-development-server
+      - build-site
+      - render-drafts
+  - repository: junegunn/fzf
+    tier: A
+    task_source: official-cli-documentation
+    tasks:
+      - filter-input
+      - use-preview-command
+      - select-with-key-binding
+  - repository: psf/black
+    tier: A
+    task_source: official-cli-documentation
+    tasks:
+      - format-selected-files
+      - check-format
+      - exclude-paths
+  - repository: pre-commit/pre-commit
+    tier: B
+    task_source: official-cli-documentation
+    tasks:
+      - run-all-hooks
+      - run-selected-hook
+      - install-hooks
+  - repository: webpack/webpack
+    tier: A
+    task_source: official-cli-documentation
+    tasks:
+      - build-with-config
+      - inspect-build-statistics
+      - use-watch-mode
+  - repository: python-poetry/poetry
+    tier: A
+    task_source: official-cli-documentation
+    tasks:
+      - install-project-dependencies
+      - add-a-dependency
+      - inspect-environment

@@ -1,0 +1,27 @@
+{
+  "benchmark": "Public Repo Benchmark 1.0",
+  "benchmark_date": "2026-09-14",
+  "headline": {
+    "ground_truth_repositories": 10,
+    "high_star_core_stars": 1453404,
+    "high_star_public_repositories_selected": 36,
+    "high_star_public_repositories_tested": 0
+  },
+  "interpretation": {
+    "hallucination_metric": "pending ground-truth task execution; null is intentional",
+    "star_weighted_coverage": "sum(stars of STATIC_READY tested repos) / sum(stars of tested core repos)",
+    "tested_denominator": "core repositories with a completed local analysis"
+  },
+  "metrics": {
+    "hallucinated_executable_facts": null,
+    "star_weighted_repository_coverage": null,
+    "successful_repository_stars": 0,
+    "successful_tested_repositories": 0,
+    "tested_repository_stars": 0
+  },
+  "schema_version": 1,
+  "status_counts": {
+    "NOT_TESTED": 45
+  },
+  "validation_errors": []
+}

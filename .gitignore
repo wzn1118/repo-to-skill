@@ -5,4 +5,5 @@ __pycache__/
 .ruff_cache/
 dist/
 run-output/
+benchmark/checkouts/
 *.pyc

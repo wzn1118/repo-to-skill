@@ -1,21 +1,253 @@
-schema_version: 1
-status: candidate-catalog
+schema_version: 2
+name: Public Repo Benchmark 1.0
+description: High-star public repositories selected for evidence-driven static discovery evaluation.
+star_policy:
+  tier_a_min: 30000
+  tier_b_min: 10000
+  tier_c_max: 9999
+  core_minimum: 30
+  tier_a_minimum: 10
+  tier_b_minimum: 20
 repositories:
-  - id: click
-    url: https://github.com/pallets/click
-    type: python-library-cli-framework
+  # Tier A: landmark repositories. All are part of the high-star core benchmark.
+  - id: yt-dlp
+    repository: yt-dlp/yt-dlp
+    tier: A
+    set: core
+    benchmark_area: python-cli
+    ground_truth: true
+  - id: black
+    repository: psf/black
+    tier: A
+    set: core
+    benchmark_area: python-cli
+    ground_truth: true
+  - id: rich
+    repository: Textualize/rich
+    tier: A
+    set: core
+    benchmark_area: python-library-cli
   - id: httpie
-    url: https://github.com/httpie/cli
-    type: python-cli
-  - id: typer
-    url: https://github.com/fastapi/typer
-    type: python-cli-framework
-  - id: commander
-    url: https://github.com/tj/commander.js
-    type: javascript-cli-framework
-  - id: cobra
-    url: https://github.com/spf13/cobra
-    type: go-cli-framework
-  - id: chi
-    url: https://github.com/go-chi/chi
-    type: go-http-framework
+    repository: httpie/cli
+    tier: A
+    set: core
+    benchmark_area: python-cli
+  - id: poetry
+    repository: python-poetry/poetry
+    tier: A
+    set: core
+    benchmark_area: python-cli
+    ground_truth: true
+  - id: prettier
+    repository: prettier/prettier
+    tier: A
+    set: core
+    benchmark_area: javascript-cli
+    ground_truth: true
+  - id: vite
+    repository: vitejs/vite
+    tier: A
+    set: core
+    benchmark_area: typescript-cli
+  - id: webpack
+    repository: webpack/webpack
+    tier: A
+    set: core
+    benchmark_area: javascript-cli
+    ground_truth: true
+  - id: typescript
+    repository: microsoft/TypeScript
+    tier: A
+    set: core
+    benchmark_area: compiler-cli
+  - id: github-cli
+    repository: cli/cli
+    tier: A
+    set: core
+    benchmark_area: go-cli
+    ground_truth: true
+  - id: hugo
+    repository: gohugoio/hugo
+    tier: A
+    set: core
+    benchmark_area: go-cli
+    ground_truth: true
+  - id: fzf
+    repository: junegunn/fzf
+    tier: A
+    set: core
+    benchmark_area: go-cli
+    ground_truth: true
+  - id: jq
+    repository: jqlang/jq
+    tier: A
+    set: core
+    benchmark_area: c-cli
+  - id: shellcheck
+    repository: koalaman/shellcheck
+    tier: A
+    set: core
+    benchmark_area: haskell-cli
+  - id: act
+    repository: nektos/act
+    tier: A
+    set: core
+    benchmark_area: go-cli
+  - id: pnpm
+    repository: pnpm/pnpm
+    tier: A
+    set: core
+    benchmark_area: javascript-cli
+
+  # Tier B: major repositories. The runner verifies the live star threshold.
+  - id: pytest
+    repository: pytest-dev/pytest
+    tier: B
+    set: core
+    benchmark_area: python-cli
+  - id: pre-commit
+    repository: pre-commit/pre-commit
+    tier: B
+    set: core
+    benchmark_area: python-cli
+    ground_truth: true
+  - id: cookiecutter
+    repository: cookiecutter/cookiecutter
+    tier: B
+    set: core
+    benchmark_area: python-cli
+  - id: click
+    repository: pallets/click
+    tier: B
+    set: core
+    benchmark_area: python-library-cli
+  - id: eslint
+    repository: eslint/eslint
+    tier: B
+    set: core
+    benchmark_area: javascript-cli
+    ground_truth: true
+  - id: npm
+    repository: npm/cli
+    tier: B
+    set: core
+    benchmark_area: javascript-cli
+  - id: goreleaser
+    repository: goreleaser/goreleaser
+    tier: B
+    set: core
+    benchmark_area: go-cli
+  - id: gum
+    repository: charmbracelet/gum
+    tier: B
+    set: core
+    benchmark_area: go-cli
+  - id: age
+    repository: FiloSottile/age
+    tier: B
+    set: core
+    benchmark_area: go-cli
+  - id: yq
+    repository: mikefarah/yq
+    tier: B
+    set: core
+    benchmark_area: go-cli
+  - id: hadolint
+    repository: hadolint/hadolint
+    tier: B
+    set: core
+    benchmark_area: haskell-cli
+  - id: direnv
+    repository: direnv/direnv
+    tier: B
+    set: core
+    benchmark_area: go-cli
+  - id: vhs
+    repository: charmbracelet/vhs
+    tier: B
+    set: core
+    benchmark_area: go-cli
+  - id: pipx
+    repository: pypa/pipx
+    tier: B
+    set: core
+    benchmark_area: python-cli
+  - id: pip
+    repository: pypa/pip
+    tier: B
+    set: core
+    benchmark_area: python-cli
+  - id: mypy
+    repository: python/mypy
+    tier: B
+    set: core
+    benchmark_area: python-cli
+  - id: llm
+    repository: simonw/llm
+    tier: B
+    set: core
+    benchmark_area: python-cli
+  - id: diff-so-fancy
+    repository: so-fancy/diff-so-fancy
+    tier: B
+    set: core
+    benchmark_area: perl-cli
+  - id: task
+    repository: go-task/task
+    tier: B
+    set: core
+    benchmark_area: go-cli
+  - id: pyenv
+    repository: pyenv/pyenv
+    tier: B
+    set: core
+    benchmark_area: shell-cli
+
+  # Unsupported-language challenge set. Excluded from supported-language accuracy.
+  - id: ruff
+    repository: astral-sh/ruff
+    tier: A
+    set: unsupported-challenge
+    benchmark_area: rust-cli
+  - id: bat
+    repository: sharkdp/bat
+    tier: A
+    set: unsupported-challenge
+    benchmark_area: rust-cli
+  - id: ripgrep
+    repository: BurntSushi/ripgrep
+    tier: A
+    set: unsupported-challenge
+    benchmark_area: rust-cli
+  - id: fd
+    repository: sharkdp/fd
+    tier: A
+    set: unsupported-challenge
+    benchmark_area: rust-cli
+  - id: starship
+    repository: starship/starship
+    tier: A
+    set: unsupported-challenge
+    benchmark_area: rust-cli
+  - id: uv
+    repository: astral-sh/uv
+    tier: A
+    set: unsupported-challenge
+    benchmark_area: rust-cli
+
+  # Tier C edge cases. These never enter core headlines.
+  - id: virtualenv
+    repository: pypa/virtualenv
+    tier: C
+    set: edge
+    benchmark_area: python-cli
+  - id: watchexec
+    repository: watchexec/watchexec
+    tier: C
+    set: edge
+    benchmark_area: rust-cli
+  - id: bats-core
+    repository: bats-core/bats-core
+    tier: C
+    set: edge
+    benchmark_area: shell-cli

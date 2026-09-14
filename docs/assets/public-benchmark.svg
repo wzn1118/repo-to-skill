@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 420" role="img" aria-labelledby="title description">
+  <title id="title">Public Repo Benchmark 1.0 snapshot</title>
+  <desc id="description">Thirty-six high-star core repositories selected, zero tested until pinned checkouts are analyzed.</desc>
+  <style>
+    .title { fill: #f8fafc; font: 700 30px system-ui, sans-serif; }
+    .subtitle { fill: #9fb0c6; font: 400 15px system-ui, sans-serif; }
+    .panel { fill: #f8fafc; font: 700 17px system-ui, sans-serif; }
+    .body { fill: #cbd5e1; font: 500 14px system-ui, sans-serif; }
+    .number { fill: #f8fafc; font: 700 15px system-ui, sans-serif; text-anchor: end; }
+    .metric { fill: #f8fafc; font: 700 26px system-ui, sans-serif; }
+    .label { fill: #9fb0c6; font: 600 12px system-ui, sans-serif; }
+  </style>
+  <rect width="1400" height="420" rx="24" fill="#0f172a"/>
+  <text x="54" y="52" class="title">Repo-to-Skill · Public Repo Benchmark 1.0</text>
+  <text x="54" y="80" class="subtitle">Live GitHub metadata snapshot · selection is not analysis success</text>
+  <text x="54" y="126" class="label">HIGH-STAR CORE SELECTED</text>
+  <text x="54" y="157" class="metric">36</text>
+  <text x="270" y="126" class="label">CUMULATIVE STARS</text>
+  <text x="270" y="157" class="metric">1,453,404</text>
+  <text x="540" y="126" class="label">HIGH-STAR TESTED</text>
+  <text x="540" y="157" class="metric">0</text>
+  <text x="810" y="126" class="label">GROUND TRUTH</text>
+  <text x="810" y="157" class="metric">10</text>
+  <text x="70" y="174" class="panel">Corpus composition</text>
+  <text x="700" y="174" class="panel">Recorded analysis status</text>
+  <text x="70" y="190" class="body">High-Star Core</text><rect x="240" y="174" width="410" height="18" rx="9" fill="#263449"/><rect x="240" y="174" width="410" height="18" rx="9" fill="#66b3ff"/><text x="690" y="190" class="number">36</text><text x="70" y="238" class="body">Unsupported challenge</text><rect x="240" y="222" width="410" height="18" rx="9" fill="#263449"/><rect x="240" y="222" width="68" height="18" rx="9" fill="#66b3ff"/><text x="690" y="238" class="number">6</text><text x="70" y="286" class="body">Tier C edge</text><rect x="240" y="270" width="410" height="18" rx="9" fill="#263449"/><rect x="240" y="270" width="34" height="18" rx="9" fill="#66b3ff"/><text x="690" y="286" class="number">3</text>
+  <text x="700" y="190" class="body">NOT_TESTED</text><rect x="870" y="174" width="410" height="18" rx="9" fill="#263449"/><rect x="870" y="174" width="410" height="18" rx="9" fill="#f5b84b"/><text x="1320" y="190" class="number">45</text>
+</svg>
