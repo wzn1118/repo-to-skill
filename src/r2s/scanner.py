@@ -64,7 +64,7 @@ def _git_blob_sha(path: Path, object_format: str) -> str:
             "-c",
             "core.hooksPath=/dev/null",
             "hash-object",
-            str(path.resolve()),
+            path.name,
         ],
         cwd=path.parent,
         capture_output=True,
