@@ -1,5 +1,5 @@
 schema_version: 1
-description: Manually verified task set for high-impact and architecturally difficult CLI repositories.
+description: Task catalog; source-grounded prerequisites are evaluated in ground-truth-facts.json. No human sign-off claimed.
 repositories:
   - repository: prettier/prettier
     tier: A

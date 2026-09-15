@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "review_method": "Agent-curated source assertions, independent of analyzer output; not human sign-off and not runtime task success",
+  "repositories": [
+    {"id": "prettier", "command": "prettier", "facts": [
+      {"kind": "command", "value": "prettier", "path": "package.json", "anchor": "\"name\": \"prettier\""},
+      {"kind": "option", "value": "--parser", "path": "src/main/core-options.evaluate.js", "anchor": "  parser: {"},
+      {"kind": "option", "value": "--check", "path": "docs/cli.md", "anchor": "## `--check`"},
+      {"kind": "option", "value": "--config", "path": "docs/cli.md", "anchor": "## `--find-config-path` and `--config`"},
+      {"kind": "option", "value": "--ignore-path", "path": "docs/cli.md", "anchor": "## `--ignore-path`"}
+    ]},
+    {"id": "github-cli", "command": "gh", "facts": [
+      {"kind": "command", "value": "gh", "path": "cmd/gh/main.go", "anchor": "func main()"},
+      {"kind": "subcommand", "value": "status", "path": "pkg/cmd/status/status.go", "anchor": "Use:   \"status\""},
+      {"kind": "subcommand", "value": "issue create", "path": "pkg/cmd/issue/create/create.go", "anchor": "Use:   \"create\""},
+      {"kind": "subcommand", "value": "pr list", "path": "pkg/cmd/pr/list/list.go", "anchor": "Use:   \"list\""},
+      {"kind": "option", "value": "--json", "path": "pkg/cmd/pr/list/list.go", "anchor": "cmdutil.AddJSONFlags(cmd, &opts.Exporter, api.PullRequestFields)"}
+    ]},
+    {"id": "yt-dlp", "command": "yt-dlp", "facts": [
+      {"kind": "command", "value": "yt-dlp", "path": "pyproject.toml", "anchor": "yt-dlp = \"yt_dlp:main\""},
+      {"kind": "option", "value": "--dump-json", "path": "yt_dlp/options.py", "anchor": "'-j', '--dump-json',"},
+      {"kind": "option", "value": "--format", "path": "yt_dlp/options.py", "anchor": "'-f', '--format',"},
+      {"kind": "option", "value": "--output", "path": "yt_dlp/options.py", "anchor": "'-o', '--output',"}
+    ]},
+    {"id": "eslint", "command": "eslint", "facts": [
+      {"kind": "command", "value": "eslint", "path": "package.json", "anchor": "\"eslint\": \"./bin/eslint.js\""},
+      {"kind": "option", "value": "--config", "path": "docs/src/use/command-line-interface.md", "anchor": "#### `-c`, `--config`"},
+      {"kind": "option", "value": "--fix", "path": "docs/src/use/command-line-interface.md", "anchor": "#### `--fix`"},
+      {"kind": "option", "value": "--ignore-pattern", "path": "docs/src/use/command-line-interface.md", "anchor": "#### `--ignore-pattern`"}
+    ]},
+    {"id": "hugo", "command": "hugo", "facts": [
+      {"kind": "command", "value": "hugo", "path": "main.go", "anchor": "func main()"},
+      {"kind": "subcommand", "value": "server", "path": "commands/server.go", "anchor": "return \"server\""},
+      {"kind": "option", "value": "--destination", "path": "commands/commandeer.go", "anchor": "StringP(\"destination\", \"d\", \"\", \"filesystem path to write files to\")"},
+      {"kind": "option", "value": "--buildDrafts", "path": "commands/commandeer.go", "anchor": "BoolP(\"buildDrafts\", \"D\", false, \"include content marked as draft\")"}
+    ]},
+    {"id": "fzf", "command": "fzf", "facts": [
+      {"kind": "command", "value": "fzf", "path": "main.go", "anchor": "func main()"},
+      {"kind": "option", "value": "--filter", "path": "man/man1/fzf.1", "anchor": "\\-\\-filter="},
+      {"kind": "option", "value": "--preview", "path": "man/man1/fzf.1", "anchor": "\\-\\-preview="},
+      {"kind": "option", "value": "--bind", "path": "man/man1/fzf.1", "anchor": "\\-\\-bind="}
+    ]},
+    {"id": "black", "command": "black", "facts": [
+      {"kind": "command", "value": "black", "path": "pyproject.toml", "anchor": "black = \"black:patched_main\""},
+      {"kind": "option", "value": "--check", "path": "src/black/__init__.py", "anchor": "\"--check\","},
+      {"kind": "option", "value": "--exclude", "path": "src/black/__init__.py", "anchor": "\"--exclude\","},
+      {"kind": "option", "value": "--include", "path": "src/black/__init__.py", "anchor": "\"--include\","}
+    ]},
+    {"id": "pre-commit", "command": "pre-commit", "facts": [
+      {"kind": "command", "value": "pre-commit", "path": "setup.cfg", "anchor": "pre-commit = pre_commit.main:main"},
+      {"kind": "subcommand", "value": "run", "path": "pre_commit/main.py", "anchor": "_add_cmd('run', help='Run hooks.')"},
+      {"kind": "subcommand", "value": "install", "path": "pre_commit/main.py", "anchor": "_add_cmd('install', help='Install the pre-commit script.')"},
+      {"kind": "option", "value": "--all-files", "path": "pre_commit/main.py", "anchor": "'--all-files', '-a', action='store_true',"}
+    ]},
+    {"id": "webpack", "command": "webpack", "facts": [
+      {"kind": "command", "value": "webpack", "path": "package.json", "anchor": "\"webpack\": \"bin/webpack.js\""},
+      {"kind": "external_dependency", "value": "webpack-cli", "path": "bin/webpack.js", "anchor": "package: \"webpack-cli\""}
+    ]},
+    {"id": "poetry", "command": "poetry", "facts": [
+      {"kind": "command", "value": "poetry", "path": "pyproject.toml", "anchor": "poetry = \"poetry.console.application:main\""},
+      {"kind": "subcommand", "value": "install", "path": "src/poetry/console/commands/install.py", "anchor": "name = \"install\""},
+      {"kind": "subcommand", "value": "add", "path": "src/poetry/console/commands/add.py", "anchor": "name = \"add\""},
+      {"kind": "subcommand", "value": "env info", "path": "src/poetry/console/commands/env/info.py", "anchor": "name = \"env info\""}
+    ]}
+  ]
+}

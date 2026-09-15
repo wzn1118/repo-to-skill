@@ -1,6 +1,6 @@
 # Implementation Status
 
-Updated: 2026-09-01
+Updated: 2026-09-15
 
 ## Implemented
 
@@ -30,21 +30,35 @@ Updated: 2026-09-01
 - Standalone structural and embedded provenance validation.
 - License-file presence gate and preview-first plugin installation.
 
+## Measured public benchmark
+
+- 45 verified commit-pinned public snapshots on a dedicated data disk: 36 Core, six Rust challenges,
+  three secondary edge cases. Metadata and measurements are separate immutable inputs/results.
+- Actual discovery, generation and internal validation on every source, including unsupported languages.
+- Core outcomes: 25 STATIC_READY, four REVIEW_REQUIRED, seven UNSUITABLE. Scanner limits count as failures.
+- Ten repositories with 40 source-verified, agent-curated facts: nine covered; no human sign-off.
+- 91 emitted Core facts indexed and provenance checked; four wrong Go executable names confirmed.
+- Isolated offline runtime: ten functional checks across four projects, plus help/version and build checks.
+- Official GitHub CLI Skill comparison, raw reports, failure roadmap and bilingual presentation.
+
+The [public report](../benchmark/report.md) records limitations and failed attempts. Static readiness
+is not semantic accuracy. These measurements leave the compiler unchanged to preserve the baseline.
+
 ## Deferred
 
 - Deep JavaScript/TypeScript AST option and route extraction.
 - Native Go AST helper and multi-file flag-flow analysis.
 - External Agent Skills reference validator.
-- Rootless execution sandbox and runtime readiness.
+- Product-integrated execution sandbox and runtime readiness. Benchmark containers use non-root
+  processes with network disabled; the Docker daemon itself is not asserted to be rootless.
 - Secret, SBOM, license classification, and vulnerability tool adapters.
 - Model-based evaluation and complete bundle reuse across incremental updates.
 
 ## Environment note
 
-Two attempts to install uv failed because downloading the wheel timed out on the available network.
-The formal project baseline remains Python 3.12 and uv, while the current standard-library core is
-also exercised with the available Python 3.10 interpreter.
-
-The GitHub resolver is covered by offline command-sequence and filesystem simulation. A real public
-GitHub clone has not been used as a release assertion in this environment because network transfers
-remain unreliable.
+The public rerun uses Python 3.12.14 and verified GitHub archives/Git trees. The previous Python 3.10
+bootstrap measurement is superseded, not a before/after analyzer improvement. Runtime execution was
+measured on Linux containers only. Windows CI checks the compiler and harness unit tests, not Docker
+runtime compatibility. gh/Hugo builds require an unavailable Go 1.27 toolchain; webpack delegates to
+an external webpack-cli package absent from its runtime dependency set. Agent A/B evaluation remains
+unmeasured.

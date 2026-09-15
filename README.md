@@ -11,51 +11,47 @@ executing the target repository.
 [![Static analysis](https://img.shields.io/badge/analysis-static--only-22c55e)](#safety-boundary)
 
 > **Status:** experimental walking slice. The repository is useful for inspecting and compiling
-> CLI-oriented projects today; runtime sandboxing, external evaluation, deep route extraction, and
-> private-repository workflows are deliberately not claimed as complete.
+> CLI-oriented projects today. Public benchmark tooling includes isolated runtime checks; production
+> sandboxing, agent A/B evaluation, deep route extraction and private-repository workflows remain incomplete.
 
-![Measured benchmark snapshot](docs/assets/benchmark.svg)
-
-The chart is generated from the ten fixtures committed in this repository. It is an in-repository
-regression snapshot, not a claim about the six public repositories listed in `benchmark/corpus.yaml`.
-See the [measurement details](docs/benchmark.md) and run `PYTHONPATH=src python
-scripts/measure_benchmark.py` to refresh the chart.
+[English](#english) · [中文](#中文) · [Full benchmark](benchmark/report.md) · [Official gh comparison](docs/case-studies/github-cli.md)
 
 ## Public Repo Benchmark 1.0
 
-The first public corpus is deliberately made of important, high-star repositories rather than toy
-projects. The live GitHub metadata snapshot dated `2026-09-14` contains **36 High-Star Core
-Repositories** (16 Tier A and 20 Tier B), **1,453,404 cumulative stars**, 10 manually specified
-ground-truth repositories, six unsupported-language challenge repositories, and three Tier C edge
-cases. Stars describe corpus influence; they do not represent unique users.
+**High-Star Public Repositories Tested: 36** — plus 6 Rust challenges and 3 secondary edge cases.
+All 45 source snapshots are pinned and verified. The Core represents **1,453,404 cumulative GitHub
+stars**, using the saved `2026-09-14` snapshot; stars are not unique users.
 
-**High-Star Public Repositories Tested: 36** in this committed snapshot. All 36 pinned Core
-checkouts completed source classification and static analysis: 10 `STATIC_READY`, 20
-`REVIEW_REQUIRED`, and six `UNSUPPORTED_LANGUAGE` results. The resulting star-weighted repository
-coverage is **27.9%**. Ground-truth task execution and hallucinated executable-fact measurement are
-still pending; this benchmark does not convert static analysis into a runtime quality claim.
+| Measured result | Value |
+| --- | ---: |
+| Core static generation | 25 STATIC_READY · 4 REVIEW_REQUIRED · 7 UNSUITABLE |
+| Star-weighted coverage, using static-generation status | 69.0% |
+| Ground truth across 10 repositories | **9 / 40 selected facts covered** |
+| Tasks with all selected static prerequisites covered | **1 / 30** |
+| Generated executable facts indexed / hash-and-pin checked | 91 / 91 |
+| Confirmed wrong executable names | **4**; 87 other facts not semantically reviewed |
+| Offline functional checks | 10 / 10 across black, Prettier, ESLint and fzf |
+
+STATIC_READY does not guarantee correct commands or successful tasks. The audit caught Go module
+suffixes becoming executable names (`v2`, `v4`), test fixtures becoming Skills, and missing subcommands.
+The ground truth is **agent-curated**, not human sign-off. No zero-hallucination or
+with/without-skill improvement claim is made. Failures are published alongside successes.
 
 ![Public Repo Benchmark snapshot](docs/assets/public-benchmark.svg)
 
 ```bash
-# Refresh stars, forks, license, default branch, and exact latest commit SHA.
-python scripts/benchmark_public.py metadata
-
-# Analyze only checkouts you explicitly provide; target code is never executed.
-python scripts/benchmark_public.py analyze \
-  --repos-dir benchmark/checkouts \
-  --output benchmark/repository-metadata.json
-
-# Produce JSON and Markdown metrics from the pinned snapshot.
-python scripts/benchmark_public.py report
+python scripts/public_measure.py run --work /path/on/data-disk
+python scripts/public_evaluate.py --work /path/on/data-disk
+python scripts/public_fact_audit.py --work /path/on/data-disk
+python scripts/public_report.py
 ```
 
-The canonical inputs are [`benchmark/corpus.yaml`](benchmark/corpus.yaml),
-[`benchmark/ground-truth.yaml`](benchmark/ground-truth.yaml), and
-[`benchmark/repository-metadata.json`](benchmark/repository-metadata.json). The generated report
-is [`benchmark/report.md`](benchmark/report.md). Unsupported-language results are kept separate
-from supported-language accuracy, and failures remain visible. See the
-[GitHub CLI official Skill comparison](docs/case-studies/github-cli.md).
+Python 3.12+ is required; chart export also needs `matplotlib`. Full reproduction, runtime policy,
+per-repository failures and raw JSON are in the [benchmark report](benchmark/report.md).
+Install benchmark tooling with `python -m pip install -e '.[dev,benchmark]'`.
+The [official gh comparison](docs/case-studies/github-cli.md) finds 1/5 selected facts in the generated
+Skill versus 4/5 textual mentions in the official Skill. The former 27.9% bootstrap report is
+[retained and superseded](benchmark/history/2026-09-15-bootstrap-results.json).
 
 ## Why this exists
 
@@ -85,8 +81,8 @@ and generator consume the IR; they do not inspect raw repository text to invent 
 | Updates | File/Capability drift reports and goal-scoped capability delta builds |
 | UI | Loopback-only, read-only dashboard over the same verified run objects |
 
-Claude/Cursor adapters, deep JavaScript/TypeScript AST extraction, native Go AST analysis, runtime
-sandboxing, external Skills validation, and model-based evaluation remain deferred. The full scope
+Claude/Cursor adapters, deep JavaScript/TypeScript AST extraction, native Go AST analysis, production
+sandbox integration, external Skills validation, and model-based evaluation remain deferred. The full scope
 is tracked in [`docs/implementation-status.md`](docs/implementation-status.md).
 
 ## Quickstart
@@ -219,21 +215,21 @@ validation, storage, and the dashboard each have separate module boundaries docu
 ## Development
 
 ```bash
-python -m unittest discover -s tests -q
+python -m pytest
 ruff check .
 mypy src
 python scripts/measure_benchmark.py
 ```
 
-CI runs the same checks on Python 3.12 for Ubuntu and Windows. The benchmark script only analyzes
-the repository's committed fixtures; it does not execute fixture code or fetch the candidate public
-corpus.
+CI runs pytest, Ruff and mypy on Python 3.12 for Ubuntu and Windows. `measure_benchmark.py` only
+analyzes committed fixtures. Public measurements are separate, opt-in scripts documented in the
+[reproduction guide](docs/benchmark.md); network downloads and Docker execution do not run in CI.
 
 ## Roadmap
 
 1. Stabilize the IR and evidence contract across more real repositories.
 2. Add deeper JavaScript/TypeScript and Go extraction without changing the IR.
-3. Add external Agent Skills validation, isolated runtime sandboxing, and reproducible smoke tests.
+3. Integrate the benchmark sandbox into the product and add external Agent Skills validation.
 4. Add private-repository authorization, hosted artifact storage, and model-based evaluation.
 5. Add Claude/Cursor adapters as thin projections over the same portable bundle.
 
@@ -243,8 +239,8 @@ corpus.
 公共 GitHub 快照，编译为可移植 Agent Skills 和轻量 Codex skill-only plugin；分析阶段不会导入
 或执行被分析仓库的代码。
 
-> **当前状态：** experimental walking slice。当前版本适合 CLI 项目的静态检查和 Skill 生成；运行时
-> 沙箱、外部评测、深层路由提取和私有仓库流程尚未完成，不应被当成已经交付的能力。
+> **当前状态：** experimental walking slice。基准工具已提供隔离运行检查；产品内沙箱集成、
+> Agent A/B 评测、深层路由提取和私有仓库流程尚未完成。
 
 ### 核心价值
 
@@ -300,16 +296,15 @@ r2s ui --output run-output --open
 
 ### 实测统计
 
-首页图表来自仓库内 10 个受控 fixture，而不是未验证的宣传数字：当前实测包含 57 个测试用例、36 条
-Evidence、25 条 Claim、10 个 Capability 和 8 个 Skill bundle；其中 7 个样例达到 `STATIC_READY`，2 个
-进入 `REVIEW_REQUIRED`，1 个为 `UNSUITABLE`。
+首页现在展示真实公共仓库实测。另有 10 个受控 fixture 用于回归检查，与公共 headline 分开统计；
+当前测试套件共 70 项测试通过。
 
 ```bash
 PYTHONPATH=src python scripts/measure_benchmark.py
 python -m unittest discover -s tests -q
 ```
 
-逐样例数据、统计口径和“候选公共仓库不计入当前结果”的说明见 [`docs/benchmark.md`](docs/benchmark.md)。
+逐样例回归数据见 [`docs/benchmark.md`](docs/benchmark.md)，公共结果见 [`benchmark/report.md`](benchmark/report.md)。
 
 ### 公共高 Star 基准集
 
@@ -318,15 +313,23 @@ python -m unittest discover -s tests -q
 **1,453,404 个累计 stars**、10 个 ground-truth 仓库、6 个不支持语言 challenge 和 3 个 Tier C edge case。
 Stars 只描述 corpus 的开源影响力，不等于独立用户数。
 
-**High-Star Public Repositories Tested: 36**。36 个 pinned checkout 已完成源码分类和静态分析：10 个
-`STATIC_READY`、20 个 `REVIEW_REQUIRED`、6 个 `UNSUPPORTED_LANGUAGE`。Star-weighted repository coverage 为
-**27.9%**。ground-truth 任务执行和幻觉可执行事实统计仍待完成；当前结果不把静态分析冒充运行时质量结论。
+**High-Star Public Repositories Tested: 36**。45 个真实源码快照（含 challenge/edge）均已固定并验证；
+Core 结果为 25 个 `STATIC_READY`、4 个 `REVIEW_REQUIRED`、7 个 `UNSUITABLE`，按静态状态计算的
+Star-weighted coverage 为 **69.0%**。
+
+更关键的结果是：10 仓库的 40 条源码事实只覆盖 **9 条**，30 个任务中仅 **1 个**具备所选静态前提。
+91 条已生成事实的哈希和 commit 均可追溯，但已经确认 **4 个错误命令名**（把 Go module 的 v2/v4 当成命令）；
+其余 87 条没有完成语义审计。black、Prettier、ESLint、fzf 的 10 项离线功能测试全部通过；
+这不等于 Agent 使用 Skill 的任务成功率。
+
+ground truth 由 Agent 按源码整理，不冒称人工签字；没有提前写“零幻觉”，也没有声称优于官方 Skill。
+旧版 27.9% 报告因 Python 3.10 fallback、未验证缓存和未实际扫描的 challenge 已被更正，历史数据保留。
 
 ```bash
-python scripts/benchmark_public.py metadata
-python scripts/benchmark_public.py analyze --repos-dir benchmark/checkouts \
-  --output benchmark/repository-metadata.json
-python scripts/benchmark_public.py report
+python scripts/public_measure.py run --work /path/on/data-disk
+python scripts/public_evaluate.py --work /path/on/data-disk
+python scripts/public_fact_audit.py --work /path/on/data-disk
+python scripts/public_report.py
 ```
 
 基准输入见 [`benchmark/corpus.yaml`](benchmark/corpus.yaml) 和 [`benchmark/ground-truth.yaml`](benchmark/ground-truth.yaml)，
@@ -335,7 +338,7 @@ python scripts/benchmark_public.py report
 
 ### 安全边界
 
-- 不导入、不构建、不执行目标仓库代码。
+- discovery / compilation 不导入、不构建、不执行目标代码；独立 runtime benchmark 需显式 `--execute` 并使用隔离容器。
 - README、注释、manifest 和仓库内指令全部视为不可信数据。
 - 符号链接逃逸、不安全 ref、路径穿越、凭证路径、超大文件和损坏缓存默认 fail closed。
 - `.env`、SSH key、包管理器凭证等敏感路径不会进入分析输入，值不会被序列化。

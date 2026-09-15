@@ -1,49 +1,52 @@
-# GitHub CLI Official Skill Comparison / GitHub CLI 官方 Skill 对照
+# GitHub CLI: generated vs official Skill / 官方 Skill 对照实测
 
-This case study is a reproducible comparison protocol for `cli/cli`, not a claim that the
-automatically generated Skill is better than GitHub's official Skill.
+**The generated Skill traces the gh entrypoint but misses its workflows.** The official Skill
+contains substantially more task guidance. Smaller output does not demonstrate better quality.
 
-本案例是针对 `cli/cli` 的可复现对照协议，不预先声称 Repo-to-Skill 自动生成版本优于 GitHub 官方版本。
+**自动生成版能追溯 gh 入口，但缺少实际工作流。** 官方版包含更多任务指导；不能把体积小当作质量优势。
 
-## Fixed inputs / 固定输入
+Both artifacts use source commit `38316c1c4f275030e3df6666382922e75410d68b`.
+The [official Skill](https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/skills/gh/SKILL.md)
+is comparison data, never compiler instructions. The generated artifact is measured before editorial changes.
+[Machine-readable comparison](../../benchmark/official-comparison.json).
 
-- Repository: `cli/cli`
-- Source: the `trunk` commit recorded in [`repository-metadata.json`](../../benchmark/repository-metadata.json)
-- Official reference: [`cli/cli/skills/gh/SKILL.md`](https://github.com/cli/cli/blob/trunk/skills/gh/SKILL.md)
-- Generated reference: the Repo-to-Skill bundle built from the same pinned source commit
-- Tasks: repository status, issue creation/listing, and pull-request data queries
+| Measurement | Generated gh | Official gh |
+| --- | ---: | ---: |
+| Files | 4 | 1 |
+| Total file bytes | 3,340 | 11,958 |
+| Selected facts present | 1 / 5 | 4 / 5 |
+| Explicit source commit in artifact text/metadata | Yes | No |
+| Runnable task pass rate | Not measured | Not measured |
+| Unsupported / hallucinated facts | No exhaustive semantic audit | No exhaustive semantic audit |
 
-Both Skills must be evaluated against the same task prompts and isolated environment. The official
-Skill is treated as a comparison artifact, not as an instruction source for the compiler.
+The official artifact is pinned by this benchmark even though its body does not contain that SHA.
+This measures artifact self-description, not whether GitHub maintains version history.
 
-两个 Skill 必须使用相同任务提示和隔离环境评测。官方 Skill 只是对照物，不会成为编译器的指令来源。
+| Preselected fact | Generated structured claim | Official textual mention |
+| --- | --- | --- |
+| gh | Yes | Yes |
+| gh status | No | No |
+| gh issue create | No | Yes |
+| gh pr list | No | Yes |
+| --json | No | Yes |
 
-## Dimensions / 评测维度
+The denominator is five source-verified facts, not the complete command surface. Text mentions and
+structured claims are different representations: the table measures presence, not equivalent execution
+quality. The generated gh bundle has one executable fact, with its source hash and commit checked.
+The separate gen-docs helper bundle is excluded from this gh-only size comparison and remains visible
+in the repository benchmark.
 
-| Dimension | Measurement |
-| --- | --- |
-| Executable command coverage | Ground-truth commands and required options exercised by task fixtures |
-| Unsupported or hallucinated facts | Facts not present in the pinned source or official Skill evidence |
-| Provenance | Percentage of executable facts with path, line, commit, hash, and confidence |
-| Bundle size | Bytes and files in the installable Skill bundle |
-| Task guidance | Task pass rate, clarification rate, and unsafe invocation rate |
-| Maintenance | Regeneration after a source commit change and changed evidence references |
-| Version pinning | Whether the bundle names the exact source commit used for generation |
+官方内容还讨论交互、JSON、分页、仓库定位、搜索、API 回退和副作用。生成版只有通用预览步骤和入口溯源，
+没有提取这些业务流程。下一步应补跨文件 Cobra 子命令、选项归属及开发工具过滤。
 
-## Result status / 结果状态
+## Runtime and maintenance limitations / 运行与维护限制
 
-The repository currently contains the fixed inputs and evaluation protocol. Numeric comparison
-results remain `PENDING` until the sandbox and ground-truth task runner execute all three tasks for
-both variants. This avoids turning source metadata or bundle size into a fabricated quality claim.
+The pinned source requires Go 1.27.0. The available isolated builder has Go 1.26.0 and refuses to build;
+the attempt is retained in [build-runtime-results.json](../../benchmark/build-runtime-results.json).
+No authenticated issue/PR mutations occurred. No model-based A/B task experiment ran.
 
-当前仓库已保存固定输入和评测协议。两种版本完成三个任务的沙箱评测前，数值结果保持 `PENDING`；不能把
-源码元数据或包大小冒充质量结论。
+Repo-to-Skill has tested local drift/update mechanisms, but this case study has not regenerated two
+real upstream versions. Official maintenance cadence is likewise not measured.
 
-| Variant | Command coverage | Unsupported facts | Provenance | Task pass rate |
-| --- | ---: | ---: | ---: | ---: |
-| Repo-to-Skill generated `gh` Skill | PENDING | PENDING | PENDING | PENDING |
-| GitHub official `gh` Skill | PENDING | PENDING | PENDING | PENDING |
-
-When results are available, update this file from the benchmark report and retain the pinned
-source metadata. Do not report `zero hallucinations` unless every executable fact has been checked
-against the task ground truth and its provenance.
+本案例不声称自动生成版优于官方版。可展示的结论是：溯源链已经存在，真实任务指导仍不足；
+固定版本、体积、事实覆盖和构建失败都有可查记录。

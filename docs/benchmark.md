@@ -1,120 +1,119 @@
-# Measured Benchmark / 实测基准
+# Benchmark methodology / 实测方法
 
-This page records the current in-repository regression snapshot. It is designed to make the
-README numbers reproducible, not to present an external benchmark result.
+The headline comes from actual pinned public source, not fixtures. See the
+[measured report](../benchmark/report.md), [raw results](../benchmark/results.json), and
+[official gh case study](case-studies/github-cli.md).
 
-本页记录仓库当前的回归实测结果，目标是让 README 中的数字可复现，而不是冒充公共仓库评测结果。
+首页数字来自真实公共源码实测，受控 fixture 仅用于回归测试，不计入公共 benchmark。
 
-## Method / 方法
+## Corpus and denominator / 样本与分母
 
-- Corpus: the 10 committed directories under `tests/fixtures/`.
-- Corpus：`tests/fixtures/` 下提交进仓库的 10 个受控样例目录。
-- Discovery uses the static pipeline and never imports, builds, or executes fixture code.
-- 分析只调用静态 pipeline，不导入、构建或执行样例代码。
-- Portable generation uses the same goal for every fixture: `use the discovered command`.
-- 生成阶段对所有样例使用同一目标：`use the discovered command`。
-- `STATIC_READY`, `REVIEW_REQUIRED`, and `UNSUITABLE` are the compiler's current readiness values.
-- 这些状态是当前编译器的 readiness 值，不等同于产品契约中尚未实现的 runtime readiness。
+The saved `2026-09-14` [GitHub metadata](../benchmark/repository-metadata.json) contains 45 repositories:
+36 High-Star Core (16 Tier A, 20 Tier B), six Rust challenges and three secondary edge cases.
+The Core has 1,453,404 cumulative stars; this is not a count of unique users. Each record stores the
+commit, stars, forks, default branch, archived status, primary language and SPDX license metadata.
+No rendering step refreshes metadata. All 45 pinned source snapshots were downloaded or verified
+against their Git tree. Existing directories alone never count as valid caches.
 
-Reproduce the chart and summary:
+Core 的 36 个仓库均实际尝试分析，其中 34 个完成完整 pipeline；TypeScript 和 webpack 触发扫描文件数限制，
+作为 REVIEW_REQUIRED 保留。结果为 25 STATIC_READY、4 REVIEW_REQUIRED、7 UNSUITABLE。
+Rust challenge 同样实际扫描，结果为 4 REVIEW_REQUIRED、2 UNSUITABLE；bat 的 Go 测试辅助程序被错误生成为
+Skill，已列入失败路线图，不能将这些结果宣传为完整 Rust 支持。Edge 结果单独统计，不进入 headline。
+
+Star-weighted static-generation coverage is
+`sum(stars of STATIC_READY Core repos) / sum(stars of all selected Core repos)` = **69.0%**.
+Failures remain in the denominator. This is an operational generation metric, not supported-language
+accuracy, semantic correctness, task success, or user coverage.
+
+## Ground truth and runtime / 源码核查与运行实测
+
+- [40 selected facts across 10 repositories](../benchmark/ground-truth-facts.json) have independently
+  chosen source anchors. All 40 resolve at the pinned commits; nine occur in generated bundles.
+- One of 30 tasks has all selected static prerequisites represented. This is not a task execution rate.
+- [91 emitted Core facts](../benchmark/fact-audit.json) are indexed with traceable source. Targeted
+  semantic review confirms four wrong Go executable names; the other 87 remain unreviewed.
+- Ground truth was curated by an agent, with **zero human sign-offs**. Exhaustive CLI recall and a
+  hallucination rate are not measured.
+- [Python runtime](../benchmark/runtime-results.json) contains three black formatting cases and
+  nine help/version cases across yt-dlp, pre-commit and Poetry, all passing.
+- [Additional functional checks](../benchmark/functional-results.json) contain seven passing
+  Prettier/ESLint/fzf cases. Together these are **10 functional checks across four projects**.
+- [Build attempts](../benchmark/build-runtime-results.json) preserve three successes and three
+  blockers: gh/Hugo need Go 1.27; webpack requires an external webpack-cli package.
+
+源码哈希可追溯不等于语义正确。运行检查使用真实固定源码和合成输入；help/version、功能用例、静态事实覆盖率
+分别统计。没有运行 with-skill / without-skill Agent 实验，不声称节省时间、Token 或提升任务成功率。
+
+## Reproduce / 复现
+
+Use Python 3.12+, a data disk with space for all source snapshots, GitHub access and optionally `gh`
+authentication for Git-tree cache adoption. Discovery never imports or executes target code.
 
 ```bash
-PYTHONPATH=src python scripts/measure_benchmark.py
-python -m unittest discover -s tests -q
+python -m pip install -e '.[dev,benchmark]'
+python scripts/public_measure.py run --work /path/on/data-disk
+python scripts/public_evaluate.py --work /path/on/data-disk
+python scripts/public_fact_audit.py --work /path/on/data-disk
+python scripts/public_report.py
 ```
 
-The first command rewrites [`assets/benchmark.svg`](assets/benchmark.svg). The second command
-checks the 57 test cases; the chart script intentionally does not run target repository code.
+`run` uses the committed metadata by default and writes separate results. `collect` combines completed
+per-repository artifacts after checking their pins; it is useful after interrupted batches.
+Snapshots include SHA-256 file inventories and recorded skipped links. Worker logs, discovery IR and
+generated bundles stay on the data disk. GitHub receives summaries and evidence references, not
+copies of the 45 upstream repositories.
 
-## Aggregate / 汇总
+To create a **new** metadata snapshot, choose an unused path; historical snapshots cannot be overwritten:
 
-| Metric / 指标 | Measured value / 实测值 |
-| --- | ---: |
-| Fixtures / 样例 | 10 |
-| Test cases / 测试用例 | 57 |
-| Evidence records / 证据记录 | 36 |
-| Claim records / 断言记录 | 25 |
-| Capabilities / 能力 | 10 |
-| Portable Skill bundles / Skill 包 | 8 |
-| `STATIC_READY` | 7 |
-| `REVIEW_REQUIRED` | 2 |
-| `UNSUITABLE` | 1 |
+```bash
+python scripts/benchmark_public.py metadata --output benchmark/metadata-next.json
+python scripts/public_measure.py run --metadata benchmark/metadata-next.json --work /path/on/data-disk --output benchmark/results-next.json
+```
 
-## Fixture results / 样例明细
+A new source version also needs reviewed source anchors and compatible task fixtures. The committed
+evaluation/report scripts target the current `benchmark/results.json`; do not mix reports from different runs.
+The superseded `benchmark_public.py fetch/analyze/report` commands were removed to prevent unsafe cache
+reuse, primary-language shortcuts and mutation of metadata by analysis results.
 
-| Fixture | Language | Capabilities | Claims | Evidence | Findings | Portable result | Bundles |
-| --- | --- | ---: | ---: | ---: | ---: | --- | ---: |
-| `go_cli` | Go | 1 | 3 | 4 | 0 | `STATIC_READY` | 1 |
-| `go_false_positive` | Go | 0 | 1 | 2 | 0 | `UNSUITABLE` | 0 |
-| `js_cli` | JavaScript | 1 | 2 | 3 | 0 | `STATIC_READY` | 1 |
-| `js_conflict` | JavaScript | 2 | 3 | 5 | 1 | `REVIEW_REQUIRED` | 0 |
-| `malicious_readme` | Python | 1 | 2 | 3 | 0 | `STATIC_READY` | 1 |
-| `multi_cli` | Python | 2 | 5 | 7 | 0 | `STATIC_READY` | 2 |
-| `python_cli` | Python | 1 | 4 | 5 | 0 | `STATIC_READY` | 1 |
-| `python_unsafe` | Python | 0 | 1 | 1 | 1 | `REVIEW_REQUIRED` | 0 |
-| `setup_cfg` | Python | 1 | 2 | 3 | 0 | `STATIC_READY` | 1 |
-| `ts_cli` | TypeScript | 1 | 2 | 3 | 0 | `STATIC_READY` | 1 |
+Runtime commands require Docker and explicit `--execute`:
 
-## Interpretation / 解读
+```bash
+python scripts/public_runtime.py --work /path/on/data-disk --image <python-image> --execute
+python scripts/public_build_runtime.py --work /path/on/data-disk --go-image <go-image> --node-image <node-image> --execute
+python scripts/functional_runtime.py --work /path/on/data-disk --execute
+```
 
-The two review cases are intentional safety behavior: a conflicting JavaScript command name and an
-unsafe Python entrypoint are not silently converted into Skills. The false-positive Go fixture has
-no actionable CLI capability and therefore remains `UNSUITABLE`. The malicious README fixture still
-produces a statically supported result because repository prose is data, not system instructions.
+The Python runner expects a pre-downloaded `wheels/` directory, with filenames and SHA-256 recorded in
+`runtime-results.json`. Container IDs are recorded per attempt. Node/Go dependency acquisition is a
+separate network-enabled container step; npm lifecycle scripts are disabled. Build and execution use
+no-network containers, read-only source, non-root processes, no host credentials and resource/time limits.
+The build report records generated lockfile hashes. Dependency caches and images remain on the data
+disk; reconstructing them from mirrors can depend on availability, so these runtime results are not a
+claim of a fully hermetic public replay package. Host platform was Linux; Windows runtime was not measured.
 
-两个 `REVIEW_REQUIRED` 样例是有意保留的安全行为：JavaScript 命令冲突和不安全 Python 入口不会被静默
-转换成 Skill。Go 误报样例没有可执行 CLI 能力，因此保持 `UNSUITABLE`。恶意 README 样例仍能得到静态支持
-结果，因为仓库文档只被当作数据，不会成为系统指令。
+运行报告记录源码 commit、容器 ID、wheel 哈希、命令及输出。这里提供实测记录，不将依赖源可用性或尚未
+完成的 Windows Docker 验证包装成已通过。生产 CLI 的 `--verify sandbox` 集成仍未交付。
 
-`benchmark/corpus.yaml` is a candidate catalog for a future public-repository benchmark. Its
-repositories are not included in the table above because this snapshot does not claim to have run
-network-based measurements against them.
+## Fixture regression / 受控回归
 
-`benchmark/corpus.yaml` 是后续公共仓库基准集的候选目录。由于当前快照没有声称对这些仓库完成网络实测，
-它们不计入上面的统计表。
+Ten fixtures exercise malicious README, unsafe entrypoints, conflicts, multiple commands and supported
+language basics. They yield seven STATIC_READY, two REVIEW_REQUIRED and one UNSUITABLE, with eight
+portable bundles. The [fixture chart](assets/benchmark.svg) retains its original 57 unittest count;
+the full pytest suite now includes additional benchmark safety tests.
 
-## Public Repo Benchmark 1.0 / 公共仓库基准集
+```bash
+python -m pytest
+ruff check .
+mypy src
+python scripts/measure_benchmark.py
+```
 
-The public benchmark is now a pinned metadata corpus, separate from the local fixture regression
-chart above. It contains 45 repositories: 36 High-Star Core repositories, six unsupported-language
-challenge repositories, and three Tier C edge cases. The High-Star Core includes 16 Tier A
-repositories (`>=30,000` stars) and 20 Tier B repositories (`>=10,000` stars).
+CI runs pytest, Ruff and mypy on Ubuntu and Windows with Python 3.12. Public downloads and Docker
+execution are intentionally separate explicit runs. Fixture successes never enter public headline metrics.
 
-公共基准现在是独立于上方 fixture 回归图的 commit-pinned 元数据 corpus，共 45 个仓库：36 个 High-Star Core、
-6 个不支持语言 challenge、3 个 Tier C edge case。High-Star Core 包括 16 个 Tier A（`>=30,000` stars）和
-20 个 Tier B（`>=10,000` stars）。
+## Correction / 旧数据更正
 
-The snapshot at [`../benchmark/repository-metadata.json`](../benchmark/repository-metadata.json) was fetched from
-the GitHub API on `2026-09-14`. It stores stars, forks, default branch, archived state, primary
-language, license, and an exact commit SHA per repository. Rendering never refreshes GitHub data.
-
-[`../benchmark/repository-metadata.json`](../benchmark/repository-metadata.json) 是 `2026-09-14` 从 GitHub API 获取的快照，
-每条记录保存 stars、forks、默认分支、归档状态、主语言、许可证和精确 commit SHA；报告渲染不会重新请求当前 stars。
-
-The current public report says **High-Star Public Repositories Tested: 36**. All 36 Core records
-completed source classification and static analysis: 10 are `STATIC_READY`, 20 are
-`REVIEW_REQUIRED`, and six are `UNSUPPORTED_LANGUAGE`. The star-weighted repository coverage is
-27.9%. `scripts/benchmark_public.py analyze` only analyzes explicitly supplied local checkouts,
-and its statuses preserve `NOT_TESTED`, `UNSUPPORTED_LANGUAGE`, `NO_ACTIONABLE_CAPABILITY`,
-`REVIEW_REQUIRED`, and `STATIC_READY`. Unsupported Rust, C, Haskell, Perl, and Shell projects are
-not mixed into supported-language accuracy.
-
-当前公共报告明确写 **High-Star Public Repositories Tested: 36**。36 个 Core 已完成源码分类和静态分析：
-10 个 `STATIC_READY`、20 个 `REVIEW_REQUIRED`、6 个 `UNSUPPORTED_LANGUAGE`，Star-weighted repository coverage 为
-27.9%。`scripts/benchmark_public.py analyze` 只分析用户显式提供的本地 checkout，并保留 `NOT_TESTED`、
-`UNSUPPORTED_LANGUAGE`、`NO_ACTIONABLE_CAPABILITY`、`REVIEW_REQUIRED`、`STATIC_READY` 等状态。Rust、C、Haskell、
-Perl、Shell 项目不会混入受支持语言准确率。
-
-Star-weighted repository coverage is defined only over completed High-Star Core analyses:
-`sum(stars of STATIC_READY repositories) / sum(stars of tested repositories)`. It is not user
-coverage. Hallucinated executable facts remain `pending` until the ground-truth task runner checks
-every command and option against pinned source evidence.
-
-Star-weighted repository coverage 只在完成分析的 High-Star Core 上计算：
-`sum(STATIC_READY 仓库 stars) / sum(已测试仓库 stars)`，不代表用户覆盖率。ground-truth task runner 没有核对每个
-命令和参数前，幻觉可执行事实保持 `pending`。
-
-The corpus definition, task templates, and GitHub CLI official comparison are maintained in
-[`../benchmark/corpus.yaml`](../benchmark/corpus.yaml),
-[`../benchmark/ground-truth.yaml`](../benchmark/ground-truth.yaml), and
-[`case-studies/github-cli.md`](case-studies/github-cli.md).
+The former 27.9% result used Python 3.10's limited TOML fallback, accepted incomplete caches and
+marked Rust challenges unsupported before scanning. It is retained in
+[history](../benchmark/history/2026-09-15-bootstrap-results.json) for audit and superseded by this rerun.
+The compiler implementation is unchanged: this is a measurement correction, not an analyzer improvement claim.

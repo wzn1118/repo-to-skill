@@ -1,30 +1,55 @@
 {
-  "benchmark": "Public Repo Benchmark 1.0",
-  "benchmark_date": "2026-09-14",
-  "headline": {
-    "ground_truth_repositories": 10,
-    "high_star_core_stars": 1453404,
-    "high_star_public_repositories_selected": 36,
-    "high_star_public_repositories_tested": 36
+  "fact_audit": {
+    "confirmed_wrong_executable_facts": 4,
+    "hallucination_rate": null,
+    "indexed_executable_facts": 91,
+    "interpretation": "Confirmed errors are a lower bound; unreviewed is not correct. Provenance-valid facts can still be wrong.",
+    "not_semantically_reviewed": 87,
+    "scope": "All emitted Core facts indexed; targeted source review of Go binary-name failures"
   },
-  "interpretation": {
-    "hallucination_metric": "pending ground-truth task execution; null is intentional",
-    "star_weighted_coverage": "sum(stars of STATIC_READY tested repos) / sum(stars of tested core repos)",
-    "tested_denominator": "core repositories with a completed local analysis"
+  "failure_counts": {
+    "COMMAND_CONFLICT": 2,
+    "FILE_COUNT_LIMIT_EXCEEDED": 3,
+    "LICENSE_MISSING": 1,
+    "LICENSE_MISSING, NO_ACTIONABLE_CAPABILITY": 2,
+    "NO_ACTIONABLE_CAPABILITY": 11
   },
-  "metrics": {
+  "ground_truth": {
+    "expected_facts": 40,
+    "generated_covered_facts": 9,
     "hallucinated_executable_facts": null,
-    "star_weighted_repository_coverage": 0.2789196947304397,
-    "successful_repository_stars": 405383,
-    "successful_tested_repositories": 10,
-    "tested_repository_stars": 1453404
+    "human_verified_repositories": 0,
+    "method": "Agent-curated source assertions, independent of analyzer output; not human sign-off and not runtime task success",
+    "scope": "Selected source-grounded facts, not an exhaustive CLI inventory or task success metric",
+    "semantic_precision_status": "Full generated-fact semantic audit not completed; hash provenance is not semantic correctness",
+    "source_verified_facts": 40,
+    "static_task_prerequisites_covered": 1,
+    "tasks_evaluated": 30
   },
-  "schema_version": 1,
-  "status_counts": {
-    "NOT_TESTED": 3,
-    "REVIEW_REQUIRED": 20,
-    "STATIC_READY": 10,
-    "UNSUPPORTED_LANGUAGE": 12
-  },
-  "validation_errors": []
+  "summary": {
+    "emitted_executable_facts": 91,
+    "hash_and_pin_verified_facts": 91,
+    "high_star_completed": 34,
+    "high_star_public_repositories_tested": 36,
+    "high_star_selected": 36,
+    "repository_static_generation_rate": 0.6944444444444444,
+    "sets": {
+      "core": {
+        "REVIEW_REQUIRED": 4,
+        "STATIC_READY": 25,
+        "UNSUITABLE": 7
+      },
+      "edge": {
+        "STATIC_READY": 1,
+        "UNSUITABLE": 2
+      },
+      "unsupported-challenge": {
+        "REVIEW_REQUIRED": 4,
+        "UNSUITABLE": 2
+      }
+    },
+    "star_weighted_repository_coverage": 0.6904611518889449,
+    "static_ready": 25,
+    "total_benchmark_stars": 1453404
+  }
 }

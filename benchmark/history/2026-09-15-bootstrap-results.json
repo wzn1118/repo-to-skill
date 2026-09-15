@@ -4,6 +4,10 @@
   "fetched_at": "2026-09-14T23:46:03.715015+00:00",
   "repositories": [
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -17,10 +21,15 @@
       "metadata_status": "OK",
       "repository": "yt-dlp/yt-dlp",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 191182,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -34,10 +43,15 @@
       "metadata_status": "OK",
       "repository": "psf/black",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 41842,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-library-cli",
       "benchmark_date": "2026-09-14",
@@ -51,10 +65,17 @@
       "metadata_status": "OK",
       "repository": "Textualize/rich",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 57363,
       "tier": "A"
     },
     {
+      "analysis": {
+        "capabilities": 3,
+        "claims": 4,
+        "evidence": 7,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -68,10 +89,15 @@
       "metadata_status": "OK",
       "repository": "httpie/cli",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 38512,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -85,10 +111,17 @@
       "metadata_status": "OK",
       "repository": "python-poetry/poetry",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 34304,
       "tier": "A"
     },
     {
+      "analysis": {
+        "capabilities": 1,
+        "claims": 2,
+        "evidence": 3,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "javascript-cli",
       "benchmark_date": "2026-09-14",
@@ -102,15 +135,21 @@
       "metadata_status": "OK",
       "repository": "prettier/prettier",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 52263,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "analyzer-findings",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "typescript-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "99bd9d1d46153fa939f4a304cc0177db42e28776",
       "default_branch": "main",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: vitejs-vite-99bd9d1/packages/vite/src/node/__tests__/fixtures/config/root-resolution/link",
       "forks_at_benchmark": 8741,
       "ground_truth": false,
       "id": "vite",
@@ -119,15 +158,21 @@
       "metadata_status": "OK",
       "repository": "vitejs/vite",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 82823,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:ValueError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "javascript-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "9dc7f1a65c21f80d70ec80e45e9a9390bb5e9b04",
       "default_branch": "main",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: webpack-webpack-9dc7f1a/CLAUDE.md",
       "forks_at_benchmark": 9544,
       "ground_truth": true,
       "id": "webpack",
@@ -136,10 +181,15 @@
       "metadata_status": "OK",
       "repository": "webpack/webpack",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 65948,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:ValueError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "compiler-cli",
       "benchmark_date": "2026-09-14",
@@ -153,10 +203,17 @@
       "metadata_status": "OK",
       "repository": "microsoft/TypeScript",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 111047,
       "tier": "A"
     },
     {
+      "analysis": {
+        "capabilities": 2,
+        "claims": 3,
+        "evidence": 5,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
@@ -170,10 +227,17 @@
       "metadata_status": "OK",
       "repository": "cli/cli",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 46279,
       "tier": "A"
     },
     {
+      "analysis": {
+        "capabilities": 1,
+        "claims": 2,
+        "evidence": 6,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
@@ -187,10 +251,17 @@
       "metadata_status": "OK",
       "repository": "gohugoio/hugo",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 89819,
       "tier": "A"
     },
     {
+      "analysis": {
+        "capabilities": 1,
+        "claims": 2,
+        "evidence": 3,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
@@ -204,15 +275,21 @@
       "metadata_status": "OK",
       "repository": "junegunn/fzf",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 82984,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "primary-language:C",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "c-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "9d241e277204b83c4a7ddc7d733e5c72f99ef500",
       "default_branch": "master",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: jqlang-jq-9d241e2/docs/content/manual/manual.yml",
       "forks_at_benchmark": 1841,
       "ground_truth": false,
       "id": "jq",
@@ -221,10 +298,15 @@
       "metadata_status": "OK",
       "repository": "jqlang/jq",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 35598,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "primary-language:Haskell",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "haskell-cli",
       "benchmark_date": "2026-09-14",
@@ -238,15 +320,21 @@
       "metadata_status": "OK",
       "repository": "koalaman/shellcheck",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 40036,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "analyzer-findings",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "4f411281417e88660bea1c1a1749aa71ae0bd60f",
       "default_branch": "master",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: nektos-act-4f41128/pkg/runner/testdata/actions/node12/node_modules/.bin/ncc",
       "forks_at_benchmark": 2033,
       "ground_truth": false,
       "id": "act",
@@ -255,10 +343,15 @@
       "metadata_status": "OK",
       "repository": "nektos/act",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 72004,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "primary-language:Rust",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "javascript-cli",
       "benchmark_date": "2026-09-14",
@@ -272,10 +365,15 @@
       "metadata_status": "OK",
       "repository": "pnpm/pnpm",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 36524,
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -289,10 +387,17 @@
       "metadata_status": "OK",
       "repository": "pytest-dev/pytest",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 14506,
       "tier": "B"
     },
     {
+      "analysis": {
+        "capabilities": 1,
+        "claims": 19,
+        "evidence": 20,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -306,15 +411,21 @@
       "metadata_status": "OK",
       "repository": "pre-commit/pre-commit",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 15572,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
       "default_branch": "main",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: cookiecutter-cookiecutter-c88fbe9/docs/AUTHORS.md",
       "forks_at_benchmark": 2275,
       "ground_truth": false,
       "id": "cookiecutter",
@@ -323,10 +434,15 @@
       "metadata_status": "OK",
       "repository": "cookiecutter/cookiecutter",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 25087,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-library-cli",
       "benchmark_date": "2026-09-14",
@@ -340,10 +456,15 @@
       "metadata_status": "OK",
       "repository": "pallets/click",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 17665,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-findings",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "javascript-cli",
       "benchmark_date": "2026-09-14",
@@ -357,10 +478,15 @@
       "metadata_status": "OK",
       "repository": "eslint/eslint",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 27506,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-findings",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "javascript-cli",
       "benchmark_date": "2026-09-14",
@@ -374,15 +500,23 @@
       "metadata_status": "OK",
       "repository": "npm/cli",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 10114,
       "tier": "B"
     },
     {
+      "analysis": {
+        "capabilities": 3,
+        "claims": 4,
+        "evidence": 8,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "2ab310007902c215786382916e7e00477de597c4",
       "default_branch": "main",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: goreleaser-goreleaser-2ab3100/pkg/archive/testdata/badlink.txt",
       "forks_at_benchmark": 1108,
       "ground_truth": false,
       "id": "goreleaser",
@@ -391,10 +525,17 @@
       "metadata_status": "OK",
       "repository": "goreleaser/goreleaser",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 16048,
       "tier": "B"
     },
     {
+      "analysis": {
+        "capabilities": 1,
+        "claims": 2,
+        "evidence": 3,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
@@ -408,10 +549,17 @@
       "metadata_status": "OK",
       "repository": "charmbracelet/gum",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 24371,
       "tier": "B"
     },
     {
+      "analysis": {
+        "capabilities": 4,
+        "claims": 6,
+        "evidence": 7,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
@@ -425,10 +573,17 @@
       "metadata_status": "OK",
       "repository": "FiloSottile/age",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 23579,
       "tier": "B"
     },
     {
+      "analysis": {
+        "capabilities": 1,
+        "claims": 2,
+        "evidence": 3,
+        "status": "STATIC_READY"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
@@ -442,10 +597,15 @@
       "metadata_status": "OK",
       "repository": "mikefarah/yq",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 15956,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "primary-language:Haskell",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "haskell-cli",
       "benchmark_date": "2026-09-14",
@@ -459,15 +619,21 @@
       "metadata_status": "OK",
       "repository": "hadolint/hadolint",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 12402,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-findings",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "b00e451f547f39be7ab836d969054114a465a0f9",
       "default_branch": "master",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: direnv-direnv-b00e451/test/scenarios/symlink-bug/foo/bar",
       "forks_at_benchmark": 821,
       "ground_truth": false,
       "id": "direnv",
@@ -476,10 +642,15 @@
       "metadata_status": "OK",
       "repository": "direnv/direnv",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 15445,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-findings",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
@@ -493,10 +664,15 @@
       "metadata_status": "OK",
       "repository": "charmbracelet/vhs",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 20901,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -510,10 +686,15 @@
       "metadata_status": "OK",
       "repository": "pypa/pipx",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 12963,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -527,10 +708,15 @@
       "metadata_status": "OK",
       "repository": "pypa/pip",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 10286,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -544,10 +730,15 @@
       "metadata_status": "OK",
       "repository": "python/mypy",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 20640,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-error:TOMLDecodeError",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -561,15 +752,21 @@
       "metadata_status": "OK",
       "repository": "simonw/llm",
       "set": "core",
+      "snapshot_status": "ALREADY_PRESENT",
       "stars_at_benchmark": 12505,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "primary-language:Perl",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "perl-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "8c03d4a5023c47087a35a34f489c242098b0a65c",
       "default_branch": "next",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: so-fancy-diff-so-fancy-8c03d4a/docs/unit-tests.md",
       "forks_at_benchmark": 347,
       "ground_truth": false,
       "id": "diff-so-fancy",
@@ -578,15 +775,21 @@
       "metadata_status": "OK",
       "repository": "so-fancy/diff-so-fancy",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 18087,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "analyzer-findings",
+        "status": "REVIEW_REQUIRED"
+      },
       "archived": false,
       "benchmark_area": "go-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "6c0d6e637e9f4c1e67423db18644819470809dd6",
       "default_branch": "main",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: go-task-task-6c0d6e6/testdata/evaluate_symlinks_in_paths/src/shared",
       "forks_at_benchmark": 908,
       "ground_truth": false,
       "id": "task",
@@ -595,15 +798,21 @@
       "metadata_status": "OK",
       "repository": "go-task/task",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 16142,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "primary-language:Shell",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "shell-cli",
       "benchmark_date": "2026-09-14",
       "commit_sha": "676b71e7b52d1a094c6659213c23649b9e290455",
       "default_branch": "master",
+      "fetch_error": "ARCHIVE_LINK_REJECTED: pyenv-pyenv-676b71e/bin/pyenv",
       "forks_at_benchmark": 3274,
       "ground_truth": false,
       "id": "pyenv",
@@ -612,10 +821,15 @@
       "metadata_status": "OK",
       "repository": "pyenv/pyenv",
       "set": "core",
+      "snapshot_status": "FETCHED",
       "stars_at_benchmark": 45101,
       "tier": "B"
     },
     {
+      "analysis": {
+        "reason": "challenge-set",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "rust-cli",
       "benchmark_date": "2026-09-14",
@@ -633,6 +847,10 @@
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "challenge-set",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "rust-cli",
       "benchmark_date": "2026-09-14",
@@ -650,6 +868,10 @@
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "challenge-set",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "rust-cli",
       "benchmark_date": "2026-09-14",
@@ -667,6 +889,10 @@
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "challenge-set",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "rust-cli",
       "benchmark_date": "2026-09-14",
@@ -684,6 +910,10 @@
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "challenge-set",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "rust-cli",
       "benchmark_date": "2026-09-14",
@@ -701,6 +931,10 @@
       "tier": "A"
     },
     {
+      "analysis": {
+        "reason": "challenge-set",
+        "status": "UNSUPPORTED_LANGUAGE"
+      },
       "archived": false,
       "benchmark_area": "rust-cli",
       "benchmark_date": "2026-09-14",
@@ -718,6 +952,9 @@
       "tier": "A"
     },
     {
+      "analysis": {
+        "status": "NOT_TESTED"
+      },
       "archived": false,
       "benchmark_area": "python-cli",
       "benchmark_date": "2026-09-14",
@@ -735,6 +972,9 @@
       "tier": "C"
     },
     {
+      "analysis": {
+        "status": "NOT_TESTED"
+      },
       "archived": false,
       "benchmark_area": "rust-cli",
       "benchmark_date": "2026-09-14",
@@ -752,6 +992,9 @@
       "tier": "C"
     },
     {
+      "analysis": {
+        "status": "NOT_TESTED"
+      },
       "archived": false,
       "benchmark_area": "shell-cli",
       "benchmark_date": "2026-09-14",

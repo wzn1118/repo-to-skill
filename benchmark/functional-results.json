@@ -1,0 +1,117 @@
+{
+  "cases": [
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "cp -R /source /tmp/source && ln -s /deps/node_modules /tmp/source/node_modules && mkdir /tmp/tasks && cd /tmp/tasks && printf 'const value = 1\\n' > sample.js && printf 'sample.js\\n' > .ignore && printf 'export default [{rules: {semi: [\"error\", \"always\"]}}];\\n' > eslint.config.mjs && node /tmp/source/bin/prettier.cjs --parser babel /tmp/tasks/sample.js"
+      ],
+      "case": "explicit-parser",
+      "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "expected_text": "const value = 1;",
+      "id": "prettier",
+      "passed": true,
+      "stderr": "",
+      "stdout": "const value = 1;\n"
+    },
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "cp -R /source /tmp/source && ln -s /deps/node_modules /tmp/source/node_modules && mkdir /tmp/tasks && cd /tmp/tasks && printf 'const value = 1\\n' > sample.js && printf 'sample.js\\n' > .ignore && printf 'export default [{rules: {semi: [\"error\", \"always\"]}}];\\n' > eslint.config.mjs && node /tmp/source/bin/prettier.cjs --check /tmp/tasks/sample.js"
+      ],
+      "case": "check-format",
+      "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "expected_text": "Code style issues",
+      "id": "prettier",
+      "passed": true,
+      "stderr": "[warn] sample.js\n[warn] Code style issues found in the above file. Run Prettier with --write to fix.\n",
+      "stdout": "Checking formatting...\n"
+    },
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "cp -R /source /tmp/source && ln -s /deps/node_modules /tmp/source/node_modules && mkdir /tmp/tasks && cd /tmp/tasks && printf 'const value = 1\\n' > sample.js && printf 'sample.js\\n' > .ignore && printf 'export default [{rules: {semi: [\"error\", \"always\"]}}];\\n' > eslint.config.mjs && node /tmp/source/bin/prettier.cjs --ignore-path /tmp/tasks/.ignore --check /tmp/tasks/sample.js"
+      ],
+      "case": "ignore-file",
+      "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "expected_text": "All matched files",
+      "id": "prettier",
+      "passed": true,
+      "stderr": "",
+      "stdout": "Checking formatting...\nAll matched files use Prettier code style!\n"
+    },
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "printf 'alpha\\nbeta\\n' | /deps/program --filter alpha"
+      ],
+      "case": "filter-input",
+      "commit_sha": "b1be3a8be1b833ce5b92fbbac11637643d60a046",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "expected_text": "alpha",
+      "id": "fzf",
+      "passed": true,
+      "stderr": "",
+      "stdout": "alpha\n"
+    },
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "cp -R /source /tmp/source && ln -s /deps/node_modules /tmp/source/node_modules && mkdir /tmp/tasks && cd /tmp/tasks && printf 'const value = 1\\n' > sample.js && printf 'sample.js\\n' > .ignore && printf 'export default [{rules: {semi: [\"error\", \"always\"]}}];\\n' > eslint.config.mjs && node /tmp/source/bin/eslint.js --config /tmp/tasks/eslint.config.mjs /tmp/tasks/sample.js"
+      ],
+      "case": "lint-with-config",
+      "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "expected_text": "Missing semicolon",
+      "id": "eslint",
+      "passed": true,
+      "stderr": "",
+      "stdout": "\n/tmp/tasks/sample.js\n  1:16  error  Missing semicolon  semi\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n\n"
+    },
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "cp -R /source /tmp/source && ln -s /deps/node_modules /tmp/source/node_modules && mkdir /tmp/tasks && cd /tmp/tasks && printf 'const value = 1\\n' > sample.js && printf 'sample.js\\n' > .ignore && printf 'export default [{rules: {semi: [\"error\", \"always\"]}}];\\n' > eslint.config.mjs && node /tmp/source/bin/eslint.js --config /tmp/tasks/eslint.config.mjs --fix /tmp/tasks/sample.js && cat /tmp/tasks/sample.js"
+      ],
+      "case": "apply-fix",
+      "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "expected_text": "const value = 1;",
+      "id": "eslint",
+      "passed": true,
+      "stderr": "",
+      "stdout": "const value = 1;\n"
+    },
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "cp -R /source /tmp/source && ln -s /deps/node_modules /tmp/source/node_modules && mkdir /tmp/tasks && cd /tmp/tasks && printf 'const value = 1\\n' > sample.js && printf 'sample.js\\n' > .ignore && printf 'export default [{rules: {semi: [\"error\", \"always\"]}}];\\n' > eslint.config.mjs && node /tmp/source/bin/eslint.js --config /tmp/tasks/eslint.config.mjs --ignore-pattern '**/sample.js' /tmp/tasks/sample.js"
+      ],
+      "case": "ignore-path",
+      "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+      "exit_code": 0,
+      "expected_exit": 0,
+      "expected_text": "ignored",
+      "id": "eslint",
+      "passed": true,
+      "stderr": "",
+      "stdout": "\n/tmp/tasks/sample.js\n  0:0  warning  File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning\n\n\u2716 1 problem (0 errors, 1 warning)\n\n"
+    }
+  ],
+  "method": "Offline functional cases on pinned source; no agent, no with/without-skill comparison"
+}
