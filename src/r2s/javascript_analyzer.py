@@ -8,12 +8,13 @@ from typing import Any
 from r2s.domain import Capability, Claim, DiscoveryIR, Evidence, Finding, SourceLocation
 from r2s.fact_contracts import parse_fact
 from r2s.policy import is_safe_command
+from r2s.scan_policy import path_role
 from r2s.scanner import ScanResult
-from r2s.serialization import file_sha256, stable_id
+from r2s.serialization import stable_id
 
 
-def _line_for(path: Path, needle: str) -> int | None:
-    for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+def _line_for(scan_result: ScanResult, path: Path, needle: str) -> int | None:
+    for number, line in enumerate(scan_result.read_text(path).splitlines(), start=1):
         if needle in line:
             return number
     return None
@@ -26,14 +27,11 @@ def _location(
     start_line: int | None = None,
 ) -> SourceLocation:
     relative = path.relative_to(scan_result.root).as_posix()
-    entry = next(
-        (item for item in scan_result.inventory if item.path == relative),
-        None,
-    )
+    entry = scan_result.source_index[path]
     return SourceLocation(
         path=relative,
         pointer=pointer,
-        content_sha256=file_sha256(path),
+        content_sha256=entry.content_sha256 or "",
         start_line=start_line,
         end_line=start_line,
         commit_sha=(
@@ -41,7 +39,7 @@ def _location(
             if scan_result.snapshot.git_dirty is False
             else None
         ),
-        blob_sha=entry.blob_sha if entry else None,
+        blob_sha=entry.blob_sha,
     )
 
 
@@ -74,12 +72,8 @@ def _bin_entries(data: dict[str, Any]) -> list[tuple[str, str, str]]:
 
 
 def _workspace_role(package_root: Path, repository_root: Path) -> str:
-    relative_parts = package_root.relative_to(repository_root).parts
-    lowered = {part.casefold() for part in relative_parts}
-    if lowered & {
-        ".fixture", ".fixtures", "test", "tests", "testdata", "fixture", "fixtures",
-        "__tests__", "__fixtures__", "__utils__", "e2e", "dev", "node_modules",
-    }:
+    relative = (package_root / "package.json").relative_to(repository_root).as_posix()
+    if path_role(relative) == "test":
         return "test"
     return "product"
 
@@ -91,10 +85,15 @@ def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
         for path in scan_result.analyzable_files
         if path.name == "package.json"
     ]
+    typescript_roots = {
+        parent for path in scan_result.analyzable_files
+        if path.suffix in {".ts", ".tsx"} or path.name == "tsconfig.json"
+        for parent in path.parents if parent.is_relative_to(scan_result.root)
+    }
     for manifest in sorted(manifests):
         relative_manifest = manifest.relative_to(scan_result.root).as_posix()
         try:
-            data = json.loads(manifest.read_text(encoding="utf-8"))
+            data = json.loads(scan_result.read_text(manifest))
         except (json.JSONDecodeError, UnicodeDecodeError) as exc:
             discovery.findings.append(
                 Finding(
@@ -111,11 +110,7 @@ def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
         package_root = manifest.parent
         workspace = package_root.relative_to(scan_result.root).as_posix() or "."
         workspace_role = _workspace_role(package_root, scan_result.root)
-        has_typescript = (package_root / "tsconfig.json").is_file() or any(
-            path.suffix in {".ts", ".tsx"}
-            and path.is_relative_to(package_root)
-            for path in scan_result.analyzable_files
-        )
+        has_typescript = package_root in typescript_roots
         discovery.languages.append("typescript" if has_typescript else "javascript")
         discovery.repository_types.append("cli" if entries else "library")
         for command, target_value, pointer in entries:
@@ -161,6 +156,7 @@ def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                 manifest,
                 pointer,
                 _line_for(
+                    scan_result,
                     manifest,
                     '"bin"' if pointer == "$.bin" else f'"{command}"',
                 ),

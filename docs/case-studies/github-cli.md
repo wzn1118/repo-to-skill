@@ -8,14 +8,14 @@ contains substantially more task guidance. Smaller output does not demonstrate b
 Both artifacts use source commit `38316c1c4f275030e3df6666382922e75410d68b`.
 The [official Skill](https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/skills/gh/SKILL.md)
 is comparison data, never compiler instructions. The generated artifact is measured before editorial changes.
-[Current machine-readable comparison](../../benchmark/runs/2026-09-15-upgrade-v6/official-comparison.json).
-The table uses the upgrade-v6 compiler. The [legacy comparison](../../benchmark/official-comparison.json)
+[Current machine-readable comparison](../../benchmark/runs/2026-09-15-upgrade-v8/official-comparison.json).
+The table uses the upgrade-v8 compiler. The [legacy comparison](../../benchmark/official-comparison.json)
 is retained separately; the source commit is unchanged.
 
 | Measurement | Generated gh | Official gh |
 | --- | ---: | ---: |
 | Files | 5 | 1 |
-| Total file bytes | 3,847 | 11,958 |
+| Total file bytes | 4,703 | 11,958 |
 | Selected facts present | 1 / 5 | 4 / 5 |
 | Explicit source commit in artifact text/metadata | Yes | No |
 | Runnable task pass rate | Not measured | Not measured |
@@ -35,8 +35,9 @@ This measures artifact self-description, not whether GitHub maintains version hi
 The denominator is five source-verified facts, not the complete command surface. Text mentions and
 structured claims are different representations: the table measures presence, not equivalent execution
 quality. The generated gh bundle has one executable fact, with its source hash and commit checked.
-The legacy run also emitted a gen-docs helper; upgrade-v6 excludes it from product Skills.
-The current gh bundle includes its file lock, accounting for part of the size change.
+The legacy run also emitted a gen-docs helper; upgrade-v8 excludes it from product Skills.
+The current gh bundle includes its file lock and explicit scan scope. This run requires review
+because source content was excluded by budget; extracting one entrypoint is not full CLI coverage.
 
 官方内容还讨论交互、JSON、分页、仓库定位、搜索、API 回退和副作用。生成版只有通用预览步骤和入口溯源，
 没有提取这些业务流程。下一步应补跨文件 Cobra 子命令、选项归属及开发工具过滤。

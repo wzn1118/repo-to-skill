@@ -17,9 +17,12 @@ def render(run: Path) -> str:
     lines = [
         "# Repo-to-Skill Benchmark Run",
         "",
-        f"**Run:** `{run.name}`  ",
-        f"**High-Star Public Repositories Tested:** {stats['high_star_public_repositories_tested']}  ",
-        f"**Core cumulative GitHub stars:** {stats['total_benchmark_stars']:,}  ",
+        f"**Run:** `{run.name}`",
+        "",
+        f"**High-Star Public Repositories Tested:** {stats['high_star_public_repositories_tested']}",
+        "",
+        f"**Core cumulative GitHub stars:** {stats['total_benchmark_stars']:,}",
+        "",
         f"**Compiler fingerprint:** `{results['compiler_sha256']}`",
         "",
         "This report is a versioned static compiler run. It does not reuse runtime, model A/B, or official comparison results from another compiler fingerprint.",
@@ -46,6 +49,29 @@ def render(run: Path) -> str:
             f"| `{item['repository']}` | {item['tier']} | {item['stars_at_benchmark']:,} | "
             f"{item['status']} | {item.get('bundles', 0)} |"
         )
+    scans = [item for item in results["repositories"] if item.get("scan")]
+    if scans:
+        lines.extend([
+            "", "## Scan scope", "",
+            "Content admission is bounded independently from path enumeration. Partial scans retain unknown regions and require review, including in standalone bundle validation. Admitted text-file counts are not parser success or complete CLI coverage.",
+            "",
+            "| Repository | Inventory entries | Admitted text files | Budget-excluded files | Complete within policy |",
+            "| --- | ---: | ---: | ---: | --- |",
+        ])
+        for item in scans:
+            scan = item["scan"]
+            lines.append(
+                f"| `{item['repository']}` | {scan['inventory_entries']} | {scan['analyzed_files']} | "
+                f"{scan['budget_skipped_files']} | {scan['complete_within_policy']} |"
+            )
+    failures = [item for item in results["repositories"] if not item.get("completed") or item["status"] == "REVIEW_REQUIRED"]
+    if failures:
+        lines.extend(["", "## Failures and review reasons", ""])
+        for item in failures:
+            codes = sorted({finding["code"] for finding in item.get("findings", []) if finding["severity"] == "error"})
+            reason = item.get("reason", item.get("failure_class", ", ".join(codes) or "See raw result"))
+            reason = str(reason).replace("`", "'").replace("\n", " ")
+            lines.append(f"- `{item['repository']}`: {reason}")
     lines.extend([
         "",
         "## Limits",

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — workspace scan budgets
+
+- Separate bounded path enumeration from content admission; distribute content slots across workspaces and reserve budgets for tests/examples.
+- Return partial discoveries with explicit skipped paths and reasons. Carry scan scope into CLI/UI, indexed scan.json and generated bundles; standalone validation and installation keep partial/unknown scans under review.
+- Prevent Python manifests and module targets from bypassing the scanner; bound content reads and recheck source hashes before analysis.
+- Include tracked source beneath normally excluded directories when a verified Git map is available. Keep archive/Git resolver consolidation and process-level resource qualification open.
+- Classify Go tools under tools/scripts as development candidates; role inference remains heuristic.
+
 ## Unreleased — strict discovery and compilation identity
 
 - Enforce required nested fields, typed claim payloads, source identities and graph references at discovery JSON and generation boundaries; export the same complete schema.

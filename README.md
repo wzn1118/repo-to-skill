@@ -15,7 +15,7 @@ executing the target repository.
 > runs, and thin client projections. Claude/Cursor native loading is not verified. Runtime task evaluation, agent A/B evidence and
 > private/hosted workflows remain incomplete.
 
-[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-15-upgrade-v6/report.md) · [Legacy benchmark](benchmark/report.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
+[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-15-upgrade-v8/report.md) · [Legacy benchmark](benchmark/report.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
 
 ## Public Repo Benchmark 1.0
 
@@ -25,11 +25,11 @@ stars**, using the saved `2026-09-14` snapshot; stars are not unique users.
 
 | Measured result | Value |
 | --- | ---: |
-| Core static generation | 26 STATIC_READY · 3 REVIEW_REQUIRED · 7 UNSUITABLE |
-| Star-weighted coverage, using static-generation status | 69.7% |
-| Ground truth across 10 repositories | **9 / 40 selected facts covered** |
+| Core static generation | 20 STATIC_READY · 10 REVIEW_REQUIRED · 6 UNSUITABLE |
+| Star-weighted coverage, using static-generation status | 53.5% |
+| Ground truth across 10 repositories | **10 / 40 selected facts covered** |
 | Tasks with all selected static prerequisites covered | **1 / 30** |
-| Generated executable facts indexed / hash-and-pin checked | 49 / 49; full semantic review pending |
+| Generated executable facts indexed / hash-and-pin checked | 50 / 50; full semantic review pending |
 | Four known Go module-suffix name regressions | 4 / 4 corrected against pinned source |
 
 STATIC_READY does not guarantee correct commands or successful tasks. The audit caught Go module
@@ -37,15 +37,19 @@ suffixes becoming executable names (`v2`, `v4`), test fixtures becoming Skills, 
 The ground truth is **agent-curated**, not human sign-off. No zero-hallucination or
 with/without-skill improvement claim is made. Failures are published alongside successes.
 
-The versioned [upgrade-v6 report](benchmark/runs/2026-09-15-upgrade-v6/report.md) contains the
-compiler fingerprint, raw static results, targeted name checks and explicit limits. TypeScript and
-webpack still exceed scanner limits. Selected fact recall remains **9/40** after the fixes. The
+The versioned [upgrade-v8 report](benchmark/runs/2026-09-15-upgrade-v8/report.md) contains the
+compiler fingerprint, raw static results, targeted name checks and explicit limits. All 45 runs now
+complete; TypeScript and webpack return partial discoveries with unknown regions. Selected fact recall
+is **10/40**, one more webpack entrypoint, with no task-success uplift claim. The
 older headline remains in `benchmark/report.md` as a legacy measurement; it is not overwritten.
 
-The latest upgrade adds [strict IR import and compiler identity](docs/discovery-contract.md).
-All **181 local tests** pass, including real Docker/browser checks. Of 42 retained historical IR
+The latest upgrade adds [workspace content budgets](docs/scan-budgets.md) on top of
+[strict IR import and compiler identity](docs/discovery-contract.md).
+All **196 local tests** pass, including real Docker/browser checks. Of 42 retained historical IR
 files, five need identical-evidence deduplication; their explicit migrations remain `REVIEW_REQUIRED`.
-This strengthens import and cache integrity; public selected-fact recall is still **9/40**.
+Partial scans now require review even during standalone validation/install. Core STATIC_READY falls
+from 26 to 20 because the scope gate is stricter; this is not a measured accuracy decline. The
+[interrupted v7 attempt](benchmark/runs/2026-09-15-upgrade-v7/interrupted.json) is retained separately.
 
 ![Fixed-corpus comparison of legacy and upgrade static outcomes and selected fact recall](docs/assets/upgrade-comparison.png)
 
@@ -88,6 +92,7 @@ and generator consume the IR; they do not inspect raw repository text to invent 
 | Go | Root and `cmd/<name>` main packages, conservative standard flag/Cobra-style extraction |
 | Outputs | Portable Skills, Codex plugin; experimental Claude/Cursor directory projections |
 | Integrity | Strict nested IR/schema, source and graph checks, scoped compiler identities, generation locks and SQLite artifact index |
+| Scan scope | Workspace budgets, explicit skipped regions, indexed scan.json, CLI/UI and bundle scope; partial scans require review |
 | Updates | File/Capability drift reports and goal-scoped capability delta builds |
 | UI | Loopback workbench: inspect, build, view evidence and validation using the same run objects |
 | Execution | Explicit local Docker invocation with a pinned installed image, bounded output and cleanup |
@@ -351,17 +356,17 @@ python -m pytest
 Stars 只描述 corpus 的开源影响力，不等于独立用户数。
 
 **High-Star Public Repositories Tested: 36**。45 个真实源码快照（含 challenge/edge）均已固定并验证；
-最新 [upgrade-v6](benchmark/runs/2026-09-15-upgrade-v6/report.md) 的 Core 结果为 26 个 `STATIC_READY`、
-3 个 `REVIEW_REQUIRED`、7 个 `UNSUITABLE`，按静态状态计算的 Star-weighted coverage 为 **69.7%**。
-TypeScript、webpack 仍因扫描限额失败，全部保留在分母中。
+最新 [upgrade-v8](benchmark/runs/2026-09-15-upgrade-v8/report.md) 的 Core 结果为 20 个 `STATIC_READY`、
+10 个 `REVIEW_REQUIRED`、6 个 `UNSUITABLE`，按静态状态计算的 Star-weighted coverage 为 **53.5%**。
+45 个运行全部完成；TypeScript、webpack 现在返回部分发现结果，未知区域明确保留。
 
-本轮新增[严格 IR 校验、显式迁移和编译器身份绑定](docs/discovery-contract.md)，**181 项本地测试通过**，
-包含真实 Docker 和浏览器检查。42 份历史 IR 中五份需要合并完全相同的重复证据，迁移结果全部保留
-`REVIEW_REQUIRED`，原文件不变。完整 IR v2 和跨文件命令图仍待实施，事实召回没有因此提高。
+本轮新增[工作区扫描预算及范围校验](docs/scan-budgets.md)，**196 项本地测试通过**，包含真实 Docker 和浏览器检查。
+部分扫描在独立校验、安装时也必须保持 `REVIEW_REQUIRED`，因此静态通过数从 26 降到 20；
+这是范围门槛收紧，不是已测准确率下降。历史报告与[中断的 v7 尝试](benchmark/runs/2026-09-15-upgrade-v7/interrupted.json)保留。
 
-更关键的结果是：10 仓库的 40 条源码事实只覆盖 **9 条**，30 个任务中仅 **1 个**具备所选静态前提。
-新版本生成 **49 条**可执行事实，均通过哈希和 commit 核对；四项 Go 后缀命名回归已按固定源码核对修复，
-pnpm、bat、goreleaser 的已知测试入口误报已移除。**49 条事实仍待完整语义审计**，减少输出不代表准确率提高。
+更关键的结果是：10 仓库的 40 条源码事实覆盖 **10 条**，新增的是 webpack 入口，30 个任务中仍仅 **1 个**具备所选静态前提。
+新版本生成 **50 条**可执行事实，均通过哈希和 commit 核对；四项 Go 后缀命名回归已按固定源码核对修复，
+pnpm、bat、goreleaser 的已知测试入口误报已移除。**50 条事实仍待完整语义审计**，不宣称真实任务成功率提高。
 旧版的 91 条事实、4 个已确认错误及四项目 10 项运行检查保留在 legacy 报告，不移作新版运行成绩。
 
 ground truth 由 Agent 按源码整理，不冒称人工签字；没有提前写“零幻觉”，也没有声称优于官方 Skill。

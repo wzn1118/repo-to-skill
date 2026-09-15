@@ -18,6 +18,7 @@ from yaml.tokens import AliasToken, AnchorToken, TagToken
 from r2s.bundle_contracts import BundleLock, BundleProvenance, PluginManifest, relative_path
 from r2s.documents import render_document
 from r2s.domain import DiscoveryIR, Finding
+from r2s.scan_policy import bundle_scan_scope
 from r2s.serialization import canonical_json, canonical_sha256
 
 LOCK_NAME = "BUNDLE.lock.json"
@@ -239,6 +240,13 @@ def _validate_skill_files(
     except (ValidationError, ValueError, UnicodeError, RecursionError):
         return [*findings, Finding("PROVENANCE_INVALID", "error", "Invalid provenance contract")]
     findings.extend(_check_provenance(provenance))
+    scope = provenance.scan_scope
+    if scope is not None and scope.policy_id != provenance.source_snapshot.scan_policy_id:
+        findings.append(Finding("SCAN_SCOPE_POLICY_MISMATCH", "error", "Bundle scan scope differs from snapshot policy"))
+    if scope is None or scope.complete_within_policy is None:
+        findings.append(Finding("SCAN_SCOPE_UNKNOWN", "error", "Source analysis scope has not been recorded under the current policy"))
+    elif not scope.complete_within_policy or scope.budget_skipped_files:
+        findings.append(Finding("SCAN_INCOMPLETE", "error", "Bundle comes from a partial scan; unscanned capabilities remain unknown"))
     if discovery is not None:
         trusted_claims = {claim.id: claim for claim in discovery.claims}
         trusted_evidence = {item.id: item for item in discovery.evidence}
@@ -246,6 +254,8 @@ def _validate_skill_files(
             provenance.source_snapshot != discovery.snapshot
             or any(trusted_claims.get(claim.id) != claim for claim in provenance.claims)
             or any(trusted_evidence.get(item.id) != item for item in provenance.evidence)
+            or scope is None
+            or scope.model_dump() != bundle_scan_scope(discovery.inventory, discovery.snapshot.scan_policy_id)
         ):
             findings.append(Finding("SOURCE_IR_MISMATCH", "error", "Bundle differs from supplied discovery"))
     try:

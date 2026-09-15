@@ -26,6 +26,7 @@ def worker(record: dict, source: Path, output: Path) -> dict:
     from r2s.core import discover
     from r2s.domain import RepositorySnapshot
     from r2s.generator import generate
+    from r2s.scan_policy import scan_coverage
 
     started = time.monotonic()
     snapshot = RepositorySnapshot(
@@ -37,6 +38,8 @@ def worker(record: dict, source: Path, output: Path) -> dict:
     try:
         discovery = discover(source, snapshot)
         write_json(output / "discovery.json", discovery.to_dict())
+        coverage = scan_coverage(discovery.inventory, discovery.snapshot.scan_policy_id)
+        write_json(output / "scan.json", coverage)
         build = generate(discovery, "Use the discovered commands", output, "portable")
         emitted = set()
         bundle_files = []
@@ -79,6 +82,7 @@ def worker(record: dict, source: Path, output: Path) -> dict:
                        "bundles": len(build.bundles), "bundle_files": bundle_files,
                        "findings": [asdict(item) for item in build.findings], "facts": facts,
                        "tree_sha256": discovery.tree_sha256})
+        result["scan"] = coverage
     except (ValueError, OSError, UnicodeError, TypeError, KeyError, RecursionError) as error:
         reason = str(error).replace(str(source), "<source>")[:400]
         result.update({"status": "REVIEW_REQUIRED", "failure_class": type(error).__name__,

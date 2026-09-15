@@ -9,6 +9,7 @@ from pydantic import TypeAdapter
 
 from r2s.domain import DiscoveryIR
 from r2s.policy import is_safe_command
+from r2s.scan_policy import INCOMPLETE_REASONS
 
 DISCOVERY_ADAPTER = TypeAdapter(DiscoveryIR)
 MAX_JSON_DEPTH = 64
@@ -69,6 +70,10 @@ def validate_relations(discovery: DiscoveryIR) -> None:
     evidence = {item.id: item for item in discovery.evidence}
     claims = {item.id: item for item in discovery.claims}
     snapshot = discovery.snapshot
+    if any(item.reason in INCOMPLETE_REASONS for item in discovery.inventory) and not any(
+        finding.code == "SCAN_INCOMPLETE" and finding.severity == "error" for finding in discovery.findings
+    ) and snapshot.scan_policy_id.startswith("workspace-bounded-v1:"):
+        raise ValueError("IR_INCOMPLETE_SCAN_NOT_DECLARED")
     expected_commit = snapshot.resolved_commit_sha if snapshot.git_dirty is False else None
     oid_length = {"sha1": 40, "sha256": 64}.get(snapshot.git_object_format or "")
     if snapshot.resolved_commit_sha is not None and (

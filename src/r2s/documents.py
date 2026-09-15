@@ -80,6 +80,12 @@ def render_document(provenance: BundleProvenance) -> dict[str, bytes]:
     references = "# Provenance\n\n" + "\n".join(
         f"- Claim `{claim_id}`" for claim_id in sorted(claims)
     ) + "\n"
+    if provenance.scan_scope is not None:
+        scope = provenance.scan_scope
+        label = "Complete within recorded policy" if scope.complete_within_policy is True else "Partial or unknown scan; unscanned capabilities are unknown"
+        notice = f"{label}. Budget-excluded files: {scope.budget_skipped_files}. This does not establish complete CLI coverage."
+        skill += "\n## Source analysis scope\n\n" + notice + "\n"
+        references += "\n## Scan scope\n\n" + notice + f"\n\nInventory SHA-256: \x60{scope.inventory_sha256}\x60\n"
     return {
         "SKILL.md": skill.encode("utf-8"),
         "references/cli.md": cli.encode("utf-8"),

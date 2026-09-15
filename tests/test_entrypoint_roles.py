@@ -21,7 +21,7 @@ def test_javascript_workspace_roles_use_exact_path_components(tmp_path: Path, di
     assert any(item.kind == "javascript.bin" for item in discovery.evidence)
 
 
-@pytest.mark.parametrize("directory", ["internal/pipe/testdata/fake", "tests/source/Go", "packages/test-runner"])
+@pytest.mark.parametrize("directory", ["internal/pipe/testdata/fake", "tests/source/Go", "packages/test-runner", "tools/cmd/helper", "scripts/helper"])
 def test_nested_go_module_keeps_repository_role(tmp_path: Path, directory: str) -> None:
     (tmp_path / "go.mod").write_text("module example.org/root\n")
     workspace = tmp_path / directory

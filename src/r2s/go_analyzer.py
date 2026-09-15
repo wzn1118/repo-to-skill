@@ -7,8 +7,9 @@ from pathlib import Path
 from r2s.domain import Capability, Claim, DiscoveryIR, Evidence, Finding, SourceLocation
 from r2s.fact_contracts import parse_fact
 from r2s.policy import is_safe_command
+from r2s.scan_policy import path_role
 from r2s.scanner import ScanResult
-from r2s.serialization import file_sha256, stable_id
+from r2s.serialization import stable_id
 
 MODULE_RE = re.compile(r"^\s*module\s+(\S+)\s*$", re.MULTILINE)
 PACKAGE_MAIN_RE = re.compile(r"^\s*package\s+main\s*$", re.MULTILINE)
@@ -27,14 +28,11 @@ def _location(
     line: int | None = None,
 ) -> SourceLocation:
     relative = path.relative_to(scan_result.root).as_posix()
-    entry = next(
-        (item for item in scan_result.inventory if item.path == relative),
-        None,
-    )
+    entry = scan_result.source_index[path]
     return SourceLocation(
         path=relative,
         pointer=pointer,
-        content_sha256=file_sha256(path),
+        content_sha256=entry.content_sha256 or "",
         start_line=line,
         end_line=line,
         commit_sha=(
@@ -42,7 +40,7 @@ def _location(
             if scan_result.snapshot.git_dirty is False
             else None
         ),
-        blob_sha=entry.blob_sha if entry else None,
+        blob_sha=entry.blob_sha,
     )
 
 
@@ -103,8 +101,8 @@ def _line_number(source: str, offset: int) -> int:
     return source.count("\n", 0, offset) + 1
 
 
-def _module_name(go_mod: Path) -> str | None:
-    match = MODULE_RE.search(go_mod.read_text(encoding="utf-8"))
+def _module_name(scan_result: ScanResult, go_mod: Path) -> str | None:
+    match = MODULE_RE.search(scan_result.read_text(go_mod))
     return match.group(1) if match else None
 
 
@@ -130,8 +128,10 @@ def _go_modules(scan_result: ScanResult) -> list[Path]:
 def _go_role(repository_root: Path, main_path: Path, command: str) -> str:
     relative = main_path.relative_to(repository_root).parts[:-1]
     lowered = {part.casefold() for part in relative}
-    if lowered & {"test", "tests", "testdata", "fixture", "fixtures", "e2e", "dev"}:
+    if path_role(main_path.relative_to(repository_root).as_posix()) == "test":
         return "test"
+    if lowered & {"tools", "scripts"}:
+        return "developer"
     if command.casefold() in {"release", "gen-docs", "gen-doc", "sleepit", "testapp"}:
         return "developer"
     return "product"
@@ -141,7 +141,7 @@ def analyze_go(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
     modules = _go_modules(scan_result)
     for go_mod in modules:
         module_root = go_mod.parent
-        module_name = _module_name(go_mod)
+        module_name = _module_name(scan_result, go_mod)
         discovery.languages.append("go")
         go_files = [
             path
@@ -151,7 +151,7 @@ def analyze_go(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
         main_files: list[tuple[Path, str, str]] = []
         for path in sorted(go_files):
             try:
-                source = path.read_text(encoding="utf-8")
+                source = scan_result.read_text(path)
             except UnicodeDecodeError as exc:
                 discovery.findings.append(
                     Finding(

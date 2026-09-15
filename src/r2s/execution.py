@@ -15,6 +15,7 @@ from typing import Any, BinaryIO
 from r2s.bundle_contracts import BundleProvenance
 from r2s.bundle_validation import bundle_digest, inventory, validate_path
 from r2s.domain import Finding
+from r2s.scan_policy import INCOMPLETE_REASONS
 from r2s.scanner import scan
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256
 
@@ -105,6 +106,8 @@ def _source_files(source: Path) -> dict[str, str]:
     if source.is_symlink() or source.resolve() in {Path("/"), Path.home()}:
         raise ValueError("EXECUTION_SOURCE_INVALID")
     scanned = scan(source)
+    if any(item.reason in INCOMPLETE_REASONS for item in scanned.inventory):
+        raise ValueError("EXECUTION_SOURCE_SCAN_INCOMPLETE")
     if sum(item.size for item in scanned.inventory if item.classification == "source") > MAX_SOURCE_BYTES:
         raise ValueError("EXECUTION_SOURCE_TOO_LARGE")
     result = {}

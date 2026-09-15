@@ -24,6 +24,7 @@ from r2s.domain import (
     RunOutcome,
 )
 from r2s.planner import plan
+from r2s.scan_policy import bundle_scan_scope
 from r2s.serialization import canonical_json
 
 __all__ = ["CODEX_PROFILE", "PORTABLE_PROFILE", "generate", "install_codex_plugin", "readiness", "slugify", "validate_path"]
@@ -53,6 +54,7 @@ def _skill_bundle(
     provenance = BundleProvenance.model_validate_json(canonical_json({
         "schema_version": discovery.schema_version,
         "source_snapshot": asdict(discovery.snapshot),
+        "scan_scope": bundle_scan_scope(discovery.inventory, discovery.snapshot.scan_policy_id),
         "artifact_path": "SKILL.md",
         "procedure": asdict(procedure),
         "document": {

@@ -15,6 +15,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from r2s.core import discover_source, generate, plan, write_discovery
 from r2s.domain import DiscoveryIR
+from r2s.scan_policy import scan_coverage
 from r2s.storage import compilation_root, list_runs, load_discovery, record_compilation
 
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost", "::1"}
@@ -316,6 +317,12 @@ function renderDetail(data) {
   rows.append(row('提交', source.resolved_commit_sha || '非 Git 快照'));
   rows.append(row('分析树', source.tree_sha256));
   rows.append(row('扫描策略', source.scan_policy_id));
+  const coverage = data.discovery.scan;
+  if (coverage) {
+    rows.append(row('内容分析', String(coverage.analyzed_files) + ' / ' + String(coverage.inventory_entries) + ' 个清单条目'));
+    rows.append(row('预算未分析', String(coverage.budget_skipped_files) + ' 个文件'));
+    rows.append(row('扫描范围', coverage.complete_within_policy === true ? '已完成策略内分析' : coverage.complete_within_policy === false ? '部分分析：未扫描能力未知' : '旧版范围未验证'));
+  }
   snapshot.append(rows);
   grid.append(snapshot);
 
@@ -605,6 +612,7 @@ def _detail_payload(output_root: Path, run_id: str) -> dict[str, Any]:
             "capabilities": len(discovery.capabilities),
             "findings": len(discovery.findings),
             "evidence": len(discovery.evidence),
+            "scan": scan_coverage(discovery.inventory, discovery.snapshot.scan_policy_id),
         },
         "capabilities": _capability_payload(discovery),
         "findings": [asdict(item) for item in discovery.findings],

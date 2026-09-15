@@ -19,6 +19,7 @@ from r2s.discovery_contract import (
     validate_relations,
 )
 from r2s.domain import DiscoveryIR, DriftReport
+from r2s.scan_policy import scan_coverage
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256, stable_id
 
 DB_NAME = "runs.sqlite3"
@@ -32,6 +33,7 @@ DISCOVERY_ARTIFACTS = (
     "source.lock.json",
     "run.json",
 )
+SCAN_ARTIFACT = "scan.json"
 
 
 def _connect(output_root: Path) -> sqlite3.Connection:
@@ -154,6 +156,8 @@ def write_discovery(discovery: DiscoveryIR, output_root: Path) -> Path:
             "discovery_sha256": discovery_sha256,
         },
     }
+    if discovery.snapshot.scan_policy_id.startswith("workspace-bounded-v1:"):
+        artifacts["scan.json"] = scan_coverage(discovery.inventory, discovery.snapshot.scan_policy_id)
     staging = Path(tempfile.mkdtemp(prefix=".discovery-stage-", dir=output_root))
     try:
         for name, value in artifacts.items():
@@ -250,7 +254,8 @@ def _verify_discovery_index(
             connection.close()
 
     indexed = {row["name"]: row for row in rows}
-    for name in DISCOVERY_ARTIFACTS:
+    required = (*DISCOVERY_ARTIFACTS, SCAN_ARTIFACT) if (run_root / SCAN_ARTIFACT).is_file() else DISCOVERY_ARTIFACTS
+    for name in required:
         row = indexed.get(name)
         if row is None:
             raise ValueError(f"DISCOVERY_INDEX_ARTIFACT_MISSING: {name}")
@@ -312,6 +317,11 @@ def _load_discovery_envelope(run_root: Path) -> DiscoveryIR:
         },
     )
     _verify_discovery_index(run_root, expected_run_id, snapshot_digest)
+    if discovery.snapshot.scan_policy_id.startswith("workspace-bounded-v1:"):
+        _require_equal(
+            SCAN_ARTIFACT, _read_json(run_root, SCAN_ARTIFACT),
+            scan_coverage(discovery.inventory, discovery.snapshot.scan_policy_id),
+        )
     return discovery
 
 

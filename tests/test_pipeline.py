@@ -222,7 +222,7 @@ class PipelineTests(unittest.TestCase):
                     "SELECT name FROM artifacts WHERE run_id = ? ORDER BY name",
                     (run_root.name,),
                 ).fetchall()
-            self.assertEqual([row[0] for row in rows], sorted(DISCOVERY_ARTIFACTS))
+            self.assertEqual([row[0] for row in rows], sorted((*DISCOVERY_ARTIFACTS, "scan.json")))
 
     def test_codex_plugin_adapter_and_manifest(self) -> None:
         discovery = discover(ROOT / "fixtures/multi_cli")

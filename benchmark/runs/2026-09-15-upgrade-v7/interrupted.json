@@ -1,0 +1,2301 @@
+{
+  "exit_code": 143,
+  "format": "r2s-interrupted-measurement-v1",
+  "measurement_lock": {
+    "identity": {
+      "compiler_files": {
+        "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+        "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+        "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+        "src/r2s/analyzers.py": "9cd4d98d48a8fdae52d7cf479386adc6555df4f6cbc7397bcfb84e7fc21dcd58",
+        "src/r2s/bundle_contracts.py": "9c135846dfe8eabd1a1281405a5fb7438b87263eb14e9a07095a802c3b3d8cb1",
+        "src/r2s/bundle_validation.py": "f80cf143e74865b18b2094a47fa5f7aa1ac79f490d9c73409da2945a918094c9",
+        "src/r2s/cli.py": "5be276241860fe8785739b8f50db3a37fbb8e97f63d5e1af71ad698bbcd229d6",
+        "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+        "src/r2s/compilation.py": "1e585ac19c07dc64e7da76b498bf3e76fe050ffd9d00db43ca0c6b2165174c33",
+        "src/r2s/compiler_identity.py": "29b054b059ebbfa1cdf25e38794557c2872e4f242a9c63bbfa6f7e5ba1ff8a13",
+        "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+        "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+        "src/r2s/discovery_contract.py": "04ec4a41526fa0aff90ec0b155bf20abfa0df3ea7c1e203df7d9df7615ad9249",
+        "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+        "src/r2s/documents.py": "c5b880ce2796a0300c4bc54191a5d843a30d8ba052a09934a4ecc69cd34ef68e",
+        "src/r2s/domain.py": "6d076d60e4885c9cc21c8c29a51a49bc39c4015ad868b8095a41ec80b3891f40",
+        "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+        "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+        "src/r2s/fact_contracts.py": "577e46da6cd85c2919a092e2ced2ef62f29dd4211f5c9968be22aae48a285a38",
+        "src/r2s/generator.py": "b0e669aa3bad9588f3efe0fa74d6d47abf8008772701f442688bc5dc72a4a88d",
+        "src/r2s/go_analyzer.py": "8e71ce35143e0bcbe3218115761083879bb66c273d81367bb68f5aee506cfb70",
+        "src/r2s/javascript_analyzer.py": "fa56e7fc2f9a5d8e8b0ec20407309d8227fcc7625878473ed2f5ea1a5e803f8c",
+        "src/r2s/migration.py": "b27ab4dbd3cf4cde6a87457d0a7e24d0308f2f834fd1b0fef4161c6b831bcc32",
+        "src/r2s/planner.py": "9af04fb0cffc253bcf21f1a6245ffb4bbbefca24e4e1a668f96364c758841cae",
+        "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+        "src/r2s/python_bindings.py": "9380c79e4dac608675f5dfca7a186bdeda77407efe2f75517c01f7970fcc4c5e",
+        "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+        "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+        "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+        "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+        "src/r2s/storage.py": "1c8af510d313d8ee0654ef0a1d5b3bb7fab18c03f20cef6e404a4627ca669bdf",
+        "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+        "src/r2s/ui.py": "139ca4d47995cc67d9268a8a595bbd2b79bad42690a0181b1ef4eca3ba1bc9ee"
+      },
+      "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+      "dependencies": {
+        "PyYAML": "6.0.3",
+        "jinja2": "3.1.6",
+        "pydantic": "2.13.5",
+        "pydantic-core": "2.46.5"
+      },
+      "harness_files": {
+        "scripts/measurement_identity.py": "ca489afd5104821a4ecf39f55dfd26c3ec51c57bbe07fe958745c819ae4dfc36",
+        "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+        "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+      }
+    },
+    "metadata_sha256": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "platform": "Linux-5.15.0-191-generic-x86_64-with-glibc2.35",
+    "python": "3.12.14",
+    "started_at": "2026-09-15T17:06:52.447870+00:00"
+  },
+  "partial_results": [
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 6110522,
+        "files": 482,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "eb47adf6f29f85c44af06cf0afdcbf580d426fb6891216df51c571b4980192f8",
+        "skipped_links": []
+      },
+      "attempted": true,
+      "bundle_files": [
+        {
+          "bytes": 2958,
+          "path": "portable/black/PROVENANCE.json",
+          "sha256": "b9c8c20f00dc53679becbe09c2abd57babe19b199f57fb7d70bb7fea2a2df574"
+        },
+        {
+          "bytes": 903,
+          "path": "portable/black/SKILL.md",
+          "sha256": "23e1da82ddc15934f316d129c2265e50664adae6f8a0e78ccfd90e03b105481e"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/black/BUNDLE.lock.json",
+          "sha256": "e34d1d9c6784c1e3d4998795bb7789b86d4560e5709918101a9593f43d64bef6"
+        },
+        {
+          "bytes": 257,
+          "path": "portable/black/references/provenance.md",
+          "sha256": "5906a5d82e60bd729cb71017e18da6f9a9262ce5afa868e1e4132162f0304b38"
+        },
+        {
+          "bytes": 191,
+          "path": "portable/black/references/cli.md",
+          "sha256": "7ceb93a7721edf791d63379d1ead3b11333911c8e92b3729f318b489296a66d0"
+        },
+        {
+          "bytes": 2976,
+          "path": "portable/blackd/PROVENANCE.json",
+          "sha256": "a9a2cc5a8c6e6e1c5ed356b8464786ea7e7a4091274e54c06776aa8af98a5a90"
+        },
+        {
+          "bytes": 907,
+          "path": "portable/blackd/SKILL.md",
+          "sha256": "ac00d2b1358ad818e4f40d4375308378d0db2d0f3e777ba150dfa9b65fa55f81"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/blackd/BUNDLE.lock.json",
+          "sha256": "65ff3b27690d5f24b375f4df2ea4294d1d767447e24641259de282b12c5063c8"
+        },
+        {
+          "bytes": 257,
+          "path": "portable/blackd/references/provenance.md",
+          "sha256": "1478dbd65c5d97b02ef0b88996fd14438a6a9e9974c239bcd3ba9fa38a6e4b15"
+        },
+        {
+          "bytes": 192,
+          "path": "portable/blackd/references/cli.md",
+          "sha256": "1993191d12d73d508b7d40f001faaa5655911d2dc90b20c45702f21d74f37466"
+        }
+      ],
+      "bundles": 2,
+      "capabilities": 2,
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+      "completed": true,
+      "elapsed_seconds": 0.782,
+      "facts": [
+        {
+          "emitted": true,
+          "id": "cl_c9d3b2e911b5966dbc3c",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+              "confidence": 1.0,
+              "content_sha256": "19235ff95aeb5b7af2ced4819af7330b222bb9fd00fc4f5e8d5f83a160ab466a",
+              "end_line": 8,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.black",
+              "start_line": 8,
+              "verified_hash_and_pin": true
+            },
+            {
+              "blob_sha": null,
+              "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+              "confidence": 1.0,
+              "content_sha256": "12e5c6a885f1c24ef273eb7feff827ad171e40257b2bdee728b30d78256ed718",
+              "end_line": 1718,
+              "extractor": "python-ast@2",
+              "path": "src/black/__init__.py",
+              "pointer": "ast:symbol:patched_main",
+              "start_line": 1710,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "black",
+            "target": "black:patched_main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_bc69c68e460b6d5ddf35",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+              "confidence": 1.0,
+              "content_sha256": "19235ff95aeb5b7af2ced4819af7330b222bb9fd00fc4f5e8d5f83a160ab466a",
+              "end_line": 111,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.blackd",
+              "start_line": 111,
+              "verified_hash_and_pin": true
+            },
+            {
+              "blob_sha": null,
+              "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+              "confidence": 1.0,
+              "content_sha256": "b1c7a34f5c3bf8423fbcd6ee8d7f5256d0e8a5066150b9d25d87abb60c65031b",
+              "end_line": 332,
+              "extractor": "python-ast@2",
+              "path": "src/blackd/__init__.py",
+              "pointer": "ast:symbol:patched_main",
+              "start_line": 330,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "blackd",
+            "target": "blackd:patched_main"
+          }
+        }
+      ],
+      "files_scanned": 482,
+      "findings": [],
+      "id": "black",
+      "language": "Python",
+      "languages_detected": [
+        "python"
+      ],
+      "license": "MIT",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "9cd4d98d48a8fdae52d7cf479386adc6555df4f6cbc7397bcfb84e7fc21dcd58",
+          "src/r2s/bundle_contracts.py": "9c135846dfe8eabd1a1281405a5fb7438b87263eb14e9a07095a802c3b3d8cb1",
+          "src/r2s/bundle_validation.py": "f80cf143e74865b18b2094a47fa5f7aa1ac79f490d9c73409da2945a918094c9",
+          "src/r2s/cli.py": "5be276241860fe8785739b8f50db3a37fbb8e97f63d5e1af71ad698bbcd229d6",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/compilation.py": "1e585ac19c07dc64e7da76b498bf3e76fe050ffd9d00db43ca0c6b2165174c33",
+          "src/r2s/compiler_identity.py": "29b054b059ebbfa1cdf25e38794557c2872e4f242a9c63bbfa6f7e5ba1ff8a13",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "04ec4a41526fa0aff90ec0b155bf20abfa0df3ea7c1e203df7d9df7615ad9249",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "c5b880ce2796a0300c4bc54191a5d843a30d8ba052a09934a4ecc69cd34ef68e",
+          "src/r2s/domain.py": "6d076d60e4885c9cc21c8c29a51a49bc39c4015ad868b8095a41ec80b3891f40",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "577e46da6cd85c2919a092e2ced2ef62f29dd4211f5c9968be22aae48a285a38",
+          "src/r2s/generator.py": "b0e669aa3bad9588f3efe0fa74d6d47abf8008772701f442688bc5dc72a4a88d",
+          "src/r2s/go_analyzer.py": "8e71ce35143e0bcbe3218115761083879bb66c273d81367bb68f5aee506cfb70",
+          "src/r2s/javascript_analyzer.py": "fa56e7fc2f9a5d8e8b0ec20407309d8227fcc7625878473ed2f5ea1a5e803f8c",
+          "src/r2s/migration.py": "b27ab4dbd3cf4cde6a87457d0a7e24d0308f2f834fd1b0fef4161c6b831bcc32",
+          "src/r2s/planner.py": "9af04fb0cffc253bcf21f1a6245ffb4bbbefca24e4e1a668f96364c758841cae",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_bindings.py": "9380c79e4dac608675f5dfca7a186bdeda77407efe2f75517c01f7970fcc4c5e",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/storage.py": "1c8af510d313d8ee0654ef0a1d5b3bb7fab18c03f20cef6e404a4627ca669bdf",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "139ca4d47995cc67d9268a8a595bbd2b79bad42690a0181b1ef4eca3ba1bc9ee"
+        },
+        "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "ca489afd5104821a4ecf39f55dfd26c3ec51c57bbe07fe958745c819ae4dfc36",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "psf/black",
+      "repository_types": [
+        "cli"
+      ],
+      "scan": {
+        "analyzed_files": 480,
+        "budget_reasons": {},
+        "budget_skipped_files": 0,
+        "complete_within_policy": true,
+        "content_bytes_read": 6110522,
+        "content_files_read": 482,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 482,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 436,
+            "hashed_bytes": 6109368,
+            "hashed_files": 438,
+            "inventory_entries": 438,
+            "root": "."
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 168,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "docs/compatible_configs/flake8"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 105,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "docs/compatible_configs/isort"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 162,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "docs/compatible_configs/pycodestyle"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 104,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "docs/compatible_configs/pylint"
+          },
+          {
+            "analyzed_files": 14,
+            "hashed_bytes": 128,
+            "hashed_files": 14,
+            "inventory_entries": 14,
+            "root": "tests/data/include_exclude_tests"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 91,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/data/invalid_gitignore_tests"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 91,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "tests/data/invalid_nested_gitignore_tests"
+          },
+          {
+            "analyzed_files": 10,
+            "hashed_bytes": 305,
+            "hashed_files": 10,
+            "inventory_entries": 10,
+            "root": "tests/data/nested_gitignore_tests"
+          }
+        ]
+      },
+      "set": "core",
+      "stars_at_benchmark": 41842,
+      "status": "STATIC_READY",
+      "tier": "A",
+      "tree_sha256": "6a2e471cb9995cb726f99ce6009b295786d623790671e80f4fccb996e5baccaf"
+    },
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 19749966,
+        "files": 553,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "ff350d1e0052136c093b0162908821d213a57a863cc8498c99fac5cc82d661a6",
+        "skipped_links": []
+      },
+      "attempted": true,
+      "bundle_files": [],
+      "bundles": 0,
+      "capabilities": 0,
+      "commit_sha": "9d8f9a372cc5916fd4781fec207ced7ddac2f08f",
+      "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+      "completed": true,
+      "elapsed_seconds": 0.74,
+      "facts": [],
+      "files_scanned": 553,
+      "findings": [
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Content budget excluded 2 files; affected paths and reasons remain in the inventory. Unscanned capabilities are unknown.",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "NO_ACTIONABLE_CAPABILITY",
+          "message": "No supported CLI entrypoint was found",
+          "path": null,
+          "severity": "error"
+        }
+      ],
+      "id": "rich",
+      "language": "Python",
+      "languages_detected": [
+        "python"
+      ],
+      "license": "MIT",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "9cd4d98d48a8fdae52d7cf479386adc6555df4f6cbc7397bcfb84e7fc21dcd58",
+          "src/r2s/bundle_contracts.py": "9c135846dfe8eabd1a1281405a5fb7438b87263eb14e9a07095a802c3b3d8cb1",
+          "src/r2s/bundle_validation.py": "f80cf143e74865b18b2094a47fa5f7aa1ac79f490d9c73409da2945a918094c9",
+          "src/r2s/cli.py": "5be276241860fe8785739b8f50db3a37fbb8e97f63d5e1af71ad698bbcd229d6",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/compilation.py": "1e585ac19c07dc64e7da76b498bf3e76fe050ffd9d00db43ca0c6b2165174c33",
+          "src/r2s/compiler_identity.py": "29b054b059ebbfa1cdf25e38794557c2872e4f242a9c63bbfa6f7e5ba1ff8a13",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "04ec4a41526fa0aff90ec0b155bf20abfa0df3ea7c1e203df7d9df7615ad9249",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "c5b880ce2796a0300c4bc54191a5d843a30d8ba052a09934a4ecc69cd34ef68e",
+          "src/r2s/domain.py": "6d076d60e4885c9cc21c8c29a51a49bc39c4015ad868b8095a41ec80b3891f40",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "577e46da6cd85c2919a092e2ced2ef62f29dd4211f5c9968be22aae48a285a38",
+          "src/r2s/generator.py": "b0e669aa3bad9588f3efe0fa74d6d47abf8008772701f442688bc5dc72a4a88d",
+          "src/r2s/go_analyzer.py": "8e71ce35143e0bcbe3218115761083879bb66c273d81367bb68f5aee506cfb70",
+          "src/r2s/javascript_analyzer.py": "fa56e7fc2f9a5d8e8b0ec20407309d8227fcc7625878473ed2f5ea1a5e803f8c",
+          "src/r2s/migration.py": "b27ab4dbd3cf4cde6a87457d0a7e24d0308f2f834fd1b0fef4161c6b831bcc32",
+          "src/r2s/planner.py": "9af04fb0cffc253bcf21f1a6245ffb4bbbefca24e4e1a668f96364c758841cae",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_bindings.py": "9380c79e4dac608675f5dfca7a186bdeda77407efe2f75517c01f7970fcc4c5e",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/storage.py": "1c8af510d313d8ee0654ef0a1d5b3bb7fab18c03f20cef6e404a4627ca669bdf",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "139ca4d47995cc67d9268a8a595bbd2b79bad42690a0181b1ef4eca3ba1bc9ee"
+        },
+        "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "ca489afd5104821a4ecf39f55dfd26c3ec51c57bbe07fe958745c819ae4dfc36",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "Textualize/rich",
+      "repository_types": [
+        "library"
+      ],
+      "scan": {
+        "analyzed_files": 532,
+        "budget_reasons": {
+          "FILE_TOO_LARGE": 2
+        },
+        "budget_skipped_files": 2,
+        "complete_within_policy": false,
+        "content_bytes_read": 14739607,
+        "content_files_read": 551,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 553,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 532,
+            "budget_skipped_files": 2,
+            "hashed_bytes": 14739607,
+            "hashed_files": 551,
+            "inventory_entries": 553,
+            "root": "."
+          }
+        ]
+      },
+      "set": "core",
+      "stars_at_benchmark": 57363,
+      "status": "REVIEW_REQUIRED",
+      "tier": "A",
+      "tree_sha256": "a3d7fdcf3cb2a404468b94a4b30f2a4c66a976bba02c8efd906052e0a32d1fa7"
+    },
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 12360660,
+        "files": 1239,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "7ce24ecd30a8a22505638f2766385faa1f5b926f5b50243a94b943ed3f27ed13",
+        "skipped_links": []
+      },
+      "attempted": true,
+      "bundle_files": [
+        {
+          "bytes": 2923,
+          "path": "portable/yt-dlp/PROVENANCE.json",
+          "sha256": "805ce9b64b48cad95091f794e6730ab1abfa040f1ef089d36f728ae390e87b70"
+        },
+        {
+          "bytes": 907,
+          "path": "portable/yt-dlp/SKILL.md",
+          "sha256": "31195c1f454441e3b8b1f348fc3505980fc2cca76dc26313f8ac22ddd01942dc"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/yt-dlp/BUNDLE.lock.json",
+          "sha256": "2210e8a641a1d49a74f72a9218aa877c3a45ed4ba03b81ed9d9850ad4f6d0423"
+        },
+        {
+          "bytes": 257,
+          "path": "portable/yt-dlp/references/provenance.md",
+          "sha256": "2b8a62f3fc1d65d1bbbae65ca1134d6c85bec7fe51c2726ca1b15fe396db2721"
+        },
+        {
+          "bytes": 192,
+          "path": "portable/yt-dlp/references/cli.md",
+          "sha256": "bdff4d7f794f047e8d7b58af427d52b1b1ecd0338a6558f19294a74fd9c3b5ff"
+        }
+      ],
+      "bundles": 1,
+      "capabilities": 1,
+      "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+      "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+      "completed": true,
+      "elapsed_seconds": 1.508,
+      "facts": [
+        {
+          "emitted": true,
+          "id": "cl_33078114337c933442a0",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+              "confidence": 1.0,
+              "content_sha256": "52966ad39751ddd50157a1bf9b3ba508c438bce6ef732991b63ef49a0be114fc",
+              "end_line": 6,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.yt-dlp",
+              "start_line": 6,
+              "verified_hash_and_pin": true
+            },
+            {
+              "blob_sha": null,
+              "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+              "confidence": 1.0,
+              "content_sha256": "aa2c9cf5a6f2e1d97efb6ee13ddce83cacce4bef7d6bdc15e5b5f53af90bb902",
+              "end_line": 1093,
+              "extractor": "python-ast@2",
+              "path": "yt_dlp/__init__.py",
+              "pointer": "ast:symbol:main",
+              "start_line": 1077,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "yt-dlp",
+            "target": "yt_dlp:main"
+          }
+        }
+      ],
+      "files_scanned": 1235,
+      "findings": [
+        {
+          "code": "SENSITIVE_INPUT_SKIPPED",
+          "message": "Skipped 1 sensitive path(s) under the active scan policy",
+          "path": null,
+          "severity": "warning"
+        }
+      ],
+      "id": "yt-dlp",
+      "language": "Python",
+      "languages_detected": [
+        "python"
+      ],
+      "license": "Unlicense",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "9cd4d98d48a8fdae52d7cf479386adc6555df4f6cbc7397bcfb84e7fc21dcd58",
+          "src/r2s/bundle_contracts.py": "9c135846dfe8eabd1a1281405a5fb7438b87263eb14e9a07095a802c3b3d8cb1",
+          "src/r2s/bundle_validation.py": "f80cf143e74865b18b2094a47fa5f7aa1ac79f490d9c73409da2945a918094c9",
+          "src/r2s/cli.py": "5be276241860fe8785739b8f50db3a37fbb8e97f63d5e1af71ad698bbcd229d6",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/compilation.py": "1e585ac19c07dc64e7da76b498bf3e76fe050ffd9d00db43ca0c6b2165174c33",
+          "src/r2s/compiler_identity.py": "29b054b059ebbfa1cdf25e38794557c2872e4f242a9c63bbfa6f7e5ba1ff8a13",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "04ec4a41526fa0aff90ec0b155bf20abfa0df3ea7c1e203df7d9df7615ad9249",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "c5b880ce2796a0300c4bc54191a5d843a30d8ba052a09934a4ecc69cd34ef68e",
+          "src/r2s/domain.py": "6d076d60e4885c9cc21c8c29a51a49bc39c4015ad868b8095a41ec80b3891f40",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "577e46da6cd85c2919a092e2ced2ef62f29dd4211f5c9968be22aae48a285a38",
+          "src/r2s/generator.py": "b0e669aa3bad9588f3efe0fa74d6d47abf8008772701f442688bc5dc72a4a88d",
+          "src/r2s/go_analyzer.py": "8e71ce35143e0bcbe3218115761083879bb66c273d81367bb68f5aee506cfb70",
+          "src/r2s/javascript_analyzer.py": "fa56e7fc2f9a5d8e8b0ec20407309d8227fcc7625878473ed2f5ea1a5e803f8c",
+          "src/r2s/migration.py": "b27ab4dbd3cf4cde6a87457d0a7e24d0308f2f834fd1b0fef4161c6b831bcc32",
+          "src/r2s/planner.py": "9af04fb0cffc253bcf21f1a6245ffb4bbbefca24e4e1a668f96364c758841cae",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_bindings.py": "9380c79e4dac608675f5dfca7a186bdeda77407efe2f75517c01f7970fcc4c5e",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/storage.py": "1c8af510d313d8ee0654ef0a1d5b3bb7fab18c03f20cef6e404a4627ca669bdf",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "139ca4d47995cc67d9268a8a595bbd2b79bad42690a0181b1ef4eca3ba1bc9ee"
+        },
+        "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "ca489afd5104821a4ecf39f55dfd26c3ec51c57bbe07fe958745c819ae4dfc36",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "yt-dlp/yt-dlp",
+      "repository_types": [
+        "cli"
+      ],
+      "scan": {
+        "analyzed_files": 1232,
+        "budget_reasons": {},
+        "budget_skipped_files": 0,
+        "complete_within_policy": true,
+        "content_bytes_read": 12345988,
+        "content_files_read": 1234,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 1235,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 1232,
+            "hashed_bytes": 12345820,
+            "hashed_files": 1233,
+            "inventory_entries": 1235,
+            "root": "."
+          }
+        ]
+      },
+      "set": "core",
+      "stars_at_benchmark": 191182,
+      "status": "STATIC_READY",
+      "tier": "A",
+      "tree_sha256": "6419df1419a4d5cde7ea7c7c9c5b1625d55ba086344e6ec25e687a68424831a6"
+    },
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 8788562,
+        "files": 1012,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "6ecf3f9e5d639cef4116b6d8685d43cb1ccb36489d4e0964ecbc84311f3a8ffe",
+        "skipped_links": []
+      },
+      "attempted": true,
+      "bundle_files": [
+        {
+          "bytes": 3043,
+          "path": "portable/poetry/PROVENANCE.json",
+          "sha256": "5fc89f9b831297680fac8e8a466a98c1153a6c0645d340b215a6a4c9d8d09682"
+        },
+        {
+          "bytes": 907,
+          "path": "portable/poetry/SKILL.md",
+          "sha256": "dab0de62d480331109501055c71336c6805a2ba467ef34758b3ac775701495f1"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/poetry/BUNDLE.lock.json",
+          "sha256": "fdbf969c30103870275b8ca699691db36e7ed2edfe5c037611b87a014b09d963"
+        },
+        {
+          "bytes": 257,
+          "path": "portable/poetry/references/provenance.md",
+          "sha256": "a12c4a77c81061e5da4a54408745a2b80528065f9d036250357bd5abded4e30b"
+        },
+        {
+          "bytes": 192,
+          "path": "portable/poetry/references/cli.md",
+          "sha256": "5520846308d51bb29095a5bfc4d04e14fce523569ce028f2e6a062aef541dc0b"
+        }
+      ],
+      "bundles": 1,
+      "capabilities": 1,
+      "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+      "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+      "completed": true,
+      "elapsed_seconds": 1.513,
+      "facts": [
+        {
+          "emitted": true,
+          "id": "cl_35fcf4648f9aabe18fca",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+              "confidence": 1.0,
+              "content_sha256": "2fe617655c8c9a9915564b426d159cdce3ad72ea2c86e70503e628747f584855",
+              "end_line": 2,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.poetry",
+              "start_line": 2,
+              "verified_hash_and_pin": true
+            },
+            {
+              "blob_sha": null,
+              "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+              "confidence": 1.0,
+              "content_sha256": "3a3a5b97307bef12237def649ea8a3cfc2acf8571e57adabcdd308f6360de284",
+              "end_line": 651,
+              "extractor": "python-ast@2",
+              "path": "src/poetry/console/application.py",
+              "pointer": "ast:symbol:main",
+              "start_line": 649,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "poetry",
+            "target": "poetry.console.application:main"
+          }
+        }
+      ],
+      "files_scanned": 1009,
+      "findings": [],
+      "id": "poetry",
+      "language": "Python",
+      "languages_detected": [
+        "python"
+      ],
+      "license": "MIT",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "9cd4d98d48a8fdae52d7cf479386adc6555df4f6cbc7397bcfb84e7fc21dcd58",
+          "src/r2s/bundle_contracts.py": "9c135846dfe8eabd1a1281405a5fb7438b87263eb14e9a07095a802c3b3d8cb1",
+          "src/r2s/bundle_validation.py": "f80cf143e74865b18b2094a47fa5f7aa1ac79f490d9c73409da2945a918094c9",
+          "src/r2s/cli.py": "5be276241860fe8785739b8f50db3a37fbb8e97f63d5e1af71ad698bbcd229d6",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/compilation.py": "1e585ac19c07dc64e7da76b498bf3e76fe050ffd9d00db43ca0c6b2165174c33",
+          "src/r2s/compiler_identity.py": "29b054b059ebbfa1cdf25e38794557c2872e4f242a9c63bbfa6f7e5ba1ff8a13",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "04ec4a41526fa0aff90ec0b155bf20abfa0df3ea7c1e203df7d9df7615ad9249",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "c5b880ce2796a0300c4bc54191a5d843a30d8ba052a09934a4ecc69cd34ef68e",
+          "src/r2s/domain.py": "6d076d60e4885c9cc21c8c29a51a49bc39c4015ad868b8095a41ec80b3891f40",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "577e46da6cd85c2919a092e2ced2ef62f29dd4211f5c9968be22aae48a285a38",
+          "src/r2s/generator.py": "b0e669aa3bad9588f3efe0fa74d6d47abf8008772701f442688bc5dc72a4a88d",
+          "src/r2s/go_analyzer.py": "8e71ce35143e0bcbe3218115761083879bb66c273d81367bb68f5aee506cfb70",
+          "src/r2s/javascript_analyzer.py": "fa56e7fc2f9a5d8e8b0ec20407309d8227fcc7625878473ed2f5ea1a5e803f8c",
+          "src/r2s/migration.py": "b27ab4dbd3cf4cde6a87457d0a7e24d0308f2f834fd1b0fef4161c6b831bcc32",
+          "src/r2s/planner.py": "9af04fb0cffc253bcf21f1a6245ffb4bbbefca24e4e1a668f96364c758841cae",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_bindings.py": "9380c79e4dac608675f5dfca7a186bdeda77407efe2f75517c01f7970fcc4c5e",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/storage.py": "1c8af510d313d8ee0654ef0a1d5b3bb7fab18c03f20cef6e404a4627ca669bdf",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "139ca4d47995cc67d9268a8a595bbd2b79bad42690a0181b1ef4eca3ba1bc9ee"
+        },
+        "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "ca489afd5104821a4ecf39f55dfd26c3ec51c57bbe07fe958745c819ae4dfc36",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "python-poetry/poetry",
+      "repository_types": [
+        "cli"
+      ],
+      "scan": {
+        "analyzed_files": 922,
+        "budget_reasons": {},
+        "budget_skipped_files": 0,
+        "complete_within_policy": true,
+        "content_bytes_read": 8772264,
+        "content_files_read": 1005,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 1009,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 708,
+            "hashed_bytes": 8698406,
+            "hashed_files": 791,
+            "inventory_entries": 792,
+            "root": "."
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 751,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/bad_scripts_project/no_colon"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 749,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/bad_scripts_project/too_many_colon"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 341,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/build_constraints"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 88,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/build_constraints_empty"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 698,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_system_requires_not_available"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 459,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_systems/core_from_git"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 414,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_systems/core_in_range"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 408,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_systems/core_not_in_range"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 482,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_systems/has_build_script"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 378,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_systems/multiple_build_deps"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 372,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_systems/no_build_backend"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 320,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_systems/no_build_system"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 488,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/build_systems/no_core"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 640,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/deleted_directory_dependency"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 662,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/deleted_file_dependency"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 998,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/directory/project_with_transitive_directory_dependencies"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 391,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/directory/project_with_transitive_file_dependencies"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 240,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/directory/project_with_transitive_file_dependencies/inner-directory-project"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 575,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "tests/fixtures/excluded_subpackage"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 1036,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "tests/fixtures/extended_project"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 778,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "tests/fixtures/extended_project_without_setup"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 2353,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "tests/fixtures/extended_with_no_setup"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 506,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/demo/demo"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 355,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/demo/poetry-plugin"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 355,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/demo/poetry-plugin2/subdir"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 274,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/demo/prerelease"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 281,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/demo/pyproject-demo"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 244,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/demo/subdirectories/one"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 244,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/demo/subdirectories/one-copy"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 252,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/demo/subdirectories/two"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 244,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/forked_demo/subdirectories/one"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 244,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/forked_demo/subdirectories/one-copy"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 252,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/git/github.com/forked_demo/subdirectories/two"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 360,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/incompatible_lock"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 384,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/inspection/demo"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 686,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/inspection/demo_no_setup_pkg_info_no_deps"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 709,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/inspection/demo_no_setup_pkg_info_no_deps_dynamic"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 686,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/inspection/demo_no_setup_pkg_info_no_deps_for_sure"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 306,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/inspection/demo_poetry_package"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 673,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/inspection/demo_with_obsolete_egg_info"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 352,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/invalid_lock"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 780,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/invalid_pyproject"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 116,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/invalid_pyproject_dep_name"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 711,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/missing_directory_dependency"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 808,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/missing_extra_directory_dependency"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 758,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/missing_file_dependency"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 147,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/nameless_pyproject"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 349,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/no_name_project"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 174,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/non_package_mode"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 1088,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/old_lock"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 772,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/old_lock_path_dependency"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 247,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/old_lock_path_dependency/quix"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 6719,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/outdated_lock"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 211,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/private_pyproject"
+          },
+          {
+            "analyzed_files": 9,
+            "hashed_bytes": 1144,
+            "hashed_files": 9,
+            "inventory_entries": 9,
+            "root": "tests/fixtures/project_plugins"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 370,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/project_with_extras"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 887,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/project_with_git_dev_dependency"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 893,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/project_with_local_dependencies"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 400,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/project_with_multi_constraints_dependency"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 324,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/project_with_nested_local"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 264,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/project_with_nested_local/bar"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 262,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/project_with_nested_local/foo"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 221,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/project_with_nested_local/quix"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 637,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/project_with_setup_calls_script"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 383,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/pypi_reference"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 1523,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/sample_project"
+          },
+          {
+            "analyzed_files": 6,
+            "hashed_bytes": 1207,
+            "hashed_files": 6,
+            "inventory_entries": 6,
+            "root": "tests/fixtures/scripts"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 104,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/self_version_not_ok"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 124,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/self_version_not_ok_invalid_config"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 105,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/self_version_ok"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 909,
+            "hashed_files": 4,
+            "inventory_entries": 5,
+            "root": "tests/fixtures/simple_project"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 809,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "tests/fixtures/simple_project_legacy"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 6611,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/up_to_date_lock"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 6594,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/up_to_date_lock_non_package"
+          },
+          {
+            "analyzed_files": 14,
+            "hashed_bytes": 2408,
+            "hashed_files": 14,
+            "inventory_entries": 14,
+            "root": "tests/fixtures/with-include"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 257,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_conditional_path_deps"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 153,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_conditional_path_deps/demo_one"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 153,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_conditional_path_deps/demo_two"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 376,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_explicit_pypi_and_other"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 408,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_explicit_pypi_and_other_explicit"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 307,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_explicit_pypi_no_other"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 358,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_explicit_source"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 1407,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/fixtures/with_local_config"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 797,
+            "hashed_files": 3,
+            "inventory_entries": 5,
+            "root": "tests/fixtures/with_multiple_dist_dir"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 498,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "tests/fixtures/with_multiple_readme_files"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 411,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_multiple_sources"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 518,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_multiple_sources_pypi"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 437,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_multiple_supplemental_sources"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 3675,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/with_path_dependency"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 364,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_path_dependency/bazz"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 337,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_primary_source_explicit"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 316,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_primary_source_implicit"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 1427,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/fixtures/with_source"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 370,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/fixtures/with_supplemental_source"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 592,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "tests/masonry/builders/fixtures/excluded_subpackage"
+          },
+          {
+            "analyzed_files": 1,
+            "hashed_bytes": 610,
+            "hashed_files": 1,
+            "inventory_entries": 1,
+            "root": "tests/utils/fixtures"
+          }
+        ]
+      },
+      "set": "core",
+      "stars_at_benchmark": 34304,
+      "status": "STATIC_READY",
+      "tier": "A",
+      "tree_sha256": "3b1dbbd821fe2b3fb376ed4a68c47fd824a4c19d4f71233c18030bda3b5167a3"
+    },
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 2096089,
+        "files": 265,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "b17b8f906bf508bbc2fed25c02591fc01147d893cda6c3999a352012977023df",
+        "skipped_links": []
+      },
+      "attempted": true,
+      "bundle_files": [
+        {
+          "bytes": 2959,
+          "path": "portable/http/PROVENANCE.json",
+          "sha256": "93b362bcc190c345e8d23003d1fac92ac6f8dfa0b6b68b910fc6172b027c735c"
+        },
+        {
+          "bytes": 899,
+          "path": "portable/http/SKILL.md",
+          "sha256": "9320b31cf02e675ee168bc16e4391aef7b87b603dafcf2a405e405a58d5163d6"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/http/BUNDLE.lock.json",
+          "sha256": "bc1d2dac6b113bc558d905894f1b5b1b0a67b1583bd0f18f7ad1434b31493936"
+        },
+        {
+          "bytes": 257,
+          "path": "portable/http/references/provenance.md",
+          "sha256": "634462f27300d97922c573fc5ee0a7bedaac7be01e80fab78846da876dca835a"
+        },
+        {
+          "bytes": 190,
+          "path": "portable/http/references/cli.md",
+          "sha256": "2a9f58812ee4c4de2d397ea8d5a742049eb7a6b793a2284345a3f7faa069136e"
+        },
+        {
+          "bytes": 3018,
+          "path": "portable/httpie/PROVENANCE.json",
+          "sha256": "52a1a0ed336e4621b8ba0ae3daa3c47f250461de6269bf4895e9cf3aa26dfaa3"
+        },
+        {
+          "bytes": 907,
+          "path": "portable/httpie/SKILL.md",
+          "sha256": "21506aa95e77bfda20230ddb6bd28c0dd76823ef616a887ff3e6428631ffbd71"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/httpie/BUNDLE.lock.json",
+          "sha256": "bed1b4414892223aeb60ebda501d599c1f2708bb52146a5085067f98185d2468"
+        },
+        {
+          "bytes": 257,
+          "path": "portable/httpie/references/provenance.md",
+          "sha256": "816ee25d08eb06e6a85c6732c8dc99287a26dbd603c557f7c2c5b67410341e6e"
+        },
+        {
+          "bytes": 192,
+          "path": "portable/httpie/references/cli.md",
+          "sha256": "e3392c1ef968a3c1b1165e6da56d165dcd82bdcce6e1151c49de4b42edf21bed"
+        },
+        {
+          "bytes": 2964,
+          "path": "portable/https/PROVENANCE.json",
+          "sha256": "6befe5c5dc751ffd36aaa9cbb229010ce7d7ab8447a0a5e403924d19c5ddcab1"
+        },
+        {
+          "bytes": 903,
+          "path": "portable/https/SKILL.md",
+          "sha256": "8fdf281401021cfe862feb297775c1e1e36e7b9425e4942091f0f50eeb1e0ab1"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/https/BUNDLE.lock.json",
+          "sha256": "64c1fc3c59e2f5bf7b00ad23a84d8defe035f2ece31af8851d7ae9ad2dc0c97d"
+        },
+        {
+          "bytes": 257,
+          "path": "portable/https/references/provenance.md",
+          "sha256": "4a4293a07d3f1b0fa73e9c362c42352fad7cba9c2c828809e93daeaeeb088010"
+        },
+        {
+          "bytes": 191,
+          "path": "portable/https/references/cli.md",
+          "sha256": "6879e89a8c653de47e4e2ddc04c775647826112ccfc96a17f1ae28e087c4911e"
+        }
+      ],
+      "bundles": 3,
+      "capabilities": 3,
+      "commit_sha": "5b604c37c6c67e18e7c3e9aee6c88a8c22b98345",
+      "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+      "completed": true,
+      "elapsed_seconds": 0.487,
+      "facts": [
+        {
+          "emitted": true,
+          "id": "cl_87e90acb5c6f86a81156",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "5b604c37c6c67e18e7c3e9aee6c88a8c22b98345",
+              "confidence": 1.0,
+              "content_sha256": "42231fbc2916bd3fa5f21262d6c1fcbd432990d5de659bc6808b4fd6d538f029",
+              "end_line": 3,
+              "extractor": "python-manifest@2",
+              "path": "setup.cfg",
+              "pointer": "[options.entry_points].console_scripts",
+              "start_line": 3,
+              "verified_hash_and_pin": true
+            },
+            {
+              "blob_sha": null,
+              "commit_sha": "5b604c37c6c67e18e7c3e9aee6c88a8c22b98345",
+              "confidence": 1.0,
+              "content_sha256": "1f4ef5eabd7995fd48cf0fdb71d2f61582f49f2daac49d97f0055aa69b005fed",
+              "end_line": 14,
+              "extractor": "python-ast@2",
+              "path": "httpie/__main__.py",
+              "pointer": "ast:symbol:main",
+              "start_line": 6,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "http",
+            "target": "httpie.__main__:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_9dd88bac6a9809ef854d",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "5b604c37c6c67e18e7c3e9aee6c88a8c22b98345",
+              "confidence": 1.0,
+              "content_sha256": "42231fbc2916bd3fa5f21262d6c1fcbd432990d5de659bc6808b4fd6d538f029",
+              "end_line": 3,
+              "extractor": "python-manifest@2",
+              "path": "setup.cfg",
+              "pointer": "[options.entry_points].console_scripts",
+              "start_line": 3,
+              "verified_hash_and_pin": true
+            },
+            {
+              "blob_sha": null,
+              "commit_sha": "5b604c37c6c67e18e7c3e9aee6c88a8c22b98345",
+              "confidence": 1.0,
+              "content_sha256": "51f9ac8086346b87d841b5000eeeb42bfaefd95f77da3f9d19cf182a77bb8d6d",
+              "end_line": 48,
+              "extractor": "python-ast@2",
+              "path": "httpie/manager/__main__.py",
+              "pointer": "ast:symbol:main",
+              "start_line": 32,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "httpie",
+            "target": "httpie.manager.__main__:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_b0efe71e79379841ab3f",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "5b604c37c6c67e18e7c3e9aee6c88a8c22b98345",
+              "confidence": 1.0,
+              "content_sha256": "42231fbc2916bd3fa5f21262d6c1fcbd432990d5de659bc6808b4fd6d538f029",
+              "end_line": 3,
+              "extractor": "python-manifest@2",
+              "path": "setup.cfg",
+              "pointer": "[options.entry_points].console_scripts",
+              "start_line": 3,
+              "verified_hash_and_pin": true
+            },
+            {
+              "blob_sha": null,
+              "commit_sha": "5b604c37c6c67e18e7c3e9aee6c88a8c22b98345",
+              "confidence": 1.0,
+              "content_sha256": "1f4ef5eabd7995fd48cf0fdb71d2f61582f49f2daac49d97f0055aa69b005fed",
+              "end_line": 14,
+              "extractor": "python-ast@2",
+              "path": "httpie/__main__.py",
+              "pointer": "ast:symbol:main",
+              "start_line": 6,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "https",
+            "target": "httpie.__main__:main"
+          }
+        }
+      ],
+      "files_scanned": 265,
+      "findings": [],
+      "id": "httpie",
+      "language": "Python",
+      "languages_detected": [
+        "python"
+      ],
+      "license": "BSD-3-Clause",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "9cd4d98d48a8fdae52d7cf479386adc6555df4f6cbc7397bcfb84e7fc21dcd58",
+          "src/r2s/bundle_contracts.py": "9c135846dfe8eabd1a1281405a5fb7438b87263eb14e9a07095a802c3b3d8cb1",
+          "src/r2s/bundle_validation.py": "f80cf143e74865b18b2094a47fa5f7aa1ac79f490d9c73409da2945a918094c9",
+          "src/r2s/cli.py": "5be276241860fe8785739b8f50db3a37fbb8e97f63d5e1af71ad698bbcd229d6",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/compilation.py": "1e585ac19c07dc64e7da76b498bf3e76fe050ffd9d00db43ca0c6b2165174c33",
+          "src/r2s/compiler_identity.py": "29b054b059ebbfa1cdf25e38794557c2872e4f242a9c63bbfa6f7e5ba1ff8a13",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "04ec4a41526fa0aff90ec0b155bf20abfa0df3ea7c1e203df7d9df7615ad9249",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "c5b880ce2796a0300c4bc54191a5d843a30d8ba052a09934a4ecc69cd34ef68e",
+          "src/r2s/domain.py": "6d076d60e4885c9cc21c8c29a51a49bc39c4015ad868b8095a41ec80b3891f40",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "577e46da6cd85c2919a092e2ced2ef62f29dd4211f5c9968be22aae48a285a38",
+          "src/r2s/generator.py": "b0e669aa3bad9588f3efe0fa74d6d47abf8008772701f442688bc5dc72a4a88d",
+          "src/r2s/go_analyzer.py": "8e71ce35143e0bcbe3218115761083879bb66c273d81367bb68f5aee506cfb70",
+          "src/r2s/javascript_analyzer.py": "fa56e7fc2f9a5d8e8b0ec20407309d8227fcc7625878473ed2f5ea1a5e803f8c",
+          "src/r2s/migration.py": "b27ab4dbd3cf4cde6a87457d0a7e24d0308f2f834fd1b0fef4161c6b831bcc32",
+          "src/r2s/planner.py": "9af04fb0cffc253bcf21f1a6245ffb4bbbefca24e4e1a668f96364c758841cae",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_bindings.py": "9380c79e4dac608675f5dfca7a186bdeda77407efe2f75517c01f7970fcc4c5e",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/storage.py": "1c8af510d313d8ee0654ef0a1d5b3bb7fab18c03f20cef6e404a4627ca669bdf",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "139ca4d47995cc67d9268a8a595bbd2b79bad42690a0181b1ef4eca3ba1bc9ee"
+        },
+        "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "ca489afd5104821a4ecf39f55dfd26c3ec51c57bbe07fe958745c819ae4dfc36",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "httpie/cli",
+      "repository_types": [
+        "cli"
+      ],
+      "scan": {
+        "analyzed_files": 262,
+        "budget_reasons": {},
+        "budget_skipped_files": 0,
+        "complete_within_policy": true,
+        "content_bytes_read": 2096089,
+        "content_files_read": 265,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 265,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 262,
+            "hashed_bytes": 2096089,
+            "hashed_files": 265,
+            "inventory_entries": 265,
+            "root": "."
+          }
+        ]
+      },
+      "set": "core",
+      "stars_at_benchmark": 38512,
+      "status": "STATIC_READY",
+      "tier": "A",
+      "tree_sha256": "0146443ffbde1290da25adea80ceed9f79a89f9aa6c08f9a94b484c11c550089"
+    },
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 24891244,
+        "files": 9488,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "aa2915024ac6493bcaff070183b6a7f82680b9eeca9cdd076217112b3bd82e9a",
+        "skipped_links": []
+      },
+      "attempted": true,
+      "bundle_files": [
+        {
+          "bytes": 2970,
+          "path": "portable/prettier/PROVENANCE.json",
+          "sha256": "fa45fabd5af56bbb31165b2a480124cfa1b32abe1e7dd6d3f854bb310d5efb1b"
+        },
+        {
+          "bytes": 946,
+          "path": "portable/prettier/SKILL.md",
+          "sha256": "e06c4ecd60852a1546ad22bcb88f779a50fa2eb0341cf551e9aa2f424941c986"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/prettier/BUNDLE.lock.json",
+          "sha256": "c5c03c018ecfa5ed81857cec0b527de972c197e5096e381263242866899719b0"
+        },
+        {
+          "bytes": 288,
+          "path": "portable/prettier/references/provenance.md",
+          "sha256": "5b9e2a136b9aa0ebc59a3e26aa9d8ef24488d550d9ba7ec08176dd38f9d8a526"
+        },
+        {
+          "bytes": 194,
+          "path": "portable/prettier/references/cli.md",
+          "sha256": "753700d83ca6b767abe4009e857a52568f52f1e88f486141e067ef87491cb1f1"
+        }
+      ],
+      "bundles": 1,
+      "capabilities": 1,
+      "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+      "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+      "completed": true,
+      "elapsed_seconds": 11.31,
+      "facts": [
+        {
+          "emitted": true,
+          "id": "cl_3d081b84603d439fd608",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+              "confidence": 1.0,
+              "content_sha256": "95356dc885a972052cb575469ccd454c88f706ca67880b3df708035f5fca94d0",
+              "end_line": 5,
+              "extractor": "package-json@1",
+              "path": "package.json",
+              "pointer": "$.bin",
+              "start_line": 5,
+              "verified_hash_and_pin": true
+            },
+            {
+              "blob_sha": null,
+              "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+              "confidence": 0.9,
+              "content_sha256": "fc66d9686a1c666696bcaeaeb8a9070ecb978a9fadb5e82ec28b464d8b5aa808",
+              "end_line": 1,
+              "extractor": "javascript-source@1",
+              "path": "bin/prettier.cjs",
+              "pointer": "$",
+              "start_line": 1,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "prettier",
+            "role": "product",
+            "target": "bin/prettier.cjs",
+            "workspace": "."
+          }
+        }
+      ],
+      "files_scanned": 9418,
+      "findings": [
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Content budget excluded 7352 files; affected paths and reasons remain in the inventory. Unscanned capabilities are unknown.",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        }
+      ],
+      "id": "prettier",
+      "language": "JavaScript",
+      "languages_detected": [
+        "javascript",
+        "typescript"
+      ],
+      "license": "MIT",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "9cd4d98d48a8fdae52d7cf479386adc6555df4f6cbc7397bcfb84e7fc21dcd58",
+          "src/r2s/bundle_contracts.py": "9c135846dfe8eabd1a1281405a5fb7438b87263eb14e9a07095a802c3b3d8cb1",
+          "src/r2s/bundle_validation.py": "f80cf143e74865b18b2094a47fa5f7aa1ac79f490d9c73409da2945a918094c9",
+          "src/r2s/cli.py": "5be276241860fe8785739b8f50db3a37fbb8e97f63d5e1af71ad698bbcd229d6",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/compilation.py": "1e585ac19c07dc64e7da76b498bf3e76fe050ffd9d00db43ca0c6b2165174c33",
+          "src/r2s/compiler_identity.py": "29b054b059ebbfa1cdf25e38794557c2872e4f242a9c63bbfa6f7e5ba1ff8a13",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "04ec4a41526fa0aff90ec0b155bf20abfa0df3ea7c1e203df7d9df7615ad9249",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "c5b880ce2796a0300c4bc54191a5d843a30d8ba052a09934a4ecc69cd34ef68e",
+          "src/r2s/domain.py": "6d076d60e4885c9cc21c8c29a51a49bc39c4015ad868b8095a41ec80b3891f40",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "577e46da6cd85c2919a092e2ced2ef62f29dd4211f5c9968be22aae48a285a38",
+          "src/r2s/generator.py": "b0e669aa3bad9588f3efe0fa74d6d47abf8008772701f442688bc5dc72a4a88d",
+          "src/r2s/go_analyzer.py": "8e71ce35143e0bcbe3218115761083879bb66c273d81367bb68f5aee506cfb70",
+          "src/r2s/javascript_analyzer.py": "fa56e7fc2f9a5d8e8b0ec20407309d8227fcc7625878473ed2f5ea1a5e803f8c",
+          "src/r2s/migration.py": "b27ab4dbd3cf4cde6a87457d0a7e24d0308f2f834fd1b0fef4161c6b831bcc32",
+          "src/r2s/planner.py": "9af04fb0cffc253bcf21f1a6245ffb4bbbefca24e4e1a668f96364c758841cae",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_bindings.py": "9380c79e4dac608675f5dfca7a186bdeda77407efe2f75517c01f7970fcc4c5e",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/storage.py": "1c8af510d313d8ee0654ef0a1d5b3bb7fab18c03f20cef6e404a4627ca669bdf",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "139ca4d47995cc67d9268a8a595bbd2b79bad42690a0181b1ef4eca3ba1bc9ee"
+        },
+        "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "ca489afd5104821a4ecf39f55dfd26c3ec51c57bbe07fe958745c819ae4dfc36",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "prettier/prettier",
+      "repository_types": [
+        "cli",
+        "library"
+      ],
+      "scan": {
+        "analyzed_files": 1971,
+        "budget_reasons": {
+          "FILE_TOO_LARGE": 1,
+          "ROLE_FILE_BUDGET": 7351
+        },
+        "budget_skipped_files": 7352,
+        "complete_within_policy": false,
+        "content_bytes_read": 6626031,
+        "content_files_read": 2054,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 9418,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 1647,
+            "budget_skipped_files": 7350,
+            "hashed_bytes": 2656259,
+            "hashed_files": 1647,
+            "inventory_entries": 9005,
+            "root": "."
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 2893,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "packages/plugin-hermes"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 3052,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "packages/plugin-oxc"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 3079,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "packages/plugin-yuku"
+          },
+          {
+            "analyzed_files": 28,
+            "hashed_bytes": 41777,
+            "hashed_files": 28,
+            "inventory_entries": 28,
+            "root": "scripts/release"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 26461,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "scripts/tools/bundle-test"
+          },
+          {
+            "analyzed_files": 25,
+            "hashed_bytes": 81369,
+            "hashed_files": 25,
+            "inventory_entries": 25,
+            "root": "scripts/tools/eslint-plugin-prettier-internal-rules"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 974,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/config/prettier-plugins/prettier-plugin-async-printer"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 560,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/config/prettier-plugins/prettier-plugin-dummy-toml"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 448,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/config/prettier-plugins/prettier-plugin-missing-comments"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 416,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/config/prettier-plugins/prettier-plugin-uppercase-rocks"
+          },
+          {
+            "analyzed_files": 1,
+            "budget_skipped_files": 1,
+            "hashed_bytes": 84,
+            "hashed_files": 1,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/cache"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 136,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config-external-config-syntax-error"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 81,
+            "hashed_files": 2,
+            "inventory_entries": 3,
+            "root": "tests/integration/cli/config/external-config/cjs-package"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 177,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "tests/integration/cli/config/external-config/esm-file"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 81,
+            "hashed_files": 2,
+            "inventory_entries": 3,
+            "root": "tests/integration/cli/config/external-config/esm-package"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 88,
+            "hashed_files": 2,
+            "inventory_entries": 3,
+            "root": "tests/integration/cli/config/external-config/esm-package-forbids-require"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 81,
+            "hashed_files": 2,
+            "inventory_entries": 3,
+            "root": "tests/integration/cli/config/external-config/esm-package-with-tla"
+          },
+          {
+            "analyzed_files": 3,
+            "budget_skipped_files": 1,
+            "hashed_bytes": 404,
+            "hashed_files": 3,
+            "inventory_entries": 4,
+            "root": "tests/integration/cli/config/package"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 163,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-cjs/prettier-config-cjs-in-type-commonjs"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 159,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-cjs/prettier-config-cjs-in-type-module"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 137,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-cjs/prettier-config-cjs-in-type-none"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 158,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-cjs/prettierrc-cjs-in-type-commonjs"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 154,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-cjs/prettierrc-cjs-in-type-module"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 132,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-cjs/prettierrc-cjs-in-type-none"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 181,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/cjs-prettier-config-js-in-type-commonjs"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 162,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/cjs-prettier-config-js-in-type-module"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 155,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/cjs-prettier-config-js-in-type-none"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 176,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/cjs-prettierrc-js-in-type-commonjs"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 172,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/cjs-prettierrc-js-in-type-module"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 146,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/cjs-prettierrc-js-in-type-none"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 164,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/mjs-prettier-config-js-in-type-commonjs"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 160,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/mjs-prettier-config-js-in-type-module"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 138,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/mjs-prettier-config-js-in-type-none"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 159,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/mjs-prettierrc-js-in-type-commonjs"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 155,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/mjs-prettierrc-js-in-type-module"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 133,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-js/mjs-prettierrc-js-in-type-none"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 161,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-mjs/prettier-config-mjs-in-type-commonjs"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 157,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-mjs/prettier-config-mjs-in-type-module"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 135,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-mjs/prettier-config-mjs-in-type-none"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 156,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-mjs/prettierrc-mjs-in-type-commonjs"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 152,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-mjs/prettierrc-mjs-in-type-module"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 130,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "tests/integration/cli/config/rc-mjs/prettierrc-mjs-in-type-none"
+          },
+          {
+            "analyzed_files": 183,
+            "hashed_bytes": 3803916,
+            "hashed_files": 266,
+            "inventory_entries": 266,
+            "root": "website"
+          }
+        ]
+      },
+      "set": "core",
+      "stars_at_benchmark": 52263,
+      "status": "REVIEW_REQUIRED",
+      "tier": "A",
+      "tree_sha256": "7633c87b3987a1801bfb01066a29004671abfe6b3abb20af8002dfebc2081be0"
+    }
+  ],
+  "partial_results_in_headline": false,
+  "reason": "Operator cache-preparation failure: source cache was not populated before launch; downloads began. Stopped before completion, then prepared a new v8 directory with the same verified snapshots used in v6.",
+  "replacement_run": "2026-09-15-upgrade-v8",
+  "status": "INTERRUPTED",
+  "terminated_at": "2026-09-15T17:10:48.464965+00:00",
+  "work_file_hashes": {
+    "measurement.lock.json": "2967171b728f0caa218dc685f20caf24d4d0c7b965e90d741775bc598a218db0",
+    "progress.json": "992faf95e9d72eed863b2ce05bb3602c1465ee4d398ba13caa44aa2e9372a45a"
+  }
+}

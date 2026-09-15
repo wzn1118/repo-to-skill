@@ -22,6 +22,7 @@ from r2s.core import (
     write_discovery,
 )
 from r2s.generator import install_codex_plugin
+from r2s.scan_policy import scan_coverage
 from r2s.storage import compilation_root, list_runs, record_compilation, record_update
 from r2s.toml_compat import TOMLDecodeError
 
@@ -145,6 +146,7 @@ def main(argv: list[str] | None = None) -> int:
                 "languages": discovery.languages,
                 "repository_types": discovery.repository_types,
                 "findings": [asdict(item) for item in discovery.findings],
+                "scan": scan_coverage(discovery.inventory, discovery.snapshot.scan_policy_id),
             }
             if args.json:
                 print(canonical_json(inspect_result), end="")

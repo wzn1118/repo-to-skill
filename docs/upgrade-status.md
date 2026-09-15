@@ -14,7 +14,7 @@ reviewable implementation, not that the work package or release gate is passed.
 | U04 goal matching | partial | Unrelated goals produce NEEDS_INPUT/REVIEW_REQUIRED; user goal text is not emitted as a capability fact. Explicit multilingual ambiguity handling and workflow matching are pending. |
 | U05 source identity | partial | Raw byte hashes and committed Git blob IDs separated; CRLF, BOM, dirty trees and SHA-256 Git cases tested. Git filters/fsmonitor disabled. Byte-range mappings and complete snapshot attestations remain open. |
 | U06 IR v2 / migration | partial | Strict nested Discovery IR and claim-value contracts, shared schema export, graph/source consistency checks, explicit 1.2 import, actual compiler/dependency/profile cache keys and scoped generation locks implemented. Identical shared evidence is deduplicated; historical input is preserved. This retains the 1.2 wire shape: full command graph, typed extractor payloads, byte ranges and general schema migration remain pending. See [contract and import evidence](discovery-contract.md). |
-| U07 workspace scanning | partial | Existing bounded scanner and snapshot checks retained; FIFOs rejected. TypeScript/webpack still exceed file limits. Workspace budgets and product/benchmark resolver consolidation are pending. |
+| U07 workspace scanning | partial | Deterministic workspace/role content budgets, independent metadata limits, tracked-directory inclusion and scanner-gated analyzer reads implemented. Partial scans carry indexed scan.json plus bundle scope, and remain review-required through standalone validation/install. TypeScript/webpack now return partial discoveries. Resolver consolidation, complete workspace graphs, process quotas and hostile-filesystem race isolation remain pending. See [scope contract](scan-budgets.md). |
 | U08 Python command graph | pending | Current limited bindings do not provide the planned cross-file graph. |
 | U09 JS/TS command graph | pending | Manifest bin extraction and role exclusions only; AST/framework/delegation support pending. |
 | U10 Go AST/Cobra graph | pending | Lexical extraction remains; AST helper, build conditions, command inheritance and ownership pending. |
@@ -33,32 +33,36 @@ reviewable implementation, not that the work package or release gate is passed.
 
 ## Measured results
 
-The [upgrade-v6 run](../benchmark/runs/2026-09-15-upgrade-v6/report.md) runs the same 45 pinned
+The [upgrade-v8 run](../benchmark/runs/2026-09-15-upgrade-v8/report.md) runs the same 45 pinned
 repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 
-- Core: **26 STATIC_READY, 3 REVIEW_REQUIRED, 7 UNSUITABLE**; 34 completed, with TypeScript/webpack
-  scanner-limit failures retained.
-- Core cumulative stars: **1,453,404**; static star-weighted coverage **69.74%**.
-- **49 emitted facts / 49 hash-and-pin checks**. All 49 still await complete semantic review.
+- Core: **20 STATIC_READY, 10 REVIEW_REQUIRED, 6 UNSUITABLE**; all 36 Core and all 45 total runs
+  completed. TypeScript/webpack return partial discovery and remain review-required.
+- Core cumulative stars: **1,453,404**; static star-weighted coverage **53.49%**.
+- **50 emitted facts / 50 hash-and-pin checks**. All 50 still await complete semantic review.
 - Four known Go binary-name regressions match pinned source. This is a targeted regression check,
   not zero hallucination or full semantic precision.
-- **9/40 selected source facts; 1/30 static task prerequisites**. Recall is unchanged from legacy.
-- Compiler fingerprint: `2e06c783eeb7e6dd9c6da79cd9360e19e7c054735d04eaa17caff87c3293c14e`.
+- **10/40 selected source facts; 1/30 static task prerequisites**. The additional fact is the webpack
+  entrypoint. This does not establish task success or the missing webpack-cli dependency.
+- Partial scans now block static readiness, including standalone bundle validation/install. The
+  26→20 decline from v6 reflects this stricter scope gate, not a measured accuracy decline.
+- Compiler fingerprint: `56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d`.
   The runner checks compiler/harness/dependency identity before and after workers and rejects
   overwrites. Historical metadata is not refreshed when reports are rendered.
 - `upgrade-v3` is a retained preliminary run with known helper-entrypoint errors and only an
   end-of-run fingerprint. It does not represent the current compiler.
+- `upgrade-v7` was interrupted after an operator cache-preparation failure caused fresh downloads.
+  Six partial records and the interruption are retained; they do not contribute to the headline.
 
 ## Local verification
 
-**181 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
+**196 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
 covering six UI interactions. Ruff and mypy pass. See the
-[verification record](../benchmark/runs/2026-09-15-upgrade-v6/verification.json) for exact versions,
+[verification record](../benchmark/runs/2026-09-15-upgrade-v8/verification.json) for exact versions,
 hashes and scope. These controlled tests are separate from public-repository task evaluation.
 
-The installed wheel passes version, inspect, Codex build, validate, install preview, schema export
-and migration checks. Dependency downloads stalled; this check reuses the verified development
-dependencies and does not establish independent clean dependency resolution.
+The wheel verification reuses the verified development dependencies; it does not establish
+independent clean dependency resolution. Refer to the run's verification record for performed checks.
 
 Docker checks: verified Python invocation, non-root/readonly/no-host-secret isolation, timeout,
 output limit, nonzero exit and cleanup. Chromium checks: empty state, inspect, successful build,

@@ -6,6 +6,7 @@ from typing import Annotated, Literal
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, StringConstraints
 
+from r2s.contract_types import ByteCount, Text
 from r2s.domain import Claim, Evidence, Procedure, RepositorySnapshot
 
 
@@ -48,6 +49,15 @@ class SkillDocument(BaseModel):
     option_claim_ids: list[str]
 
 
+class ScanScope(BaseModel):
+    model_config = ConfigDict(strict=True, extra="forbid")
+
+    policy_id: Text
+    inventory_sha256: Sha256
+    complete_within_policy: bool | None
+    budget_skipped_files: ByteCount
+
+
 class BundleProvenance(BaseModel):
     model_config = ConfigDict(strict=True, extra="forbid")
 
@@ -59,6 +69,7 @@ class BundleProvenance(BaseModel):
     artifact_claims: dict[RelativePath, list[str]]
     claims: list[Claim]
     evidence: list[Evidence]
+    scan_scope: ScanScope | None = None
 
 
 class PluginAuthor(BaseModel):

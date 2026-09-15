@@ -1,0 +1,123 @@
+{
+  "browser": {
+    "cases_passed": 1,
+    "flows": [
+      "empty state",
+      "inspect",
+      "build",
+      "evidence",
+      "unmatched goal",
+      "source boundary"
+    ],
+    "javascript_exceptions": 0,
+    "version": "Google Chrome for Testing 153.0.8010.12"
+  },
+  "codex_manifest_validator": {
+    "client_loading": "not tested",
+    "sha256": "f4eeadb733b28b0c3e714de263a76d6542866a672f3e99bdffcf4dbcdf85e944",
+    "source": "bundled plugin-creator scripts/validate_plugin.py",
+    "status": "passed"
+  },
+  "compiler_sha256": "56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d",
+  "docker": {
+    "cases_passed": 5,
+    "image_id": "sha256:dcca26b2248580b289b0ed070712e2ccd3447e9ef93e986c2a288c8fcfa445a0",
+    "scope": [
+      "verified Python invocation",
+      "readonly/non-root/no network/no host secret",
+      "timeout",
+      "output limit",
+      "nonzero exit",
+      "container cleanup"
+    ]
+  },
+  "format": "r2s-local-verification-v2",
+  "limits": [
+    "No complete workspace/package-manager graph",
+    "No semantic accuracy or task uplift claim",
+    "Local filesystem races and process resource limits remain open",
+    "Old bundles lacking scan scope now require review"
+  ],
+  "mypy": "passed",
+  "platform": "Linux-5.15.0-191-generic-x86_64-with-glibc2.35",
+  "public_run": {
+    "completed": 45,
+    "core_completed": 36,
+    "execution": "none; static analysis only",
+    "same_45_source_pins_as_v6": true
+  },
+  "pytest": {
+    "command": "python -m pytest -q --tb=short --maxfail=3",
+    "console_summary": "196 passed, 12 subtests passed in 22.84s",
+    "failed": 0,
+    "integration_environment": [
+      "R2S_TEST_IMAGE",
+      "R2S_TEST_CHROME"
+    ],
+    "passed": 196,
+    "skipped": 0,
+    "subtests_passed": 12
+  },
+  "python": "3.12.14",
+  "ruff": "passed",
+  "scan_boundary_tests": [
+    "workspace fair allocation",
+    "global and role byte/file budgets",
+    "metadata/depth hard limits",
+    "partial scope persists in storage",
+    "missing completeness finding refused",
+    "standalone validation/install retain review",
+    "changed/excluded source reads refused",
+    "tracked ignored-directory source included",
+    "special files checked past budget",
+    "oversized secret not hashed"
+  ],
+  "scope": "Local controlled regressions, not public-repository task execution or Agent A/B",
+  "test_files": {
+    "tests/test_adapters.py": "65fa6bfa41a181b440eba10a763425f53886d0e698f76447592e83aca7cf9e3c",
+    "tests/test_benchmark_public.py": "dbf8a62635e31811b9707a99cc86f19f8bb0d54bf60573b9df50c9a7cd0a7f49",
+    "tests/test_compiler_identity.py": "b729679ef34487c123236421eb6fac04ce7ff16b4f9cd30e9c0871f2a55893b3",
+    "tests/test_discovery_contract.py": "46dc3af17a197898996bf7d91cc5573eff614e8a0ef2fe4c43e735578dfa47e0",
+    "tests/test_distribution.py": "827db3d1f9347c64284a7439fefa6cbfec28a3c9aa674f66fc4bd4773ca92c6d",
+    "tests/test_entrypoint_roles.py": "bf571896af0911f5a3451180992457644511058f893425881cc3957c47762111",
+    "tests/test_execution.py": "b1bc2b3e8c97a7d93632bf44c47c5c1df579ef767c5b65ec9f017c7647a948e5",
+    "tests/test_execution_integration.py": "f9f03ab8309ee47245e846f8e16586a8c500a21283a6711c9fc1db5ea1ef6509",
+    "tests/test_languages.py": "8522d039565219c4519b68f7af2bae0666a52f2c5b80ca2203e5d30c2d26ab33",
+    "tests/test_measurement_identity.py": "fa73982ba40dfaff7318bf64e4690f5edddd6078b99514c179afd09fabc021af",
+    "tests/test_migration.py": "c308807fa1e651661f7f67aa6dd9f935eec3adcf9370fcc295e5bcdecffd1346",
+    "tests/test_pipeline.py": "59e5acbacd62a90cbf1621b3c6e22d5d2d7a66baf1871625e667468e36dbdc8e",
+    "tests/test_public_measurement.py": "05ec9de782a894e9436eb2d775fdc118fa704887b7269dfe51a56d6bc9183cc0",
+    "tests/test_python_bindings.py": "5922baafbe69d9acd062fe4d370d075db64367dab8c435ee2bdf05840d380c74",
+    "tests/test_scan_budgets.py": "7ba881baf7fb8189ab7f6088f3a52a2ca5d692178cc7c3a4a1d7e0caf106fb88",
+    "tests/test_source.py": "19de1a8309361266e3abec9e1df16fe957d4c39169d4a606ba39446d317fecad",
+    "tests/test_taskset.py": "a902f9de509333e16c4fa4808dc053f25de1fcc8e4a35b7d25be9f63247ecb50",
+    "tests/test_ui.py": "0f7d2e64abae604ad1bce008f98c06491fa390dd9f1118968b89f34008d4ddc7",
+    "tests/test_ui_browser.py": "4ed4a4b71f35dcea293b49f424c34f03467da1587b2204de54c1f0dc26057500",
+    "tests/test_update.py": "3a2f8e1dc2a3ca09d3e5f3a94d875a5af2a6f83958d21ed833253be917db08f6"
+  },
+  "tools": {
+    "PyYAML": "6.0.3",
+    "jinja2": "3.1.6",
+    "mypy": "2.3.1",
+    "pydantic": "2.13.5",
+    "pydantic-core": "2.46.5",
+    "pytest": "9.1.1",
+    "ruff": "0.16.7"
+  },
+  "wheel": {
+    "checks": [
+      "version",
+      "inspect + scan scope",
+      "build codex",
+      "validate",
+      "install preview",
+      "schema equality",
+      "migrate"
+    ],
+    "dependency_mode": "reuse development dependency site-packages via PYTHONPATH; not independent clean dependency resolution",
+    "package_import": "installed wheel, not source checkout",
+    "sha256": "3a8c921b73ad5d3a3bec73585d1c3fe64b4a3052636892bafc554966c63dc50d",
+    "status": "passed",
+    "version": "0.1.0"
+  }
+}

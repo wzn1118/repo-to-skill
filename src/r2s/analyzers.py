@@ -19,8 +19,9 @@ from r2s.domain import (
 from r2s.fact_contracts import parse_fact
 from r2s.policy import is_safe_command, is_safe_python_target
 from r2s.python_bindings import bound_option_calls
+from r2s.scan_policy import ScanPolicy, scan_coverage
 from r2s.scanner import ScanResult, scan
-from r2s.serialization import file_sha256, stable_id
+from r2s.serialization import stable_id
 from r2s.toml_compat import loads as toml_loads
 
 SCHEMA_VERSION: Final = "1.2.0"
@@ -31,14 +32,15 @@ class _CaseSensitiveConfigParser(configparser.ConfigParser):
         return optionstr
 
 
-def _line_for(path: Path, needle: str) -> int | None:
-    for index, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+def _line_for(scan_result: ScanResult, path: Path, needle: str) -> int | None:
+    for index, line in enumerate(scan_result.read_text(path).splitlines(), start=1):
         if needle in line:
             return index
     return None
 
 
-def _module_file(root: Path, module: str) -> Path | None:
+def _module_file(scan_result: ScanResult, module: str) -> Path | None:
+    root = scan_result.root
     relative = Path(*module.split("."))
     candidates = [
         root / f"{relative}.py",
@@ -46,7 +48,7 @@ def _module_file(root: Path, module: str) -> Path | None:
         root / "src" / f"{relative}.py",
         root / "src" / relative / "__init__.py",
     ]
-    return next((candidate for candidate in candidates if candidate.is_file()), None)
+    return next((candidate for candidate in candidates if candidate in scan_result.source_index), None)
 
 
 def _location(
@@ -57,14 +59,11 @@ def _location(
     end_line: int | None = None,
 ) -> SourceLocation:
     relative = path.relative_to(scan_result.root).as_posix()
-    inventory_entry = next(
-        (item for item in scan_result.inventory if item.path == relative),
-        None,
-    )
+    inventory_entry = scan_result.source_index[path]
     return SourceLocation(
         path=relative,
         pointer=pointer,
-        content_sha256=file_sha256(path),
+        content_sha256=inventory_entry.content_sha256 or "",
         start_line=start_line,
         end_line=end_line,
         commit_sha=(
@@ -72,15 +71,16 @@ def _location(
             if scan_result.snapshot.git_dirty is False
             else None
         ),
-        blob_sha=inventory_entry.blob_sha if inventory_entry else None,
+        blob_sha=inventory_entry.blob_sha,
     )
 
 
-def _script_entries(root: Path) -> list[tuple[str, str, Path, str]]:
+def _script_entries(scan_result: ScanResult) -> list[tuple[str, str, Path, str]]:
+    root = scan_result.root
     entries: list[tuple[str, str, Path, str]] = []
     pyproject = root / "pyproject.toml"
-    if pyproject.is_file():
-        data = toml_loads(pyproject.read_text(encoding="utf-8"))
+    if pyproject in scan_result.source_index:
+        data = toml_loads(scan_result.read_text(pyproject))
         tables: list[tuple[dict[str, Any], str]] = []
         project = data.get("project", {})
         if isinstance(project, dict):
@@ -97,9 +97,9 @@ def _script_entries(root: Path) -> list[tuple[str, str, Path, str]]:
                 if isinstance(command, str) and isinstance(target, str):
                     entries.append((command, target, pyproject, f"{pointer}.{command}"))
     setup_cfg = root / "setup.cfg"
-    if setup_cfg.is_file():
+    if setup_cfg in scan_result.source_index:
         parser = _CaseSensitiveConfigParser()
-        parser.read(setup_cfg, encoding="utf-8")
+        parser.read_string(scan_result.read_text(setup_cfg))
         section = "options.entry_points"
         if parser.has_option(section, "console_scripts"):
             for line in parser.get(section, "console_scripts").splitlines():
@@ -197,6 +197,12 @@ def _initialize_discovery(scan_result: ScanResult) -> DiscoveryIR:
         scan_result.snapshot,
         inventory=list(scan_result.inventory),
     )
+    coverage = scan_coverage(scan_result.inventory, scan_result.snapshot.scan_policy_id)
+    if not coverage["complete_within_policy"]:
+        discovery.findings.append(Finding(
+            "SCAN_INCOMPLETE", "error",
+            f"Content budget excluded {coverage['budget_skipped_files']} files; affected paths and reasons remain in the inventory. Unscanned capabilities are unknown.",
+        ))
     sensitive_count = sum(
         1
         for item in scan_result.inventory
@@ -214,7 +220,7 @@ def _initialize_discovery(scan_result: ScanResult) -> DiscoveryIR:
         (
             root / name
             for name in ("LICENSE", "LICENSE.txt", "LICENSE.md", "COPYING")
-            if (root / name).is_file()
+            if root / name in scan_result.source_index
         ),
         None,
     )
@@ -270,8 +276,8 @@ def _initialize_discovery(scan_result: ScanResult) -> DiscoveryIR:
 
 def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
     root = scan_result.root
-    script_entries = _script_entries(root)
-    if (root / "pyproject.toml").is_file() or (root / "setup.cfg").is_file():
+    script_entries = _script_entries(scan_result)
+    if root / "pyproject.toml" in scan_result.source_index or root / "setup.cfg" in scan_result.source_index:
         discovery.languages.append("python")
         discovery.repository_types.append("cli" if script_entries else "library")
     for command, target, manifest, pointer in script_entries:
@@ -311,8 +317,8 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             scan_result,
             manifest,
             pointer,
-            _line_for(manifest, command),
-            _line_for(manifest, command),
+            _line_for(scan_result, manifest, command),
+            _line_for(scan_result, manifest, command),
         )
         normalized = {"command": command, "module": module, "symbol": symbol}
         entry_id = stable_id("ev", ["manifest.entrypoint", normalized, asdict(source)])
@@ -329,7 +335,7 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
         )
         entry_evidence_ids = [entry_id]
         option_evidence: list[Evidence] = []
-        module_path = _module_file(root, module)
+        module_path = _module_file(scan_result, module)
         if module_path is None:
             discovery.findings.append(
                 Finding(
@@ -341,7 +347,7 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             )
         else:
             try:
-                tree = ast.parse(module_path.read_text(encoding="utf-8"), filename=str(module_path))
+                tree = ast.parse(scan_result.read_text(module_path), filename=module_path.relative_to(root).as_posix())
             except (SyntaxError, UnicodeDecodeError) as exc:
                 discovery.findings.append(
                     Finding(
@@ -489,8 +495,9 @@ def discover(
     root_value: str | Path,
     snapshot: RepositorySnapshot | None = None,
     committed_blob_oids: dict[str, str] | None = None,
+    scan_policy: ScanPolicy | None = None,
 ) -> DiscoveryIR:
-    scan_result = scan(root_value, snapshot, committed_blob_oids)
+    scan_result = scan(root_value, snapshot, committed_blob_oids, scan_policy)
     discovery = _initialize_discovery(scan_result)
     from r2s.go_analyzer import analyze_go
     from r2s.javascript_analyzer import analyze_javascript
