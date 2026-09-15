@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import ast
 import configparser
-from collections.abc import Iterable
 from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Any, Final
@@ -18,7 +17,7 @@ from r2s.domain import (
 )
 from r2s.fact_contracts import parse_fact
 from r2s.policy import is_safe_command, is_safe_python_target
-from r2s.python_bindings import bound_option_calls
+from r2s.python_graph import Hop, PythonGraph
 from r2s.scan_policy import ScanPolicy, scan_coverage
 from r2s.scanner import ScanResult, scan
 from r2s.serialization import stable_id
@@ -37,18 +36,6 @@ def _line_for(scan_result: ScanResult, path: Path, needle: str) -> int | None:
         if needle in line:
             return index
     return None
-
-
-def _module_file(scan_result: ScanResult, module: str) -> Path | None:
-    root = scan_result.root
-    relative = Path(*module.split("."))
-    candidates = [
-        root / f"{relative}.py",
-        root / relative / "__init__.py",
-        root / "src" / f"{relative}.py",
-        root / "src" / relative / "__init__.py",
-    ]
-    return next((candidate for candidate in candidates if candidate in scan_result.source_index), None)
 
 
 def _location(
@@ -129,65 +116,20 @@ def _script_entries(scan_result: ScanResult) -> list[tuple[str, str, Path, str]]
     return list(unique.values())
 
 
-def _symbol_node(tree: ast.AST, symbol: str) -> ast.AST | None:
-    for node in ast.iter_child_nodes(tree):
-        if (
-            isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
-            and node.name == symbol
-        ):
-            return node
-        if isinstance(node, (ast.Assign, ast.AnnAssign)):
-            names: Iterable[str]
-            if isinstance(node, ast.Assign):
-                names = [target.id for target in node.targets if isinstance(target, ast.Name)]
-            else:
-                names = [node.target.id] if isinstance(node.target, ast.Name) else []
-            if symbol in names:
-                return node
-    return None
+def _python_evidence(
+    scan_result: ScanResult, path: Path, node: ast.AST, kind: str,
+    value: dict[str, Any], pointer: str, raw_value: dict[str, Any] | None = None,
+) -> Evidence:
+    source = _location(scan_result, path, pointer, getattr(node, "lineno", None), getattr(node, "end_lineno", None))
+    return Evidence(
+        stable_id("ev", [kind, value, asdict(source)]), kind,
+        raw_value if raw_value is not None else value, value, source, "python-entrypoint-graph@1", 0.95,
+    )
 
 
-def _option_evidence(
-    scan_result: ScanResult,
-    module_path: Path,
-    tree: ast.AST,
-    command: str,
-    context_tree: ast.AST | None = None,
-) -> list[Evidence]:
-    results: list[Evidence] = []
-    seen: set[str] = set()
-    for node in bound_option_calls(context_tree or tree, tree):
-        function_name = ast.unparse(node.func)
-        flags = [
-            arg.value
-            for arg in node.args
-            if isinstance(arg, ast.Constant) and isinstance(arg.value, str)
-        ]
-        for flag in flags:
-            if not flag.startswith("-") or flag in seen:
-                continue
-            seen.add(flag)
-            source = _location(
-                scan_result,
-                module_path,
-                f"ast:call:{function_name}:{flag}",
-                getattr(node, "lineno", None),
-                getattr(node, "end_lineno", getattr(node, "lineno", None)),
-            )
-            option_value = {"command": command, "option": flag}
-            evidence_id = stable_id("ev", ["cli.option", option_value, asdict(source)])
-            results.append(
-                Evidence(
-                    evidence_id,
-                    "cli.option",
-                    option_value,
-                    option_value,
-                    source,
-                    "python-cli-bindings@1",
-                    0.95,
-                )
-            )
-    return results
+def _hop_evidence(scan_result: ScanResult, hop: Hop) -> Evidence:
+    value = {"from_module": hop.source.module, "from_symbol": hop.source.name, "to_module": hop.target.module, "to_symbol": hop.target.name}
+    return _python_evidence(scan_result, hop.path, hop.node, hop.kind, value, f"ast:{hop.kind}:{hop.source.name}:{hop.target.module}:{hop.target.name}")
 
 
 def _initialize_discovery(scan_result: ScanResult) -> DiscoveryIR:
@@ -334,77 +276,43 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             )
         )
         entry_evidence_ids = [entry_id]
-        option_evidence: list[Evidence] = []
-        module_path = _module_file(scan_result, module)
-        if module_path is None:
+        option_evidence: list[tuple[Evidence, tuple[str, ...]]] = []
+        graph = PythonGraph(scan_result).analyze(module, symbol)
+        for code in sorted(graph.diagnostics):
+            discovery.findings.append(Finding(code, "warning", f"Static Python entrypoint analysis for {command}: {code}; unresolved branches do not supply option facts.", source.path))
+        entry = graph.entrypoint
+        if entry is None:
             discovery.findings.append(
                 Finding(
                     "ENTRYPOINT_SYMBOL_UNRESOLVED",
                     "warning",
-                    f"Module not found: {module}",
+                    f"Static symbol resolution unavailable: {module}:{symbol}",
                     source.path,
                 )
             )
         else:
-            try:
-                tree = ast.parse(scan_result.read_text(module_path), filename=module_path.relative_to(root).as_posix())
-            except (SyntaxError, UnicodeDecodeError) as exc:
-                discovery.findings.append(
-                    Finding(
-                        "PYTHON_PARSE_FAILED",
-                        "warning",
-                        str(exc),
-                        module_path.relative_to(root).as_posix(),
-                    )
-                )
-            else:
-                node = _symbol_node(tree, symbol)
-                if node is not None:
-                    symbol_source = _location(
-                        scan_result,
-                        module_path,
-                        f"ast:symbol:{symbol}",
-                        getattr(node, "lineno", None),
-                        getattr(node, "end_lineno", getattr(node, "lineno", None)),
-                    )
-                    symbol_value = {"module": module, "symbol": symbol, "kind": type(node).__name__}
-                    symbol_id = stable_id(
-                        "ev",
-                        ["python.symbol", symbol_value, asdict(symbol_source)],
-                    )
-                    entry_evidence_ids.append(symbol_id)
-                    discovery.evidence.append(
-                        Evidence(
-                            symbol_id,
-                            "python.symbol",
-                            symbol_value,
-                            symbol_value,
-                            symbol_source,
-                            "python-ast@2",
-                            1.0,
-                        )
-                    )
-                else:
-                    discovery.findings.append(
-                        Finding(
-                            "ENTRYPOINT_SYMBOL_UNRESOLVED",
-                            "warning",
-                            f"Symbol not found: {symbol}",
-                            module_path.relative_to(root).as_posix(),
-                        )
-                    )
-                option_scope = node if isinstance(
-                    node,
-                    (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef),
-                ) else tree
-                option_evidence = _option_evidence(
-                    scan_result,
-                    module_path,
-                    option_scope,
-                    command,
-                    tree,
-                )
-                discovery.evidence.extend(option_evidence)
+            chain = [_hop_evidence(scan_result, hop) for hop in entry.hops]
+            symbol_value = {"module": entry.ref.module, "symbol": entry.ref.name, "kind": type(entry.node).__name__}
+            chain.append(_python_evidence(scan_result, entry.path, entry.node, "python.symbol", symbol_value, f"ast:symbol:{entry.ref.name}"))
+            discovery.evidence.extend(chain)
+            entry_evidence_ids.extend(item.id for item in chain)
+        seen_options: set[str] = set()
+        for option in graph.options:
+            if option.option in seen_options:
+                continue
+            seen_options.add(option.option)
+            chain = [_hop_evidence(scan_result, hop) for hop in option.hops]
+            symbol_value = {"module": option.owner.module, "symbol": option.owner.name, "kind": type(option.scope).__name__}
+            chain.append(_python_evidence(scan_result, option.path, option.scope, "python.symbol", symbol_value, f"ast:symbol:{option.owner.name}"))
+            value = {"command": command, "option": option.option}
+            item = _python_evidence(
+                scan_result, option.path, option.call, "cli.option", value,
+                f"ast:bound-option:{option.owner.module}:{option.owner.name}:{option.option}",
+                {**value, "framework": option.framework, "declarations": [argument.value for argument in option.call.args if isinstance(argument, ast.Constant) and isinstance(argument.value, str)]},
+            )
+            discovery.evidence.extend([*chain, item])
+            identifiers = tuple(dict.fromkeys([*entry_evidence_ids, *[hop.id for hop in chain], item.id]))
+            option_evidence.append((item, identifiers))
         claim_value = {"command": command, "target": clean_target}
         claim_id = stable_id("cl", ["repository", "provides_cli", claim_value, entry_evidence_ids])
         discovery.claims.append(
@@ -419,10 +327,10 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             )
         )
         option_claim_ids: list[str] = []
-        for item in option_evidence:
+        for item, identifiers in option_evidence:
             option_claim_id = stable_id(
                 "cl",
-                [command, "supports_option", item.normalized_value, item.id],
+                [command, "supports_option", item.normalized_value, identifiers],
             )
             option_claim_ids.append(option_claim_id)
             discovery.claims.append(
@@ -431,7 +339,7 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     command,
                     "supports_option",
                     parse_fact(item.normalized_value),
-                    (item.id,),
+                    identifiers,
                     item.confidence,
                     True,
                 )

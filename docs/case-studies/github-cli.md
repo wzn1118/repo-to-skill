@@ -8,8 +8,8 @@ contains substantially more task guidance. Smaller output does not demonstrate b
 Both artifacts use source commit `38316c1c4f275030e3df6666382922e75410d68b`.
 The [official Skill](https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/skills/gh/SKILL.md)
 is comparison data, never compiler instructions. The generated artifact is measured before editorial changes.
-[Current machine-readable comparison](../../benchmark/runs/2026-09-15-upgrade-v8/official-comparison.json).
-The table uses the upgrade-v8 compiler. The [legacy comparison](../../benchmark/official-comparison.json)
+[Current machine-readable comparison](../../benchmark/runs/2026-09-15-upgrade-v10/official-comparison.json).
+The table uses the upgrade-v10 compiler. The [legacy comparison](../../benchmark/official-comparison.json)
 is retained separately; the source commit is unchanged.
 
 | Measurement | Generated gh | Official gh |
@@ -35,7 +35,7 @@ This measures artifact self-description, not whether GitHub maintains version hi
 The denominator is five source-verified facts, not the complete command surface. Text mentions and
 structured claims are different representations: the table measures presence, not equivalent execution
 quality. The generated gh bundle has one executable fact, with its source hash and commit checked.
-The legacy run also emitted a gen-docs helper; upgrade-v8 excludes it from product Skills.
+The legacy run also emitted a gen-docs helper; upgrade-v10 excludes it from product Skills.
 The current gh bundle includes its file lock and explicit scan scope. This run requires review
 because source content was excluded by budget; extracting one entrypoint is not full CLI coverage.
 

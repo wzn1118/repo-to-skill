@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — bounded Python entrypoint graph
+
+- Resolve scanner-admitted Python symbols through imports, re-exports, aliases and direct zero-argument delegation. Attach each source hop to option claims in the shared IR.
+- Require recognized Click commands and parsed argparse owners; handle literal dual flags and exclude unused parsers, child flags, shadowed names, unknown decorators and ambiguous delegation.
+- Bound graph traversal and reject guessed package attributes, unimported child modules and repository modules masquerading as supported frameworks. Typer registration and dynamic command graphs remain incomplete.
+- Retain the preliminary v9 known-defect run. Fixed-corpus v10 completes all 45 snapshots: 13/40 selected source facts, 3/30 static prerequisites and 114 emitted/hash-checked Core facts; semantic precision and task success remain unmeasured.
+- Verify a wheel with independently installed dependencies in a fresh environment; add a reproducible seven-check CLI verifier with installed-package byte comparison.
+
 ## Unreleased — workspace scan budgets
 
 - Separate bounded path enumeration from content admission; distribute content slots across workspaces and reserve budgets for tests/examples.

@@ -44,6 +44,14 @@ def render(run: Path) -> str:
         "| Repository | Tier | Stars | Status | Bundles |",
         "| --- | --- | ---: | --- | ---: |",
     ]
+    qualification = run / "qualification.json"
+    if qualification.is_file():
+        record = load(qualification)
+        lines[4:4] = [
+            f"**Qualification:** {record['status']}; headline eligible: {record['headline_eligible']}.",
+            "", str(record.get("defect", "See qualification.json")), "",
+            "Read [qualification.json](qualification.json) before interpreting this preliminary measurement.", "",
+        ]
     for item in results["repositories"]:
         lines.append(
             f"| `{item['repository']}` | {item['tier']} | {item['stars_at_benchmark']:,} | "

@@ -14,10 +14,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--run", type=Path, default=ROOT / "benchmark/runs/2026-09-15-upgrade-v8")
-    parser.add_argument("--label", default="Upgrade v8")
-    parser.add_argument("--baseline", type=Path, default=ROOT / "benchmark/runs/2026-09-15-upgrade-v6")
-    parser.add_argument("--baseline-label", default="Upgrade v6")
+    parser.add_argument("--run", type=Path, default=ROOT / "benchmark/runs/2026-09-15-upgrade-v10")
+    parser.add_argument("--label", default="Upgrade v10")
+    parser.add_argument("--baseline", type=Path, default=ROOT / "benchmark/runs/2026-09-15-upgrade-v8")
+    parser.add_argument("--baseline-label", default="Upgrade v8")
     args = parser.parse_args()
     baseline = json.loads((args.baseline / "results.json").read_text())
     current = json.loads((args.run / "results.json").read_text())
@@ -54,7 +54,7 @@ def main() -> None:
     axes[1].set_title("Selected fact recall", loc="left", fontweight="bold", pad=18)
     figure.suptitle("Repo-to-Skill · fixed high-star corpus", x=0.06, ha="left", fontsize=19, fontweight="bold")
     figure.text(0.06, 0.88, "36 high-star repos · 1,453,404 cumulative stars · metadata frozen 2026-09-14", color="#526474")
-    figure.text(0.06, 0.025, "v8 requires review for partial scans. Status gates differ; lower readiness is not a measured accuracy decline.", fontsize=10, color="#526474")
+    figure.text(0.06, 0.025, "Selected source-fact recall only. Semantic review and real task success remain unmeasured.", fontsize=10, color="#526474")
     figure.subplots_adjust(left=0.12, right=0.98, bottom=0.27, top=0.73, wspace=0.38)
     for suffix in ("png", "svg"):
         output = ROOT / f"docs/assets/upgrade-comparison.{suffix}"

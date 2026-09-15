@@ -9,13 +9,13 @@ reviewable implementation, not that the work package or release gate is passed.
 | --- | --- | --- |
 | U00 baseline/repros | recorded | Legacy commit and file hashes are frozen in `benchmark/history/2026-09-15-legacy-baseline.lock.json`; historical public reports remain unchanged. Capture-time tools are not a reconstruction of the historical environment. |
 | U01 independent validation | partial | Typed provenance, safe YAML, full inventory locks, deterministic re-rendering and install-time checks reject modified bundles. External source authentication/signatures and reference-client conformance are pending. |
-| U02 Python bindings | partial | argparse parser ownership and Click/Typer import/alias bindings; unrelated method calls and scope shadowing regressions. Cross-file calls, subparsers and dynamic registration remain incomplete. |
+| U02 Python bindings | partial | argparse options now require a parsed owner; Click options require a recognized command. Aliases, shadowing, same-line parser identities and local framework impersonation are tested. Typer registration, subparsers and dynamic bindings remain incomplete. |
 | U03 Go names / roles | partial | Four known v2/v4 name regressions checked against pinned source; pnpm hidden fixtures, bat syntax-test Go module and goreleaser nested test module no longer produce product Skills. Binary/role inference still uses heuristics, not a complete Go command graph. |
 | U04 goal matching | partial | Unrelated goals produce NEEDS_INPUT/REVIEW_REQUIRED; user goal text is not emitted as a capability fact. Explicit multilingual ambiguity handling and workflow matching are pending. |
 | U05 source identity | partial | Raw byte hashes and committed Git blob IDs separated; CRLF, BOM, dirty trees and SHA-256 Git cases tested. Git filters/fsmonitor disabled. Byte-range mappings and complete snapshot attestations remain open. |
 | U06 IR v2 / migration | partial | Strict nested Discovery IR and claim-value contracts, shared schema export, graph/source consistency checks, explicit 1.2 import, actual compiler/dependency/profile cache keys and scoped generation locks implemented. Identical shared evidence is deduplicated; historical input is preserved. This retains the 1.2 wire shape: full command graph, typed extractor payloads, byte ranges and general schema migration remain pending. See [contract and import evidence](discovery-contract.md). |
 | U07 workspace scanning | partial | Deterministic workspace/role content budgets, independent metadata limits, tracked-directory inclusion and scanner-gated analyzer reads implemented. Partial scans carry indexed scan.json plus bundle scope, and remain review-required through standalone validation/install. TypeScript/webpack now return partial discoveries. Resolver consolidation, complete workspace graphs, process quotas and hostile-filesystem race isolation remain pending. See [scope contract](scan-budgets.md). |
-| U08 Python command graph | pending | Current limited bindings do not provide the planned cross-file graph. |
+| U08 Python command graph | partial | Bounded local import/re-export/alias resolution and direct delegation preserve source hops on option claims. Black/blackd adds 43 options and Cookiecutter 21 on fixed pins. Unresolved package attributes, multiple delegates and limits fail closed. Parameter propagation, local imports, subcommands, factories and dynamic registration remain pending. See [implemented boundary](python-entrypoint-graph.md). |
 | U09 JS/TS command graph | pending | Manifest bin extraction and role exclusions only; AST/framework/delegation support pending. |
 | U10 Go AST/Cobra graph | pending | Lexical extraction remains; AST helper, build conditions, command inheritance and ownership pending. |
 | U11 workflows/documents | partial | Deterministic typed SkillDocument with claim-bound content; task-oriented procedures for the five target projects are not implemented. |
@@ -25,7 +25,7 @@ reviewable implementation, not that the work package or release gate is passed.
 | U15 Agent A/B / official gh | pending | Version-specific static official comparison is recorded. No Agent A/B execution, task uplift, confidence interval or two-version maintenance result. |
 | U16 UI/API | partial | Browser-tested inspect → build → evidence/error flow; Host/Origin/token/source-root boundaries. Background jobs, cancellation, capability selection and artifact downloads pending. |
 | U17 install/clients | partial | Codex managed destination, staged update, receipt, rollback API, user-modification rejection and receipt-write failure recovery. The bundled plugin-creator validator passes after manifest fixes; native-client loading, full crash recovery, Windows lock behavior and multi-client install lifecycle pending. |
-| U18 packaging/community | partial | Current wheel imports from its installed package and passes seven CLI checks, using previously verified development dependencies. Independent clean dependency resolution stalled; no current clean-install claim. Contribution/security/changelog documentation added. License decision, locked release dependencies, signed publishing and complete platform qualification pending. |
+| U18 packaging/community | partial | Current wheel and dependencies install independently into a fresh environment and pass seven CLI checks in isolated Python mode; package bytes match the wheel. Contribution/security/changelog documentation added. License decision, locked release dependencies, signed publishing and complete platform qualification pending. |
 | U19 Beta acceptance | pending | Missing recall, semantic review, workflow, client and user-study gates prevent acceptance. |
 | U20 CLI 1.0 | pending | Version compatibility, real upstream drift and stability qualification remain. |
 | U21 new domains | pending | Rust remains challenge coverage; no complete Rust/library/HTTP support claim. |
@@ -33,36 +33,43 @@ reviewable implementation, not that the work package or release gate is passed.
 
 ## Measured results
 
-The [upgrade-v8 run](../benchmark/runs/2026-09-15-upgrade-v8/report.md) runs the same 45 pinned
+The [upgrade-v10 run](../benchmark/runs/2026-09-15-upgrade-v10/report.md) runs the same 45 pinned
 repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 
 - Core: **20 STATIC_READY, 10 REVIEW_REQUIRED, 6 UNSUITABLE**; all 36 Core and all 45 total runs
   completed. TypeScript/webpack return partial discovery and remain review-required.
 - Core cumulative stars: **1,453,404**; static star-weighted coverage **53.49%**.
-- **50 emitted facts / 50 hash-and-pin checks**. All 50 still await complete semantic review.
+- **114 emitted facts / 114 hash-and-pin checks**. All 114 still await complete semantic review.
 - Four known Go binary-name regressions match pinned source. This is a targeted regression check,
   not zero hallucination or full semantic precision.
-- **10/40 selected source facts; 1/30 static task prerequisites**. The additional fact is the webpack
-  entrypoint. This does not establish task success or the missing webpack-cli dependency.
+- **13/40 selected source facts; 3/30 static task prerequisites**. The three additional selected facts
+  are Black's `--check`, `--exclude` and `--include`. This does not establish task success.
+- Compared with v8, emitted Core declarations add 43 Black/blackd options and 21 Cookiecutter options;
+  no prior emitted facts disappear. This is declaration coverage, not 64 semantically verified facts.
 - Partial scans now block static readiness, including standalone bundle validation/install. The
   26→20 decline from v6 reflects this stricter scope gate, not a measured accuracy decline.
-- Compiler fingerprint: `56058ee3967c122961cccd1d96b9a84f008dd71376a4f30f42eab4e4069b623d`.
+- Compiler fingerprint: `ed7dec755ed9adcb4260bfbfe2f79a1082d3b437f6136029120123a4fd90c48e`.
   The runner checks compiler/harness/dependency identity before and after workers and rejects
   overwrites. Historical metadata is not refreshed when reports are rendered.
 - `upgrade-v3` is a retained preliminary run with known helper-entrypoint errors and only an
   end-of-run fingerprint. It does not represent the current compiler.
 - `upgrade-v7` was interrupted after an operator cache-preparation failure caused fresh downloads.
   Six partial records and the interruption are retained; they do not contribute to the headline.
+- `upgrade-v9` completed but remains preliminary with a known package-attribute resolution defect
+  found by controlled negative probes. Its qualification and raw results are preserved; v10 fixes
+  the defect and repeats all 45 snapshots.
 
 ## Local verification
 
-**196 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
+**240 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
 covering six UI interactions. Ruff and mypy pass. See the
-[verification record](../benchmark/runs/2026-09-15-upgrade-v8/verification.json) for exact versions,
+[verification record](../benchmark/runs/2026-09-15-upgrade-v10/verification.json) for exact versions,
 hashes and scope. These controlled tests are separate from public-repository task evaluation.
 
-The wheel verification reuses the verified development dependencies; it does not establish
-independent clean dependency resolution. Refer to the run's verification record for performed checks.
+The wheel and its dependencies install into a new virtualenv through uv, using network downloads
+and its package cache. Seven CLI checks run with isolated Python and system site-packages disabled;
+installed package bytes match the wheel. This is a Linux clean-environment check, not full release
+qualification, hermetic dependency locking or native-client loading.
 
 Docker checks: verified Python invocation, non-root/readonly/no-host-secret isolation, timeout,
 output limit, nonzero exit and cleanup. Chromium checks: empty state, inspect, successful build,
@@ -96,7 +103,7 @@ The 30 records in `benchmark/taskset-v1.json` are explicitly a **static prerequi
 with no execution oracle; they are not completed TaskSpecs. Historical runtime and official-Skill
 results are not reused as current runtime or Agent A/B scores.
 
-Next acceptance work: corroborated Go command identity, external source authentication and full IR v2,
-workspace budgets for the two large failing repositories, then the shared job service
-and real framework command graphs. Human sign-off, model experiments and production hosting
+Next acceptance work: Python subcommand/parameter ownership, JS/TS and Go framework graphs,
+external source authentication and full IR v2, then the shared job service and executable TaskSpecs.
+Human sign-off, model experiments and production hosting
 remain separate gates; their absence does not stop independent engineering.

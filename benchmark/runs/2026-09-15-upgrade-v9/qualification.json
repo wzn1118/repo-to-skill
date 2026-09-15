@@ -1,0 +1,10 @@
+{
+  "run_id": "2026-09-15-upgrade-v9",
+  "status": "PRELIMINARY_KNOWN_DEFECT",
+  "headline_eligible": false,
+  "measurement_status": "all 45 pinned repositories completed with matching compiler identity",
+  "defect": "A from-package import followed by attribute access could be mistaken for a submodule even when the package initializer binds a different object. An ordinary parent import could also imply an unimported child.",
+  "discovery": "Additional controlled negative source probes during the measurement; no target code execution.",
+  "retention": "Raw results retained without modification. Do not use as the current compiler headline or claim semantic precision.",
+  "next_measurement": "A separate full run after conservative attribute-resolution fixes."
+}
