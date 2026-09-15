@@ -69,6 +69,10 @@ def parser() -> argparse.ArgumentParser:
     runs = commands.add_parser("runs")
     runs.add_argument("--output", default="run-output")
 
+    migrate = commands.add_parser("migrate", help="Import a 1.2 discovery through strict checks without changing its source")
+    migrate.add_argument("source", type=Path)
+    migrate.add_argument("--output", type=Path, default=Path("run-output"))
+
     ui = commands.add_parser("ui", help="Serve a local static analysis workbench")
     ui.add_argument("--output", default="run-output")
     ui.add_argument("--host", default="127.0.0.1")
@@ -203,6 +207,10 @@ def main(argv: list[str] | None = None) -> int:
                 Path(args.output).write_text(content, encoding="utf-8")
             else:
                 print(content, end="")
+        elif args.command == "migrate":
+            from r2s.migration import migrate_discovery
+
+            print(canonical_json(migrate_discovery(args.source, args.output)), end="")
         elif args.command == "runs":
             print(canonical_json(list_runs(Path(args.output))), end="")
         elif args.command == "ui":
@@ -265,7 +273,7 @@ def main(argv: list[str] | None = None) -> int:
                     selected_affected_ids
                 )
             if args.goal and selected_affected_ids:
-                compile_root = compilation_root(current_root, args.goal, args.target)
+                compile_root = compilation_root(current_root, args.goal, args.target, selected_affected_ids)
                 update_result = generate(
                     current,
                     args.goal,

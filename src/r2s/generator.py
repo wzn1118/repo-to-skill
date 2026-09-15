@@ -1,19 +1,23 @@
 from __future__ import annotations
 
 import shutil
-from dataclasses import asdict
+import tempfile
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Literal, cast
 
 from r2s.adapters import adapt_portable_skills
 from r2s.bundle_contracts import BundleProvenance
 from r2s.bundle_validation import validate_path, validate_plugin, validate_skill, write_lock
+from r2s.client_profiles import CLIENT_PROFILES, CODEX_PROFILE, PORTABLE_PROFILE
+from r2s.compilation import check_compiler_lock, publish_generation
+from r2s.compiler_identity import compiler_identity
+from r2s.discovery_contract import parse_discovery
 from r2s.distribution import install_plugin
 from r2s.documents import render_document, slugify
 from r2s.domain import (
     BuildResult,
     BundleReadiness,
-    ClientProfile,
     DiscoveryIR,
     Finding,
     Procedure,
@@ -22,9 +26,7 @@ from r2s.domain import (
 from r2s.planner import plan
 from r2s.serialization import canonical_json
 
-PORTABLE_PROFILE = ClientProfile("portable-agent-skills-v1", "portable", "1")
-CODEX_PROFILE = ClientProfile("codex-plugin-skills-2026-09", "codex", "1", "1")
-__all__ = ["generate", "install_codex_plugin", "readiness", "slugify", "validate_path"]
+__all__ = ["CODEX_PROFILE", "PORTABLE_PROFILE", "generate", "install_codex_plugin", "readiness", "slugify", "validate_path"]
 
 
 def _skill_bundle(
@@ -85,13 +87,46 @@ def generate(
     target: str,
     capability_ids: set[str] | None = None,
 ) -> BuildResult:
-    profiles = {
-        "portable": PORTABLE_PROFILE,
-        "codex": CODEX_PROFILE,
-        "claude": ClientProfile("claude-skills-v1", "claude", "1"),
-        "cursor": ClientProfile("cursor-skills-v1", "cursor", "1"),
-    }
-    profile = profiles.get(target)
+    discovery = parse_discovery(discovery.to_dict())
+    if target not in CLIENT_PROFILES:
+        finding = Finding("CLIENT_PROFILE_UNKNOWN", "error", f"Unsupported target: {target}")
+        return BuildResult(target, None, (), BundleReadiness.REVIEW_REQUIRED, (finding,))
+    identity = compiler_identity(target)
+    if run_root.is_symlink():
+        raise ValueError("COMPILATION_PATH_SYMLINK")
+    request = check_compiler_lock(run_root, discovery, goal, target, capability_ids, identity)
+    run_root.mkdir(parents=True, exist_ok=True)
+    reservation = run_root / ".generation-in-progress"
+    try:
+        with reservation.open("x", encoding="utf-8"):
+            pass
+    except FileExistsError as exc:
+        raise ValueError("COMPILATION_BUSY_OR_INTERRUPTED") from exc
+    try:
+        with tempfile.TemporaryDirectory(prefix=".generation-stage-", dir=run_root) as directory:
+            staging = Path(directory)
+            result = _generate(discovery, " ".join(goal.split()), staging, target, capability_ids)
+            if compiler_identity(target) != identity:
+                raise ValueError("COMPILER_CHANGED_DURING_GENERATION")
+            if check_compiler_lock(run_root, discovery, goal, target, capability_ids, identity) != request:
+                raise ValueError("COMPILATION_INPUT_CHANGED")
+            if result.root is None:
+                return result
+            publish_generation(staging, run_root, identity, request)
+            return replace(
+                result,
+                root=str(run_root / Path(result.root).relative_to(staging)),
+                bundles=tuple(str(run_root / Path(bundle).relative_to(staging)) for bundle in result.bundles),
+            )
+    finally:
+        reservation.unlink()
+
+
+def _generate(
+    discovery: DiscoveryIR, goal: str, run_root: Path, target: str,
+    capability_ids: set[str] | None,
+) -> BuildResult:
+    profile = CLIENT_PROFILES.get(target)
     if profile is None:
         finding = Finding("CLIENT_PROFILE_UNKNOWN", "error", f"Unsupported target: {target}")
         return BuildResult(target, None, (), BundleReadiness.REVIEW_REQUIRED, (finding,))

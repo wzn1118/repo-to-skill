@@ -6,6 +6,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 from r2s.domain import Capability, Claim, DiscoveryIR, Evidence, Finding, SourceLocation
+from r2s.fact_contracts import parse_fact
 from r2s.policy import is_safe_command
 from r2s.scanner import ScanResult
 from r2s.serialization import file_sha256, stable_id
@@ -236,7 +237,7 @@ def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     claim_id,
                     "repository",
                     "provides_cli",
-                    manifest_value,
+                    parse_fact(manifest_value),
                     (manifest_evidence_id, target_evidence_id),
                     0.95,
                     True,

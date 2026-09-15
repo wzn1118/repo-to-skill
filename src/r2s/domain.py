@@ -2,7 +2,22 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
+
+from r2s.contract_types import (
+    ByteCount,
+    CapabilityId,
+    ClaimId,
+    Confidence,
+    EvidenceId,
+    GitOid,
+    PositiveLine,
+    Sha256,
+    SourcePath,
+    StrictRecord,
+    Text,
+)
+from r2s.fact_contracts import FactValue
 
 
 class RunOutcome(str, Enum):
@@ -21,61 +36,61 @@ class BundleReadiness(str, Enum):
 
 
 @dataclass(frozen=True)
-class SourceLocation:
-    path: str
-    pointer: str
-    content_sha256: str
-    start_line: int | None = None
-    end_line: int | None = None
-    commit_sha: str | None = None
-    blob_sha: str | None = None
+class SourceLocation(StrictRecord):
+    path: SourcePath
+    pointer: Text
+    content_sha256: Sha256
+    start_line: PositiveLine | None = None
+    end_line: PositiveLine | None = None
+    commit_sha: GitOid | None = None
+    blob_sha: GitOid | None = None
 
 
 @dataclass(frozen=True)
-class InventoryEntry:
-    path: str
-    size: int
-    content_sha256: str | None
-    classification: str
+class InventoryEntry(StrictRecord):
+    path: SourcePath
+    size: ByteCount
+    content_sha256: Sha256 | None
+    classification: Literal["source", "binary", "sensitive", "sensitive-directory", "skipped", "symlink"]
     reason: str | None = None
-    blob_sha: str | None = None
+    blob_sha: GitOid | None = None
 
 
 @dataclass(frozen=True)
-class Evidence:
-    id: str
-    kind: str
+class Evidence(StrictRecord):
+    id: EvidenceId
+    kind: Text
     raw_value: dict[str, Any]
     normalized_value: dict[str, Any]
     source: SourceLocation
-    extractor: str
-    confidence: float
+    extractor: Text
+    confidence: Confidence
 
 
 @dataclass(frozen=True)
-class Claim:
-    id: str
-    subject: str
-    predicate: str
-    object: dict[str, Any]
-    evidence_ids: tuple[str, ...]
-    confidence: float
+class Claim(StrictRecord):
+    id: ClaimId
+    subject: Text
+    predicate: Literal["provides_cli", "supports_option", "has_license_file"]
+    object: FactValue
+    evidence_ids: tuple[EvidenceId, ...]
+    confidence: Confidence
     executable_fact: bool
-    status: str = "supported"
+    status: Literal["supported", "conflicted", "unknown"] = "supported"
 
 
 @dataclass(frozen=True)
-class Capability:
-    id: str
-    title: str
-    intent: str
-    claim_ids: tuple[str, ...]
-    support_level: str = "statically_verified"
+class Capability(StrictRecord):
+    id: CapabilityId
+    title: Text
+    intent: Text
+    claim_ids: tuple[ClaimId, ...]
+    support_level: Literal["statically_verified", "unknown"] = "statically_verified"
 
 
 @dataclass(frozen=True)
-class ProcedureStep:
-    action: str
+class ProcedureStep(StrictRecord):
+    action: Text
     arguments: tuple[str, ...]
     claim_ids: tuple[str, ...]
     expected_observation: str
@@ -83,7 +98,7 @@ class ProcedureStep:
 
 
 @dataclass(frozen=True)
-class Procedure:
+class Procedure(StrictRecord):
     id: str
     title: str
     intent: str
@@ -94,11 +109,11 @@ class Procedure:
 
 
 @dataclass(frozen=True)
-class Finding:
-    code: str
-    severity: str
-    message: str
-    path: str | None = None
+class Finding(StrictRecord):
+    code: Text
+    severity: Literal["info", "warning", "error"]
+    message: Text
+    path: SourcePath | None = None
 
 
 @dataclass(frozen=True)
@@ -110,24 +125,24 @@ class ClientProfile:
 
 
 @dataclass(frozen=True)
-class RepositorySnapshot:
-    kind: str
-    source_name: str
-    locator: str
+class RepositorySnapshot(StrictRecord):
+    kind: Literal["local-directory", "local-git", "github", "github-archive"]
+    source_name: Text
+    locator: Text
     requested_ref: str | None
-    resolved_commit_sha: str | None
-    tree_sha256: str
+    resolved_commit_sha: GitOid | None
+    tree_sha256: Sha256
     git_dirty: bool | None
-    scan_policy_id: str = "static-safe-v1"
-    git_object_format: str | None = None
+    scan_policy_id: Text = "static-safe-v1"
+    git_object_format: Literal["sha1", "sha256"] | None = None
 
 
 @dataclass
-class DiscoveryIR:
-    schema_version: str
+class DiscoveryIR(StrictRecord):
+    schema_version: Literal["1.2.0"]
     snapshot: RepositorySnapshot
-    languages: list[str] = field(default_factory=list)
-    repository_types: list[str] = field(default_factory=list)
+    languages: list[Literal["python", "javascript", "typescript", "go", "rust"]] = field(default_factory=list)
+    repository_types: list[Literal["cli", "library", "framework", "http", "data", "gui", "unknown"]] = field(default_factory=list)
     inventory: list[InventoryEntry] = field(default_factory=list)
     evidence: list[Evidence] = field(default_factory=list)
     claims: list[Claim] = field(default_factory=list)
@@ -147,63 +162,9 @@ class DiscoveryIR:
 
     @classmethod
     def from_dict(cls, value: dict[str, Any]) -> DiscoveryIR:
-        snapshot_value = value.get("snapshot")
-        if snapshot_value is None:
-            snapshot_value = {
-                "kind": "local",
-                "source_name": value["source_name"],
-                "locator": f"local://{value['source_name']}",
-                "requested_ref": None,
-                "resolved_commit_sha": None,
-                "tree_sha256": value["tree_sha256"],
-                "git_dirty": None,
-            }
-        evidence = [
-            Evidence(
-                id=item["id"],
-                kind=item["kind"],
-                raw_value=item["raw_value"],
-                normalized_value=item["normalized_value"],
-                source=SourceLocation(**item["source"]),
-                extractor=item["extractor"],
-                confidence=item["confidence"],
-            )
-            for item in value.get("evidence", [])
-        ]
-        claims = [
-            Claim(
-                id=item["id"],
-                subject=item["subject"],
-                predicate=item["predicate"],
-                object=item["object"],
-                evidence_ids=tuple(item["evidence_ids"]),
-                confidence=item["confidence"],
-                executable_fact=item["executable_fact"],
-                status=item.get("status", "supported"),
-            )
-            for item in value.get("claims", [])
-        ]
-        capabilities = [
-            Capability(
-                id=item["id"],
-                title=item["title"],
-                intent=item["intent"],
-                claim_ids=tuple(item["claim_ids"]),
-                support_level=item.get("support_level", "statically_verified"),
-            )
-            for item in value.get("capabilities", [])
-        ]
-        return cls(
-            schema_version=value["schema_version"],
-            snapshot=RepositorySnapshot(**snapshot_value),
-            languages=list(value.get("languages", [])),
-            repository_types=list(value.get("repository_types", [])),
-            inventory=[InventoryEntry(**item) for item in value.get("inventory", [])],
-            evidence=evidence,
-            claims=claims,
-            capabilities=capabilities,
-            findings=[Finding(**item) for item in value.get("findings", [])],
-        )
+        from r2s.discovery_contract import parse_discovery
+
+        return parse_discovery(value)
 
 
 @dataclass(frozen=True)

@@ -5,7 +5,7 @@ import configparser
 from collections.abc import Iterable
 from dataclasses import asdict, replace
 from pathlib import Path
-from typing import Any
+from typing import Any, Final
 
 from r2s.domain import (
     Capability,
@@ -16,13 +16,14 @@ from r2s.domain import (
     RepositorySnapshot,
     SourceLocation,
 )
+from r2s.fact_contracts import parse_fact
 from r2s.policy import is_safe_command, is_safe_python_target
 from r2s.python_bindings import bound_option_calls
 from r2s.scanner import ScanResult, scan
 from r2s.serialization import file_sha256, stable_id
 from r2s.toml_compat import loads as toml_loads
 
-SCHEMA_VERSION = "1.2.0"
+SCHEMA_VERSION: Final = "1.2.0"
 
 
 class _CaseSensitiveConfigParser(configparser.ConfigParser):
@@ -258,7 +259,7 @@ def _initialize_discovery(scan_result: ScanResult) -> DiscoveryIR:
                 license_claim_id,
                 "repository",
                 "has_license_file",
-                license_value,
+                parse_fact(license_value),
                 (license_evidence_id,),
                 0.8,
                 False,
@@ -405,7 +406,7 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                 claim_id,
                 "repository",
                 "provides_cli",
-                claim_value,
+                parse_fact(claim_value),
                 tuple(entry_evidence_ids),
                 1.0,
                 True,
@@ -423,7 +424,7 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     option_claim_id,
                     command,
                     "supports_option",
-                    item.normalized_value,
+                    parse_fact(item.normalized_value),
                     (item.id,),
                     item.confidence,
                     True,
@@ -475,6 +476,13 @@ def _resolve_command_conflicts(discovery: DiscoveryIR) -> None:
 def _normalize_classification(discovery: DiscoveryIR) -> None:
     discovery.languages = sorted(set(discovery.languages))
     discovery.repository_types = sorted(set(discovery.repository_types))
+    unique_evidence: dict[str, Evidence] = {}
+    for item in discovery.evidence:
+        existing = unique_evidence.get(item.id)
+        if existing is not None and existing != item:
+            raise ValueError("EVIDENCE_ID_COLLISION")
+        unique_evidence.setdefault(item.id, item)
+    discovery.evidence = list(unique_evidence.values())
 
 
 def discover(

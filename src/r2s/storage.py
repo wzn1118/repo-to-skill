@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import shutil
 import sqlite3
+import tempfile
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import asdict
@@ -9,6 +11,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from r2s.compiler_identity import compilation_request, compiler_identity
+from r2s.discovery_contract import (
+    _parse_discovery_structure,
+    parse_discovery,
+    strict_json_loads,
+    validate_relations,
+)
 from r2s.domain import DiscoveryIR, DriftReport
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256, stable_id
 
@@ -105,6 +114,7 @@ def _record_artifacts(
 
 
 def write_discovery(discovery: DiscoveryIR, output_root: Path) -> Path:
+    discovery = parse_discovery(discovery.to_dict())
     snapshot_digest = stable_id("snapshot", asdict(discovery.snapshot))
     discovery_sha256 = canonical_sha256(discovery.to_dict())
     run_id = stable_id(
@@ -117,7 +127,13 @@ def write_discovery(discovery: DiscoveryIR, output_root: Path) -> Path:
         ],
     )
     run_root = output_root / run_id
-    run_root.mkdir(parents=True, exist_ok=True)
+    if run_root.is_symlink():
+        raise ValueError("DISCOVERY_RUN_SYMLINK")
+    if run_root.exists():
+        existing = load_discovery(run_root)
+        _require_equal("existing discovery", existing.to_dict(), discovery.to_dict())
+        return run_root
+    output_root.mkdir(parents=True, exist_ok=True)
     artifacts = {
         "inventory.json": [asdict(item) for item in discovery.inventory],
         "evidence.json": [asdict(item) for item in discovery.evidence],
@@ -138,8 +154,14 @@ def write_discovery(discovery: DiscoveryIR, output_root: Path) -> Path:
             "discovery_sha256": discovery_sha256,
         },
     }
-    for name, value in artifacts.items():
-        (run_root / name).write_text(canonical_json(value), encoding="utf-8")
+    staging = Path(tempfile.mkdtemp(prefix=".discovery-stage-", dir=output_root))
+    try:
+        for name, value in artifacts.items():
+            (staging / name).write_text(canonical_json(value), encoding="utf-8", newline="\n")
+        staging.rename(run_root)
+    finally:
+        if staging.exists():
+            shutil.rmtree(staging)
     with _database(output_root) as connection:
         connection.execute(
             """
@@ -173,7 +195,7 @@ def _read_json(run_root: Path, name: str) -> Any:
     if path.stat().st_size > MAX_DISCOVERY_ARTIFACT_BYTES:
         raise ValueError(f"DISCOVERY_ARTIFACT_TOO_LARGE: {name}")
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        return strict_json_loads(path.read_bytes())
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise ValueError(f"DISCOVERY_ARTIFACT_INVALID: {name}: {exc}") from exc
 
@@ -238,11 +260,11 @@ def _verify_discovery_index(
             raise ValueError(f"DISCOVERY_INDEX_HASH_MISMATCH: {name}")
 
 
-def load_discovery(run_root: Path) -> DiscoveryIR:
+def _load_discovery_envelope(run_root: Path) -> DiscoveryIR:
     run_root = run_root.resolve()
     values = {name: _read_json(run_root, name) for name in DISCOVERY_ARTIFACTS}
     try:
-        discovery = DiscoveryIR.from_dict(values["discovery.json"])
+        discovery = _parse_discovery_structure(values["discovery.json"])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError(f"DISCOVERY_IR_INVALID: {exc}") from exc
 
@@ -293,6 +315,12 @@ def load_discovery(run_root: Path) -> DiscoveryIR:
     return discovery
 
 
+def load_discovery(run_root: Path) -> DiscoveryIR:
+    discovery = _load_discovery_envelope(run_root)
+    validate_relations(discovery)
+    return discovery
+
+
 def resolve_discovery(source: str, output_root: Path) -> tuple[DiscoveryIR | None, Path | None]:
     direct = Path(source)
     candidates = [direct, output_root / source]
@@ -302,21 +330,29 @@ def resolve_discovery(source: str, output_root: Path) -> tuple[DiscoveryIR | Non
     return None, None
 
 
-def compilation_root(discovery_root: Path, goal: str, target: str) -> Path:
-    normalized_goal = " ".join(goal.split())
+def compilation_root(
+    discovery_root: Path, goal: str, target: str, capability_ids: set[str] | None = None,
+) -> Path:
+    identity = compiler_identity(target)
+    discovery = load_discovery(discovery_root)
+    request = compilation_request(discovery, goal, target, capability_ids, identity, discovery_root.name)
     compilation_id = stable_id(
         "compile",
-        [
-            discovery_root.name,
-            normalized_goal,
-            target,
-            "planner-v1",
-            "document-r2s-cli-v1",
-            "client-profile-v2",
-        ],
+        request,
     )
     root = discovery_root / "compilations" / compilation_id
+    if root.parent.is_symlink() or root.is_symlink():
+        raise ValueError("COMPILATION_PATH_SYMLINK")
     root.mkdir(parents=True, exist_ok=True)
+    lock = root / "compiler.lock.json"
+    value = {"compiler": identity, "request": request, "request_sha256": canonical_sha256(request)}
+    if lock.exists():
+        if lock.is_symlink():
+            raise ValueError("COMPILER_LOCK_SYMLINK")
+        _require_equal("compiler.lock.json", _read_json(root, lock.name), value)
+    else:
+        with lock.open("x", encoding="utf-8", newline="\n") as handle:
+            handle.write(canonical_json(value))
     return root
 
 

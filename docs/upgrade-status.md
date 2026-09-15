@@ -13,7 +13,7 @@ reviewable implementation, not that the work package or release gate is passed.
 | U03 Go names / roles | partial | Four known v2/v4 name regressions checked against pinned source; pnpm hidden fixtures, bat syntax-test Go module and goreleaser nested test module no longer produce product Skills. Binary/role inference still uses heuristics, not a complete Go command graph. |
 | U04 goal matching | partial | Unrelated goals produce NEEDS_INPUT/REVIEW_REQUIRED; user goal text is not emitted as a capability fact. Explicit multilingual ambiguity handling and workflow matching are pending. |
 | U05 source identity | partial | Raw byte hashes and committed Git blob IDs separated; CRLF, BOM, dirty trees and SHA-256 Git cases tested. Git filters/fsmonitor disabled. Byte-range mappings and complete snapshot attestations remain open. |
-| U06 IR v2 / migration | partial | Strict generated-bundle contracts and nested schema export exist. Discovery loading still needs a unified strict boundary, version migration and actual compiler-version cache binding. |
+| U06 IR v2 / migration | partial | Strict nested Discovery IR and claim-value contracts, shared schema export, graph/source consistency checks, explicit 1.2 import, actual compiler/dependency/profile cache keys and scoped generation locks implemented. Identical shared evidence is deduplicated; historical input is preserved. This retains the 1.2 wire shape: full command graph, typed extractor payloads, byte ranges and general schema migration remain pending. See [contract and import evidence](discovery-contract.md). |
 | U07 workspace scanning | partial | Existing bounded scanner and snapshot checks retained; FIFOs rejected. TypeScript/webpack still exceed file limits. Workspace budgets and product/benchmark resolver consolidation are pending. |
 | U08 Python command graph | pending | Current limited bindings do not provide the planned cross-file graph. |
 | U09 JS/TS command graph | pending | Manifest bin extraction and role exclusions only; AST/framework/delegation support pending. |
@@ -25,7 +25,7 @@ reviewable implementation, not that the work package or release gate is passed.
 | U15 Agent A/B / official gh | pending | Version-specific static official comparison is recorded. No Agent A/B execution, task uplift, confidence interval or two-version maintenance result. |
 | U16 UI/API | partial | Browser-tested inspect → build → evidence/error flow; Host/Origin/token/source-root boundaries. Background jobs, cancellation, capability selection and artifact downloads pending. |
 | U17 install/clients | partial | Codex managed destination, staged update, receipt, rollback API, user-modification rejection and receipt-write failure recovery. The bundled plugin-creator validator passes after manifest fixes; native-client loading, full crash recovery, Windows lock behavior and multi-client install lifecycle pending. |
-| U18 packaging/community | partial | Wheel built and installed in a fresh environment; CLI inspect/build/validate/install-preview pass. Contribution/security/changelog documentation added. License decision, locked release dependencies, signed publishing and complete platform qualification pending. |
+| U18 packaging/community | partial | Current wheel imports from its installed package and passes seven CLI checks, using previously verified development dependencies. Independent clean dependency resolution stalled; no current clean-install claim. Contribution/security/changelog documentation added. License decision, locked release dependencies, signed publishing and complete platform qualification pending. |
 | U19 Beta acceptance | pending | Missing recall, semantic review, workflow, client and user-study gates prevent acceptance. |
 | U20 CLI 1.0 | pending | Version compatibility, real upstream drift and stability qualification remain. |
 | U21 new domains | pending | Rust remains challenge coverage; no complete Rust/library/HTTP support claim. |
@@ -33,7 +33,7 @@ reviewable implementation, not that the work package or release gate is passed.
 
 ## Measured results
 
-The [upgrade-v5 run](../benchmark/runs/2026-09-15-upgrade-v5/report.md) runs the same 45 pinned
+The [upgrade-v6 run](../benchmark/runs/2026-09-15-upgrade-v6/report.md) runs the same 45 pinned
 repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 
 - Core: **26 STATIC_READY, 3 REVIEW_REQUIRED, 7 UNSUITABLE**; 34 completed, with TypeScript/webpack
@@ -43,7 +43,7 @@ repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 - Four known Go binary-name regressions match pinned source. This is a targeted regression check,
   not zero hallucination or full semantic precision.
 - **9/40 selected source facts; 1/30 static task prerequisites**. Recall is unchanged from legacy.
-- Compiler fingerprint: `2d6891e7d71ad9fae0112eb1e6f3b04a6384b49b4afe8f1a14e23507d25e846c`.
+- Compiler fingerprint: `2e06c783eeb7e6dd9c6da79cd9360e19e7c054735d04eaa17caff87c3293c14e`.
   The runner checks compiler/harness/dependency identity before and after workers and rejects
   overwrites. Historical metadata is not refreshed when reports are rendered.
 - `upgrade-v3` is a retained preliminary run with known helper-entrypoint errors and only an
@@ -51,10 +51,14 @@ repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 
 ## Local verification
 
-**133 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
+**181 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
 covering six UI interactions. Ruff and mypy pass. See the
-[verification record](../benchmark/runs/2026-09-15-upgrade-v5/verification.json) for exact versions,
+[verification record](../benchmark/runs/2026-09-15-upgrade-v6/verification.json) for exact versions,
 hashes and scope. These controlled tests are separate from public-repository task evaluation.
+
+The installed wheel passes version, inspect, Codex build, validate, install preview, schema export
+and migration checks. Dependency downloads stalled; this check reuses the verified development
+dependencies and does not establish independent clean dependency resolution.
 
 Docker checks: verified Python invocation, non-root/readonly/no-host-secret isolation, timeout,
 output limit, nonzero exit and cleanup. Chromium checks: empty state, inspect, successful build,
@@ -88,7 +92,7 @@ The 30 records in `benchmark/taskset-v1.json` are explicitly a **static prerequi
 with no execution oracle; they are not completed TaskSpecs. Historical runtime and official-Skill
 results are not reused as current runtime or Agent A/B scores.
 
-Next acceptance work: corroborated Go command identity, source/IR trust boundaries and cache
-versioning, workspace budgets for the two large failing repositories, then the shared job service
+Next acceptance work: corroborated Go command identity, external source authentication and full IR v2,
+workspace budgets for the two large failing repositories, then the shared job service
 and real framework command graphs. Human sign-off, model experiments and production hosting
 remain separate gates; their absence does not stop independent engineering.

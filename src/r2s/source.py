@@ -7,6 +7,7 @@ import subprocess
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Literal
 
 from r2s.domain import RepositorySnapshot
 
@@ -26,6 +27,16 @@ class ResolvedSource:
     root: Path
     snapshot: RepositorySnapshot
     committed_blob_oids: dict[str, str] = field(default_factory=dict)
+
+
+def _object_format(value: str | None) -> Literal["sha1", "sha256"] | None:
+    if value is None:
+        return None
+    if value == "sha1":
+        return "sha1"
+    if value == "sha256":
+        return "sha256"
+    raise ValueError("GIT_OBJECT_FORMAT_UNSUPPORTED")
 
 
 def _git_environment(home: Path) -> dict[str, str]:
@@ -201,7 +212,7 @@ def resolve_local(source: str | Path, ref: str | None = None) -> ResolvedSource:
         resolved_commit_sha=commit,
         tree_sha256="",
         git_dirty=dirty,
-        git_object_format=object_format,
+        git_object_format=_object_format(object_format),
     )
     return _with_git_identity(root, snapshot)
 
@@ -242,11 +253,11 @@ def resolve_github(
                     requested_ref.lower(),
                     "",
                     False,
-                    git_object_format=_git(
+                    git_object_format=_object_format(_git(
                         ["rev-parse", "--show-object-format"],
                         cached_root,
                         Path(cache_home),
-                    ),
+                    )),
                 ),
             )
     staging = Path(tempfile.mkdtemp(prefix="fetch-", dir=snapshots_root))
@@ -286,7 +297,7 @@ def resolve_github(
                 commit,
                 "",
                 False,
-                git_object_format=object_format,
+                git_object_format=_object_format(object_format),
             )
             return _with_git_identity(final_root, snapshot)
         _git(["checkout", "--quiet", "--detach", "FETCH_HEAD"], staging, home)
@@ -306,7 +317,7 @@ def resolve_github(
         commit,
         "",
         False,
-        git_object_format=object_format,
+        git_object_format=_object_format(object_format),
     )
     return _with_git_identity(final_root, snapshot)
 

@@ -3,9 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from pydantic import TypeAdapter
-
 from r2s.analyzers import SCHEMA_VERSION, discover
+from r2s.discovery_contract import discovery_schema
 from r2s.domain import DiscoveryIR
 from r2s.drift import compare_discoveries
 from r2s.generator import generate, readiness, validate_path
@@ -35,20 +34,7 @@ __all__ = [
 
 
 def schema_catalog() -> dict[str, Any]:
-    catalog = TypeAdapter(DiscoveryIR).json_schema()
-    catalog.update(
-        {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "$id": f"https://r2s.local/schema/discovery-{SCHEMA_VERSION}.json",
-            "title": "Repo-to-Skill Discovery IR",
-        }
-    )
-    catalog["properties"]["schema_version"] = {"const": SCHEMA_VERSION}
-    catalog["additionalProperties"] = False
-    for definition in catalog.get("$defs", {}).values():
-        if definition.get("type") == "object":
-            definition["additionalProperties"] = False
-    return catalog
+    return discovery_schema()
 
 
 def discover_source(

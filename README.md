@@ -15,7 +15,7 @@ executing the target repository.
 > runs, and thin client projections. Claude/Cursor native loading is not verified. Runtime task evaluation, agent A/B evidence and
 > private/hosted workflows remain incomplete.
 
-[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-15-upgrade-v5/report.md) · [Legacy benchmark](benchmark/report.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
+[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-15-upgrade-v6/report.md) · [Legacy benchmark](benchmark/report.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
 
 ## Public Repo Benchmark 1.0
 
@@ -37,10 +37,15 @@ suffixes becoming executable names (`v2`, `v4`), test fixtures becoming Skills, 
 The ground truth is **agent-curated**, not human sign-off. No zero-hallucination or
 with/without-skill improvement claim is made. Failures are published alongside successes.
 
-The versioned [upgrade-v5 report](benchmark/runs/2026-09-15-upgrade-v5/report.md) contains the
+The versioned [upgrade-v6 report](benchmark/runs/2026-09-15-upgrade-v6/report.md) contains the
 compiler fingerprint, raw static results, targeted name checks and explicit limits. TypeScript and
 webpack still exceed scanner limits. Selected fact recall remains **9/40** after the fixes. The
 older headline remains in `benchmark/report.md` as a legacy measurement; it is not overwritten.
+
+The latest upgrade adds [strict IR import and compiler identity](docs/discovery-contract.md).
+All **181 local tests** pass, including real Docker/browser checks. Of 42 retained historical IR
+files, five need identical-evidence deduplication; their explicit migrations remain `REVIEW_REQUIRED`.
+This strengthens import and cache integrity; public selected-fact recall is still **9/40**.
 
 ![Fixed-corpus comparison of legacy and upgrade static outcomes and selected fact recall](docs/assets/upgrade-comparison.png)
 
@@ -82,7 +87,7 @@ and generator consume the IR; they do not inspect raw repository text to invent 
 | JavaScript/TypeScript | `package.json` `bin` entries, target containment and file existence checks |
 | Go | Root and `cmd/<name>` main packages, conservative standard flag/Cobra-style extraction |
 | Outputs | Portable Skills, Codex plugin; experimental Claude/Cursor directory projections |
-| Integrity | Content-addressed Discovery Runs, source locks, split IR checks, SQLite artifact index |
+| Integrity | Strict nested IR/schema, source and graph checks, scoped compiler identities, generation locks and SQLite artifact index |
 | Updates | File/Capability drift reports and goal-scoped capability delta builds |
 | UI | Loopback workbench: inspect, build, view evidence and validation using the same run objects |
 | Execution | Explicit local Docker invocation with a pinned installed image, bounded output and cleanup |
@@ -122,6 +127,9 @@ r2s runs --output run-output
 
 `inspect` creates a goal-independent Discovery Run. Reuse its `run_<id>` for multiple goals and
 client targets without rescanning the source.
+
+Historical 1.2 records can be explicitly imported with `r2s migrate old-run/discovery.json --output migrated-runs`.
+This preserves the source and produces a new review-required run; see the [migration contract](docs/discovery-contract.md).
 
 ### 3. Plan and build
 
@@ -343,9 +351,13 @@ python -m pytest
 Stars 只描述 corpus 的开源影响力，不等于独立用户数。
 
 **High-Star Public Repositories Tested: 36**。45 个真实源码快照（含 challenge/edge）均已固定并验证；
-最新 [upgrade-v5](benchmark/runs/2026-09-15-upgrade-v5/report.md) 的 Core 结果为 26 个 `STATIC_READY`、
+最新 [upgrade-v6](benchmark/runs/2026-09-15-upgrade-v6/report.md) 的 Core 结果为 26 个 `STATIC_READY`、
 3 个 `REVIEW_REQUIRED`、7 个 `UNSUITABLE`，按静态状态计算的 Star-weighted coverage 为 **69.7%**。
 TypeScript、webpack 仍因扫描限额失败，全部保留在分母中。
+
+本轮新增[严格 IR 校验、显式迁移和编译器身份绑定](docs/discovery-contract.md)，**181 项本地测试通过**，
+包含真实 Docker 和浏览器检查。42 份历史 IR 中五份需要合并完全相同的重复证据，迁移结果全部保留
+`REVIEW_REQUIRED`，原文件不变。完整 IR v2 和跨文件命令图仍待实施，事实召回没有因此提高。
 
 更关键的结果是：10 仓库的 40 条源码事实只覆盖 **9 条**，30 个任务中仅 **1 个**具备所选静态前提。
 新版本生成 **49 条**可执行事实，均通过哈希和 commit 核对；四项 Go 后缀命名回归已按固定源码核对修复，

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -12,10 +13,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--run", type=Path, default=ROOT / "benchmark/runs/2026-09-15-upgrade-v6")
+    parser.add_argument("--label", default="Upgrade v6")
+    args = parser.parse_args()
     baseline = json.loads((ROOT / "benchmark/results.json").read_text())
-    current = json.loads((ROOT / "benchmark/runs/2026-09-15-upgrade-v5/results.json").read_text())
+    current = json.loads((args.run / "results.json").read_text())
     old_truth = json.loads((ROOT / "benchmark/ground-truth-results.json").read_text())
-    new_truth = json.loads((ROOT / "benchmark/runs/2026-09-15-upgrade-v5/ground-truth-results.json").read_text())
+    new_truth = json.loads((args.run / "ground-truth-results.json").read_text())
     plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 11, "svg.fonttype": "none"})
     figure, axes = plt.subplots(1, 2, figsize=(12, 4.7), gridspec_kw={"width_ratios": [1.4, 1]})
     figure.patch.set_facecolor("#f5f7fa")
@@ -29,7 +34,7 @@ def main() -> None:
         bars = axes[0].barh([1, 0], values, left=left, color=color, height=0.5, label=status)
         axes[0].bar_label(bars, label_type="center", color="white", fontsize=12)
         left = [offset + value for offset, value in zip(left, values, strict=True)]
-    axes[0].set_yticks([1, 0], ["Legacy", "Upgrade v5"])
+    axes[0].set_yticks([1, 0], ["Legacy", args.label])
     axes[0].set_xlim(0, 36)
     axes[0].set_xticks([0, 12, 24, 36])
     axes[0].set_xlabel("Core repositories (all 36 retained)")
@@ -40,7 +45,7 @@ def main() -> None:
     axes[1].barh([1, 0], totals, height=0.5, color="#dce3e9")
     bars = axes[1].barh([1, 0], covered, height=0.5, color="#3279ad")
     axes[1].bar_label(bars, labels=[f"{value}/{total}" for value, total in zip(covered, totals, strict=True)], padding=6)
-    axes[1].set_yticks([1, 0], ["Legacy", "Upgrade v5"])
+    axes[1].set_yticks([1, 0], ["Legacy", args.label])
     axes[1].set_xticks([0, 10, 20, 30, 40])
     axes[1].set_xlim(0, 40)
     axes[1].set_xlabel("Selected source facts across 10 repos")

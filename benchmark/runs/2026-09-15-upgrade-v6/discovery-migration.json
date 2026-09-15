@@ -1,0 +1,313 @@
+{
+  "compiler_sha256": "2e06c783eeb7e6dd9c6da79cd9360e19e7c054735d04eaa17caff87c3293c14e",
+  "format": "r2s-discovery-upgrade-verification-v1",
+  "historical_files_unchanged": true,
+  "records": [
+    {
+      "id": "act",
+      "result": "STRICT_PASS",
+      "source_sha256": "208cbe125a4e4eb294f13df17755018cfa4a648c33a81a0634d0f2226ba309ce"
+    },
+    {
+      "id": "age",
+      "result": "STRICT_PASS",
+      "source_sha256": "0414f58cd971b55a5015d022848a20b1a03541ca7fc814e4a3f37b16b0811437"
+    },
+    {
+      "id": "bat",
+      "result": "STRICT_PASS",
+      "source_sha256": "f2f39774e36f1620e713c0ca99199a29656c6eca1fe8dcfd3652183b8d065116"
+    },
+    {
+      "id": "bats-core",
+      "result": "STRICT_PASS",
+      "source_sha256": "8b4c930a4cba547841ffcbc64ce8a8e352fbd611a0a9e55caa14387595253bfa"
+    },
+    {
+      "id": "black",
+      "result": "STRICT_PASS",
+      "source_sha256": "6102a7717ac7c1bdd73e55d03ece4cbc59e967f5ac1e7f82396178a5ef4f2d5c"
+    },
+    {
+      "id": "click",
+      "result": "STRICT_PASS",
+      "source_sha256": "e00ae91724d83a09fe3732305da0612b25f3adffbee5bfcdbd4e3f678a2702a7"
+    },
+    {
+      "id": "cookiecutter",
+      "result": "STRICT_PASS",
+      "source_sha256": "5692ee7021d8ed435087eaf83da6b54c1adcce83f96d2f201127c906def81113"
+    },
+    {
+      "id": "diff-so-fancy",
+      "result": "STRICT_PASS",
+      "source_sha256": "e9f5e78e8c6379fe5c468014c8e2fd024314c2121954e5568423b56f3ba2137a"
+    },
+    {
+      "id": "direnv",
+      "result": "STRICT_PASS",
+      "source_sha256": "3cab363e715a6f669dbba76b0ca4bf5454209fdf858cf792f3fdb6320850fd23"
+    },
+    {
+      "id": "eslint",
+      "result": "STRICT_PASS",
+      "source_sha256": "30077171f68267df7746054b20b7c3d7e24f588e11c689af732283d8ca134b3c"
+    },
+    {
+      "id": "fd",
+      "result": "STRICT_PASS",
+      "source_sha256": "c32af33c33ff76cc3fa9eec49fd1b60152e242cd0db4cb990d44cac17c300ba7"
+    },
+    {
+      "id": "fzf",
+      "result": "STRICT_PASS",
+      "source_sha256": "024ae33eb4d247c943f5b268010cb1a922a2c991809dcae44705c8be9608c699"
+    },
+    {
+      "id": "github-cli",
+      "result": "STRICT_PASS",
+      "source_sha256": "fe3022f4aff89154ba80d873d9fd93eaac9828742e1a99965681b2aabe6da6b4"
+    },
+    {
+      "id": "goreleaser",
+      "result": "STRICT_PASS",
+      "source_sha256": "47628dfd5d9b208e776e7fc7e7f28063a889469dff552bd4bd33e653c2503ccc"
+    },
+    {
+      "id": "gum",
+      "result": "STRICT_PASS",
+      "source_sha256": "5480bb25a2f544e295dfb4af2f5c7bb9eae9cff084613730d9b3e1f6d48fb734"
+    },
+    {
+      "id": "hadolint",
+      "result": "STRICT_PASS",
+      "source_sha256": "87c0aae6ae6a893352d6010ce11fa5c0def1547336f17ee4ee9ef27355bf6956"
+    },
+    {
+      "id": "httpie",
+      "initial_failure": "IR_DUPLICATE_EVIDENCE_ID",
+      "migration": {
+        "format": "r2s-discovery-migration-v1",
+        "original_schema": "1.2.0",
+        "readiness": "REVIEW_REQUIRED",
+        "removed_identical_evidence_ids": [
+          "ev_4ff175949370130bc5be"
+        ],
+        "ruleset": "strict-discovery-1.2-revision-2",
+        "source_authenticity": "not_independently_authenticated",
+        "source_discovery_sha256": "614ae2cd40753cb80b3a4ffc7659424276944bfb4340bdb64de3205d39821ac8",
+        "source_integrity": "untrusted standalone JSON",
+        "source_name": "discovery.json",
+        "target_discovery_sha256": "6780d84a2ae6c21b6ceb86ee23ff09a193f3a7faef82a3466ebfd6cd88174277",
+        "target_run_id": "run_77efa176f808e4af8fc7",
+        "target_schema": "1.2.0"
+      },
+      "result": "MIGRATED_REVIEW_REQUIRED",
+      "source_sha256": "614ae2cd40753cb80b3a4ffc7659424276944bfb4340bdb64de3205d39821ac8"
+    },
+    {
+      "id": "hugo",
+      "result": "STRICT_PASS",
+      "source_sha256": "34baecefdac77ae0e6f8219fc31715c9ec27c77ff8a9d8a8042b339271321c26"
+    },
+    {
+      "id": "jq",
+      "result": "STRICT_PASS",
+      "source_sha256": "34c67a08c37da957ef902888455ff74d1aae86f5b0827c2cf6c84be8ba9fbea9"
+    },
+    {
+      "id": "llm",
+      "result": "STRICT_PASS",
+      "source_sha256": "fa0ca310babfca2619e4e5d3ac5cb18495cc827bd086a697d5bdf71f4f3685f7"
+    },
+    {
+      "id": "mypy",
+      "result": "STRICT_PASS",
+      "source_sha256": "1eae216ccdac2cd73942ac23482fe8596b9fc1d83a61a57a153cc6dd2a90706f"
+    },
+    {
+      "id": "npm",
+      "result": "STRICT_PASS",
+      "source_sha256": "651a87b1d063ead47b4f62490fa8bd9e6081da12122867b5a07f5d209399831e"
+    },
+    {
+      "id": "pip",
+      "initial_failure": "IR_DUPLICATE_EVIDENCE_ID",
+      "migration": {
+        "format": "r2s-discovery-migration-v1",
+        "original_schema": "1.2.0",
+        "readiness": "REVIEW_REQUIRED",
+        "removed_identical_evidence_ids": [
+          "ev_b65b3d60f1d6c6fc618d"
+        ],
+        "ruleset": "strict-discovery-1.2-revision-2",
+        "source_authenticity": "not_independently_authenticated",
+        "source_discovery_sha256": "40929585b222b1c4fe1138a16c645b5a0047478546455cb75db66159ba833988",
+        "source_integrity": "untrusted standalone JSON",
+        "source_name": "discovery.json",
+        "target_discovery_sha256": "9b2c247def2dd91f59deac996c6b98553681baf0c651fb14024bb0bb09372c19",
+        "target_run_id": "run_f818950ddbfcf4a98816",
+        "target_schema": "1.2.0"
+      },
+      "result": "MIGRATED_REVIEW_REQUIRED",
+      "source_sha256": "40929585b222b1c4fe1138a16c645b5a0047478546455cb75db66159ba833988"
+    },
+    {
+      "id": "pipx",
+      "result": "STRICT_PASS",
+      "source_sha256": "645201395c4f5256739e42413a67e5169d5d396073a3d4f158608c52b037933a"
+    },
+    {
+      "id": "pnpm",
+      "initial_failure": "IR_DUPLICATE_EVIDENCE_ID",
+      "migration": {
+        "format": "r2s-discovery-migration-v1",
+        "original_schema": "1.2.0",
+        "readiness": "REVIEW_REQUIRED",
+        "removed_identical_evidence_ids": [
+          "ev_6456cbea9df8c5284ec0",
+          "ev_6b7a1ebe95919ecb0bec",
+          "ev_996a8c19ef44da9ecd13",
+          "ev_f6bf0105afb4e233ee35"
+        ],
+        "ruleset": "strict-discovery-1.2-revision-2",
+        "source_authenticity": "not_independently_authenticated",
+        "source_discovery_sha256": "5b4837cb77346564f9f1f46475360f117f200253b1c721015a06efaf6201a764",
+        "source_integrity": "untrusted standalone JSON",
+        "source_name": "discovery.json",
+        "target_discovery_sha256": "09f93497b2a676c8f5998e0b2d6291e065c78ebe940df108b6f4544ba2b3172b",
+        "target_run_id": "run_14bf301e002043207d0a",
+        "target_schema": "1.2.0"
+      },
+      "result": "MIGRATED_REVIEW_REQUIRED",
+      "source_sha256": "5b4837cb77346564f9f1f46475360f117f200253b1c721015a06efaf6201a764"
+    },
+    {
+      "id": "poetry",
+      "result": "STRICT_PASS",
+      "source_sha256": "ef66bfc459c4f250b31f85296647779299d5d5df384e9c04a16c8d6141ea62e7"
+    },
+    {
+      "id": "pre-commit",
+      "result": "STRICT_PASS",
+      "source_sha256": "a92275e82c25bebab35ee0b5dfc742522b8b6dfd5bab8732c70353f7d5eb7246"
+    },
+    {
+      "id": "prettier",
+      "result": "STRICT_PASS",
+      "source_sha256": "686709e378129a31d129784922759fd34c0a293c0d79874f41d42fc1ed07882f"
+    },
+    {
+      "id": "pyenv",
+      "result": "STRICT_PASS",
+      "source_sha256": "a65a38b6d77d00ab3d3d6d28f0fbcc845b3ec54683d4289738785ff6be354b53"
+    },
+    {
+      "id": "pytest",
+      "initial_failure": "IR_DUPLICATE_EVIDENCE_ID",
+      "migration": {
+        "format": "r2s-discovery-migration-v1",
+        "original_schema": "1.2.0",
+        "readiness": "REVIEW_REQUIRED",
+        "removed_identical_evidence_ids": [
+          "ev_5c746230843bd11ae22b"
+        ],
+        "ruleset": "strict-discovery-1.2-revision-2",
+        "source_authenticity": "not_independently_authenticated",
+        "source_discovery_sha256": "33448b0b2c2f22be1376ae8593bd957a07302327afc653dc4107aba139069431",
+        "source_integrity": "untrusted standalone JSON",
+        "source_name": "discovery.json",
+        "target_discovery_sha256": "395f3dcad0a56908db1be197a3b0e3d9cf005f2997bfdf5a21619cd12bcbb252",
+        "target_run_id": "run_b26aa0225c95eae60a61",
+        "target_schema": "1.2.0"
+      },
+      "result": "MIGRATED_REVIEW_REQUIRED",
+      "source_sha256": "33448b0b2c2f22be1376ae8593bd957a07302327afc653dc4107aba139069431"
+    },
+    {
+      "id": "rich",
+      "result": "STRICT_PASS",
+      "source_sha256": "670a105b7120cb6a1adb908f83e126de61216c09cef7d02ada7d15ae78532851"
+    },
+    {
+      "id": "ripgrep",
+      "result": "STRICT_PASS",
+      "source_sha256": "ec08829ebb4a7c76733c226f45937f3ba32d7abf13cbc2a8f046ca7ef8a83675"
+    },
+    {
+      "id": "shellcheck",
+      "result": "STRICT_PASS",
+      "source_sha256": "393adbe6f32ef152097b25572c153d11fd529049b20044e0fcb870387d55eee4"
+    },
+    {
+      "id": "starship",
+      "result": "STRICT_PASS",
+      "source_sha256": "9d84490a1210822b08bedc847b8b51b8110eecb22f7d301dc1d73df1e6bc315b"
+    },
+    {
+      "id": "task",
+      "result": "STRICT_PASS",
+      "source_sha256": "41ab85b4f005b170be330c084f12658fa21a54f5fb07c8623ec0d1eb44886cc4"
+    },
+    {
+      "id": "uv",
+      "result": "STRICT_PASS",
+      "source_sha256": "01eb92b6df0e4d0ce8f5b92c9be87633522902d9ab1b4f61b8d863c86d7362c8"
+    },
+    {
+      "id": "vhs",
+      "result": "STRICT_PASS",
+      "source_sha256": "1d26345bea5a24058b702f13c2a496e78fadebc03e36da6721bab45666a2dee2"
+    },
+    {
+      "id": "virtualenv",
+      "result": "STRICT_PASS",
+      "source_sha256": "f017e137daadd27fca8a280d99f5e25280679bc7b93caeb6fcf92e4da79ff67d"
+    },
+    {
+      "id": "vite",
+      "initial_failure": "IR_DUPLICATE_EVIDENCE_ID",
+      "migration": {
+        "format": "r2s-discovery-migration-v1",
+        "original_schema": "1.2.0",
+        "readiness": "REVIEW_REQUIRED",
+        "removed_identical_evidence_ids": [
+          "ev_a966a05cc808f5435c7d"
+        ],
+        "ruleset": "strict-discovery-1.2-revision-2",
+        "source_authenticity": "not_independently_authenticated",
+        "source_discovery_sha256": "2e0bd94f06a57dac62b14ffb7373e57cdc3640a31a5738f9f51d18818a87923f",
+        "source_integrity": "untrusted standalone JSON",
+        "source_name": "discovery.json",
+        "target_discovery_sha256": "a48f403c2b52757088a0aca95c2a65f28cdfd5c2d08e06a148e5ca10191a6f55",
+        "target_run_id": "run_b9076d905d23f7db2e6e",
+        "target_schema": "1.2.0"
+      },
+      "result": "MIGRATED_REVIEW_REQUIRED",
+      "source_sha256": "2e0bd94f06a57dac62b14ffb7373e57cdc3640a31a5738f9f51d18818a87923f"
+    },
+    {
+      "id": "watchexec",
+      "result": "STRICT_PASS",
+      "source_sha256": "b300f7108d258c07729981230ef3ec1e1672c8c612eb5295e3b48338a89cb0e0"
+    },
+    {
+      "id": "yq",
+      "result": "STRICT_PASS",
+      "source_sha256": "8a3b237c83ae0b085d3d59812641c97aba2758c583030dcb9c9556a32f26efd4"
+    },
+    {
+      "id": "yt-dlp",
+      "result": "STRICT_PASS",
+      "source_sha256": "98a78403543e5f5643f20d0a1f9439ecbc456c17bfaadb68bdfdf6df48f66722"
+    }
+  ],
+  "scope": "Strict IR import and explicit migration of retained historical JSON; not semantic or runtime evaluation",
+  "source_artifacts": 42,
+  "source_run": "upgrade-2026-09-15-v5",
+  "summary": {
+    "MIGRATED_REVIEW_REQUIRED": 5,
+    "STRICT_PASS": 37
+  },
+  "verification_script_sha256": "7b728fe8dca1035d60658c37cf0512cd6005afeb2cf8973d6fbe55003d258405"
+}

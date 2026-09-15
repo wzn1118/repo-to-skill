@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — strict discovery and compilation identity
+
+- Enforce required nested fields, typed claim payloads, source identities and graph references at discovery JSON and generation boundaries; export the same complete schema.
+- Add explicit `r2s migrate` for historical 1.2 inputs. Identical evidence can be merged into a new review-required run; original files and commits are preserved.
+- Bind compilation caches to actual source/resource hashes, dependencies, runtime, client profile and full/delta selection; reject changed inputs and short-ID collisions.
+- Stage generation, verify the compiler before publication, and reject altered or unmanaged existing output. Repeated generation preserves existing bytes and timestamps.
+- Keep full IR v2, source authentication, semantic review and Agent A/B evaluation as open acceptance work.
+
 ## Unreleased — 2026-09-15 stabilization work
 
 - Reject modified or malformed generated bundles using strict provenance, complete file locks and

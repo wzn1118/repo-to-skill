@@ -39,7 +39,7 @@ def plan(
         )
         if entrypoint_claim is not None:
             command_by_capability[capability.id] = str(
-                entrypoint_claim.object["command"]
+                entrypoint_claim.object.get("command")
             )
     mentioned_commands = {
         command.casefold()
@@ -77,7 +77,7 @@ def plan(
         )
         if entrypoint is None:
             continue
-        command = str(entrypoint.object["command"])
+        command = str(entrypoint.object.get("command"))
         step = ProcedureStep(
             command,
             (),
