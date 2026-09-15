@@ -213,6 +213,7 @@ class BuildResult:
     bundles: tuple[str, ...]
     readiness: BundleReadiness
     findings: tuple[Finding, ...]
+    outcome: RunOutcome = RunOutcome.COMPLETED
 
 
 @dataclass(frozen=True)

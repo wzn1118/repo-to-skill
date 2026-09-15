@@ -92,6 +92,38 @@ def test_option_on_another_command_is_not_coverage() -> None:
     assert not covered(fact, generated, "black")
 
 
+def test_subcommand_coverage_uses_command_path() -> None:
+    fact = {"kind": "subcommand", "value": "issue create"}
+    generated = [{
+        "predicate": "provides_subcommand",
+        "subject": "gh",
+        "value": {"command_path": "issue list"},
+        "emitted": True,
+    }]
+    assert not covered(fact, generated, "gh")
+    generated[0]["value"]["command_path"] = "issue create"
+    assert covered(fact, generated, "gh")
+    generated[0]["subject"] = "other"
+    assert not covered(fact, generated, "gh")
+    del generated[0]["subject"]
+    assert not covered(fact, generated, "gh")
+
+
+def test_option_on_different_subcommand_is_not_coverage() -> None:
+    fact = {"kind": "option", "value": "--json", "command_path": "pr list"}
+    generated = [{"predicate": "supports_option", "subject": "gh", "emitted": True,
+                  "value": {"command": "gh", "command_path": "issue list", "option": "--json"}}]
+    assert not covered(fact, generated, "gh")
+    generated[0]["value"]["command_path"] = "pr list"
+    assert covered(fact, generated, "gh")
+
+
+def test_task_can_require_a_second_executable() -> None:
+    fact = {"kind": "command", "value": "webpack-cli"}
+    generated = [{"predicate": "provides_cli", "emitted": True, "value": {"command": "webpack-cli"}}]
+    assert covered(fact, generated, "webpack")
+
+
 def test_sandbox_has_no_network_or_host_secrets(tmp_path: Path) -> None:
     command = docker_arguments("sha256:test", "test", tmp_path, tmp_path)
     assert "--network=none" in command

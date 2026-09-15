@@ -6,12 +6,17 @@ build-backend = "hatchling.build"
 name = "repo-to-skill"
 version = "0.1.0"
 description = "Evidence-driven repository to Agent Skill compiler"
+readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["jinja2>=3.1", "pydantic>=2.8", "typer>=0.12"]
+dependencies = ["jinja2>=3.1", "pydantic>=2.8", "typer>=0.12", "PyYAML>=6.0.2"]
 
 [project.optional-dependencies]
-dev = ["mypy>=1.11", "pytest>=8.3", "pytest-cov>=5", "ruff>=0.6"]
+dev = ["mypy>=1.11", "pytest>=8.3", "pytest-cov>=5", "ruff>=0.6", "types-PyYAML>=6.0.12"]
 benchmark = ["matplotlib>=3.9"]
+
+[project.urls]
+Repository = "https://github.com/wzn1118/repo-to-skill"
+Issues = "https://github.com/wzn1118/repo-to-skill/issues"
 
 [project.scripts]
 r2s = "r2s.cli:main"

@@ -1,4 +1,6 @@
+import hashlib
 import json
+import os
 import subprocess
 import tempfile
 import unittest
@@ -47,6 +49,15 @@ def _committed_cli(root: Path) -> str:
 
 
 class SourceResolverTests(unittest.TestCase):
+    def test_fifo_is_rejected_without_reading(self) -> None:
+        if not hasattr(os, "mkfifo"):
+            self.skipTest("FIFOs unavailable")
+        with tempfile.TemporaryDirectory() as source:
+            root = Path(source)
+            os.mkfifo(root / "hostile.py")
+            with self.assertRaisesRegex(ValueError, "UNTRUSTED_SPECIAL_FILE"):
+                discover(root)
+
     def test_clean_git_snapshot_pins_commit_and_blob(self) -> None:
         with tempfile.TemporaryDirectory() as source:
             root = Path(source)
@@ -55,7 +66,7 @@ class SourceResolverTests(unittest.TestCase):
             self.assertEqual(resolved.snapshot.resolved_commit_sha, commit)
             self.assertFalse(resolved.snapshot.git_dirty)
             self.assertEqual(resolved.snapshot.git_object_format, "sha1")
-            discovery = discover(resolved.root, resolved.snapshot)
+            discovery = discover(resolved.root, resolved.snapshot, resolved.committed_blob_oids)
             source_locations = [item.source for item in discovery.evidence]
             self.assertTrue(source_locations)
             self.assertTrue(all(item.commit_sha == commit for item in source_locations))
@@ -66,6 +77,69 @@ class SourceResolverTests(unittest.TestCase):
             )
             expected_blob = _git(root, "hash-object", "tool.py")
             self.assertEqual(tool_evidence.source.blob_sha, expected_blob)
+
+    def test_crlf_worktree_keeps_raw_hash_and_reads_committed_blob_oid(self) -> None:
+        with tempfile.TemporaryDirectory() as source:
+            root = Path(source)
+            (root / "LICENSE").write_bytes(b"MIT License\r\n")
+            (root / "pyproject.toml").write_bytes(
+                b"[project]\r\nname = 'git-cli'\r\nversion = '1'\r\n"
+                b"[project.scripts]\r\ngit-tool = 'tool:main'\r\n"
+            )
+            (root / "tool.py").write_bytes(
+                b"import argparse\r\n\r\ndef main():\r\n"
+                b"    parser = argparse.ArgumentParser()\r\n"
+                b"    parser.add_argument('--safe')\r\n"
+            )
+            commit = _git(root, "init", "--quiet")
+            _git(root, "config", "core.autocrlf", "false")
+            _git(root, "add", "LICENSE", "pyproject.toml", "tool.py")
+            _git(root, "commit", "--quiet", "-m", "crlf")
+            commit = _git(root, "rev-parse", "HEAD")
+            resolved = resolve_local(root, "HEAD")
+            discovery = discover(resolved.root, resolved.snapshot, resolved.committed_blob_oids)
+            tool = next(item for item in discovery.inventory if item.path == "tool.py")
+            self.assertEqual(
+                tool.content_sha256,
+                hashlib.sha256((root / "tool.py").read_bytes()).hexdigest(),
+            )
+            evidence = next(item for item in discovery.evidence if item.source.path == "tool.py")
+            self.assertEqual(evidence.source.commit_sha, commit)
+            self.assertEqual(evidence.source.blob_sha, _git(root, "rev-parse", "HEAD:tool.py"))
+
+    def test_repository_git_helpers_are_disabled_during_resolution(self) -> None:
+        with tempfile.TemporaryDirectory() as source:
+            root = Path(source)
+            _committed_cli(root)
+            _git(root, "config", "core.fsmonitor", "touch FS_MONITOR_EXECUTED")
+            _git(root, "config", "filter.bad.clean", "touch CLEAN_EXECUTED")
+            _git(root, "config", "filter.bad.process", "touch PROCESS_EXECUTED")
+            (root / ".gitattributes").write_text("tool.py filter=bad\n")
+            (root / "tool.py").write_text("def main(): pass\n")
+            resolved = resolve_local(root)
+            self.assertTrue(resolved.snapshot.git_dirty)
+            self.assertFalse(any((root / name).exists() for name in (
+                "FS_MONITOR_EXECUTED", "CLEAN_EXECUTED", "PROCESS_EXECUTED",
+            )))
+
+    def test_sha256_git_identity_and_bom_raw_bytes(self) -> None:
+        with tempfile.TemporaryDirectory() as source:
+            root = Path(source)
+            try:
+                _git(root, "init", "--quiet", "--object-format=sha256")
+            except subprocess.CalledProcessError:
+                self.skipTest("Git SHA-256 repositories unavailable")
+            _committed_cli(root)
+            (root / "data.txt").write_bytes(b"\xef\xbb\xbfraw\r\n")
+            _git(root, "config", "core.autocrlf", "false")
+            _git(root, "add", "data.txt")
+            _git(root, "commit", "--quiet", "-m", "BOM")
+            resolved = resolve_local(root, "HEAD")
+            self.assertEqual(resolved.snapshot.git_object_format, "sha256")
+            discovery = discover(root, resolved.snapshot, resolved.committed_blob_oids)
+            item = next(entry for entry in discovery.inventory if entry.path == "data.txt")
+            self.assertEqual(item.blob_sha, _git(root, "rev-parse", "HEAD:data.txt"))
+            self.assertEqual(item.content_sha256, hashlib.sha256(b"\xef\xbb\xbfraw\r\n").hexdigest())
 
     def test_dirty_git_ref_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as source:
@@ -92,7 +166,7 @@ class SourceResolverTests(unittest.TestCase):
             _committed_cli(root)
             resolved = resolve_local(root, "HEAD")
             discovery = discover(resolved.root, resolved.snapshot)
-            result = generate(discovery, "use the git tool", Path(output), "portable")
+            result = generate(discovery, "use git-tool", Path(output), "portable")
             bundle = Path(result.bundles[0])
             provenance_path = bundle / "PROVENANCE.json"
             provenance = json.loads(provenance_path.read_text())

@@ -1,0 +1,90 @@
+{
+  "browser": {
+    "flows": [
+      "empty state",
+      "inspect",
+      "build",
+      "evidence",
+      "unmatched goal",
+      "source boundary"
+    ],
+    "javascript_exceptions": 0,
+    "test_cases_passed": 1,
+    "tool": "Node 22 CDP driver",
+    "version": "HeadlessChrome/153.0.8010.12"
+  },
+  "codex_manifest_validator": {
+    "client_loading": "not tested",
+    "initial_failure": [
+      "author missing",
+      "skills must be path string",
+      "interface missing"
+    ],
+    "sha256": "f4eeadb733b28b0c3e714de263a76d6542866a672f3e99bdffcf4dbcdf85e944",
+    "source": "bundled openai plugin-creator scripts/validate_plugin.py",
+    "status": "passed"
+  },
+  "compiler_sha256": "2d6891e7d71ad9fae0112eb1e6f3b04a6384b49b4afe8f1a14e23507d25e846c",
+  "docker": {
+    "cases_passed": 5,
+    "image_id": "sha256:dcca26b2248580b289b0ed070712e2ccd3447e9ef93e986c2a288c8fcfa445a0",
+    "scope": [
+      "verified Python invocation",
+      "readonly source/non-root/no network/no host secret",
+      "timeout",
+      "output limit",
+      "nonzero exit",
+      "container cleanup"
+    ]
+  },
+  "format": "r2s-local-verification-v1",
+  "mypy": "passed",
+  "platform": "Linux-5.15.0-191-generic-x86_64-with-glibc2.35",
+  "pytest": {
+    "failed": 0,
+    "passed": 133,
+    "report": "regression-tests.json",
+    "skipped": 0,
+    "subtests_passed": 12
+  },
+  "python": "3.12.14",
+  "ruff": "passed",
+  "scope": "local controlled regression checks, not public repository task execution or agent A/B evaluation",
+  "test_files": {
+    "tests/test_adapters.py": "65fa6bfa41a181b440eba10a763425f53886d0e698f76447592e83aca7cf9e3c",
+    "tests/test_benchmark_public.py": "dbf8a62635e31811b9707a99cc86f19f8bb0d54bf60573b9df50c9a7cd0a7f49",
+    "tests/test_distribution.py": "827db3d1f9347c64284a7439fefa6cbfec28a3c9aa674f66fc4bd4773ca92c6d",
+    "tests/test_entrypoint_roles.py": "d12591a6b331bc0fc0718e94cb5974762af097a2074ea918cf3e7170663d9dc5",
+    "tests/test_execution.py": "b1bc2b3e8c97a7d93632bf44c47c5c1df579ef767c5b65ec9f017c7647a948e5",
+    "tests/test_execution_integration.py": "f9f03ab8309ee47245e846f8e16586a8c500a21283a6711c9fc1db5ea1ef6509",
+    "tests/test_languages.py": "8522d039565219c4519b68f7af2bae0666a52f2c5b80ca2203e5d30c2d26ab33",
+    "tests/test_measurement_identity.py": "fa73982ba40dfaff7318bf64e4690f5edddd6078b99514c179afd09fabc021af",
+    "tests/test_pipeline.py": "e55d9cdb7a84b669cf9ae2ca72cb799aa0a02050f25caef359b24587bcb60b80",
+    "tests/test_public_measurement.py": "05ec9de782a894e9436eb2d775fdc118fa704887b7269dfe51a56d6bc9183cc0",
+    "tests/test_python_bindings.py": "5922baafbe69d9acd062fe4d370d075db64367dab8c435ee2bdf05840d380c74",
+    "tests/test_source.py": "4d2b735b4996a91aa8d2fbb40e60b85b1afd3e5a85a21670d192ec9df6f0d520",
+    "tests/test_taskset.py": "a902f9de509333e16c4fa4808dc053f25de1fcc8e4a35b7d25be9f63247ecb50",
+    "tests/test_ui.py": "0f7d2e64abae604ad1bce008f98c06491fa390dd9f1118968b89f34008d4ddc7",
+    "tests/test_ui_browser.py": "4ed4a4b71f35dcea293b49f424c34f03467da1587b2204de54c1f0dc26057500",
+    "tests/test_update.py": "3a2f8e1dc2a3ca09d3e5f3a94d875a5af2a6f83958d21ed833253be917db08f6"
+  },
+  "tools": {
+    "PyYAML": "6.0.3",
+    "mypy": "2.3.1",
+    "pydantic": "2.13.5",
+    "pytest": "9.1.1",
+    "ruff": "0.16.7"
+  },
+  "wheel": {
+    "clean_environment_install": "passed",
+    "cli_checks": [
+      "version",
+      "inspect",
+      "build codex",
+      "validate",
+      "install preview"
+    ],
+    "name": "repo_to_skill-0.1.0-py3-none-any.whl",
+    "sha256": "35c1f232f0226728de7c977186ba72da53e75b4c37376e0041356355239501cf"
+  }
+}

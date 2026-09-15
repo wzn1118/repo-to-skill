@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import hmac
 import json
 import re
+import secrets
+import threading
+import time
 from dataclasses import asdict
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -9,13 +13,15 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlsplit
 
+from r2s.core import discover_source, generate, plan, write_discovery
 from r2s.domain import DiscoveryIR
-from r2s.storage import list_runs, load_discovery
+from r2s.storage import compilation_root, list_runs, load_discovery, record_compilation
 
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost", "::1"}
 RUN_ID_RE = re.compile(r"^run_[0-9a-f]{20}$")
 MAX_EVIDENCE_PAGE_SIZE = 200
 MAX_UPDATE_REPORT_BYTES = 2 * 1024 * 1024
+MAX_UI_BODY_BYTES = 64 * 1024
 
 
 DASHBOARD_HTML = """<!doctype html>
@@ -51,6 +57,13 @@ aside { border-right:1px solid var(--line); padding:20px 14px; background:rgba(1
   color:var(--text);
   background:var(--code); font:inherit; outline:none; }
 .search:focus { border-color:var(--accent); }
+.workbench { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); }
+.workbench form { display:grid; gap:8px; }
+form.workbench { display:grid; gap:8px; }
+.workbench label { color:var(--muted); font-size:12px; }
+.workbench input,.workbench select { width:100%; padding:8px 9px; border:1px solid var(--line);
+  border-radius:7px; color:var(--text); background:var(--code); font:inherit; }
+.workbench button { background:#24503f; border-color:#397962; }
 .run-list { display:grid; gap:8px; margin-top:14px; }
 .run { width:100%; text-align:left; padding:12px; background:transparent; }
 .run.active { background:#20342f; border-color:#397962; }
@@ -113,6 +126,17 @@ td { overflow-wrap:anywhere; }
   <aside>
     <div class="subtle" id="run-count">正在加载运行记录…</div>
     <input class="search" id="search" type="search" placeholder="筛选仓库或运行 ID" aria-label="筛选运行">
+    <section class="workbench" aria-labelledby="start-title">
+      <h2 id="start-title">开始 / Start</h2>
+      <form id="inspect-form">
+        <label for="source">仓库 URL 或本地目录</label>
+        <input id="source" name="source" required placeholder="/data/project 或 https://github.com/...">
+        <label for="ref">Commit / ref（可选）</label>
+        <input id="ref" name="ref" placeholder="具体 SHA 最佳">
+        <button type="submit">静态分析 / Inspect</button>
+      </form>
+      <div class="subtle" id="action-status" role="status"></div>
+    </section>
     <div class="run-list" id="runs"></div>
   </aside>
   <main id="detail"><section class="empty"><strong>选择一个 Discovery Run</strong>
@@ -120,6 +144,7 @@ td { overflow-wrap:anywhere; }
 </div>
 <script>
 const state = { runs: [], selected: null };
+let uiToken = '';
 const $ = (selector) => document.querySelector(selector);
 function element(name, className, text) {
   const node = document.createElement(name);
@@ -143,6 +168,31 @@ async function request(path) {
   const value = await response.json();
   if (!response.ok) throw new Error(value.error || '请求失败');
   return value;
+}
+async function writeRequest(path, body) {
+  const response = await fetch(path, {
+    method: 'POST', cache: 'no-store',
+    headers: {'Content-Type': 'application/json', 'X-R2S-UI-Token': uiToken},
+    body: JSON.stringify(body),
+  });
+  const value = await response.json();
+  if (!response.ok) throw new Error(value.error || '请求失败');
+  return value;
+}
+async function inspectSource(event) {
+  event.preventDefault();
+  const status = $('#action-status');
+  status.textContent = '正在固定快照并分析…';
+  try {
+    const source = $('#source').value.trim();
+    const ref = $('#ref').value.trim();
+    const result = await writeRequest('/api/runs', {source, ...(ref ? {ref} : {})});
+    status.textContent = '分析完成，已加载结果。';
+    await refresh();
+    await selectRun(result.run_id);
+  } catch (error) {
+    status.textContent = error.message;
+  }
 }
 function renderRuns() {
   const root = $('#runs');
@@ -192,6 +242,57 @@ function renderDetail(data) {
   root.append(hero);
 
   const grid = element('div', 'grid');
+  const action = card('生成 / Build', 'half');
+  const form = element('form', 'workbench');
+  form.style.marginTop = '-16px';
+  const goal = element('input');
+  goal.placeholder = '目标，例如：inspect options';
+  goal.required = true;
+  goal.setAttribute('aria-label', '用户目标');
+  goal.value = state.buildGoal || '';
+  const target = element('select');
+  target.setAttribute('aria-label', '目标客户端');
+  for (const value of ['portable', 'codex', 'claude', 'cursor']) {
+    const option = element('option', '', value);
+    option.value = value;
+    target.append(option);
+  }
+  target.value = state.buildTarget || 'portable';
+  const submit = element('button', '', '生成静态 Skill');
+  submit.type = 'submit';
+  const status = element('div', 'subtle');
+  status.setAttribute('role', 'status');
+  form.append(goal, target, submit, status);
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    submit.disabled = true;
+    state.buildGoal = goal.value;
+    state.buildTarget = target.value;
+    status.textContent = '正在生成并验证…';
+    try {
+      const result = await writeRequest('/api/runs/' + encodeURIComponent(data.run_id) + '/compilations', {
+        goal: goal.value, target: target.value,
+      });
+      state.buildResult = result.result;
+      renderDetail(await request('/api/runs/' + encodeURIComponent(data.run_id)));
+    } catch (error) {
+      status.textContent = error.message;
+      submit.disabled = false;
+    }
+  });
+  action.append(form);
+  if (state.buildResult) {
+    const result = state.buildResult;
+    action.append(element('p', '', '结果：' + result.readiness));
+    for (const finding of result.findings) action.append(element('p', 'warn', finding.message));
+    if (result.root) {
+      const location = element('p', 'subtle', result.root);
+      location.style.overflowWrap = 'anywhere';
+      action.append(location);
+    }
+  }
+  grid.append(action);
+
   const capabilities = card('可验证能力', 'third');
   capabilities.append(element('div', 'metric', String(data.discovery.capabilities)));
   capabilities.append(element('div', 'subtle', '来自受支持的 Claim 与 Evidence'));
@@ -325,6 +426,11 @@ async function loadEvidence(runId, cardRoot, button) {
   }
 }
 async function selectRun(runId) {
+  if (state.selected !== runId) {
+    state.buildResult = null;
+    state.buildGoal = '';
+    state.buildTarget = 'portable';
+  }
   state.selected = runId;
   renderRuns();
   $('#detail').replaceChildren(
@@ -353,7 +459,16 @@ async function refresh() {
 }
 $('#refresh').addEventListener('click', refresh);
 $('#search').addEventListener('input', renderRuns);
-refresh();
+$('#inspect-form').addEventListener('submit', inspectSource);
+async function start() {
+  try {
+    uiToken = (await request('/api/session')).csrf_token;
+    await refresh();
+  } catch (error) {
+    $('#run-count').textContent = error.message;
+  }
+}
+start();
 </script>
 </body>
 </html>
@@ -528,10 +643,19 @@ def _evidence_payload(
 
 class R2SUIHTTPServer(ThreadingHTTPServer):
     output_root: Path
+    ui_token: str
+    allowed_hosts: set[str]
+    source_roots: tuple[Path, ...]
+    write_lock: threading.Lock
+    request_times: list[float]
 
 
 class R2SUIRequestHandler(BaseHTTPRequestHandler):
     server: R2SUIHTTPServer
+
+    def setup(self) -> None:
+        super().setup()
+        self.connection.settimeout(20)
 
     def log_message(self, format: str, *args: Any) -> None:
         return
@@ -550,12 +674,52 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(content)
 
+    def _write_authorized(self) -> bool:
+        host = self.headers.get("Host", "")
+        origin = self.headers.get("Origin", "")
+        token = self.headers.get("X-R2S-UI-Token", "")
+        return bool(
+            self._host_authorized()
+            and origin == f"http://{host}"
+            and token.isascii()
+            and hmac.compare_digest(token, self.server.ui_token)
+        )
+
+    def _host_authorized(self) -> bool:
+        hosts = self.headers.get_all("Host", [])
+        return (
+            len(hosts) == 1 and hosts[0] in self.server.allowed_hosts
+            and self.headers.get("Sec-Fetch-Site", "none") in {"same-origin", "none"}
+        )
+
+    def _body(self) -> dict[str, Any]:
+        if (
+            self.headers.get("Content-Type", "").split(";", 1)[0] != "application/json"
+            or self.headers.get("Transfer-Encoding") is not None
+            or len(self.headers.get_all("Content-Length", [])) != 1
+        ):
+            raise ValueError("UI_BODY_INVALID")
+        length_value = self.headers.get("Content-Length", "")
+        try:
+            length = int(length_value)
+        except ValueError as exc:
+            raise ValueError("UI_BODY_INVALID") from exc
+        if length < 0 or length > MAX_UI_BODY_BYTES:
+            raise ValueError("UI_BODY_TOO_LARGE")
+        try:
+            value = json.loads(self.rfile.read(length))
+        except (UnicodeError, json.JSONDecodeError) as exc:
+            raise ValueError("UI_BODY_INVALID") from exc
+        if not isinstance(value, dict):
+            raise TypeError("UI_BODY_INVALID")
+        return value
+
     def _send_html(self) -> None:
-        content = DASHBOARD_HTML.encode("utf-8")
+        content = DASHBOARD_HTML.replace("<script>", '<script nonce="' + self.server.ui_token + '">').encode("utf-8")
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Cache-Control", "no-store")
-        self.send_header("Content-Security-Policy", _content_security_policy())
+        self.send_header("Content-Security-Policy", _content_security_policy(self.server.ui_token))
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Content-Length", str(len(content)))
@@ -563,11 +727,17 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(content)
 
     def do_GET(self) -> None:
+        if not self._host_authorized():
+            self._send_json(HTTPStatus.FORBIDDEN, {"error": "UI_HOST_FORBIDDEN"})
+            return
         parsed = urlsplit(self.path)
         if parsed.path == "/":
             self._send_html()
             return
         try:
+            if parsed.path == "/api/session":
+                self._send_json(HTTPStatus.OK, {"csrf_token": self.server.ui_token})
+                return
             if parsed.path == "/api/runs":
                 self._send_json(HTTPStatus.OK, {"runs": _discovery_runs(self.output_root)})
                 return
@@ -586,25 +756,95 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
                 )
                 return
             self._send_json(HTTPStatus.NOT_FOUND, {"error": "UI_ROUTE_NOT_FOUND"})
-        except ValueError as exc:
+        except (ValueError, TypeError, OSError) as exc:
             self._send_json(HTTPStatus.CONFLICT, {"error": str(exc)})
 
     def do_POST(self) -> None:
-        self._send_json(HTTPStatus.METHOD_NOT_ALLOWED, {"error": "UI_READ_ONLY"})
+        if not self._write_authorized():
+            self._send_json(HTTPStatus.FORBIDDEN, {"error": "UI_WRITE_FORBIDDEN"})
+            return
+        if not self.server.write_lock.acquire(blocking=False):
+            self._send_json(HTTPStatus.CONFLICT, {"error": "UI_RUN_BUSY"})
+            return
+        parsed = urlsplit(self.path)
+        try:
+            now = time.monotonic()
+            self.server.request_times = [stamp for stamp in self.server.request_times if now - stamp < 60]
+            if len(self.server.request_times) >= 30:
+                self._send_json(HTTPStatus.TOO_MANY_REQUESTS, {"error": "UI_RATE_LIMIT"})
+                return
+            self.server.request_times.append(now)
+            body = self._body()
+            if parsed.path == "/api/runs":
+                source = body.get("source")
+                ref = body.get("ref")
+                if not isinstance(source, str) or not source.strip() or len(source) > 2048:
+                    raise ValueError("UI_SOURCE_INVALID")
+                if ref is not None and (not isinstance(ref, str) or len(ref) > 200):
+                    raise ValueError("UI_REF_INVALID")
+                if not source.startswith("https://github.com/"):
+                    path = Path(source).resolve(strict=True)
+                    if not any(path.is_relative_to(root) for root in self.server.source_roots):
+                        raise ValueError("UI_SOURCE_OUTSIDE_ALLOWED_ROOT")
+                discovery = discover_source(source, self.output_root, ref)
+                run_root = write_discovery(discovery, self.output_root)
+                self._send_json(
+                    HTTPStatus.CREATED,
+                    {"run_id": run_root.name, "summary": _discovery_summary(run_root)},
+                )
+                return
+            match = re.fullmatch(r"/api/runs/(run_[0-9a-f]{20})/plans", parsed.path)
+            if match is not None:
+                discovery = load_discovery(_run_root(self.output_root, match.group(1)))
+                goal = body.get("goal")
+                if not isinstance(goal, str) or not goal.strip() or len(goal) > 500:
+                    raise ValueError("GOAL_INVALID")
+                procedures = plan(discovery, goal)
+                self._send_json(HTTPStatus.OK, {"procedures": [asdict(item) for item in procedures]})
+                return
+            match = re.fullmatch(r"/api/runs/(run_[0-9a-f]{20})/compilations", parsed.path)
+            if match is not None:
+                discovery_root = _run_root(self.output_root, match.group(1))
+                discovery = load_discovery(discovery_root)
+                goal = body.get("goal")
+                target = body.get("target", "portable")
+                if not isinstance(goal, str) or not goal.strip() or len(goal) > 500:
+                    raise ValueError("GOAL_INVALID")
+                if not isinstance(target, str) or target not in {"portable", "codex", "claude", "cursor"}:
+                    raise ValueError("CLIENT_PROFILE_UNKNOWN")
+                root = compilation_root(discovery_root, goal, target)
+                result = generate(discovery, goal, root, target)
+                record_compilation(discovery_root, root, goal, target, result.readiness.value)
+                self._send_json(HTTPStatus.CREATED, {"result": asdict(result)})
+                return
+            self._send_json(HTTPStatus.NOT_FOUND, {"error": "UI_ROUTE_NOT_FOUND"})
+        except (ValueError, TypeError, OSError) as exc:
+            self._send_json(HTTPStatus.CONFLICT, {"error": str(exc)})
+        finally:
+            self.server.write_lock.release()
 
 
-def _content_security_policy() -> str:
+def _content_security_policy(nonce: str) -> str:
     return (
         "default-src 'self'; base-uri 'none'; connect-src 'self'; form-action 'none'; "
-        "frame-ancestors 'none'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; "
+        f"frame-ancestors 'none'; img-src 'self' data:; script-src 'nonce-{nonce}'; "
         "style-src 'self' 'unsafe-inline'"
     )
 
 
-def make_server(output_root: Path, host: str, port: int) -> R2SUIHTTPServer:
+def make_server(
+    output_root: Path, host: str, port: int, source_roots: tuple[Path, ...] | None = None,
+) -> R2SUIHTTPServer:
     validate_ui_host(host)
     if not 0 <= port <= 65535:
         raise ValueError("UI_PORT_INVALID")
     server = R2SUIHTTPServer((host, port), R2SUIRequestHandler)
     server.output_root = output_root.resolve()
+    server.ui_token = secrets.token_urlsafe(32)
+    server.allowed_hosts = {
+        f"{hostname}:{server.server_port}" for hostname in ("localhost", "127.0.0.1", "[::1]")
+    }
+    server.source_roots = tuple(root.resolve(strict=True) for root in (source_roots or (Path.cwd(),)))
+    server.write_lock = threading.Lock()
+    server.request_times = []
     return server

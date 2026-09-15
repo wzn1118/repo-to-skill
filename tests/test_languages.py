@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from r2s.analyzers import discover
-from r2s.domain import BundleReadiness
+from r2s.domain import BundleReadiness, RunOutcome
 from r2s.generator import generate
 
 ROOT = Path(__file__).parent / "fixtures"
@@ -22,7 +22,7 @@ class LanguageAnalyzerTests(unittest.TestCase):
         self.assertEqual(entrypoint.object["command"], "js-tool")
         self.assertEqual(entrypoint.object["target"], "bin/cli.js")
         with tempfile.TemporaryDirectory() as output:
-            result = generate(discovery, "run the JavaScript tool", Path(output), "portable")
+            result = generate(discovery, "run js-tool", Path(output), "portable")
             self.assertEqual(result.readiness, BundleReadiness.STATIC_READY)
             self.assertEqual(Path(result.bundles[0]).name, "js-tool")
             bundle = Path(result.bundles[0])
@@ -87,10 +87,23 @@ class LanguageAnalyzerTests(unittest.TestCase):
             self.assertEqual(result.readiness, BundleReadiness.STATIC_READY)
             self.assertEqual([Path(item).name for item in result.bundles], ["beta"])
 
+    def test_go_module_major_version_is_not_a_command(self) -> None:
+        discovery = discover(ROOT / "go_versioned_module")
+        entrypoint = next(claim for claim in discovery.claims if claim.predicate == "provides_cli")
+        self.assertEqual(entrypoint.object["command"], "versioned")
+
     def test_goal_length_is_bounded(self) -> None:
         discovery = discover(ROOT / "python_cli")
         with self.assertRaisesRegex(ValueError, "GOAL_TOO_LONG"):
             generate(discovery, "x" * 501, Path(tempfile.mkdtemp()), "portable")
+
+    def test_unrelated_goal_requests_input_instead_of_all_commands(self) -> None:
+        discovery = discover(ROOT / "multi_cli")
+        with tempfile.TemporaryDirectory() as output:
+            result = generate(discovery, "deploy a Kubernetes cluster", Path(output), "portable")
+            self.assertEqual(result.outcome, RunOutcome.NEEDS_INPUT)
+            self.assertEqual(result.readiness, BundleReadiness.REVIEW_REQUIRED)
+            self.assertFalse(result.bundles)
 
     def test_unsafe_python_manifest_cannot_escape_or_create_command(self) -> None:
         discovery = discover(ROOT / "python_unsafe")

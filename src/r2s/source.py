@@ -5,7 +5,7 @@ import re
 import shutil
 import subprocess
 import tempfile
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from r2s.domain import RepositorySnapshot
@@ -25,6 +25,7 @@ FULL_SHA_RE = re.compile(r"^[a-fA-F0-9]{40}$")
 class ResolvedSource:
     root: Path
     snapshot: RepositorySnapshot
+    committed_blob_oids: dict[str, str] = field(default_factory=dict)
 
 
 def _git_environment(home: Path) -> dict[str, str]:
@@ -33,6 +34,7 @@ def _git_environment(home: Path) -> dict[str, str]:
         "GIT_CONFIG_NOSYSTEM": "1",
         "GIT_TERMINAL_PROMPT": "0",
         "GIT_LFS_SKIP_SMUDGE": "1",
+        "GIT_NO_LAZY_FETCH": "1",
         "LANG": "C.UTF-8",
         "LC_ALL": "C.UTF-8",
     }
@@ -53,7 +55,7 @@ def _git(
         "-c",
         "core.hooksPath=/dev/null",
         "-c",
-        "core.autocrlf=true",
+        "core.fsmonitor=false",
         "-c",
         "submodule.recurse=false",
         "-c",
@@ -62,9 +64,22 @@ def _git(
         "filter.lfs.smudge=",
         "-c",
         "filter.lfs.required=false",
-        *arguments,
     ]
     try:
+        configured = subprocess.run(
+            ["git", "config", "--null", "--name-only", "--get-regexp", r"^filter\..*\.(clean|smudge|process|required)$"],
+            cwd=cwd, env=_git_environment(home), check=False, capture_output=True,
+            text=True, timeout=min(timeout, 15),
+        )
+        if configured.returncode not in {0, 1}:
+            raise ValueError("GIT_CONFIG_INVALID")
+        for key in configured.stdout.split("\0"):
+            if not key:
+                continue
+            if not re.fullmatch(r"filter\.[^\0\n\r]+\.(?:clean|smudge|process|required)", key):
+                raise ValueError("GIT_CONFIG_INVALID")
+            command.extend(["-c", f"{key}={'false' if key.endswith('.required') else ''}"])
+        command.extend(arguments)
         result = subprocess.run(
             command,
             cwd=cwd,
@@ -89,6 +104,29 @@ def _optional_git(arguments: list[str], cwd: Path, home: Path) -> str | None:
         return _git(arguments, cwd, home)
     except ValueError:
         return None
+
+
+def _with_git_identity(root: Path, snapshot: RepositorySnapshot) -> ResolvedSource:
+    if snapshot.git_dirty is not False or snapshot.resolved_commit_sha is None:
+        return ResolvedSource(root, snapshot)
+    with tempfile.TemporaryDirectory(prefix="r2s-git-identity-") as directory:
+        home = Path(directory)
+        prefix = _git(["rev-parse", "--show-prefix"], root, home)
+        tree = _git(
+            ["ls-tree", "-rz", "--full-name", snapshot.resolved_commit_sha, "--", "."], root, home,
+        )
+    oids = {}
+    for entry in tree.split("\0"):
+        if not entry:
+            continue
+        metadata, path = entry.split("\t", 1)
+        mode, kind, oid = metadata.split(" ")
+        if kind != "blob" or mode not in {"100644", "100755"}:
+            continue
+        if not path.startswith(prefix) or not re.fullmatch(r"(?:[a-f0-9]{40}|[a-f0-9]{64})", oid):
+            raise ValueError("GIT_TREE_IDENTITY_INVALID")
+        oids[path[len(prefix):]] = oid
+    return ResolvedSource(root, snapshot, oids)
 
 
 def _verify_checkout(root: Path, commit: str, home: Path) -> None:
@@ -165,7 +203,7 @@ def resolve_local(source: str | Path, ref: str | None = None) -> ResolvedSource:
         git_dirty=dirty,
         git_object_format=object_format,
     )
-    return ResolvedSource(root, snapshot)
+    return _with_git_identity(root, snapshot)
 
 
 def resolve_github(
@@ -194,7 +232,7 @@ def resolve_github(
         if cached_root.exists():
             with tempfile.TemporaryDirectory(prefix="r2s-git-home-") as cache_home:
                 _verify_checkout(cached_root, requested_ref.lower(), Path(cache_home))
-            return ResolvedSource(
+            return _with_git_identity(
                 cached_root,
                 RepositorySnapshot(
                     "github",
@@ -250,7 +288,7 @@ def resolve_github(
                 False,
                 git_object_format=object_format,
             )
-            return ResolvedSource(final_root, snapshot)
+            return _with_git_identity(final_root, snapshot)
         _git(["checkout", "--quiet", "--detach", "FETCH_HEAD"], staging, home)
         shutil.rmtree(home)
         with tempfile.TemporaryDirectory(prefix="r2s-git-home-") as verify_home:
@@ -270,7 +308,7 @@ def resolve_github(
         False,
         git_object_format=object_format,
     )
-    return ResolvedSource(final_root, snapshot)
+    return _with_git_identity(final_root, snapshot)
 
 
 def resolve_source(

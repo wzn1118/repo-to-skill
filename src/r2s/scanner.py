@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import stat
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -54,14 +55,6 @@ def _is_binary(path: Path) -> bool:
     return b"\0" in sample
 
 
-def _git_blob_sha(path: Path, object_format: str) -> str:
-    content = path.read_bytes()
-    if b"\0" not in content:
-        content = content.replace(b"\r\n", b"\n")
-    header = f"blob {len(content)}\0".encode()
-    return hashlib.new(object_format, header + content).hexdigest()
-
-
 def _is_sensitive(relative: Path) -> bool:
     name = relative.name.lower()
     return name in SENSITIVE_NAMES or name.startswith(".env.")
@@ -70,6 +63,7 @@ def _is_sensitive(relative: Path) -> bool:
 def scan(
     root_value: str | Path,
     snapshot: RepositorySnapshot | None = None,
+    committed_blob_oids: dict[str, str] | None = None,
 ) -> ScanResult:
     root = Path(root_value).resolve(strict=True)
     if not root.is_dir():
@@ -130,7 +124,10 @@ def scan(
                     raise ValueError(f"UNTRUSTED_SYMLINK_ESCAPE: {relative}") from exc
                 inventory.append(InventoryEntry(relative, 0, None, "symlink", "SYMLINK_SKIPPED"))
                 continue
-            size = path.stat().st_size
+            attributes = path.stat()
+            if not stat.S_ISREG(attributes.st_mode):
+                raise ValueError(f"UNTRUSTED_SPECIAL_FILE: {relative}")
+            size = attributes.st_size
             if _is_sensitive(path.relative_to(root)):
                 sensitive_digests[relative] = file_sha256(path)
                 inventory.append(
@@ -147,11 +144,7 @@ def scan(
                 inventory.append(InventoryEntry(relative, size, None, "skipped", "FILE_TOO_LARGE"))
                 continue
             content_hash = file_sha256(path)
-            blob_sha = (
-                _git_blob_sha(path, snapshot.git_object_format)
-                if snapshot is not None and snapshot.git_object_format is not None
-                else None
-            )
+            blob_sha = (committed_blob_oids or {}).get(relative)
             if _is_binary(path):
                 inventory.append(
                     InventoryEntry(

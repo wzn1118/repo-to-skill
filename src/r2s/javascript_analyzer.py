@@ -72,6 +72,17 @@ def _bin_entries(data: dict[str, Any]) -> list[tuple[str, str, str]]:
     return []
 
 
+def _workspace_role(package_root: Path, repository_root: Path) -> str:
+    relative_parts = package_root.relative_to(repository_root).parts
+    lowered = {part.casefold() for part in relative_parts}
+    if lowered & {
+        ".fixture", ".fixtures", "test", "tests", "testdata", "fixture", "fixtures",
+        "__tests__", "__fixtures__", "__utils__", "e2e", "dev", "node_modules",
+    }:
+        return "test"
+    return "product"
+
+
 def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
     inventory = {item.path: item for item in scan_result.inventory}
     manifests = [
@@ -98,6 +109,7 @@ def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
         entries = _bin_entries(data)
         package_root = manifest.parent
         workspace = package_root.relative_to(scan_result.root).as_posix() or "."
+        workspace_role = _workspace_role(package_root, scan_result.root)
         has_typescript = (package_root / "tsconfig.json").is_file() or any(
             path.suffix in {".ts", ".tsx"}
             and path.is_relative_to(package_root)
@@ -156,6 +168,7 @@ def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                 "command": command,
                 "target": relative_target,
                 "workspace": workspace,
+                "role": workspace_role,
             }
             manifest_evidence_id = stable_id(
                 "ev",
@@ -208,6 +221,16 @@ def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     target_evidence_id,
                 ],
             )
+            if workspace_role != "product":
+                discovery.findings.append(
+                    Finding(
+                        "NON_PRODUCT_ENTRYPOINT_SKIPPED",
+                        "info",
+                        f"Skipped {workspace_role} workspace entrypoint: {command}",
+                        relative_manifest,
+                    )
+                )
+                continue
             discovery.claims.append(
                 Claim(
                     claim_id,

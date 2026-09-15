@@ -17,6 +17,7 @@ from r2s.domain import (
     SourceLocation,
 )
 from r2s.policy import is_safe_command, is_safe_python_target
+from r2s.python_bindings import bound_option_calls
 from r2s.scanner import ScanResult, scan
 from r2s.serialization import file_sha256, stable_id
 from r2s.toml_compat import loads as toml_loads
@@ -150,15 +151,12 @@ def _option_evidence(
     module_path: Path,
     tree: ast.AST,
     command: str,
+    context_tree: ast.AST | None = None,
 ) -> list[Evidence]:
     results: list[Evidence] = []
     seen: set[str] = set()
-    for node in ast.walk(tree):
-        if not isinstance(node, ast.Call):
-            continue
-        function_name = node.func.attr if isinstance(node.func, ast.Attribute) else None
-        if function_name not in {"add_argument", "option", "argument"}:
-            continue
+    for node in bound_option_calls(context_tree or tree, tree):
+        function_name = ast.unparse(node.func)
         flags = [
             arg.value
             for arg in node.args
@@ -175,16 +173,16 @@ def _option_evidence(
                 getattr(node, "lineno", None),
                 getattr(node, "end_lineno", getattr(node, "lineno", None)),
             )
-            value = {"command": command, "option": flag}
-            evidence_id = stable_id("ev", ["cli.option", value, asdict(source)])
+            option_value = {"command": command, "option": flag}
+            evidence_id = stable_id("ev", ["cli.option", option_value, asdict(source)])
             results.append(
                 Evidence(
                     evidence_id,
                     "cli.option",
-                    value,
-                    value,
+                    option_value,
+                    option_value,
                     source,
-                    "python-ast@2",
+                    "python-cli-bindings@1",
                     0.95,
                 )
             )
@@ -397,6 +395,7 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     module_path,
                     option_scope,
                     command,
+                    tree,
                 )
                 discovery.evidence.extend(option_evidence)
         claim_value = {"command": command, "target": clean_target}
@@ -481,8 +480,9 @@ def _normalize_classification(discovery: DiscoveryIR) -> None:
 def discover(
     root_value: str | Path,
     snapshot: RepositorySnapshot | None = None,
+    committed_blob_oids: dict[str, str] | None = None,
 ) -> DiscoveryIR:
-    scan_result = scan(root_value, snapshot)
+    scan_result = scan(root_value, snapshot, committed_blob_oids)
     discovery = _initialize_discovery(scan_result)
     from r2s.go_analyzer import analyze_go
     from r2s.javascript_analyzer import analyze_javascript

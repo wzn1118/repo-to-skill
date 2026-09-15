@@ -306,7 +306,14 @@ def compilation_root(discovery_root: Path, goal: str, target: str) -> Path:
     normalized_goal = " ".join(goal.split())
     compilation_id = stable_id(
         "compile",
-        [discovery_root.name, normalized_goal, target, "client-profile-v1"],
+        [
+            discovery_root.name,
+            normalized_goal,
+            target,
+            "planner-v1",
+            "document-r2s-cli-v1",
+            "client-profile-v2",
+        ],
     )
     root = discovery_root / "compilations" / compilation_id
     root.mkdir(parents=True, exist_ok=True)

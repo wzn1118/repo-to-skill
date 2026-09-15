@@ -8,12 +8,14 @@ contains substantially more task guidance. Smaller output does not demonstrate b
 Both artifacts use source commit `38316c1c4f275030e3df6666382922e75410d68b`.
 The [official Skill](https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/skills/gh/SKILL.md)
 is comparison data, never compiler instructions. The generated artifact is measured before editorial changes.
-[Machine-readable comparison](../../benchmark/official-comparison.json).
+[Current machine-readable comparison](../../benchmark/runs/2026-09-15-upgrade-v5/official-comparison.json).
+The table uses the upgrade-v5 compiler. The [legacy comparison](../../benchmark/official-comparison.json)
+is retained separately; the source commit is unchanged.
 
 | Measurement | Generated gh | Official gh |
 | --- | ---: | ---: |
-| Files | 4 | 1 |
-| Total file bytes | 3,340 | 11,958 |
+| Files | 5 | 1 |
+| Total file bytes | 3,847 | 11,958 |
 | Selected facts present | 1 / 5 | 4 / 5 |
 | Explicit source commit in artifact text/metadata | Yes | No |
 | Runnable task pass rate | Not measured | Not measured |
@@ -33,15 +35,15 @@ This measures artifact self-description, not whether GitHub maintains version hi
 The denominator is five source-verified facts, not the complete command surface. Text mentions and
 structured claims are different representations: the table measures presence, not equivalent execution
 quality. The generated gh bundle has one executable fact, with its source hash and commit checked.
-The separate gen-docs helper bundle is excluded from this gh-only size comparison and remains visible
-in the repository benchmark.
+The legacy run also emitted a gen-docs helper; upgrade-v5 excludes it from product Skills.
+The current gh bundle includes its file lock, accounting for part of the size change.
 
 官方内容还讨论交互、JSON、分页、仓库定位、搜索、API 回退和副作用。生成版只有通用预览步骤和入口溯源，
 没有提取这些业务流程。下一步应补跨文件 Cobra 子命令、选项归属及开发工具过滤。
 
 ## Runtime and maintenance limitations / 运行与维护限制
 
-The pinned source requires Go 1.27.0. The available isolated builder has Go 1.26.0 and refuses to build;
+In the legacy runtime attempt, the pinned source required Go 1.27.0 and the isolated builder had Go 1.26.0, so it refused to build;
 the attempt is retained in [build-runtime-results.json](../../benchmark/build-runtime-results.json).
 No authenticated issue/PR mutations occurred. No model-based A/B task experiment ran.
 

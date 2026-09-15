@@ -2,6 +2,10 @@
 
 Updated: 2026-09-15
 
+The detailed U00–U22 ledger is in [upgrade-status.md](upgrade-status.md). The public benchmark section
+below records the **legacy** measurement; the current compiler has a separate
+[upgrade-v5 report](../benchmark/runs/2026-09-15-upgrade-v5/report.md).
+
 ## Implemented
 
 - Local bounded snapshot inventory with binary, oversized file, and symlink handling.
@@ -24,13 +28,15 @@ Updated: 2026-09-15
 - Versioned file and Capability drift reports with Claim/Evidence dependency fingerprints.
 - Goal-aware affected-Capability delta builds and parent-scoped Compilation IDs.
 - Local update re-authorization and public GitHub locator reuse.
-- Loopback-only, read-only dashboard for verified runs, capabilities, findings, updates, and
-  evidence.
+- Loopback static workbench for inspect/build plus verified runs, capabilities, findings, updates
+  and evidence; Host/Origin/session-token checks protect writes.
 - Portable and Codex skill-only plugin adapters.
-- Standalone structural and embedded provenance validation.
-- License-file presence gate and preview-first plugin installation.
+- Typed provenance, full file locks and deterministic document re-rendering during standalone validation.
+- License-file presence gate and preview-first managed Codex installation with update/rollback API.
+- Explicit local Docker execution with filtered source snapshots, image IDs, quotas and cleanup;
+  process execution is not task evaluation or runtime readiness.
 
-## Measured public benchmark
+## Legacy public benchmark
 
 - 45 verified commit-pinned public snapshots on a dedicated data disk: 36 Core, six Rust challenges,
   three secondary edge cases. Metadata and measurements are separate immutable inputs/results.
@@ -42,15 +48,15 @@ Updated: 2026-09-15
 - Official GitHub CLI Skill comparison, raw reports, failure roadmap and bilingual presentation.
 
 The [public report](../benchmark/report.md) records limitations and failed attempts. Static readiness
-is not semantic accuracy. These measurements leave the compiler unchanged to preserve the baseline.
+is not semantic accuracy. Those files remain unchanged; new measurements use separate run directories.
 
 ## Deferred
 
 - Deep JavaScript/TypeScript AST option and route extraction.
 - Native Go AST helper and multi-file flag-flow analysis.
 - External Agent Skills reference validator.
-- Product-integrated execution sandbox and runtime readiness. Benchmark containers use non-root
-  processes with network disabled; the Docker daemon itself is not asserted to be rootless.
+- Independent task oracles, replay environment distribution and runtime readiness. The local
+  executor is implemented, but the Docker daemon itself is not asserted to be rootless.
 - Secret, SBOM, license classification, and vulnerability tool adapters.
 - Model-based evaluation and complete bundle reuse across incremental updates.
 

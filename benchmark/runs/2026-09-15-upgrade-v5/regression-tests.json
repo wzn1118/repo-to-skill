@@ -1,0 +1,675 @@
+{
+  "cases": [
+    {
+      "class": "tests.test_adapters",
+      "name": "test_client_adapters_reuse_portable_skills",
+      "seconds": 0.063
+    },
+    {
+      "class": "tests.test_benchmark_public",
+      "name": "test_metadata_cannot_overwrite_historical_snapshot",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_benchmark_public",
+      "name": "test_metadata_does_not_contain_measurement_results",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_benchmark_public",
+      "name": "test_metadata_snapshot_has_required_pinned_fields",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_distribution",
+      "name": "test_update_and_rollback_restore_managed_bundle",
+      "seconds": 0.262
+    },
+    {
+      "class": "tests.test_distribution",
+      "name": "test_receipt_failure_restores_old_installation",
+      "seconds": 0.152
+    },
+    {
+      "class": "tests.test_distribution",
+      "name": "test_receipt_does_not_trust_modified_or_unmanaged_files",
+      "seconds": 0.092
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_javascript_workspace_roles_use_exact_path_components[pnpr/.fixtures/packages/tool]",
+      "seconds": 0.005
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_javascript_workspace_roles_use_exact_path_components[pnpm/__utils__/server]",
+      "seconds": 0.005
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_javascript_workspace_roles_use_exact_path_components[pnpm/dev]",
+      "seconds": 0.005
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_javascript_workspace_roles_use_exact_path_components[testdata/fake]",
+      "seconds": 0.005
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_javascript_workspace_roles_use_exact_path_components[tests/nested]",
+      "seconds": 0.033
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_javascript_workspace_roles_use_exact_path_components[packages/test-runner]",
+      "seconds": 0.005
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_nested_go_module_keeps_repository_role[internal/pipe/testdata/fake]",
+      "seconds": 0.007
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_nested_go_module_keeps_repository_role[tests/source/Go]",
+      "seconds": 0.006
+    },
+    {
+      "class": "tests.test_entrypoint_roles",
+      "name": "test_nested_go_module_keeps_repository_role[packages/test-runner]",
+      "seconds": 0.006
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_execution_defaults_to_safe_preview",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_execution_rejects_unsafe_policy",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_execution_rejects_symlink_source",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_resource_limits_cannot_be_disabled[changes0]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_resource_limits_cannot_be_disabled[changes1]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_resource_limits_cannot_be_disabled[changes2]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_resource_limits_cannot_be_disabled[changes3]",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_resource_limits_cannot_be_disabled[changes4]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_resource_limits_cannot_be_disabled[changes5]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_resource_limits_cannot_be_disabled[changes6]",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_preview_excludes_secrets_and_never_starts_docker",
+      "seconds": 0.004
+    },
+    {
+      "class": "tests.test_execution",
+      "name": "test_verify_requires_explicit_arguments_and_source_identity",
+      "seconds": 0.073
+    },
+    {
+      "class": "tests.test_execution_integration",
+      "name": "test_container_invokes_verified_python_entrypoint",
+      "seconds": 0.857
+    },
+    {
+      "class": "tests.test_execution_integration",
+      "name": "test_container_isolation",
+      "seconds": 0.813
+    },
+    {
+      "class": "tests.test_execution_integration",
+      "name": "test_container_failure_limits_and_cleanup[import time; time.sleep(60)-TIMEOUT]",
+      "seconds": 2.261
+    },
+    {
+      "class": "tests.test_execution_integration",
+      "name": "test_container_failure_limits_and_cleanup[import os;\\nwhile True: os.write(1,b'x'*8192)-OUTPUT_LIMIT]",
+      "seconds": 0.511
+    },
+    {
+      "class": "tests.test_execution_integration",
+      "name": "test_container_failure_limits_and_cleanup[import sys; sys.exit(7)-FAILED]",
+      "seconds": 0.519
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_command_conflict_is_case_insensitive",
+      "seconds": 0.005
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_go_cmd_and_flag_generate_provenanced_skill",
+      "seconds": 0.025
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_go_module_major_version_is_not_a_command",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_go_raw_string_cannot_create_false_cli",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_goal_length_is_bounded",
+      "seconds": 0.005
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_goal_selects_only_mentioned_command",
+      "seconds": 0.016
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_javascript_bin_target_cannot_escape_package",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_javascript_package_bin_generates_skill",
+      "seconds": 0.041
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_monorepo_command_conflict_requires_review",
+      "seconds": 0.007
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_typescript_bin_is_classified_without_executing_build",
+      "seconds": 0.004
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_unrelated_goal_requests_input_instead_of_all_commands",
+      "seconds": 0.006
+    },
+    {
+      "class": "tests.test_languages.LanguageAnalyzerTests",
+      "name": "test_unsafe_python_manifest_cannot_escape_or_create_command",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_measurement_identity",
+      "name": "test_changed_compiler_cannot_be_published_as_measured",
+      "seconds": 0.035
+    },
+    {
+      "class": "tests.test_measurement_identity",
+      "name": "test_existing_measurement_cannot_be_overwritten",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_artifact_claim_mapping_is_validated",
+      "seconds": 0.047
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_bundle_manifest_rejects_duplicate_json_keys",
+      "seconds": 0.018
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_cli_rejects_tampered_cached_run",
+      "seconds": 0.669
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_cli_reuses_run_id_and_builds_codex",
+      "seconds": 1.309
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_codex_plugin_adapter_and_manifest",
+      "seconds": 0.05
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_detached_discovery_copy_uses_self_consistency_checks",
+      "seconds": 0.047
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_discovers_entrypoint_symbol_and_options",
+      "seconds": 0.005
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_discovery_artifact_symlink_is_rejected",
+      "seconds": 0.022
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_discovery_format_tampering_is_rejected_by_index",
+      "seconds": 0.021
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_discovery_run_can_compile_without_source",
+      "seconds": 0.058
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_discovery_source_lock_drift_is_rejected",
+      "seconds": 0.02
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_discovery_split_artifact_tampering_is_rejected",
+      "seconds": 0.023
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_goal_cannot_inject_frontmatter",
+      "seconds": 0.017
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_independent_validation_rejects_body_rewrite",
+      "seconds": 0.024
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_independent_validation_rejects_rehashed_false_claim",
+      "seconds": 0.02
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_install_is_preview_by_default_and_explicit_on_execute",
+      "seconds": 0.084
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_install_refuses_modified_managed_files",
+      "seconds": 0.082
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_ir_schema_describes_nested_evidence_and_claim_fields",
+      "seconds": 0.025
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_missing_license_requires_review",
+      "seconds": 0.012
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_multiple_entrypoints_generate_multiple_skills",
+      "seconds": 0.021
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_oversized_discovery_artifact_is_rejected",
+      "seconds": 0.051
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_oversized_files_are_audited",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_readme_prompt_injection_is_ignored",
+      "seconds": 0.004
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_setup_cfg_preserves_command_case",
+      "seconds": 0.004
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_sqlite_indexes_discovery_and_compilation",
+      "seconds": 0.045
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_standalone_validation_detects_broken_provenance",
+      "seconds": 0.028
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_symlink_escape_fails_closed",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_pipeline.PipelineTests",
+      "name": "test_unbound_option_call_is_not_a_cli_fact",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_archive_rejects_escaping_paths[/etc/r2s-test]",
+      "seconds": 0.004
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_archive_rejects_escaping_paths[root/../../escape]",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_archive_rejects_escaping_paths[root/C:/escape]",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_archive_rejects_escaping_paths[root/a\\\\b]",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_links_are_recorded_without_following",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_duplicate_and_multi_root_archives_fail",
+      "seconds": 0.004
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_cache_rejects_partial_or_modified_source",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_coverage_keeps_fetch_failures_and_excludes_secondary",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_option_on_another_command_is_not_coverage",
+      "seconds": 0.0
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_subcommand_coverage_uses_command_path",
+      "seconds": 0.0
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_option_on_different_subcommand_is_not_coverage",
+      "seconds": 0.0
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_task_can_require_a_second_executable",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_public_measurement",
+      "name": "test_sandbox_has_no_network_or_host_secrets",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import argparse as ap\\ndef main():\\n p = ap.ArgumentParser()\\n p.add_argument('--ok')-expected0]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[from argparse import ArgumentParser as Parser\\ndef main():\\n p = Parser()\\n p.add_argument('--ok')-expected1]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[from click import option as opt\\n@opt('--ok')\\ndef main(): pass-expected2]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import typer as ty\\ndef main(value = ty.Option(None, '--ok')): pass-expected3]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import argparse\\ndef main():\\n p = argparse.ArgumentParser()\\n p = database\\n p.add_argument('--fake')-expected4]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import argparse\\ndef other():\\n p = argparse.ArgumentParser()\\ndef main():\\n p.add_argument('--fake')-expected5]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import argparse\\ndef main(argparse):\\n p = argparse.ArgumentParser()\\n p.add_argument('--fake')-expected6]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import argparse\\ndef main():\\n p = argparse.ArgumentParser()\\n def unrelated():\\n  p.add_argument('--fake')-expected7]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import argparse\\ndef main():\\n p = argparse.ArgumentParser()\\n g = p.add_argument_group('group')\\n g.add_argument('--ok')-expected8]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import argparse\\np = argparse.ArgumentParser()\\np.add_argument('--ok')\\ndef main():\\n p.parse_args()-expected9]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[import argparse\\np = argparse.ArgumentParser()\\np.add_argument('--fake')\\ndef main(): pass-expected10]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_python_bindings",
+      "name": "test_framework_and_owner_binding[from database import option\\n@option('--fake')\\ndef main(): pass-expected11]",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_bundle_validation_rejects_evidence_commit_mismatch",
+      "seconds": 0.086
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_clean_git_snapshot_pins_commit_and_blob",
+      "seconds": 0.077
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_crlf_worktree_keeps_raw_hash_and_reads_committed_blob_oid",
+      "seconds": 0.079
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_directory_symlink_escape_fails_closed",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_dirty_git_ref_is_rejected",
+      "seconds": 0.06
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_dirty_snapshot_does_not_claim_head_commit",
+      "seconds": 0.059
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_fifo_is_rejected_without_reading",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_git_environment_does_not_inherit_tokens",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_github_resolver_builds_pinned_snapshot_without_network",
+      "seconds": 0.004
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_malicious_refs_are_rejected",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_non_git_directory_rejects_ref",
+      "seconds": 0.007
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_remote_source_policy_rejects_non_github_urls",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_repository_git_helpers_are_disabled_during_resolution",
+      "seconds": 0.062
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_sensitive_content_change_invalidates_analysis_tree",
+      "seconds": 0.003
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_sensitive_directory_is_skipped",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_sensitive_files_are_not_serialized",
+      "seconds": 0.099
+    },
+    {
+      "class": "tests.test_source.SourceResolverTests",
+      "name": "test_sha256_git_identity_and_bom_raw_bytes",
+      "seconds": 0.095
+    },
+    {
+      "class": "tests.test_taskset",
+      "name": "test_taskset_has_thirty_pinned_tasks",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_ui.UIDashboardTests",
+      "name": "test_dashboard_is_read_only_and_rejects_invalid_routes",
+      "seconds": 0.513
+    },
+    {
+      "class": "tests.test_ui.UIDashboardTests",
+      "name": "test_dashboard_requires_loopback_binding",
+      "seconds": 0.002
+    },
+    {
+      "class": "tests.test_ui.UIDashboardTests",
+      "name": "test_dashboard_serves_verified_run_and_evidence",
+      "seconds": 0.539
+    },
+    {
+      "class": "tests.test_ui.UIDashboardTests",
+      "name": "test_dashboard_write_requires_token_and_runs_static_pipeline",
+      "seconds": 0.567
+    },
+    {
+      "class": "tests.test_ui.UIDashboardTests",
+      "name": "test_rebinding_and_bad_payloads_fail_before_writes",
+      "seconds": 0.514
+    },
+    {
+      "class": "tests.test_ui_browser",
+      "name": "test_browser_static_workbench",
+      "seconds": 1.82
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_capability_drift_is_scoped_by_evidence_dependencies",
+      "seconds": 0.011
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_codex_delta_uses_non_replacement_plugin_name",
+      "seconds": 0.629
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_compilation_ids_are_scoped_to_discovery_run",
+      "seconds": 0.067
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_documentation_only_drift_does_not_trigger_build",
+      "seconds": 0.588
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_goal_naming_unchanged_command_skips_incremental_build",
+      "seconds": 0.594
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_license_policy_drift_invalidates_all_capabilities",
+      "seconds": 0.012
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_local_update_requires_explicit_repository",
+      "seconds": 0.56
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_public_github_locator_can_be_reused_for_update",
+      "seconds": 0.001
+    },
+    {
+      "class": "tests.test_update.UpdateTests",
+      "name": "test_update_cli_builds_only_affected_capability",
+      "seconds": 0.602
+    }
+  ],
+  "elapsed_seconds": 16.944,
+  "failures": 0,
+  "scope": "controlled compiler/browser/container regression cases",
+  "skipped": 0,
+  "subtests": 12,
+  "tests": 133
+}

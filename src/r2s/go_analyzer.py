@@ -112,7 +112,9 @@ def _command_for(module_root: Path, source: Path, module: str | None) -> str | N
     if len(relative.parts) >= 3 and relative.parts[0] == "cmd":
         return relative.parts[1]
     if len(relative.parts) == 1:
-        return module.rsplit("/", 1)[-1] if module else module_root.name
+        candidate = module.rsplit("/", 1)[-1] if module else module_root.name
+        version_match = re.fullmatch(r"(.+)/v[0-9]+", module or "")
+        return version_match.group(1).rsplit("/", 1)[-1] if version_match else candidate
     return None
 
 
@@ -122,6 +124,16 @@ def _go_modules(scan_result: ScanResult) -> list[Path]:
         for path in scan_result.analyzable_files
         if path.name == "go.mod"
     )
+
+
+def _go_role(repository_root: Path, main_path: Path, command: str) -> str:
+    relative = main_path.relative_to(repository_root).parts[:-1]
+    lowered = {part.casefold() for part in relative}
+    if lowered & {"test", "tests", "testdata", "fixture", "fixtures", "e2e", "dev"}:
+        return "test"
+    if command.casefold() in {"release", "gen-docs", "gen-doc", "sleepit", "testapp"}:
+        return "developer"
+    return "product"
 
 
 def analyze_go(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
@@ -201,6 +213,7 @@ def analyze_go(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                 "command": command,
                 "target": relative_target,
                 "workspace": module_root.relative_to(scan_result.root).as_posix() or ".",
+                "role": _go_role(scan_result.root, main_path, command),
             }
             main_evidence_id = stable_id(
                 "ev",
@@ -227,6 +240,16 @@ def analyze_go(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     main_evidence_id,
                 ],
             )
+            if main_value["role"] != "product":
+                discovery.findings.append(
+                    Finding(
+                        "NON_PRODUCT_ENTRYPOINT_SKIPPED",
+                        "info",
+                        f"Skipped {main_value['role']} Go entrypoint: {command}",
+                        main_path.relative_to(scan_result.root).as_posix(),
+                    )
+                )
+                continue
             discovery.claims.append(
                 Claim(
                     claim_id,

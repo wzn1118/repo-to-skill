@@ -17,9 +17,26 @@ WRONG_NAMES = {
 
 def audit(results: dict, work: Path) -> dict:
     records = []
+    regressions = []
     for repository in results["repositories"]:
         if repository["set"] != "core":
             continue
+        if repository["id"] in WRONG_NAMES:
+            correct, relative, anchor = WRONG_NAMES[repository["id"]]
+            source = work / "snapshots" / f"{repository['id']}-{repository['commit_sha']}" / "source"
+            path = source / relative
+            lines = path.read_text().splitlines()
+            matches = [index for index, value in enumerate(lines, 1) if anchor in value]
+            commands = [fact["value"].get("command") for fact in repository.get("facts", [])
+                        if fact["emitted"] and fact["predicate"] == "provides_cli"]
+            regressions.append({
+                "repository": repository["repository"], "expected_binary_name": correct,
+                "emitted_commands": commands, "source_anchor_found": bool(matches),
+                "name_regression_fixed": bool(matches) and correct in commands and not ({"v2", "v4"} & set(commands)),
+                "scope": "binary name only; not complete semantic audit",
+                "source": {"path": relative, "line": matches[0] if matches else None,
+                           "commit_sha": repository["commit_sha"], "sha256": digest(path)},
+            })
         for fact in repository.get("facts", []):
             if not fact["emitted"]:
                 continue
@@ -43,6 +60,7 @@ def audit(results: dict, work: Path) -> dict:
             "confirmed_wrong_executable_facts": sum(item["verdict"] == "CONFIRMED_WRONG_EXECUTABLE_NAME" for item in records),
             "not_semantically_reviewed": sum(item["verdict"] == "NOT_SEMANTICALLY_REVIEWED" for item in records),
             "hallucination_rate": None,
+            "binary_name_regressions": regressions,
             "interpretation": "Confirmed errors are a lower bound; unreviewed is not correct. Provenance-valid facts can still be wrong.",
             "facts": records}
 
@@ -50,9 +68,11 @@ def audit(results: dict, work: Path) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--work", type=Path, required=True)
+    parser.add_argument("--results", type=Path, default=ROOT / "benchmark/results.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "benchmark/fact-audit.json")
     args = parser.parse_args()
-    result = audit(json.loads((ROOT / "benchmark/results.json").read_text()), args.work)
-    write_json(ROOT / "benchmark/fact-audit.json", result)
+    result = audit(json.loads(args.results.read_text()), args.work)
+    write_json(args.output, result)
     print(result["confirmed_wrong_executable_facts"], "confirmed wrong executable names")
 
 

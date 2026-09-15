@@ -25,12 +25,26 @@ def covered(fact: dict, generated: list[dict], command: str) -> bool:
     for candidate in generated:
         if not candidate["emitted"]:
             continue
+        candidate_value = candidate["value"]
+        candidate_command = candidate_value.get("command")
+        candidate_path = candidate_value.get("command_path")
+        candidate_owner = candidate_command or candidate.get("subject")
+        if fact["kind"] != "command" and candidate_owner != command:
+            continue
         if (fact["kind"] == "command" and candidate["predicate"] == "provides_cli"
-                and candidate["value"].get("command") == fact["value"]):
+                and candidate_command == fact["value"]):
             return True
         if (fact["kind"] == "option" and candidate["predicate"] == "supports_option"
-                and candidate["subject"] == command and candidate["value"].get("option") == fact["value"]):
+                and candidate["value"].get("option") == fact["value"]
+                and candidate_value.get("command_path", "") == fact.get("command_path", "")):
             return True
+        if fact["kind"] == "subcommand" and candidate["predicate"] in {
+            "provides_subcommand", "supports_subcommand",
+        }:
+            if candidate_path is None:
+                candidate_path = candidate_value.get("subcommand")
+            if candidate_path == fact["value"]:
+                return True
     return False
 
 
@@ -103,11 +117,14 @@ def compare_official(results: dict, ground_truth: dict, work: Path) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--work", type=Path, required=True)
+    parser.add_argument("--results", type=Path, default=ROOT / "benchmark/results.json")
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "benchmark")
     args = parser.parse_args()
-    results = json.loads((ROOT / "benchmark/results.json").read_text())
+    results = json.loads(args.results.read_text())
     truth = evaluate(results, args.work)
-    write_json(ROOT / "benchmark/ground-truth-results.json", truth)
-    write_json(ROOT / "benchmark/official-comparison.json", compare_official(results, truth, args.work))
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    write_json(args.output_dir / "ground-truth-results.json", truth)
+    write_json(args.output_dir / "official-comparison.json", compare_official(results, truth, args.work))
     print({key: value for key, value in truth.items() if key != "repositories"})
 
 

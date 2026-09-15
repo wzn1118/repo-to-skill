@@ -10,11 +10,12 @@ executing the target repository.
 [![Python 3.12](https://img.shields.io/badge/python-3.12%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Static analysis](https://img.shields.io/badge/analysis-static--only-22c55e)](#safety-boundary)
 
-> **Status:** experimental walking slice. The repository is useful for inspecting and compiling
-> CLI-oriented projects today. Public benchmark tooling includes isolated runtime checks; production
-> sandboxing, agent A/B evaluation, deep route extraction and private-repository workflows remain incomplete.
+> **Status:** experimental. The compiler has deterministic artifact re-rendering,
+> managed install receipts and rollback, isolated `verify` preview/execute policy, a loopback UI for static
+> runs, and thin client projections. Claude/Cursor native loading is not verified. Runtime task evaluation, agent A/B evidence and
+> private/hosted workflows remain incomplete.
 
-[English](#english) · [中文](#中文) · [Full benchmark](benchmark/report.md) · [Official gh comparison](docs/case-studies/github-cli.md)
+[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-15-upgrade-v5/report.md) · [Legacy benchmark](benchmark/report.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
 
 ## Public Repo Benchmark 1.0
 
@@ -24,26 +25,30 @@ stars**, using the saved `2026-09-14` snapshot; stars are not unique users.
 
 | Measured result | Value |
 | --- | ---: |
-| Core static generation | 25 STATIC_READY · 4 REVIEW_REQUIRED · 7 UNSUITABLE |
-| Star-weighted coverage, using static-generation status | 69.0% |
+| Core static generation | 26 STATIC_READY · 3 REVIEW_REQUIRED · 7 UNSUITABLE |
+| Star-weighted coverage, using static-generation status | 69.7% |
 | Ground truth across 10 repositories | **9 / 40 selected facts covered** |
 | Tasks with all selected static prerequisites covered | **1 / 30** |
-| Generated executable facts indexed / hash-and-pin checked | 91 / 91 |
-| Confirmed wrong executable names | **4**; 87 other facts not semantically reviewed |
-| Offline functional checks | 10 / 10 across black, Prettier, ESLint and fzf |
+| Generated executable facts indexed / hash-and-pin checked | 49 / 49; full semantic review pending |
+| Four known Go module-suffix name regressions | 4 / 4 corrected against pinned source |
 
 STATIC_READY does not guarantee correct commands or successful tasks. The audit caught Go module
 suffixes becoming executable names (`v2`, `v4`), test fixtures becoming Skills, and missing subcommands.
 The ground truth is **agent-curated**, not human sign-off. No zero-hallucination or
 with/without-skill improvement claim is made. Failures are published alongside successes.
 
-![Public Repo Benchmark snapshot](docs/assets/public-benchmark.svg)
+The versioned [upgrade-v5 report](benchmark/runs/2026-09-15-upgrade-v5/report.md) contains the
+compiler fingerprint, raw static results, targeted name checks and explicit limits. TypeScript and
+webpack still exceed scanner limits. Selected fact recall remains **9/40** after the fixes. The
+older headline remains in `benchmark/report.md` as a legacy measurement; it is not overwritten.
+
+![Fixed-corpus comparison of legacy and upgrade static outcomes and selected fact recall](docs/assets/upgrade-comparison.png)
 
 ```bash
-python scripts/public_measure.py run --work /path/on/data-disk
-python scripts/public_evaluate.py --work /path/on/data-disk
-python scripts/public_fact_audit.py --work /path/on/data-disk
-python scripts/public_report.py
+python scripts/public_measure.py run --work /path/on/data-disk/new-run --output benchmark/runs/new-run/results.json
+python scripts/public_evaluate.py --work /path/on/data-disk/new-run --results benchmark/runs/new-run/results.json --output-dir benchmark/runs/new-run
+python scripts/public_fact_audit.py --work /path/on/data-disk/new-run --results benchmark/runs/new-run/results.json --output benchmark/runs/new-run/fact-audit.json
+python scripts/render_run_report.py --run benchmark/runs/new-run
 ```
 
 Python 3.12+ is required; chart export also needs `matplotlib`. Full reproduction, runtime policy,
@@ -76,14 +81,17 @@ and generator consume the IR; they do not inspect raw repository text to invent 
 | Python | PEP 621 scripts, Poetry scripts, `setup.cfg`, AST-backed `argparse`/Click-style options |
 | JavaScript/TypeScript | `package.json` `bin` entries, target containment and file existence checks |
 | Go | Root and `cmd/<name>` main packages, conservative standard flag/Cobra-style extraction |
-| Outputs | Portable Agent Skills and a thin Codex skill-only plugin adapter |
+| Outputs | Portable Skills, Codex plugin; experimental Claude/Cursor directory projections |
 | Integrity | Content-addressed Discovery Runs, source locks, split IR checks, SQLite artifact index |
 | Updates | File/Capability drift reports and goal-scoped capability delta builds |
-| UI | Loopback-only, read-only dashboard over the same verified run objects |
+| UI | Loopback workbench: inspect, build, view evidence and validation using the same run objects |
+| Execution | Explicit local Docker invocation with a pinned installed image, bounded output and cleanup |
+| Installation | Codex destination receipts, conflict checks, staged update and rollback library API |
 
-Claude/Cursor adapters, deep JavaScript/TypeScript AST extraction, native Go AST analysis, production
-sandbox integration, external Skills validation, and model-based evaluation remain deferred. The full scope
-is tracked in [`docs/implementation-status.md`](docs/implementation-status.md).
+Deep JavaScript/TypeScript AST extraction, native Go AST analysis, independent external Skills validation,
+runtime task success, model-based evaluation and hosted/private workflows remain deferred. The full scope
+is tracked in [`docs/implementation-status.md`](docs/implementation-status.md) and
+[`docs/upgrade-status.md`](docs/upgrade-status.md).
 
 ## Quickstart
 
@@ -103,8 +111,7 @@ python -m venv .venv
 python -m pip install -e '.[dev]'
 ```
 
-The compiler core is intentionally standard-library friendly, but the editable install provides the
-`r2s` command and the development checks used by CI.
+The editable install provides the `r2s` command, strict validation dependencies and development checks.
 
 ### 2. Inspect once
 
@@ -138,8 +145,24 @@ r2s explain run_<id> --claim <claim-id> --output run-output
 r2s ui --output run-output --open
 ```
 
-The dashboard defaults to `http://127.0.0.1:8765/`. It is read-only: it cannot discover, generate,
-install, execute, or upload repository content.
+The workbench defaults to `http://127.0.0.1:8765/`. Enter a local source or public GitHub URL,
+inspect capabilities, provide a goal and build a Skill. Local sources are restricted to the current
+directory; add `--source-root /path/to/projects` to allow another root. Installation and execution
+use the CLI. Background jobs, cancellation and artifact downloads remain open work.
+
+![Browser-tested static workbench using the local Python fixture](docs/assets/workbench-upgrade.png)
+
+For a generated Python Skill, preview an explicit invocation with an already installed Linux image:
+
+```bash
+r2s verify /path/to/portable/demo --source tests/fixtures/python_cli \
+  --image python:3.12-slim --arg=--output --arg=value
+```
+
+Add `--execute --report /path/to/new-execution.json` to run it. The runner resolves the local image
+to its digest, copies filtered source into a temporary snapshot, disables container networking and
+records output, limits and cleanup. It never pulls images or installs dependencies. A zero exit code
+does not prove a task passed; Go/build-dependent entrypoints still require a supported build profile.
 
 ### 5. Try a public GitHub snapshot
 
@@ -171,6 +194,7 @@ run-output/run_<id>/
     ├── portable/<skill-name>/
     │   ├── SKILL.md
     │   ├── PROVENANCE.json
+    │   ├── BUNDLE.lock.json
     │   └── references/
     └── codex-plugin/
         ├── .codex-plugin/plugin.json
@@ -194,7 +218,7 @@ second analysis path.
 - Installation is preview-only unless the caller explicitly passes `--execute`.
 
 Read the [threat model](docs/threat-model.md) before adding network access, dependency installation,
-private-repository support, or a runtime sandbox.
+private-repository support, or extending the runtime sandbox.
 
 ## Architecture
 
@@ -229,9 +253,9 @@ analyzes committed fixtures. Public measurements are separate, opt-in scripts do
 
 1. Stabilize the IR and evidence contract across more real repositories.
 2. Add deeper JavaScript/TypeScript and Go extraction without changing the IR.
-3. Integrate the benchmark sandbox into the product and add external Agent Skills validation.
+3. Expand the product sandbox from smoke verification to replayable TaskSpec execution and add external Skills validation.
 4. Add private-repository authorization, hosted artifact storage, and model-based evaluation.
-5. Add Claude/Cursor adapters as thin projections over the same portable bundle.
+5. Add client discovery compatibility tests and then maintain Claude/Cursor adapters as thin projections over the same portable bundle.
 
 ## 中文
 
@@ -239,8 +263,9 @@ analyzes committed fixtures. Public measurements are separate, opt-in scripts do
 公共 GitHub 快照，编译为可移植 Agent Skills 和轻量 Codex skill-only plugin；分析阶段不会导入
 或执行被分析仓库的代码。
 
-> **当前状态：** experimental walking slice。基准工具已提供隔离运行检查；产品内沙箱集成、
-> Agent A/B 评测、深层路由提取和私有仓库流程尚未完成。
+> **当前状态：** 可运行的实验版本。已加入严格产物重渲染、安装 receipt、隔离 `verify`、
+> 可写的 loopback 静态工作台，以及 Codex/Claude/Cursor 薄适配器；运行任务评测、Agent A/B、
+> 私有仓库和托管流程仍未完成。
 
 ### 核心价值
 
@@ -264,10 +289,13 @@ Snapshot → Inventory → Evidence → Claim → Capability → Procedure → S
 - Go：根目录与 `cmd/<name>` 主包，保守识别标准 flag/Cobra 风格参数。
 - 输出：Portable Agent Skills 与薄 Codex skill-only plugin 适配器。
 - 工程能力：内容寻址 Discovery Run、source lock、拆分 IR 校验、SQLite artifact index、漂移报告、
-  按 Capability 的增量构建，以及基于真实运行对象的只读本地 UI。
+  按 Capability 的增量构建，以及可提交静态分析与生成任务的本地 UI。
+- 验证与分发：产物重渲染核验、文件锁、Codex 安装 receipt/更新/回滚；显式 Docker 执行与清理记录。
+- Claude/Cursor 目前仅输出目录投影，尚未验证原生客户端加载。
 
-Claude/Cursor 适配器、深层 JS/TS AST、原生 Go AST、运行时沙箱、外部 Skills 规范校验和模型评测仍在
-路线图中，详见 [`docs/implementation-status.md`](docs/implementation-status.md)。
+深层 JS/TS AST、原生 Go AST、独立 Skills 规范校验、运行任务效果、模型评测、私有仓库和托管流程仍在
+路线图中，详见 [`docs/implementation-status.md`](docs/implementation-status.md) 与
+[`docs/upgrade-status.md`](docs/upgrade-status.md)。
 
 ### 中文快速开始
 
@@ -291,17 +319,18 @@ r2s ui --output run-output --open
 ```
 
 `inspect` 先生成与目标无关的 Discovery Run；之后可以复用 `run_<id>` 为不同目标和客户端编译，避免
-重复扫描。`r2s ui` 默认只绑定 `127.0.0.1`，只展示已校验的 Snapshot、Capability、Evidence、验证和
-更新状态，不提供执行、安装或上传接口。
+重复扫描。`r2s ui` 默认只绑定 `127.0.0.1`，可输入仓库、静态分析、按目标生成，并查看证据和验证结果。
+本地来源限于当前目录，可用 `--source-root /path/to/projects` 增加允许范围。安装和执行通过 CLI；
+后台任务、取消和产物下载尚未完成。
 
 ### 实测统计
 
-首页现在展示真实公共仓库实测。另有 10 个受控 fixture 用于回归检查，与公共 headline 分开统计；
-当前测试套件共 70 项测试通过。
+首页展示固定公共仓库实测，受控 fixture 与公共 headline 分开统计。真实浏览器和 Docker
+回归的范围、复现命令和局限见 [升级状态](docs/upgrade-status.md)，不用于推算 Agent 任务成功率。
 
 ```bash
 PYTHONPATH=src python scripts/measure_benchmark.py
-python -m unittest discover -s tests -q
+python -m pytest
 ```
 
 逐样例回归数据见 [`docs/benchmark.md`](docs/benchmark.md)，公共结果见 [`benchmark/report.md`](benchmark/report.md)。
@@ -314,22 +343,23 @@ python -m unittest discover -s tests -q
 Stars 只描述 corpus 的开源影响力，不等于独立用户数。
 
 **High-Star Public Repositories Tested: 36**。45 个真实源码快照（含 challenge/edge）均已固定并验证；
-Core 结果为 25 个 `STATIC_READY`、4 个 `REVIEW_REQUIRED`、7 个 `UNSUITABLE`，按静态状态计算的
-Star-weighted coverage 为 **69.0%**。
+最新 [upgrade-v5](benchmark/runs/2026-09-15-upgrade-v5/report.md) 的 Core 结果为 26 个 `STATIC_READY`、
+3 个 `REVIEW_REQUIRED`、7 个 `UNSUITABLE`，按静态状态计算的 Star-weighted coverage 为 **69.7%**。
+TypeScript、webpack 仍因扫描限额失败，全部保留在分母中。
 
 更关键的结果是：10 仓库的 40 条源码事实只覆盖 **9 条**，30 个任务中仅 **1 个**具备所选静态前提。
-91 条已生成事实的哈希和 commit 均可追溯，但已经确认 **4 个错误命令名**（把 Go module 的 v2/v4 当成命令）；
-其余 87 条没有完成语义审计。black、Prettier、ESLint、fzf 的 10 项离线功能测试全部通过；
-这不等于 Agent 使用 Skill 的任务成功率。
+新版本生成 **49 条**可执行事实，均通过哈希和 commit 核对；四项 Go 后缀命名回归已按固定源码核对修复，
+pnpm、bat、goreleaser 的已知测试入口误报已移除。**49 条事实仍待完整语义审计**，减少输出不代表准确率提高。
+旧版的 91 条事实、4 个已确认错误及四项目 10 项运行检查保留在 legacy 报告，不移作新版运行成绩。
 
 ground truth 由 Agent 按源码整理，不冒称人工签字；没有提前写“零幻觉”，也没有声称优于官方 Skill。
 旧版 27.9% 报告因 Python 3.10 fallback、未验证缓存和未实际扫描的 challenge 已被更正，历史数据保留。
 
 ```bash
-python scripts/public_measure.py run --work /path/on/data-disk
-python scripts/public_evaluate.py --work /path/on/data-disk
-python scripts/public_fact_audit.py --work /path/on/data-disk
-python scripts/public_report.py
+python scripts/public_measure.py run --work /path/on/data-disk/new-run --output benchmark/runs/new-run/results.json
+python scripts/public_evaluate.py --work /path/on/data-disk/new-run --results benchmark/runs/new-run/results.json --output-dir benchmark/runs/new-run
+python scripts/public_fact_audit.py --work /path/on/data-disk/new-run --results benchmark/runs/new-run/results.json --output benchmark/runs/new-run/fact-audit.json
+python scripts/render_run_report.py --run benchmark/runs/new-run
 ```
 
 基准输入见 [`benchmark/corpus.yaml`](benchmark/corpus.yaml) 和 [`benchmark/ground-truth.yaml`](benchmark/ground-truth.yaml)，

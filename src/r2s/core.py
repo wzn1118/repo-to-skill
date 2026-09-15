@@ -3,6 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from pydantic import TypeAdapter
+
 from r2s.analyzers import SCHEMA_VERSION, discover
 from r2s.domain import DiscoveryIR
 from r2s.drift import compare_discoveries
@@ -33,51 +35,20 @@ __all__ = [
 
 
 def schema_catalog() -> dict[str, Any]:
-    return {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": f"https://r2s.local/schema/discovery-{SCHEMA_VERSION}.json",
-        "title": "Repo-to-Skill Discovery IR",
-        "type": "object",
-        "required": [
-            "schema_version",
-            "snapshot",
-            "languages",
-            "repository_types",
-            "inventory",
-            "evidence",
-            "claims",
-            "capabilities",
-            "findings",
-        ],
-        "properties": {
-            "schema_version": {"const": SCHEMA_VERSION},
-            "snapshot": {
-                "type": "object",
-                "required": [
-                    "kind",
-                    "source_name",
-                    "locator",
-                    "requested_ref",
-                    "resolved_commit_sha",
-                    "tree_sha256",
-                    "git_dirty",
-                    "scan_policy_id",
-                    "git_object_format",
-                ],
-            },
-            "languages": {"type": "array", "items": {"type": "string"}},
-            "repository_types": {
-                "type": "array",
-                "items": {"type": "string"},
-            },
-            "inventory": {"type": "array"},
-            "evidence": {"type": "array"},
-            "claims": {"type": "array"},
-            "capabilities": {"type": "array"},
-            "findings": {"type": "array"},
-        },
-        "additionalProperties": False,
-    }
+    catalog = TypeAdapter(DiscoveryIR).json_schema()
+    catalog.update(
+        {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": f"https://r2s.local/schema/discovery-{SCHEMA_VERSION}.json",
+            "title": "Repo-to-Skill Discovery IR",
+        }
+    )
+    catalog["properties"]["schema_version"] = {"const": SCHEMA_VERSION}
+    catalog["additionalProperties"] = False
+    for definition in catalog.get("$defs", {}).values():
+        if definition.get("type") == "object":
+            definition["additionalProperties"] = False
+    return catalog
 
 
 def discover_source(
@@ -86,4 +57,4 @@ def discover_source(
     ref: str | None = None,
 ) -> DiscoveryIR:
     resolved = resolve_source(source, output_root, ref)
-    return discover(resolved.root, resolved.snapshot)
+    return discover(resolved.root, resolved.snapshot, resolved.committed_blob_oids)

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import platform
@@ -14,12 +13,15 @@ from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 
+from measurement_identity import fingerprint, require_identity, write_new
 from public_sources import digest, fetch, verify_cache, write_json
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def worker(record: dict, source: Path, output: Path) -> dict:
+    identity = record["measurement_identity"]
+    require_identity(ROOT, identity)
     sys.path.insert(0, str(ROOT / "src"))
     from r2s.core import discover
     from r2s.domain import RepositorySnapshot
@@ -82,16 +84,19 @@ def worker(record: dict, source: Path, output: Path) -> dict:
         result.update({"status": "REVIEW_REQUIRED", "failure_class": type(error).__name__,
                        "reason": reason})
     result["elapsed_seconds"] = round(time.monotonic() - started, 3)
+    require_identity(ROOT, identity)
+    result["compiler_sha256"] = identity["compiler_sha256"]
     write_json(output / "result.json", result)
     return result
 
 
-def measure(record: dict, work: Path, timeout: int) -> dict:
+def measure(record: dict, work: Path, timeout: int, identity: dict) -> dict:
     output = work / "artifacts" / record["id"]
-    output.mkdir(parents=True, exist_ok=True)
+    output.mkdir(parents=True, exist_ok=False)
     base = {key: record[key] for key in (
         "id", "repository", "commit_sha", "stars_at_benchmark", "tier", "set", "language", "license"
     )}
+    base["measurement_identity"] = identity
     try:
         source, lock = fetch(record, work / "snapshots")
     except (OSError, ValueError, KeyError) as error:
@@ -121,7 +126,7 @@ def measure(record: dict, work: Path, timeout: int) -> dict:
     result = json.loads((output / "result.json").read_text())
     verify_cache(source.parent, record)
     base.update(result)
-    base["analyzer_version"] = "unchanged compiler; benchmark runner v2"
+    base["analyzer_version"] = "compiler fingerprint verified before and after worker; runner v3"
     return base
 
 
@@ -148,12 +153,22 @@ def run(metadata: Path, work: Path, output: Path, timeout: int) -> None:
     if tuple(sys.version_info[:2]) < (3, 12):
         raise SystemExit("Public measurements require Python >= 3.12; no TOML bootstrap fallback.")
     work = work.resolve()
+    if output.exists() or (work / "artifacts").exists():
+        raise ValueError("MEASUREMENT_OUTPUT_EXISTS")
     (work / "tmp").mkdir(parents=True, exist_ok=True)
     snapshot = json.loads(metadata.read_text())
     records = []
     started = datetime.now(UTC).isoformat()
+    identity = fingerprint(ROOT)
+    metadata_digest = digest(metadata)
+    write_new(work / "measurement.lock.json", {
+        "started_at": started, "metadata_sha256": metadata_digest, "identity": identity,
+        "python": platform.python_version(), "platform": platform.platform(),
+    })
     with ThreadPoolExecutor(max_workers=2) as pool:
-        futures = {pool.submit(measure, item, work, timeout): item for item in snapshot["repositories"]}
+        futures = {
+            pool.submit(measure, item, work, timeout, identity): item for item in snapshot["repositories"]
+        }
         for future in as_completed(futures):
             result = future.result()
             records.append(result)
@@ -161,35 +176,31 @@ def run(metadata: Path, work: Path, output: Path, timeout: int) -> None:
             write_json(work / "progress.json", records)
     positions = {item["id"]: index for index, item in enumerate(snapshot["repositories"])}
     records.sort(key=lambda item: positions[item["id"]])
-    code = {path.relative_to(ROOT).as_posix(): digest(path)
-            for path in sorted((ROOT / "src" / "r2s").glob("*.py"))}
-    write_json(output, {"schema_version": 2, "started_at": started,
+    require_identity(ROOT, identity)
+    if digest(metadata) != metadata_digest:
+        raise ValueError("MEASUREMENT_METADATA_CHANGED")
+    payload = {"schema_version": 3, "started_at": started,
                         "finished_at": datetime.now(UTC).isoformat(),
                         "python": platform.python_version(), "platform": platform.platform(),
-                        "metadata_sha256": digest(metadata), "compiler_files": code,
-                        "compiler_sha256": hashlib.sha256(json.dumps(code, sort_keys=True).encode()).hexdigest(),
-                        "method": "Unmodified compiler: pinned source -> discover -> generate -> validate; no target code execution",
-                        "summary": summary(records), "repositories": records})
+                        "metadata_sha256": metadata_digest, **identity,
+                        "identity_verification": "matched at parent and worker start/end",
+                        "method": "Pinned source -> discover -> generate -> validate; no target code execution",
+                        "summary": summary(records), "repositories": records}
+    write_new(work / "measurement.completed.json", payload)
+    write_new(output, payload)
 
 
 def collect(metadata: Path, work: Path, output: Path) -> None:
-    snapshot = json.loads(metadata.read_text())
-    records = []
-    for record in snapshot["repositories"]:
-        artifact = work / "artifacts" / record["id"]
-        value = json.loads((artifact / "input.json").read_text())
-        value.update(json.loads((artifact / "result.json").read_text()))
-        if value["commit_sha"] != record["commit_sha"]:
-            raise ValueError("RESULT_PIN_MISMATCH")
-        records.append(value)
-    code = {path.relative_to(ROOT).as_posix(): digest(path)
-            for path in sorted((ROOT / "src" / "r2s").glob("*.py"))}
-    write_json(output, {"schema_version": 2, "finished_at": datetime.now(UTC).isoformat(),
-                        "python": platform.python_version(), "platform": platform.platform(),
-                        "metadata_sha256": digest(metadata), "compiler_files": code,
-                        "compiler_sha256": hashlib.sha256(json.dumps(code, sort_keys=True).encode()).hexdigest(),
-                        "method": "Unmodified compiler: pinned source -> discover -> generate -> validate; no target code execution",
-                        "summary": summary(records), "repositories": records})
+    completed = work / "measurement.completed.json"
+    if not completed.is_file():
+        raise ValueError("MEASUREMENT_INCOMPLETE")
+    payload = json.loads(completed.read_text())
+    locked = json.loads((work / "measurement.lock.json").read_text())
+    if payload["metadata_sha256"] != digest(metadata) or any(
+        payload.get(key) != value for key, value in locked["identity"].items()
+    ):
+        raise ValueError("MEASUREMENT_IDENTITY_MISMATCH")
+    write_new(output, payload)
 
 
 def main() -> None:
@@ -198,12 +209,12 @@ def main() -> None:
     batch = sub.add_parser("run")
     batch.add_argument("--metadata", type=Path, default=ROOT / "benchmark/repository-metadata.json")
     batch.add_argument("--work", type=Path, required=True)
-    batch.add_argument("--output", type=Path, default=ROOT / "benchmark/results.json")
+    batch.add_argument("--output", type=Path, required=True)
     batch.add_argument("--timeout", type=int, default=180)
     gather = sub.add_parser("collect")
     gather.add_argument("--metadata", type=Path, default=ROOT / "benchmark/repository-metadata.json")
     gather.add_argument("--work", type=Path, required=True)
-    gather.add_argument("--output", type=Path, default=ROOT / "benchmark/results.json")
+    gather.add_argument("--output", type=Path, required=True)
     child = sub.add_parser("worker")
     child.add_argument("--record", type=Path, required=True)
     child.add_argument("--source", type=Path, required=True)

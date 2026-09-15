@@ -1,0 +1,24 @@
+{
+  "format": "r2s-legacy-baseline-v1",
+  "baseline_commit": "cd20fa7c9fa487191f2fbe5866e6fbb3ece6a00e",
+  "captured_at": "2026-09-15",
+  "artifacts": {
+    "benchmark/report.md": "45239e912be3bc28f041a043a6e57c41887d2bbd030e791cd843b2985a0b16c9",
+    "benchmark/report.json": "b2b9df00c21ad5366ac328fe4e5018d2ae28a39bee3877a58abc032b83ff08fe",
+    "benchmark/results.json": "29a97712890a6b80cc67b6c409beaec5b62d9359423a163958274337ec9f6a21",
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "scripts/benchmark_public.py": "03a1f3e6a5a5f3925853c2a6b4f61e17fd93fd9851f4b994c1b92d689609bddf",
+    "scripts/public_measure.py": "e89b86c5b023d0a1051e7ba6ee83edc5c6c27026ed6170e3734f725f8168ef5f",
+    "src/r2s/generator.py": "ab0d3b2bb62bf83f0de94133282f63e2f4b994ed946f3107ddce67e53b4705fa",
+    "src/r2s/analyzers.py": "0f417cebd03163f327ce26f0a4e46d12304e214840d0219a4ba1e9d98fe3b82c",
+    "src/r2s/scanner.py": "a3209d5d00526f89b66f74d3d722973e702942fb28ef562df22f89e476a54cd3",
+    "pyproject.toml": "bcd910b6a6a7ac4bf16a6a4574ffceb81527c465cc947935d1114135f3936528"
+  },
+  "tool_versions": {
+    "python": "Python 3.12.14",
+    "pytest": "pytest 9.1.1",
+    "git": "git version 2.34.1"
+  },
+  "tool_versions_scope": "Tools observed when capturing this lock; not a reconstruction of all historical runtime dependencies.",
+  "interpretation": "Historical artifacts are immutable. Their results are legacy measurements and are not silently recomputed after compiler changes."
+}

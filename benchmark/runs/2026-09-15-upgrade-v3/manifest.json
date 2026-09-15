@@ -1,0 +1,23 @@
+{
+  "format": "r2s-benchmark-run-v1",
+  "run_id": "2026-09-15-upgrade-v3",
+  "benchmark_metadata": "../../repository-metadata.json",
+  "benchmark_metadata_sha256": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+  "corpus": {
+    "high_star_public_repositories_tested": 36,
+    "core_repositories": 36,
+    "rust_challenge_repositories": 6,
+    "secondary_repositories": 3,
+    "total_benchmark_stars": 1453404
+  },
+  "compiler_sha256": "b3fd78e831a4629e77b586b4fb1243f5e628e67a7788e843994b3dd52de399b3",
+  "source_artifacts": {
+    "results.json": "9261ea633605a3792984bb2ac85ea5f3d7983067b823bda7ff18fae7b767c903",
+    "ground-truth-results.json": "a7ff6ad383b94272c92e506407d4b242961f2aa2f5af2da4a6c77ccac47dafcd",
+    "fact-audit.json": "8320442f53dd1c8b30e784f9dac75f8d9ae042fa323a7752459b5673cc4cc5d1",
+    "official-comparison.json": "fabf800a153afa1134eddc2ab12995ec3beb774c1f5f29a5d6406ac99036746f"
+  },
+  "runtime": "not included; no runtime/model A-B results are mixed into this static run",
+  "human_verified_repositories": 0,
+  "source_snapshots": "immutable data-disk artifacts under /data/repo-to-skill-benchmark-work/upgrade-2026-09-15-v3"
+}

@@ -1,0 +1,800 @@
+{
+  "created_at": "2026-09-15T14:27:26.309962+00:00",
+  "format": "r2s-static-prerequisite-catalog-v1",
+  "source_metadata": "benchmark/repository-metadata.json",
+  "source_truth": "benchmark/ground-truth-facts.json",
+  "tasks": [
+    {
+      "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+      "execution_oracle": null,
+      "id": "prettier-1",
+      "input": {
+        "goal": "format a file with explicit parser"
+      },
+      "repository": "prettier/prettier",
+      "repository_id": "prettier",
+      "required_static_facts": [
+        {
+          "anchor": "\"name\": \"prettier\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "prettier"
+        },
+        {
+          "anchor": "  parser: {",
+          "kind": "option",
+          "path": "src/main/core-options.evaluate.js",
+          "value": "--parser"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "format-a-file-with-explicit-parser"
+    },
+    {
+      "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+      "execution_oracle": null,
+      "id": "prettier-2",
+      "input": {
+        "goal": "check format with config"
+      },
+      "repository": "prettier/prettier",
+      "repository_id": "prettier",
+      "required_static_facts": [
+        {
+          "anchor": "\"name\": \"prettier\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "prettier"
+        },
+        {
+          "anchor": "## `--check`",
+          "kind": "option",
+          "path": "docs/cli.md",
+          "value": "--check"
+        },
+        {
+          "anchor": "## `--find-config-path` and `--config`",
+          "kind": "option",
+          "path": "docs/cli.md",
+          "value": "--config"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "check-format-with-config"
+    },
+    {
+      "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+      "execution_oracle": null,
+      "id": "prettier-3",
+      "input": {
+        "goal": "ignore selected paths"
+      },
+      "repository": "prettier/prettier",
+      "repository_id": "prettier",
+      "required_static_facts": [
+        {
+          "anchor": "\"name\": \"prettier\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "prettier"
+        },
+        {
+          "anchor": "## `--ignore-path`",
+          "kind": "option",
+          "path": "docs/cli.md",
+          "value": "--ignore-path"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "ignore-selected-paths"
+    },
+    {
+      "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+      "execution_oracle": null,
+      "id": "github-cli-1",
+      "input": {
+        "goal": "inspect repository status"
+      },
+      "repository": "cli/cli",
+      "repository_id": "github-cli",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "cmd/gh/main.go",
+          "value": "gh"
+        },
+        {
+          "anchor": "Use:   \"status\"",
+          "kind": "subcommand",
+          "path": "pkg/cmd/status/status.go",
+          "value": "status"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "inspect-repository-status"
+    },
+    {
+      "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+      "execution_oracle": null,
+      "id": "github-cli-2",
+      "input": {
+        "goal": "create and list issues"
+      },
+      "repository": "cli/cli",
+      "repository_id": "github-cli",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "cmd/gh/main.go",
+          "value": "gh"
+        },
+        {
+          "anchor": "Use:   \"create\"",
+          "kind": "subcommand",
+          "path": "pkg/cmd/issue/create/create.go",
+          "value": "issue create"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "create-and-list-issues"
+    },
+    {
+      "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+      "execution_oracle": null,
+      "id": "github-cli-3",
+      "input": {
+        "goal": "query pull request data"
+      },
+      "repository": "cli/cli",
+      "repository_id": "github-cli",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "cmd/gh/main.go",
+          "value": "gh"
+        },
+        {
+          "anchor": "Use:   \"list\"",
+          "kind": "subcommand",
+          "path": "pkg/cmd/pr/list/list.go",
+          "value": "pr list"
+        },
+        {
+          "anchor": "cmdutil.AddJSONFlags(cmd, &opts.Exporter, api.PullRequestFields)",
+          "kind": "option",
+          "path": "pkg/cmd/pr/list/list.go",
+          "value": "--json"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "query-pull-request-data"
+    },
+    {
+      "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+      "execution_oracle": null,
+      "id": "yt-dlp-1",
+      "input": {
+        "goal": "inspect video metadata"
+      },
+      "repository": "yt-dlp/yt-dlp",
+      "repository_id": "yt-dlp",
+      "required_static_facts": [
+        {
+          "anchor": "yt-dlp = \"yt_dlp:main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "yt-dlp"
+        },
+        {
+          "anchor": "'-j', '--dump-json',",
+          "kind": "option",
+          "path": "yt_dlp/options.py",
+          "value": "--dump-json"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "inspect-video-metadata"
+    },
+    {
+      "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+      "execution_oracle": null,
+      "id": "yt-dlp-2",
+      "input": {
+        "goal": "select format"
+      },
+      "repository": "yt-dlp/yt-dlp",
+      "repository_id": "yt-dlp",
+      "required_static_facts": [
+        {
+          "anchor": "yt-dlp = \"yt_dlp:main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "yt-dlp"
+        },
+        {
+          "anchor": "'-f', '--format',",
+          "kind": "option",
+          "path": "yt_dlp/options.py",
+          "value": "--format"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "select-format"
+    },
+    {
+      "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+      "execution_oracle": null,
+      "id": "yt-dlp-3",
+      "input": {
+        "goal": "write output template"
+      },
+      "repository": "yt-dlp/yt-dlp",
+      "repository_id": "yt-dlp",
+      "required_static_facts": [
+        {
+          "anchor": "yt-dlp = \"yt_dlp:main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "yt-dlp"
+        },
+        {
+          "anchor": "'-o', '--output',",
+          "kind": "option",
+          "path": "yt_dlp/options.py",
+          "value": "--output"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "write-output-template"
+    },
+    {
+      "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+      "execution_oracle": null,
+      "id": "eslint-1",
+      "input": {
+        "goal": "lint selected files"
+      },
+      "repository": "eslint/eslint",
+      "repository_id": "eslint",
+      "required_static_facts": [
+        {
+          "anchor": "\"eslint\": \"./bin/eslint.js\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "eslint"
+        },
+        {
+          "anchor": "#### `-c`, `--config`",
+          "kind": "option",
+          "path": "docs/src/use/command-line-interface.md",
+          "value": "--config"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "lint-selected-files"
+    },
+    {
+      "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+      "execution_oracle": null,
+      "id": "eslint-2",
+      "input": {
+        "goal": "apply safe fixes"
+      },
+      "repository": "eslint/eslint",
+      "repository_id": "eslint",
+      "required_static_facts": [
+        {
+          "anchor": "\"eslint\": \"./bin/eslint.js\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "eslint"
+        },
+        {
+          "anchor": "#### `--fix`",
+          "kind": "option",
+          "path": "docs/src/use/command-line-interface.md",
+          "value": "--fix"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "apply-safe-fixes"
+    },
+    {
+      "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+      "execution_oracle": null,
+      "id": "eslint-3",
+      "input": {
+        "goal": "use configured ignores"
+      },
+      "repository": "eslint/eslint",
+      "repository_id": "eslint",
+      "required_static_facts": [
+        {
+          "anchor": "\"eslint\": \"./bin/eslint.js\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "eslint"
+        },
+        {
+          "anchor": "#### `--ignore-pattern`",
+          "kind": "option",
+          "path": "docs/src/use/command-line-interface.md",
+          "value": "--ignore-pattern"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "use-configured-ignores"
+    },
+    {
+      "commit_sha": "a374b865f7e99cccafcbe443dcdb47552b91af3c",
+      "execution_oracle": null,
+      "id": "hugo-1",
+      "input": {
+        "goal": "create development server"
+      },
+      "repository": "gohugoio/hugo",
+      "repository_id": "hugo",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "main.go",
+          "value": "hugo"
+        },
+        {
+          "anchor": "return \"server\"",
+          "kind": "subcommand",
+          "path": "commands/server.go",
+          "value": "server"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "create-development-server"
+    },
+    {
+      "commit_sha": "a374b865f7e99cccafcbe443dcdb47552b91af3c",
+      "execution_oracle": null,
+      "id": "hugo-2",
+      "input": {
+        "goal": "build site"
+      },
+      "repository": "gohugoio/hugo",
+      "repository_id": "hugo",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "main.go",
+          "value": "hugo"
+        },
+        {
+          "anchor": "StringP(\"destination\", \"d\", \"\", \"filesystem path to write files to\")",
+          "kind": "option",
+          "path": "commands/commandeer.go",
+          "value": "--destination"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "build-site"
+    },
+    {
+      "commit_sha": "a374b865f7e99cccafcbe443dcdb47552b91af3c",
+      "execution_oracle": null,
+      "id": "hugo-3",
+      "input": {
+        "goal": "render drafts"
+      },
+      "repository": "gohugoio/hugo",
+      "repository_id": "hugo",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "main.go",
+          "value": "hugo"
+        },
+        {
+          "anchor": "BoolP(\"buildDrafts\", \"D\", false, \"include content marked as draft\")",
+          "kind": "option",
+          "path": "commands/commandeer.go",
+          "value": "--buildDrafts"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "render-drafts"
+    },
+    {
+      "commit_sha": "b1be3a8be1b833ce5b92fbbac11637643d60a046",
+      "execution_oracle": null,
+      "id": "fzf-1",
+      "input": {
+        "goal": "filter input"
+      },
+      "repository": "junegunn/fzf",
+      "repository_id": "fzf",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "main.go",
+          "value": "fzf"
+        },
+        {
+          "anchor": "\\-\\-filter=",
+          "kind": "option",
+          "path": "man/man1/fzf.1",
+          "value": "--filter"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "filter-input"
+    },
+    {
+      "commit_sha": "b1be3a8be1b833ce5b92fbbac11637643d60a046",
+      "execution_oracle": null,
+      "id": "fzf-2",
+      "input": {
+        "goal": "use preview command"
+      },
+      "repository": "junegunn/fzf",
+      "repository_id": "fzf",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "main.go",
+          "value": "fzf"
+        },
+        {
+          "anchor": "\\-\\-preview=",
+          "kind": "option",
+          "path": "man/man1/fzf.1",
+          "value": "--preview"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "use-preview-command"
+    },
+    {
+      "commit_sha": "b1be3a8be1b833ce5b92fbbac11637643d60a046",
+      "execution_oracle": null,
+      "id": "fzf-3",
+      "input": {
+        "goal": "select with key binding"
+      },
+      "repository": "junegunn/fzf",
+      "repository_id": "fzf",
+      "required_static_facts": [
+        {
+          "anchor": "func main()",
+          "kind": "command",
+          "path": "main.go",
+          "value": "fzf"
+        },
+        {
+          "anchor": "\\-\\-bind=",
+          "kind": "option",
+          "path": "man/man1/fzf.1",
+          "value": "--bind"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "select-with-key-binding"
+    },
+    {
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "execution_oracle": null,
+      "id": "black-1",
+      "input": {
+        "goal": "format selected files"
+      },
+      "repository": "psf/black",
+      "repository_id": "black",
+      "required_static_facts": [
+        {
+          "anchor": "black = \"black:patched_main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "black"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "format-selected-files"
+    },
+    {
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "execution_oracle": null,
+      "id": "black-2",
+      "input": {
+        "goal": "check format"
+      },
+      "repository": "psf/black",
+      "repository_id": "black",
+      "required_static_facts": [
+        {
+          "anchor": "black = \"black:patched_main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "black"
+        },
+        {
+          "anchor": "\"--check\",",
+          "kind": "option",
+          "path": "src/black/__init__.py",
+          "value": "--check"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "check-format"
+    },
+    {
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "execution_oracle": null,
+      "id": "black-3",
+      "input": {
+        "goal": "exclude paths"
+      },
+      "repository": "psf/black",
+      "repository_id": "black",
+      "required_static_facts": [
+        {
+          "anchor": "black = \"black:patched_main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "black"
+        },
+        {
+          "anchor": "\"--exclude\",",
+          "kind": "option",
+          "path": "src/black/__init__.py",
+          "value": "--exclude"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "exclude-paths"
+    },
+    {
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "execution_oracle": null,
+      "id": "pre-commit-1",
+      "input": {
+        "goal": "run all hooks"
+      },
+      "repository": "pre-commit/pre-commit",
+      "repository_id": "pre-commit",
+      "required_static_facts": [
+        {
+          "anchor": "pre-commit = pre_commit.main:main",
+          "kind": "command",
+          "path": "setup.cfg",
+          "value": "pre-commit"
+        },
+        {
+          "anchor": "_add_cmd('run', help='Run hooks.')",
+          "kind": "subcommand",
+          "path": "pre_commit/main.py",
+          "value": "run"
+        },
+        {
+          "anchor": "'--all-files', '-a', action='store_true',",
+          "kind": "option",
+          "path": "pre_commit/main.py",
+          "value": "--all-files"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "run-all-hooks"
+    },
+    {
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "execution_oracle": null,
+      "id": "pre-commit-2",
+      "input": {
+        "goal": "run selected hook"
+      },
+      "repository": "pre-commit/pre-commit",
+      "repository_id": "pre-commit",
+      "required_static_facts": [
+        {
+          "anchor": "pre-commit = pre_commit.main:main",
+          "kind": "command",
+          "path": "setup.cfg",
+          "value": "pre-commit"
+        },
+        {
+          "anchor": "_add_cmd('run', help='Run hooks.')",
+          "kind": "subcommand",
+          "path": "pre_commit/main.py",
+          "value": "run"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "run-selected-hook"
+    },
+    {
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "execution_oracle": null,
+      "id": "pre-commit-3",
+      "input": {
+        "goal": "install hooks"
+      },
+      "repository": "pre-commit/pre-commit",
+      "repository_id": "pre-commit",
+      "required_static_facts": [
+        {
+          "anchor": "pre-commit = pre_commit.main:main",
+          "kind": "command",
+          "path": "setup.cfg",
+          "value": "pre-commit"
+        },
+        {
+          "anchor": "_add_cmd('install', help='Install the pre-commit script.')",
+          "kind": "subcommand",
+          "path": "pre_commit/main.py",
+          "value": "install"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "install-hooks"
+    },
+    {
+      "commit_sha": "9dc7f1a65c21f80d70ec80e45e9a9390bb5e9b04",
+      "execution_oracle": null,
+      "id": "webpack-1",
+      "input": {
+        "goal": "build with config"
+      },
+      "repository": "webpack/webpack",
+      "repository_id": "webpack",
+      "required_static_facts": [
+        {
+          "anchor": "\"webpack\": \"bin/webpack.js\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "webpack"
+        },
+        {
+          "anchor": "package: \"webpack-cli\"",
+          "kind": "external_dependency",
+          "path": "bin/webpack.js",
+          "value": "webpack-cli"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "build-with-config"
+    },
+    {
+      "commit_sha": "9dc7f1a65c21f80d70ec80e45e9a9390bb5e9b04",
+      "execution_oracle": null,
+      "id": "webpack-2",
+      "input": {
+        "goal": "inspect build statistics"
+      },
+      "repository": "webpack/webpack",
+      "repository_id": "webpack",
+      "required_static_facts": [
+        {
+          "anchor": "\"webpack\": \"bin/webpack.js\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "webpack"
+        },
+        {
+          "anchor": "package: \"webpack-cli\"",
+          "kind": "external_dependency",
+          "path": "bin/webpack.js",
+          "value": "webpack-cli"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "inspect-build-statistics"
+    },
+    {
+      "commit_sha": "9dc7f1a65c21f80d70ec80e45e9a9390bb5e9b04",
+      "execution_oracle": null,
+      "id": "webpack-3",
+      "input": {
+        "goal": "use watch mode"
+      },
+      "repository": "webpack/webpack",
+      "repository_id": "webpack",
+      "required_static_facts": [
+        {
+          "anchor": "\"webpack\": \"bin/webpack.js\"",
+          "kind": "command",
+          "path": "package.json",
+          "value": "webpack"
+        },
+        {
+          "anchor": "package: \"webpack-cli\"",
+          "kind": "external_dependency",
+          "path": "bin/webpack.js",
+          "value": "webpack-cli"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "use-watch-mode"
+    },
+    {
+      "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+      "execution_oracle": null,
+      "id": "poetry-1",
+      "input": {
+        "goal": "install project dependencies"
+      },
+      "repository": "python-poetry/poetry",
+      "repository_id": "poetry",
+      "required_static_facts": [
+        {
+          "anchor": "poetry = \"poetry.console.application:main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "poetry"
+        },
+        {
+          "anchor": "name = \"install\"",
+          "kind": "subcommand",
+          "path": "src/poetry/console/commands/install.py",
+          "value": "install"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "install-project-dependencies"
+    },
+    {
+      "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+      "execution_oracle": null,
+      "id": "poetry-2",
+      "input": {
+        "goal": "add a dependency"
+      },
+      "repository": "python-poetry/poetry",
+      "repository_id": "poetry",
+      "required_static_facts": [
+        {
+          "anchor": "poetry = \"poetry.console.application:main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "poetry"
+        },
+        {
+          "anchor": "name = \"add\"",
+          "kind": "subcommand",
+          "path": "src/poetry/console/commands/add.py",
+          "value": "add"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "add-a-dependency"
+    },
+    {
+      "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+      "execution_oracle": null,
+      "id": "poetry-3",
+      "input": {
+        "goal": "inspect environment"
+      },
+      "repository": "python-poetry/poetry",
+      "repository_id": "poetry",
+      "required_static_facts": [
+        {
+          "anchor": "poetry = \"poetry.console.application:main\"",
+          "kind": "command",
+          "path": "pyproject.toml",
+          "value": "poetry"
+        },
+        {
+          "anchor": "name = \"env info\"",
+          "kind": "subcommand",
+          "path": "src/poetry/console/commands/env/info.py",
+          "value": "env info"
+        }
+      ],
+      "scope": "selected static prerequisites only; not an executable TaskSpec",
+      "title": "inspect-environment"
+    }
+  ]
+}

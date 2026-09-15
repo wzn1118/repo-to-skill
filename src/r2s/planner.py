@@ -7,6 +7,12 @@ from r2s.domain import DiscoveryIR, Procedure, ProcedureStep
 from r2s.serialization import stable_id
 
 MAX_GOAL_LENGTH = 500
+GENERIC_GOALS = {
+    "inspect options", "inspect commands", "inspect the cli", "use commands",
+    "use the command", "use repository commands", "use the repository commands",
+    "use the discovered commands", "use discovered commands", "explore repository commands",
+    "使用仓库命令", "查看命令", "查看选项", "使用发现的命令", "检查选项",
+}
 
 
 def plan(
@@ -35,18 +41,16 @@ def plan(
             command_by_capability[capability.id] = str(
                 entrypoint_claim.object["command"]
             )
-    goal_tokens = {
-        token.casefold()
-        for token in re.findall(
-            r"[A-Za-z0-9][A-Za-z0-9._+-]*",
-            normalized_goal,
-        )
-    }
     mentioned_commands = {
         command.casefold()
         for command in command_by_capability.values()
-        if command.casefold() in goal_tokens
+        if re.search(
+            rf"(?<![A-Za-z0-9_.+-]){re.escape(command)}(?![A-Za-z0-9_.+-])",
+            normalized_goal, re.IGNORECASE,
+        )
     }
+    if not mentioned_commands and normalized_goal.casefold() not in GENERIC_GOALS:
+        return []
     procedures: list[Procedure] = []
     for capability in discovery.capabilities:
         if capability_ids is not None and capability.id not in capability_ids:

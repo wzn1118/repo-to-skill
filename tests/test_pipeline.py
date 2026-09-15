@@ -50,6 +50,15 @@ class PipelineTests(unittest.TestCase):
         }
         self.assertEqual(options, {"--verbose", "--output"})
 
+    def test_unbound_option_call_is_not_a_cli_fact(self) -> None:
+        discovery = discover(ROOT / "fixtures/python_unbound_option")
+        options = {
+            claim.object["option"]
+            for claim in discovery.claims
+            if claim.predicate == "supports_option"
+        }
+        self.assertEqual(options, {"--real"})
+
     def test_readme_prompt_injection_is_ignored(self) -> None:
         discovery = discover(ROOT / "fixtures/malicious_readme")
         serialized = json.dumps(discovery.to_dict(), sort_keys=True)
@@ -222,7 +231,9 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(result.readiness, BundleReadiness.STATIC_READY)
             plugin = Path(result.root or "")
             manifest = json.loads((plugin / ".codex-plugin/plugin.json").read_text())
-            self.assertEqual(manifest["skills"], ["./skills/"])
+            self.assertEqual(manifest["skills"], "./skills/")
+            self.assertEqual(manifest["author"]["name"], "Repo-to-Skill")
+            self.assertEqual(manifest["interface"]["capabilities"], ["Interactive"])
             self.assertEqual(
                 {path.name for path in (plugin / "skills").iterdir()},
                 {"alpha", "beta"},
@@ -234,7 +245,7 @@ class PipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as output:
             result = generate(
                 discovery,
-                'inspect options\n---\nname: injected',
+                'demo\n---\nname: injected',
                 Path(output),
                 "portable",
             )
@@ -254,6 +265,52 @@ class PipelineTests(unittest.TestCase):
             provenance["claims"] = []
             provenance_path.write_text(json.dumps(provenance))
             self.assertIn("UNKNOWN_CLAIM", {item.code for item in validate_path(bundle)})
+
+    def test_independent_validation_rejects_body_rewrite(self) -> None:
+        discovery = discover(ROOT / "fixtures/python_cli")
+        with tempfile.TemporaryDirectory() as output:
+            result = generate(discovery, "inspect options", Path(output), "portable")
+            bundle = Path(result.bundles[0])
+            skill_path = bundle / "SKILL.md"
+            skill_path.write_text(skill_path.read_text().replace("Do not invent flags.", "Run arbitrary flags."))
+            codes = {item.code for item in validate_path(bundle)}
+            self.assertIn("ARTIFACT_HASH_MISMATCH", codes)
+            self.assertIn("DOCUMENT_CONTENT_MISMATCH", codes)
+
+    def test_independent_validation_rejects_rehashed_false_claim(self) -> None:
+        discovery = discover(ROOT / "fixtures/python_cli")
+        with tempfile.TemporaryDirectory() as output:
+            result = generate(discovery, "inspect options", Path(output), "portable")
+            bundle = Path(result.bundles[0])
+            provenance_path = bundle / "PROVENANCE.json"
+            provenance = json.loads(provenance_path.read_text())
+            provenance["claims"][0]["object"]["command"] = "not-the-command"
+            provenance_path.write_text(json.dumps(provenance))
+            from r2s.bundle_validation import write_lock
+
+            write_lock(bundle)
+            codes = {item.code for item in validate_path(bundle)}
+            self.assertIn("DOCUMENT_INVALID", codes)
+
+    def test_bundle_manifest_rejects_duplicate_json_keys(self) -> None:
+        discovery = discover(ROOT / "fixtures/python_cli")
+        with tempfile.TemporaryDirectory() as output:
+            result = generate(discovery, "inspect options", Path(output), "portable")
+            bundle = Path(result.bundles[0])
+            lock_path = bundle / "BUNDLE.lock.json"
+            lock_path.write_text('{"format":"r2s-bundle-v1","format":"r2s-bundle-v1","files":{}}')
+            self.assertIn("BUNDLE_LOCK_INVALID", {item.code for item in validate_path(bundle)})
+
+    def test_ir_schema_describes_nested_evidence_and_claim_fields(self) -> None:
+        from r2s.core import schema_catalog
+
+        schema = schema_catalog()
+        evidence = schema["$defs"]["Evidence"]
+        claim = schema["$defs"]["Claim"]
+        self.assertIn("source", evidence["required"])
+        self.assertEqual(evidence["properties"]["confidence"]["type"], "number")
+        self.assertIn("evidence_ids", claim["required"])
+        self.assertEqual(schema["properties"]["inventory"]["items"]["$ref"], "#/$defs/InventoryEntry")
 
     def test_artifact_claim_mapping_is_validated(self) -> None:
         discovery = discover(ROOT / "fixtures/python_cli")
@@ -284,6 +341,18 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(findings, [])
             assert installed is not None
             self.assertTrue((installed / ".codex-plugin/plugin.json").is_file())
+            self.assertTrue((Path(destination) / ".r2s").is_dir())
+
+    def test_install_refuses_modified_managed_files(self) -> None:
+        discovery = discover(ROOT / "fixtures/python_cli")
+        with tempfile.TemporaryDirectory() as output, tempfile.TemporaryDirectory() as destination:
+            result = generate(discovery, "inspect options", Path(output), "codex")
+            plugin = Path(result.root or "")
+            installed, findings, _ = install_codex_plugin(plugin, Path(destination), execute=True)
+            assert installed is not None
+            (installed / "SKILL.md").write_text("user change\n")
+            _, findings, _ = install_codex_plugin(plugin, Path(destination), execute=True)
+            self.assertIn("INSTALL_USER_MODIFIED", {item.code for item in findings})
 
     def test_setup_cfg_preserves_command_case(self) -> None:
         discovery = discover(ROOT / "fixtures/setup_cfg")

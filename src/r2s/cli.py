@@ -48,7 +48,9 @@ def parser() -> argparse.ArgumentParser:
     build_command.add_argument("source", help="Repository path, discovery run path, or run ID")
     build_command.add_argument("--goal", required=True)
     build_command.add_argument("--ref")
-    build_command.add_argument("--target", choices=["portable", "codex"], default="portable")
+    build_command.add_argument(
+        "--target", choices=["portable", "codex", "claude", "cursor"], default="portable",
+    )
     build_command.add_argument("--output", default="run-output")
 
     check = commands.add_parser("validate")
@@ -67,11 +69,12 @@ def parser() -> argparse.ArgumentParser:
     runs = commands.add_parser("runs")
     runs.add_argument("--output", default="run-output")
 
-    ui = commands.add_parser("ui", help="Serve a local read-only run dashboard")
+    ui = commands.add_parser("ui", help="Serve a local static analysis workbench")
     ui.add_argument("--output", default="run-output")
     ui.add_argument("--host", default="127.0.0.1")
     ui.add_argument("--port", type=int, default=8765)
     ui.add_argument("--open", action="store_true")
+    ui.add_argument("--source-root", type=Path, action="append", help="Allowed local source root; defaults to cwd")
 
     update = commands.add_parser("update")
     update.add_argument("source", help="Existing discovery run path or run ID")
@@ -86,6 +89,15 @@ def parser() -> argparse.ArgumentParser:
     install.add_argument("--target", choices=["codex"], default="codex")
     install.add_argument("--destination", required=True)
     install.add_argument("--execute", action="store_true")
+    install.add_argument("--update", action="store_true")
+    verify = commands.add_parser("verify", help="Preview or run an isolated CLI smoke test")
+    verify.add_argument("bundle")
+    verify.add_argument("--source", type=Path)
+    verify.add_argument("--profile", choices=["isolated-cli"], default="isolated-cli")
+    verify.add_argument("--image", default="python:3.12-slim")
+    verify.add_argument("--execute", action="store_true")
+    verify.add_argument("--arg", action="append", help="Explicit CLI argument; use --arg=--flag")
+    verify.add_argument("--report", type=Path, help="Write a new execution report")
     return root
 
 
@@ -109,6 +121,7 @@ def _build_payload(result: Any) -> dict[str, Any]:
         "root": result.root,
         "bundles": list(result.bundles),
         "readiness": result.readiness.value,
+        "outcome": result.outcome.value,
         "findings": [asdict(item) for item in result.findings],
     }
 
@@ -195,7 +208,10 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "ui":
             from r2s.ui import make_server
 
-            server = make_server(Path(args.output), args.host, args.port)
+            server = make_server(
+                Path(args.output), args.host, args.port,
+                tuple(args.source_root) if args.source_root else None,
+            )
             host, port = server.server_address[:2]
             host_text = host.decode() if isinstance(host, bytes) else host
             url = f"http://{host_text}:{port}/"
@@ -275,6 +291,7 @@ def main(argv: list[str] | None = None) -> int:
                 Path(args.plugin),
                 Path(args.destination),
                 args.execute,
+                args.update,
             )
             print(
                 canonical_json(
@@ -288,6 +305,28 @@ def main(argv: list[str] | None = None) -> int:
                 end="",
             )
             return 0 if not findings else 3
+        elif args.command == "verify":
+            from r2s.execution import ExecutionPolicy, verify_bundle, write_execution_result
+
+            execution, findings = verify_bundle(
+                Path(args.bundle),
+                ExecutionPolicy(args.image),
+                args.source,
+                args.execute,
+                tuple(args.arg) if args.arg is not None else None,
+            )
+            verify_payload: dict[str, Any] = {
+                "profile": args.profile,
+                "findings": [asdict(item) for item in findings],
+            }
+            if execution is not None:
+                verify_payload["execution"] = execution.to_dict()
+                if args.report is not None:
+                    write_execution_result(args.report, execution)
+            print(canonical_json(verify_payload), end="")
+            return 0 if not findings and execution is not None and execution.status in {
+                "PREVIEW", "COMPLETED",
+            } else 3
         return 0
     except (OSError, ValueError, TOMLDecodeError) as exc:
         print(json.dumps({"error": str(exc)}, sort_keys=True), file=sys.stderr)

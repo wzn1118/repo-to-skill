@@ -1,0 +1,768 @@
+{
+  "confirmed_wrong_executable_facts": 0,
+  "facts": [
+    {
+      "claim_id": "cl_33078114337c933442a0",
+      "predicate": "provides_cli",
+      "repository": "yt-dlp/yt-dlp",
+      "value": {
+        "command": "yt-dlp",
+        "target": "yt_dlp:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c9d3b2e911b5966dbc3c",
+      "predicate": "provides_cli",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "target": "black:patched_main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_bc69c68e460b6d5ddf35",
+      "predicate": "provides_cli",
+      "repository": "psf/black",
+      "value": {
+        "command": "blackd",
+        "target": "blackd:patched_main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_87e90acb5c6f86a81156",
+      "predicate": "provides_cli",
+      "repository": "httpie/cli",
+      "value": {
+        "command": "http",
+        "target": "httpie.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_9dd88bac6a9809ef854d",
+      "predicate": "provides_cli",
+      "repository": "httpie/cli",
+      "value": {
+        "command": "httpie",
+        "target": "httpie.manager.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b0efe71e79379841ab3f",
+      "predicate": "provides_cli",
+      "repository": "httpie/cli",
+      "value": {
+        "command": "https",
+        "target": "httpie.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_35fcf4648f9aabe18fca",
+      "predicate": "provides_cli",
+      "repository": "python-poetry/poetry",
+      "value": {
+        "command": "poetry",
+        "target": "poetry.console.application:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3d081b84603d439fd608",
+      "predicate": "provides_cli",
+      "repository": "prettier/prettier",
+      "value": {
+        "command": "prettier",
+        "role": "product",
+        "target": "bin/prettier.cjs",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a926110f1658ab2a1b50",
+      "predicate": "provides_cli",
+      "repository": "vitejs/vite",
+      "value": {
+        "command": "create-vite",
+        "role": "product",
+        "target": "packages/create-vite/index.js",
+        "workspace": "packages/create-vite"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_855c90a1a8b6fbab2671",
+      "predicate": "provides_cli",
+      "repository": "vitejs/vite",
+      "value": {
+        "command": "cva",
+        "role": "product",
+        "target": "packages/create-vite/index.js",
+        "workspace": "packages/create-vite"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_99cc8c7167445dee05d7",
+      "predicate": "provides_cli",
+      "repository": "vitejs/vite",
+      "value": {
+        "command": "vite",
+        "role": "product",
+        "target": "packages/vite/bin/vite.js",
+        "workspace": "packages/vite"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2bd424036439449f9622",
+      "predicate": "provides_cli",
+      "repository": "cli/cli",
+      "value": {
+        "command": "gh",
+        "role": "product",
+        "target": "cmd/gh",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b054b97209a390681a9c",
+      "predicate": "provides_cli",
+      "repository": "gohugoio/hugo",
+      "value": {
+        "command": "hugo",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_cf802618c8e26d6ddd15",
+      "predicate": "provides_cli",
+      "repository": "junegunn/fzf",
+      "value": {
+        "command": "fzf",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f22c4ffb62e5e5b5e1b0",
+      "predicate": "provides_cli",
+      "repository": "nektos/act",
+      "value": {
+        "command": "act",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_7fba52fdd47c84e247b8",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "test-ipc-server-client",
+        "role": "product",
+        "target": "pnpm11/__utils__/test-ipc-server/bin/test-ipc-server-client.js",
+        "workspace": "pnpm11/__utils__/test-ipc-server"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_75b41a91f911a9ad8e3c",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "pnpm-render",
+        "role": "product",
+        "target": "pnpm11/cli/default-reporter/bin/pnpm-render.mjs",
+        "workspace": "pnpm11/cli/default-reporter"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_cad6565b103a7566ae0e",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "lockfile.make-dedicated-lockfile",
+        "role": "product",
+        "target": "pnpm11/lockfile/make-dedicated-lockfile/bin/make-dedicated-lockfile.js",
+        "workspace": "pnpm11/lockfile/make-dedicated-lockfile"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0cf589d82f075debc23f",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "modules-mounter.daemon",
+        "role": "product",
+        "target": "pnpm11/modules-mounter/daemon/bin/mount-modules.js",
+        "workspace": "pnpm11/modules-mounter/daemon"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ce7f2c542210253becb8",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "pd",
+        "role": "product",
+        "target": "pnpm11/pnpm/dev/pd.js",
+        "workspace": "pnpm11/pnpm/dev"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_665ef519a5b96ee904e6",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "touch-file-one-bin",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@foo/touch-file-one-bin/1.0.0/cli.js",
+        "workspace": "pnpr/.fixtures/packages/@foo/touch-file-one-bin/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c77083d712b6e07fa563",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "cli-with-node-engine",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/cli-with-node-engine/1.0.0/cli.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/cli-with-node-engine/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6609c440854731c53ea8",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "foo",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/for-testing-pnpm-dlx/1.0.0/foo.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/for-testing-pnpm-dlx/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8b8392639c5e1cc8a2b6",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "print-generated-node-info",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/generate-node-info-during-install/1.0.0/print-generated-node-info.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/generate-node-info-during-install/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_52802a36eed858b41a18",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "hello-from-needs-auth",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/needs-auth/1.0.0/hello.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/needs-auth/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_bc7d2a20fbb3756c5324",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "peer-with-bin",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/peer-with-bin/1.0.0/index.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/peer-with-bin/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_430aa98b57df5c673cd7",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "pkg-that-uses-plugins",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/pkg-that-uses-plugins/1.0.0/index.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/pkg-that-uses-plugins/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e56dda78ae1308747d01",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "print-node-info",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/print-node-info/1.0.0/index.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/print-node-info/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_47337fff97f9100b9c3d",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "runs-own-bin",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/runs-own-bin/1.0.0/bin.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/runs-own-bin/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e06c04ce1b60be19f0c5",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "sh-hello-world",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/sh-hello-world/1.0.1/sh-hello-world.sh",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/sh-hello-world/1.0.1"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2a5cc32fb0cd4177ba26",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "shell-mock",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/shell-mock/0.0.0/index.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/shell-mock/0.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_aff3f5cb30235dbdcabd",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "get-optional-dependencies",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/support-different-architectures/1.0.0/bin/get-optional-dependencies.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/support-different-architectures/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_22ffc89637f8346c0945",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "touch-file-good-bin-name",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/touch-file-good-bin-name/1.0.0/cli.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/touch-file-good-bin-name/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e000e23b52846bde1b57",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "write-lifecycle-env",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/@pnpm.e2e/write-lifecycle-env/1.0.0/index.js",
+        "workspace": "pnpr/.fixtures/packages/@pnpm.e2e/write-lifecycle-env/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ae2e07ecb643f52264d3",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "create-touch-file-one-bin",
+        "role": "product",
+        "target": "pnpr/.fixtures/packages/create-touch-file-one-bin/1.0.0/cli.js",
+        "workspace": "pnpr/.fixtures/packages/create-touch-file-one-bin/1.0.0"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4a164ccea13ebd687caf",
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "pnpr",
+        "role": "product",
+        "target": "pnpr/npm/pnpr/bin/pnpr",
+        "workspace": "pnpr/npm/pnpr"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_7c98a983c320538e8b08",
+      "predicate": "provides_cli",
+      "repository": "pytest-dev/pytest",
+      "value": {
+        "command": "py.test",
+        "target": "_pytest.config:_console_main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c487b5c39246b4959d76",
+      "predicate": "provides_cli",
+      "repository": "pytest-dev/pytest",
+      "value": {
+        "command": "pytest",
+        "target": "_pytest.config:_console_main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4de7d14b91cab7f57b1d",
+      "predicate": "provides_cli",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "target": "pre_commit.main:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_fd0eb34c0d08e365c32d",
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "option": "-V"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_db77ce1812d6d73f351c",
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "option": "--version"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_9613a60f2d915ff1c98d",
+      "predicate": "provides_cli",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "target": "cookiecutter.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_1957065f1e3b5db940fd",
+      "predicate": "provides_cli",
+      "repository": "eslint/eslint",
+      "value": {
+        "command": "eslint",
+        "role": "product",
+        "target": "bin/eslint.js",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_462d524f182cb0cd61cb",
+      "predicate": "provides_cli",
+      "repository": "npm/cli",
+      "value": {
+        "command": "npm",
+        "role": "product",
+        "target": "bin/npm-cli.js",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_eb5a9040231fdfd79aba",
+      "predicate": "provides_cli",
+      "repository": "npm/cli",
+      "value": {
+        "command": "npx",
+        "role": "product",
+        "target": "bin/npx-cli.js",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_86f47bb7010f6fa6bec7",
+      "predicate": "provides_cli",
+      "repository": "npm/cli",
+      "value": {
+        "command": "arborist",
+        "role": "product",
+        "target": "workspaces/arborist/bin/index.js",
+        "workspace": "workspaces/arborist"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0560cb23ef54eb3e512f",
+      "predicate": "provides_cli",
+      "repository": "goreleaser/goreleaser",
+      "value": {
+        "command": "goreleaser",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e4b268719a8fe71c3d42",
+      "predicate": "provides_cli",
+      "repository": "goreleaser/goreleaser",
+      "value": {
+        "command": "fake",
+        "role": "product",
+        "target": "internal/pipe/universalbinary/testdata/fake",
+        "workspace": "internal/pipe/universalbinary/testdata/fake"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6938a82e04cea3f0c548",
+      "predicate": "provides_cli",
+      "repository": "charmbracelet/gum",
+      "value": {
+        "command": "gum",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_09054f3e9ffcb8202b5a",
+      "predicate": "provides_cli",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age",
+        "role": "product",
+        "target": "cmd/age",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f85dca99cc0a85b52acb",
+      "predicate": "provides_cli",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age-inspect",
+        "role": "product",
+        "target": "cmd/age-inspect",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_21a8586972933e1f0e39",
+      "predicate": "provides_cli",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age-keygen",
+        "role": "product",
+        "target": "cmd/age-keygen",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5647ccb822bbae0be1a5",
+      "predicate": "provides_cli",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age-plugin-batchpass",
+        "role": "product",
+        "target": "cmd/age-plugin-batchpass",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_edcaf6561151c8476e1e",
+      "predicate": "supports_option",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age-plugin-batchpass",
+        "option": "-version"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6ca1b24ebf3cd69abbea",
+      "predicate": "provides_cli",
+      "repository": "mikefarah/yq",
+      "value": {
+        "command": "yq",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8288c4cd0e85d4058092",
+      "predicate": "provides_cli",
+      "repository": "direnv/direnv",
+      "value": {
+        "command": "direnv",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4db1624b0838371d2b86",
+      "predicate": "provides_cli",
+      "repository": "charmbracelet/vhs",
+      "value": {
+        "command": "vhs",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_bdc25f4d0c6f761f57da",
+      "predicate": "provides_cli",
+      "repository": "pypa/pipx",
+      "value": {
+        "command": "pipx",
+        "target": "pipx.main:cli"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_dad328a7748555a652c7",
+      "predicate": "provides_cli",
+      "repository": "pypa/pip",
+      "value": {
+        "command": "pip",
+        "target": "pip._internal.cli.main:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_67e0ba120dcc8610f12d",
+      "predicate": "provides_cli",
+      "repository": "pypa/pip",
+      "value": {
+        "command": "pip3",
+        "target": "pip._internal.cli.main:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a08fc8341f24eaebe94f",
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "dmypy",
+        "target": "mypy.dmypy.client:console_entry"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a84853fce58ce5dd459e",
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "mypy",
+        "target": "mypy.__main__:console_entry"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8e76b2075d23982b48f2",
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "mypyc",
+        "target": "mypyc.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e1ceef87817432d96442",
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "target": "mypy.stubgen:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_9019ef24ce4339bd96ec",
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "target": "mypy.stubtest:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6a4111985c78ccdeddd8",
+      "predicate": "provides_cli",
+      "repository": "simonw/llm",
+      "value": {
+        "command": "llm",
+        "target": "llm.cli:cli"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_64fc3b0983800b91549b",
+      "predicate": "provides_cli",
+      "repository": "go-task/task",
+      "value": {
+        "command": "task",
+        "role": "product",
+        "target": "cmd/task",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    }
+  ],
+  "hallucination_rate": null,
+  "indexed_executable_facts": 67,
+  "interpretation": "Confirmed errors are a lower bound; unreviewed is not correct. Provenance-valid facts can still be wrong.",
+  "not_semantically_reviewed": 67,
+  "scope": "All emitted Core facts indexed; targeted source review of Go binary-name failures"
+}
