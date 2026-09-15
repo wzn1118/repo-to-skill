@@ -43,6 +43,7 @@ def _committed_cli(root: Path) -> str:
         "    parser.add_argument('--safe')\n"
     )
     _git(root, "init", "--quiet")
+    _git(root, "config", "core.autocrlf", "false")
     _git(root, "add", "LICENSE", "pyproject.toml", "tool.py")
     _git(root, "commit", "--quiet", "-m", "fixture")
     return _git(root, "rev-parse", "HEAD")
@@ -121,6 +122,24 @@ class SourceResolverTests(unittest.TestCase):
             self.assertFalse(any((root / name).exists() for name in (
                 "FS_MONITOR_EXECUTED", "CLEAN_EXECUTED", "PROCESS_EXECUTED",
             )))
+
+    def test_clean_crlf_conversion_keeps_distinct_raw_and_blob_identity(self) -> None:
+        with tempfile.TemporaryDirectory() as source:
+            root = Path(source)
+            _committed_cli(root)
+            _git(root, "config", "core.autocrlf", "true")
+            raw = b"def main():\r\n    pass\r\n"
+            (root / "tool.py").write_bytes(raw)
+            _git(root, "add", "tool.py")
+            _git(root, "commit", "--quiet", "-m", "normalize CRLF")
+            resolved = resolve_local(root, "HEAD")
+            self.assertFalse(resolved.snapshot.git_dirty)
+            discovery = discover(root, resolved.snapshot, resolved.committed_blob_oids)
+            entry = next(item for item in discovery.inventory if item.path == "tool.py")
+            self.assertEqual(entry.content_sha256, hashlib.sha256(raw).hexdigest())
+            self.assertEqual(entry.blob_sha, _git(root, "rev-parse", "HEAD:tool.py"))
+            raw_oid = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+            self.assertNotEqual(entry.blob_sha, raw_oid)
 
     def test_sha256_git_identity_and_bom_raw_bytes(self) -> None:
         with tempfile.TemporaryDirectory() as source:
