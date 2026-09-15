@@ -29,10 +29,11 @@ Repositories** (16 Tier A and 20 Tier B), **1,453,404 cumulative stars**, 10 man
 ground-truth repositories, six unsupported-language challenge repositories, and three Tier C edge
 cases. Stars describe corpus influence; they do not represent unique users.
 
-**High-Star Public Repositories Tested: 0** in this committed snapshot. This is intentional: the
-metadata runner does not count a repository as tested until a pinned local checkout has passed the
-static analyzer. The report therefore shows `NOT_TESTED` rather than turning selection into a
-success claim. No hallucination rate is reported before ground-truth task execution.
+**High-Star Public Repositories Tested: 36** in this committed snapshot. All 36 pinned Core
+checkouts completed source classification and static analysis: 10 `STATIC_READY`, 20
+`REVIEW_REQUIRED`, and six `UNSUPPORTED_LANGUAGE` results. The resulting star-weighted repository
+coverage is **27.9%**. Ground-truth task execution and hallucinated executable-fact measurement are
+still pending; this benchmark does not convert static analysis into a runtime quality claim.
 
 ![Public Repo Benchmark snapshot](docs/assets/public-benchmark.svg)
 
@@ -317,9 +318,9 @@ python -m unittest discover -s tests -q
 **1,453,404 个累计 stars**、10 个 ground-truth 仓库、6 个不支持语言 challenge 和 3 个 Tier C edge case。
 Stars 只描述 corpus 的开源影响力，不等于独立用户数。
 
-**High-Star Public Repositories Tested: 0**。当前提交只完成了实时元数据和 commit pin；没有提供 36 个 pinned
-checkout 前，runner 不会把仓库算作已测试，也不会提前声称零幻觉。未支持语言会单独记为
-`UNSUPPORTED_LANGUAGE`，失败和 `NOT_TESTED` 都保留。
+**High-Star Public Repositories Tested: 36**。36 个 pinned checkout 已完成源码分类和静态分析：10 个
+`STATIC_READY`、20 个 `REVIEW_REQUIRED`、6 个 `UNSUPPORTED_LANGUAGE`。Star-weighted repository coverage 为
+**27.9%**。ground-truth 任务执行和幻觉可执行事实统计仍待完成；当前结果不把静态分析冒充运行时质量结论。
 
 ```bash
 python scripts/benchmark_public.py metadata

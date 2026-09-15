@@ -18,11 +18,11 @@
   <text x="270" y="126" class="label">CUMULATIVE STARS</text>
   <text x="270" y="157" class="metric">1,453,404</text>
   <text x="540" y="126" class="label">HIGH-STAR TESTED</text>
-  <text x="540" y="157" class="metric">0</text>
+  <text x="540" y="157" class="metric">36</text>
   <text x="810" y="126" class="label">GROUND TRUTH</text>
   <text x="810" y="157" class="metric">10</text>
   <text x="70" y="174" class="panel">Corpus composition</text>
   <text x="700" y="174" class="panel">Recorded analysis status</text>
   <text x="70" y="190" class="body">High-Star Core</text><rect x="240" y="174" width="410" height="18" rx="9" fill="#263449"/><rect x="240" y="174" width="410" height="18" rx="9" fill="#66b3ff"/><text x="690" y="190" class="number">36</text><text x="70" y="238" class="body">Unsupported challenge</text><rect x="240" y="222" width="410" height="18" rx="9" fill="#263449"/><rect x="240" y="222" width="68" height="18" rx="9" fill="#66b3ff"/><text x="690" y="238" class="number">6</text><text x="70" y="286" class="body">Tier C edge</text><rect x="240" y="270" width="410" height="18" rx="9" fill="#263449"/><rect x="240" y="270" width="34" height="18" rx="9" fill="#66b3ff"/><text x="690" y="286" class="number">3</text>
-  <text x="700" y="190" class="body">NOT_TESTED</text><rect x="870" y="174" width="410" height="18" rx="9" fill="#263449"/><rect x="870" y="174" width="410" height="18" rx="9" fill="#f5b84b"/><text x="1320" y="190" class="number">45</text>
+  <text x="700" y="190" class="body">NOT_TESTED</text><rect x="870" y="174" width="410" height="18" rx="9" fill="#263449"/><rect x="870" y="174" width="62" height="18" rx="9" fill="#f5b84b"/><text x="1320" y="190" class="number">3</text><text x="700" y="232" class="body">REVIEW_REQUIRED</text><rect x="870" y="216" width="410" height="18" rx="9" fill="#263449"/><rect x="870" y="216" width="410" height="18" rx="9" fill="#f5b84b"/><text x="1320" y="232" class="number">20</text><text x="700" y="274" class="body">STATIC_READY</text><rect x="870" y="258" width="410" height="18" rx="9" fill="#263449"/><rect x="870" y="258" width="205" height="18" rx="9" fill="#f5b84b"/><text x="1320" y="274" class="number">10</text><text x="700" y="316" class="body">UNSUPPORTED_LANGUAGE</text><rect x="870" y="300" width="410" height="18" rx="9" fill="#263449"/><rect x="870" y="300" width="246" height="18" rx="9" fill="#f5b84b"/><text x="1320" y="316" class="number">12</text>
 </svg>

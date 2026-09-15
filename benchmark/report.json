@@ -5,7 +5,7 @@
     "ground_truth_repositories": 10,
     "high_star_core_stars": 1453404,
     "high_star_public_repositories_selected": 36,
-    "high_star_public_repositories_tested": 0
+    "high_star_public_repositories_tested": 36
   },
   "interpretation": {
     "hallucination_metric": "pending ground-truth task execution; null is intentional",
@@ -14,14 +14,17 @@
   },
   "metrics": {
     "hallucinated_executable_facts": null,
-    "star_weighted_repository_coverage": null,
-    "successful_repository_stars": 0,
-    "successful_tested_repositories": 0,
-    "tested_repository_stars": 0
+    "star_weighted_repository_coverage": 0.2789196947304397,
+    "successful_repository_stars": 405383,
+    "successful_tested_repositories": 10,
+    "tested_repository_stars": 1453404
   },
   "schema_version": 1,
   "status_counts": {
-    "NOT_TESTED": 45
+    "NOT_TESTED": 3,
+    "REVIEW_REQUIRED": 20,
+    "STATIC_READY": 10,
+    "UNSUPPORTED_LANGUAGE": 12
   },
   "validation_errors": []
 }

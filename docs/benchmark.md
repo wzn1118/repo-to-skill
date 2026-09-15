@@ -91,16 +91,19 @@ language, license, and an exact commit SHA per repository. Rendering never refre
 [`../benchmark/repository-metadata.json`](../benchmark/repository-metadata.json) 是 `2026-09-14` 从 GitHub API 获取的快照，
 每条记录保存 stars、forks、默认分支、归档状态、主语言、许可证和精确 commit SHA；报告渲染不会重新请求当前 stars。
 
-The current public report says **High-Star Public Repositories Tested: 0**. A metadata record is
-not an analysis result. `scripts/benchmark_public.py analyze` only analyzes explicitly supplied
-local checkouts, and its statuses preserve `NOT_TESTED`, `UNSUPPORTED_LANGUAGE`,
-`NO_ACTIONABLE_CAPABILITY`, `REVIEW_REQUIRED`, and `STATIC_READY`. Unsupported Rust, C, Haskell,
-Perl, and Shell projects are not mixed into supported-language accuracy.
+The current public report says **High-Star Public Repositories Tested: 36**. All 36 Core records
+completed source classification and static analysis: 10 are `STATIC_READY`, 20 are
+`REVIEW_REQUIRED`, and six are `UNSUPPORTED_LANGUAGE`. The star-weighted repository coverage is
+27.9%. `scripts/benchmark_public.py analyze` only analyzes explicitly supplied local checkouts,
+and its statuses preserve `NOT_TESTED`, `UNSUPPORTED_LANGUAGE`, `NO_ACTIONABLE_CAPABILITY`,
+`REVIEW_REQUIRED`, and `STATIC_READY`. Unsupported Rust, C, Haskell, Perl, and Shell projects are
+not mixed into supported-language accuracy.
 
-当前公共报告明确写 **High-Star Public Repositories Tested: 0**。元数据记录不是分析结果；
-`scripts/benchmark_public.py analyze` 只分析用户显式提供的本地 checkout，并保留 `NOT_TESTED`、
-`UNSUPPORTED_LANGUAGE`、`NO_ACTIONABLE_CAPABILITY`、`REVIEW_REQUIRED`、`STATIC_READY` 等状态。Rust、C、
-Haskell、Perl、Shell 项目不会混入受支持语言准确率。
+当前公共报告明确写 **High-Star Public Repositories Tested: 36**。36 个 Core 已完成源码分类和静态分析：
+10 个 `STATIC_READY`、20 个 `REVIEW_REQUIRED`、6 个 `UNSUPPORTED_LANGUAGE`，Star-weighted repository coverage 为
+27.9%。`scripts/benchmark_public.py analyze` 只分析用户显式提供的本地 checkout，并保留 `NOT_TESTED`、
+`UNSUPPORTED_LANGUAGE`、`NO_ACTIONABLE_CAPABILITY`、`REVIEW_REQUIRED`、`STATIC_READY` 等状态。Rust、C、Haskell、
+Perl、Shell 项目不会混入受支持语言准确率。
 
 Star-weighted repository coverage is defined only over completed High-Star Core analyses:
 `sum(stars of STATIC_READY repositories) / sum(stars of tested repositories)`. It is not user

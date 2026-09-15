@@ -2,13 +2,16 @@ from __future__ import annotations
 
 import argparse
 import html
+import http.client
 import json
 import os
 import subprocess
 import sys
+import tarfile
+import tempfile
 from collections import Counter
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote
@@ -18,6 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CORPUS = ROOT / "benchmark" / "corpus.yaml"
 DEFAULT_METADATA = ROOT / "benchmark" / "repository-metadata.json"
 SUPPORTED_LANGUAGES = {"Python", "JavaScript", "TypeScript", "Go"}
+MAX_ARCHIVE_MEMBERS = 100_000
+MAX_ARCHIVE_BYTES = 1_000_000_000
 
 try:
     from datetime import UTC
@@ -104,6 +109,110 @@ def github_json(path: str, token: str | None) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise TypeError("GitHub API response was not an object")
     return value
+
+
+def _download_archive(request: Request) -> Path:
+    last_error: Exception | None = None
+    for _ in range(3):
+        archive_path: Path | None = None
+        try:
+            with tempfile.NamedTemporaryFile(suffix=".tar.gz", delete=False) as archive:
+                archive_path = Path(archive.name)
+                with urlopen(request, timeout=120) as response:
+                    while chunk := response.read(1024 * 1024):
+                        archive.write(chunk)
+            return archive_path
+        except (HTTPError, OSError, http.client.IncompleteRead) as error:
+            last_error = error
+            if archive_path is not None:
+                archive_path.unlink(missing_ok=True)
+    if last_error is None:
+        raise OSError("ARCHIVE_DOWNLOAD_FAILED")
+    raise last_error
+
+
+def download_repository(record: dict[str, Any], output_root: Path, token: str | None) -> str:
+    if record.get("metadata_status") != "OK":
+        return "METADATA_ERROR"
+    destination = output_root / str(record["id"])
+    output_root.resolve().mkdir(parents=True, exist_ok=True)
+    if destination.is_symlink():
+        record["fetch_error"] = "CHECKOUT_PATH_SYMLINK_REJECTED"
+        return "FETCH_ERROR"
+    if destination.exists():
+        return "ALREADY_PRESENT"
+    destination = destination.resolve()
+    destination.mkdir(parents=True)
+    archive_url = f"https://api.github.com/repos/{record['repository']}/tarball/{record['commit_sha']}"
+    request = Request(
+        archive_url,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "User-Agent": "repo-to-skill-benchmark/1.0",
+            **({"Authorization": f"Bearer {token}"} if token else {}),
+        },
+    )
+    archive_path: Path | None = None
+    try:
+        archive_path = _download_archive(request)
+        with tarfile.open(archive_path, mode="r:gz") as tar:
+                members = tar.getmembers()
+                if len(members) > MAX_ARCHIVE_MEMBERS:
+                    raise ValueError("ARCHIVE_MEMBER_LIMIT_EXCEEDED")
+                total_bytes = sum(member.size for member in members if member.isfile())
+                if total_bytes > MAX_ARCHIVE_BYTES:
+                    raise ValueError("ARCHIVE_SIZE_LIMIT_EXCEEDED")
+                root_prefix = PurePosixPath(members[0].name).parts[0] if members else ""
+                for member in members:
+                    member_path = PurePosixPath(member.name)
+                    relative_parts = member_path.parts[1:] if root_prefix in member_path.parts else member_path.parts
+                    relative = PurePosixPath(*relative_parts)
+                    if not relative.parts and member.isdir():
+                        continue
+                    if not relative.parts or relative.is_absolute() or ".." in relative.parts:
+                        raise ValueError("ARCHIVE_PATH_TRAVERSAL")
+                    target = (destination / Path(*relative.parts)).resolve()
+                    target.relative_to(destination)
+                    if member.issym() or member.islnk():
+                        continue
+                    if member.isdir():
+                        target.mkdir(parents=True, exist_ok=True)
+                    elif member.isfile():
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        source = tar.extractfile(member)
+                        if source is None:
+                            raise ValueError(f"ARCHIVE_MEMBER_UNREADABLE: {member.name}")
+                        with source, target.open("wb") as handle:
+                            while chunk := source.read(1024 * 1024):
+                                handle.write(chunk)
+    except (HTTPError, OSError, tarfile.TarError, ValueError) as error:
+        for path in sorted(destination.rglob("*"), reverse=True):
+            if path.is_file() or path.is_symlink():
+                path.unlink()
+            elif path.is_dir():
+                path.rmdir()
+        destination.rmdir()
+        record["fetch_error"] = str(error)
+        return "FETCH_ERROR"
+    finally:
+        if archive_path is not None:
+            archive_path.unlink(missing_ok=True)
+    return "FETCHED"
+
+
+def fetch_snapshots(metadata_path: Path, repos_dir: Path, include_sets: set[str]) -> dict[str, Any]:
+    snapshot = json.loads(metadata_path.read_text(encoding="utf-8"))
+    token = _github_token()
+    counts: Counter[str] = Counter()
+    for record in snapshot["repositories"]:
+        if record.get("set") not in include_sets:
+            continue
+        status = download_repository(record, repos_dir, token)
+        record["snapshot_status"] = status
+        counts[status] += 1
+    metadata_path.write_text(json.dumps(snapshot, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print("snapshot status:", dict(sorted(counts.items())))
+    return snapshot
 
 
 def fetch_metadata(entry: dict[str, Any], token: str | None, date: str) -> dict[str, Any]:
@@ -200,11 +309,13 @@ def write_metadata(corpus_path: Path, output_path: Path) -> dict[str, Any]:
 def _local_status(record: dict[str, Any], repos_dir: Path) -> dict[str, Any]:
     if record.get("metadata_status") != "OK":
         return {"status": "METADATA_ERROR"}
+    if record.get("snapshot_status") == "FETCH_ERROR":
+        return {"status": "FETCH_ERROR", "reason": record.get("fetch_error", "unknown")}
+    if record.get("set") == "unsupported-challenge":
+        return {"status": "UNSUPPORTED_LANGUAGE", "reason": "challenge-set"}
     local_path = repos_dir / str(record["id"])
     if not local_path.is_dir():
         return {"status": "NOT_TESTED"}
-    if record.get("set") == "unsupported-challenge":
-        return {"status": "UNSUPPORTED_LANGUAGE", "reason": "challenge-set"}
     language = record.get("language")
     if language not in SUPPORTED_LANGUAGES:
         return {"status": "UNSUPPORTED_LANGUAGE", "reason": f"primary-language:{language}"}
@@ -238,7 +349,13 @@ def analyze_local(metadata_path: Path, repos_dir: Path, output_path: Path) -> di
 def build_report(snapshot: dict[str, Any]) -> dict[str, Any]:
     records = [record for record in snapshot["repositories"] if record.get("metadata_status") == "OK"]
     core = [record for record in records if record.get("set") == "core"]
-    tested = [record for record in core if record.get("analysis", {}).get("status") not in {None, "NOT_TESTED"}]
+    completed_statuses = {
+        "NO_ACTIONABLE_CAPABILITY",
+        "REVIEW_REQUIRED",
+        "STATIC_READY",
+        "UNSUPPORTED_LANGUAGE",
+    }
+    tested = [record for record in core if record.get("analysis", {}).get("status") in completed_statuses]
     successful = [record for record in tested if record["analysis"]["status"] == "STATIC_READY"]
     denominator = sum(int(record["stars_at_benchmark"]) for record in tested)
     numerator = sum(int(record["stars_at_benchmark"]) for record in successful)
@@ -387,6 +504,16 @@ def main() -> int:
     analyze.add_argument("--metadata", type=Path, default=DEFAULT_METADATA)
     analyze.add_argument("--repos-dir", type=Path, required=True)
     analyze.add_argument("--output", type=Path, default=DEFAULT_METADATA)
+    fetch = subparsers.add_parser("fetch")
+    fetch.add_argument("--metadata", type=Path, default=DEFAULT_METADATA)
+    fetch.add_argument("--repos-dir", type=Path, default=ROOT / "benchmark" / "checkouts")
+    fetch.add_argument(
+        "--set",
+        dest="sets",
+        action="append",
+        choices=("core", "unsupported-challenge", "edge"),
+        default=["core"],
+    )
     report = subparsers.add_parser("report")
     report.add_argument("--metadata", type=Path, default=DEFAULT_METADATA)
     report.add_argument("--output", type=Path, default=ROOT / "benchmark" / "report.json")
@@ -403,6 +530,9 @@ def main() -> int:
     if args.command == "analyze":
         analyze_local(args.metadata, args.repos_dir, args.output)
         print(f"wrote {args.output}")
+        return 0
+    if args.command == "fetch":
+        fetch_snapshots(args.metadata, args.repos_dir, set(args.sets))
         return 0
     snapshot = json.loads(args.metadata.read_text(encoding="utf-8"))
     value = build_report(snapshot)
