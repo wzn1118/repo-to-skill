@@ -4,8 +4,9 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from r2s.discovery_contract import _parse_discovery_structure, parse_discovery, strict_json_loads
+from r2s.discovery_contract import parse_discovery, strict_json_loads
 from r2s.domain import Evidence, Finding
+from r2s.legacy_contracts import import_structure
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256
 from r2s.storage import MAX_DISCOVERY_ARTIFACT_BYTES, _load_discovery_envelope, write_discovery
 
@@ -21,9 +22,10 @@ def migrate_discovery(source: Path, output: Path) -> dict[str, Any]:
     if input_file.is_symlink() or not input_file.is_file() or input_file.stat().st_size > MAX_DISCOVERY_ARTIFACT_BYTES:
         raise ValueError("MIGRATION_SOURCE_INVALID")
     original_sha256 = file_sha256(input_file)
+    original_payload = strict_json_loads(input_file.read_bytes())
     original = (
-        _load_discovery_envelope(source) if source.is_dir()
-        else _parse_discovery_structure(strict_json_loads(input_file.read_bytes()))
+        _load_discovery_envelope(source, migration=True) if source.is_dir()
+        else import_structure(original_payload)
     )
     unique: dict[str, Evidence] = {}
     removed = []
@@ -39,7 +41,7 @@ def migrate_discovery(source: Path, output: Path) -> dict[str, Any]:
     payload["evidence"] = [asdict(item) for item in unique.values()]
     payload["findings"].append(asdict(Finding(
         "MIGRATION_REVIEW_REQUIRED", "error",
-        "Imported through strict-discovery-1.2-revision-2; prior readiness is not inherited. Source correctness requires review or fresh discovery.",
+        "Imported through scoped-discovery-1.3; prior readiness is not inherited. Missing command paths from 1.2 are treated as legacy root claims requiring source review.",
     )))
     migrated = parse_discovery(payload)
     if file_sha256(input_file) != original_sha256:
@@ -47,9 +49,9 @@ def migrate_discovery(source: Path, output: Path) -> dict[str, Any]:
     run_root = write_discovery(migrated, output)
     report = {
         "format": "r2s-discovery-migration-v1",
-        "ruleset": "strict-discovery-1.2-revision-2",
+        "ruleset": "scoped-discovery-1.3",
         "source_name": source.name,
-        "original_schema": original.schema_version,
+        "original_schema": original_payload["schema_version"],
         "target_schema": migrated.schema_version,
         "source_discovery_sha256": original_sha256,
         "target_discovery_sha256": canonical_sha256(migrated.to_dict()),

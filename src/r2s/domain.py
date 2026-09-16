@@ -17,7 +17,7 @@ from r2s.contract_types import (
     StrictRecord,
     Text,
 )
-from r2s.fact_contracts import FactValue
+from r2s.fact_contracts import CommandName, CommandPath, FactValue
 
 
 class RunOutcome(str, Enum):
@@ -71,7 +71,7 @@ class Evidence(StrictRecord):
 class Claim(StrictRecord):
     id: ClaimId
     subject: Text
-    predicate: Literal["provides_cli", "supports_option", "has_license_file"]
+    predicate: Literal["provides_cli", "supports_subcommand", "supports_option", "has_license_file"]
     object: FactValue
     evidence_ids: tuple[EvidenceId, ...]
     confidence: Confidence
@@ -86,6 +86,17 @@ class Capability(StrictRecord):
     intent: Text
     claim_ids: tuple[ClaimId, ...]
     support_level: Literal["statically_verified", "unknown"] = "statically_verified"
+
+
+@dataclass(frozen=True)
+class CommandSpec(StrictRecord):
+    command: CommandName
+    path: CommandPath
+    entrypoint_claim_id: ClaimId
+    declaration_claim_id: ClaimId
+    parent_claim_id: ClaimId | None
+    option_claim_ids: tuple[ClaimId, ...]
+    completeness: Literal["partial"] = "partial"
 
 
 @dataclass(frozen=True)
@@ -139,7 +150,7 @@ class RepositorySnapshot(StrictRecord):
 
 @dataclass
 class DiscoveryIR(StrictRecord):
-    schema_version: Literal["1.2.0"]
+    schema_version: Literal["1.3.0"]
     snapshot: RepositorySnapshot
     languages: list[Literal["python", "javascript", "typescript", "go", "rust"]] = field(default_factory=list)
     repository_types: list[Literal["cli", "library", "framework", "http", "data", "gui", "unknown"]] = field(default_factory=list)
@@ -148,6 +159,7 @@ class DiscoveryIR(StrictRecord):
     claims: list[Claim] = field(default_factory=list)
     capabilities: list[Capability] = field(default_factory=list)
     findings: list[Finding] = field(default_factory=list)
+    commands: list[CommandSpec] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

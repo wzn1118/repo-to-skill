@@ -15,7 +15,17 @@ def main() -> None:
     parser.add_argument("--run", type=Path, required=True)
     args = parser.parse_args()
     run = args.run.resolve()
+    if (run / "manifest.json").exists():
+        raise ValueError("RUN_FINALIZED: manifest cannot be replaced")
     results = json.loads((run / "results.json").read_text())
+    truth = json.loads((run / "ground-truth-results.json").read_text())
+    truth_input = truth["ground_truth_input"]
+    truth_path = (ROOT / truth_input["path"]).resolve()
+    if not truth_path.is_relative_to(ROOT) or digest(truth_path) != truth_input["sha256"]:
+        raise ValueError("GROUND_TRUTH_INPUT_CHANGED")
+    metadata_path = ROOT / "benchmark/repository-metadata.json"
+    if digest(metadata_path) != results["metadata_sha256"]:
+        raise ValueError("REPOSITORY_METADATA_CHANGED")
     payload = {
         "format": "r2s-benchmark-run-v2", "run_id": run.name,
         "compiler_sha256": results["compiler_sha256"],
@@ -30,9 +40,8 @@ def main() -> None:
             )
         },
         "evaluation_inputs": {
-            name: digest(ROOT / name) for name in (
-                "benchmark/repository-metadata.json", "benchmark/ground-truth-facts.json",
-            )
+            "benchmark/repository-metadata.json": digest(metadata_path),
+            truth_input["path"]: truth_input["sha256"],
         },
         "scope": "static discovery and generation; local regression checks, if present, are separate",
         "source_authentication": "HTTPS archives addressed by pinned commit; self-consistent unsigned manifest",

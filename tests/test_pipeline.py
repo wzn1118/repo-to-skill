@@ -39,6 +39,8 @@ class PipelineTests(unittest.TestCase):
             {
                 "manifest.entrypoint",
                 "python.symbol",
+                "python.parser",
+                "python.parse",
                 "cli.option",
                 "repository.license_file",
             },

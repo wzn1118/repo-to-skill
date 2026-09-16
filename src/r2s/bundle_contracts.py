@@ -7,7 +7,7 @@ from typing import Annotated, Literal
 from pydantic import AfterValidator, BaseModel, ConfigDict, StringConstraints
 
 from r2s.contract_types import ByteCount, Text
-from r2s.domain import Claim, Evidence, Procedure, RepositorySnapshot
+from r2s.domain import Claim, CommandSpec, Evidence, Procedure, RepositorySnapshot
 
 
 def relative_path(value: str) -> str:
@@ -44,9 +44,10 @@ class BundleLock(BaseModel):
 class SkillDocument(BaseModel):
     model_config = ConfigDict(strict=True, extra="forbid")
 
-    renderer: Literal["r2s-cli-v1"] = "r2s-cli-v1"
+    renderer: Literal["r2s-cli-v2"] = "r2s-cli-v2"
     entrypoint_claim_id: str
     option_claim_ids: list[str]
+    subcommand_claim_ids: list[str]
 
 
 class ScanScope(BaseModel):
@@ -61,7 +62,7 @@ class ScanScope(BaseModel):
 class BundleProvenance(BaseModel):
     model_config = ConfigDict(strict=True, extra="forbid")
 
-    schema_version: Literal["1.2.0"]
+    schema_version: Literal["1.3.0"]
     source_snapshot: RepositorySnapshot
     artifact_path: Literal["SKILL.md"]
     procedure: Procedure
@@ -69,6 +70,7 @@ class BundleProvenance(BaseModel):
     artifact_claims: dict[RelativePath, list[str]]
     claims: list[Claim]
     evidence: list[Evidence]
+    commands: list[CommandSpec]
     scan_scope: ScanScope | None = None
 
 

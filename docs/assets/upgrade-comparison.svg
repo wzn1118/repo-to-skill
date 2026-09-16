@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-09-15T18:04:30.252788</dc:date>
+    <dc:date>2026-09-16T06:15:55.328910</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -43,7 +43,7 @@ L 306.032941 145.614545
 L 306.032941 98.443636
 L 103.68 98.443636
 z
-" clip-path="url(#p6cfd5d10d8)" style="fill: #3279ad"/>
+" clip-path="url(#p8ade754b87)" style="fill: #3279ad"/>
    </g>
    <g id="patch_4">
     <path d="M 103.68 239.956364
@@ -51,7 +51,7 @@ L 306.032941 239.956364
 L 306.032941 192.785455
 L 103.68 192.785455
 z
-" clip-path="url(#p6cfd5d10d8)" style="fill: #3279ad"/>
+" clip-path="url(#p8ade754b87)" style="fill: #3279ad"/>
    </g>
    <g id="patch_5">
     <path d="M 306.032941 145.614545
@@ -59,7 +59,7 @@ L 407.209412 145.614545
 L 407.209412 98.443636
 L 306.032941 98.443636
 z
-" clip-path="url(#p6cfd5d10d8)" style="fill: #da8d32"/>
+" clip-path="url(#p8ade754b87)" style="fill: #da8d32"/>
    </g>
    <g id="patch_6">
     <path d="M 306.032941 239.956364
@@ -67,7 +67,7 @@ L 407.209412 239.956364
 L 407.209412 192.785455
 L 306.032941 192.785455
 z
-" clip-path="url(#p6cfd5d10d8)" style="fill: #da8d32"/>
+" clip-path="url(#p8ade754b87)" style="fill: #da8d32"/>
    </g>
    <g id="patch_7">
     <path d="M 407.209412 145.614545
@@ -75,7 +75,7 @@ L 467.915294 145.614545
 L 467.915294 98.443636
 L 407.209412 98.443636
 z
-" clip-path="url(#p6cfd5d10d8)" style="fill: #8b97a4"/>
+" clip-path="url(#p8ade754b87)" style="fill: #8b97a4"/>
    </g>
    <g id="patch_8">
     <path d="M 407.209412 239.956364
@@ -83,7 +83,7 @@ L 467.915294 239.956364
 L 467.915294 192.785455
 L 407.209412 192.785455
 z
-" clip-path="url(#p6cfd5d10d8)" style="fill: #8b97a4"/>
+" clip-path="url(#p8ade754b87)" style="fill: #8b97a4"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -118,13 +118,13 @@ z
     <g id="ytick_1">
      <g id="line2d_5"/>
      <g id="text_6">
-      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="95.68" y="126.208232" transform="rotate(-0 95.68 126.208232)">Upgrade v8</text>
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="95.68" y="126.208232" transform="rotate(-0 95.68 126.208232)">Upgrade v10</text>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_6"/>
      <g id="text_7">
-      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="95.68" y="220.55005" transform="rotate(-0 95.68 220.55005)">Upgrade v10</text>
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="95.68" y="220.55005" transform="rotate(-0 95.68 220.55005)">Upgrade v12</text>
      </g>
     </g>
    </g>
@@ -205,7 +205,7 @@ L 846.72 145.614545
 L 846.72 98.443636
 L 586.551933 98.443636
 z
-" clip-path="url(#pa4830e414f)" style="fill: #dce3e9"/>
+" clip-path="url(#p301b4d4f2e)" style="fill: #dce3e9"/>
    </g>
    <g id="patch_15">
     <path d="M 586.551933 239.956364
@@ -213,23 +213,23 @@ L 846.72 239.956364
 L 846.72 192.785455
 L 586.551933 192.785455
 z
-" clip-path="url(#pa4830e414f)" style="fill: #dce3e9"/>
+" clip-path="url(#p301b4d4f2e)" style="fill: #dce3e9"/>
    </g>
    <g id="patch_16">
     <path d="M 586.551933 145.614545
-L 651.59395 145.614545
-L 651.59395 98.443636
+L 671.106555 145.614545
+L 671.106555 98.443636
 L 586.551933 98.443636
 z
-" clip-path="url(#pa4830e414f)" style="fill: #3279ad"/>
+" clip-path="url(#p301b4d4f2e)" style="fill: #3279ad"/>
    </g>
    <g id="patch_17">
     <path d="M 586.551933 239.956364
-L 671.106555 239.956364
-L 671.106555 192.785455
+L 690.61916 239.956364
+L 690.61916 192.785455
 L 586.551933 192.785455
 z
-" clip-path="url(#pa4830e414f)" style="fill: #3279ad"/>
+" clip-path="url(#p301b4d4f2e)" style="fill: #3279ad"/>
    </g>
    <g id="matplotlib.axis_3">
     <g id="xtick_5">
@@ -270,13 +270,13 @@ z
     <g id="ytick_3">
      <g id="line2d_12"/>
      <g id="text_24">
-      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="578.551933" y="126.208232" transform="rotate(-0 578.551933 126.208232)">Upgrade v8</text>
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="578.551933" y="126.208232" transform="rotate(-0 578.551933 126.208232)">Upgrade v10</text>
      </g>
     </g>
     <g id="ytick_4">
      <g id="line2d_13"/>
      <g id="text_25">
-      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="578.551933" y="220.55005" transform="rotate(-0 578.551933 220.55005)">Upgrade v10</text>
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end" x="578.551933" y="220.55005" transform="rotate(-0 578.551933 220.55005)">Upgrade v12</text>
      </g>
     </g>
    </g>
@@ -286,10 +286,10 @@ L 846.72 247.032
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_26">
-    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="657.59395" y="124.886513" transform="rotate(-0 657.59395 124.886513)">10/40</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="677.106555" y="124.886513" transform="rotate(-0 677.106555 124.886513)">13/40</text>
    </g>
    <g id="text_27">
-    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="677.106555" y="219.228331" transform="rotate(-0 677.106555 219.228331)">13/40</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start" x="696.61916" y="219.228331" transform="rotate(-0 696.61916 219.228331)">16/40</text>
    </g>
    <g id="text_28">
     <text style="font-weight: 700; font-size: 13.2px; font-family: 'DejaVu Sans'; text-anchor: start" x="586.551933" y="73.368" transform="rotate(-0 586.551933 73.368)">Selected fact recall</text>
@@ -306,10 +306,10 @@ L 846.72 247.032
   </g>
  </g>
  <defs>
-  <clipPath id="p6cfd5d10d8">
+  <clipPath id="p8ade754b87">
    <rect x="103.68" y="91.368" width="364.235294" height="155.664"/>
   </clipPath>
-  <clipPath id="pa4830e414f">
+  <clipPath id="p301b4d4f2e">
    <rect x="586.551933" y="91.368" width="260.168067" height="155.664"/>
   </clipPath>
  </defs>

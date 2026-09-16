@@ -118,10 +118,29 @@ def test_option_on_different_subcommand_is_not_coverage() -> None:
     assert covered(fact, generated, "gh")
 
 
+def test_flat_expected_option_does_not_cover_a_scoped_option() -> None:
+    fact = {"kind": "option", "value": "--all-files"}
+    generated = [{"predicate": "supports_option", "subject": "pre-commit", "emitted": True,
+                  "value": {"command": "pre-commit", "command_path": ["run"], "option": "--all-files"}}]
+    assert not covered(fact, generated, "pre-commit")
+
+
 def test_task_can_require_a_second_executable() -> None:
     fact = {"kind": "command", "value": "webpack-cli"}
     generated = [{"predicate": "provides_cli", "emitted": True, "value": {"command": "webpack-cli"}}]
     assert covered(fact, generated, "webpack")
+
+
+@pytest.mark.parametrize("path", [[], "", ()])
+def test_legacy_root_option_matches_explicit_root_path(path: object) -> None:
+    fact = {"kind": "option", "value": "--check"}
+    generated = [{"predicate": "supports_option", "emitted": True,
+                  "value": {"command": "black", "option": "--check", "command_path": path}}]
+    assert covered(fact, generated, "black")
+    assert covered(dict(fact, command_path=[]), generated, "black")
+    assert not covered(dict(fact, command_path=None), generated, "black")
+    generated[0]["value"]["command_path"] = None
+    assert not covered(dict(fact, command_path=None), generated, "black")
 
 
 def test_sandbox_has_no_network_or_host_secrets(tmp_path: Path) -> None:

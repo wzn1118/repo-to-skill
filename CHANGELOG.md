@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — scoped command claims
+
+- Upgrade Discovery IR to 1.3 with strict `CommandSpec`, `supports_subcommand` claims and path-owned options. Bundles retain scoped command references and validators reject flattened, missing-parent or rewritten command graphs.
+- Add bounded static argparse subparser/group traversal and parameter-bound helper calls. Fixed pre-commit analysis records 16 child paths and keeps `--all-files` scoped to `run`/`try-repo`; no task-success or semantic-precision claim follows.
+- Add explicit 1.2 migration into review-blocked root facts without inferring child paths. Refresh compiler identity and schema contract for the new boundary.
+- Repeat all 45 pinned snapshots in v12: 16/40 selected source facts, 6/30 static prerequisites, 275 emitted/hash-checked Core facts. Preserve all failures; semantic precision and real task uplift remain unmeasured.
+- Version explicit command-path evaluation inputs and rescore v10 without altering its report. Retain v11's invalid evaluation record separately; reject evaluation/report writes after manifest finalization.
+
 ## Unreleased — bounded Python entrypoint graph
 
 - Resolve scanner-admitted Python symbols through imports, re-exports, aliases and direct zero-argument delegation. Attach each source hop to option claims in the shared IR.

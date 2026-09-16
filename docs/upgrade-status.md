@@ -1,6 +1,6 @@
 # Upgrade status / 升级进度
 
-Updated: 2026-09-15. **Active goal; M0 is not fully accepted and the full upgrade is not complete.**
+Updated: 2026-09-16. **Active goal; M0 is not fully accepted and the full upgrade is not complete.**
 
 The [U00–U22 plan](upgrade-plan.md) remains the acceptance contract. “Partial” means there is
 reviewable implementation, not that the work package or release gate is passed.
@@ -9,13 +9,13 @@ reviewable implementation, not that the work package or release gate is passed.
 | --- | --- | --- |
 | U00 baseline/repros | recorded | Legacy commit and file hashes are frozen in `benchmark/history/2026-09-15-legacy-baseline.lock.json`; historical public reports remain unchanged. Capture-time tools are not a reconstruction of the historical environment. |
 | U01 independent validation | partial | Typed provenance, safe YAML, full inventory locks, deterministic re-rendering and install-time checks reject modified bundles. External source authentication/signatures and reference-client conformance are pending. |
-| U02 Python bindings | partial | argparse options now require a parsed owner; Click options require a recognized command. Aliases, shadowing, same-line parser identities and local framework impersonation are tested. Typer registration, subparsers and dynamic bindings remain incomplete. |
+| U02 Python bindings | partial | argparse options require a parsed owner; Click options require a recognized command. Aliases, shadowing, same-line parser identities, local framework impersonation, invalid group methods and registrations after parsing are tested. Typer registration, dynamic bindings and complete framework semantics remain incomplete. |
 | U03 Go names / roles | partial | Four known v2/v4 name regressions checked against pinned source; pnpm hidden fixtures, bat syntax-test Go module and goreleaser nested test module no longer produce product Skills. Binary/role inference still uses heuristics, not a complete Go command graph. |
 | U04 goal matching | partial | Unrelated goals produce NEEDS_INPUT/REVIEW_REQUIRED; user goal text is not emitted as a capability fact. Explicit multilingual ambiguity handling and workflow matching are pending. |
 | U05 source identity | partial | Raw byte hashes and committed Git blob IDs separated; CRLF, BOM, dirty trees and SHA-256 Git cases tested. Git filters/fsmonitor disabled. Byte-range mappings and complete snapshot attestations remain open. |
-| U06 IR v2 / migration | partial | Strict nested Discovery IR and claim-value contracts, shared schema export, graph/source consistency checks, explicit 1.2 import, actual compiler/dependency/profile cache keys and scoped generation locks implemented. Identical shared evidence is deduplicated; historical input is preserved. This retains the 1.2 wire shape: full command graph, typed extractor payloads, byte ranges and general schema migration remain pending. See [contract and import evidence](discovery-contract.md). |
+| U06 IR v2 / migration | partial | Discovery IR 1.3 adds strict `CommandSpec`, typed child paths and scoped option ownership to the existing contracts. 1.2 imports only as review-blocked root facts, without guessing child ownership; historical input is preserved. Full command/argument semantics, byte ranges and general migration remain pending. See [contract and import evidence](discovery-contract.md). |
 | U07 workspace scanning | partial | Deterministic workspace/role content budgets, independent metadata limits, tracked-directory inclusion and scanner-gated analyzer reads implemented. Partial scans carry indexed scan.json plus bundle scope, and remain review-required through standalone validation/install. TypeScript/webpack now return partial discoveries. Resolver consolidation, complete workspace graphs, process quotas and hostile-filesystem race isolation remain pending. See [scope contract](scan-budgets.md). |
-| U08 Python command graph | partial | Bounded local import/re-export/alias resolution and direct delegation preserve source hops on option claims. Black/blackd adds 43 options and Cookiecutter 21 on fixed pins. Unresolved package attributes, multiple delegates and limits fail closed. Parameter propagation, local imports, subcommands, factories and dynamic registration remain pending. See [implemented boundary](python-entrypoint-graph.md). |
+| U08 Python command graph | partial | Bounded local import/re-export/alias resolution, direct delegation and argparse helper parameter binding preserve source hops. Parsed argparse subcommands, groups and nested children retain their own option paths; fixed pre-commit exposes 16 child paths and 108 scoped options. Black/blackd adds 43 options and Cookiecutter 21 on fixed pins. Dynamic registration, aliases, parser inheritance, local import semantics and complete framework coverage remain pending. See [implemented boundary](python-entrypoint-graph.md). |
 | U09 JS/TS command graph | pending | Manifest bin extraction and role exclusions only; AST/framework/delegation support pending. |
 | U10 Go AST/Cobra graph | pending | Lexical extraction remains; AST helper, build conditions, command inheritance and ownership pending. |
 | U11 workflows/documents | partial | Deterministic typed SkillDocument with claim-bound content; task-oriented procedures for the five target projects are not implemented. |
@@ -33,22 +33,25 @@ reviewable implementation, not that the work package or release gate is passed.
 
 ## Measured results
 
-The [upgrade-v10 run](../benchmark/runs/2026-09-15-upgrade-v10/report.md) runs the same 45 pinned
+The [upgrade-v12 run](../benchmark/runs/2026-09-16-upgrade-v12/report.md) runs the same 45 pinned
 repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 
 - Core: **20 STATIC_READY, 10 REVIEW_REQUIRED, 6 UNSUITABLE**; all 36 Core and all 45 total runs
   completed. TypeScript/webpack return partial discovery and remain review-required.
 - Core cumulative stars: **1,453,404**; static star-weighted coverage **53.49%**.
-- **114 emitted facts / 114 hash-and-pin checks**. All 114 still await complete semantic review.
+- **275 emitted facts / 275 hash-and-pin checks**. All 275 still await complete semantic review.
 - Four known Go binary-name regressions match pinned source. This is a targeted regression check,
   not zero hallucination or full semantic precision.
-- **13/40 selected source facts; 3/30 static task prerequisites**. The three additional selected facts
-  are Black's `--check`, `--exclude` and `--include`. This does not establish task success.
-- Compared with v8, emitted Core declarations add 43 Black/blackd options and 21 Cookiecutter options;
-  no prior emitted facts disappear. This is declaration coverage, not 64 semantically verified facts.
+- **16/40 selected source facts; 6/30 static task prerequisites**. The three additional selected facts
+  are pre-commit's `run`, `install` and the scoped `run --all-files` option. This does not establish task
+  success. v10 rescored with the same versioned explicit-path input remains 13/40 and 3/30.
+- Compared with v10, the compiler adds 16 pre-commit command paths; it now retains 108 scoped options
+  there and 39 additional options across mypy's auxiliary CLIs. Black and
+  Cookiecutter facts retain the same source declarations with an explicit empty root path. This is
+  declaration coverage, not semantically verified command completeness.
 - Partial scans now block static readiness, including standalone bundle validation/install. The
   26→20 decline from v6 reflects this stricter scope gate, not a measured accuracy decline.
-- Compiler fingerprint: `ed7dec755ed9adcb4260bfbfe2f79a1082d3b437f6136029120123a4fd90c48e`.
+- Compiler fingerprint: `a32c83ac0c644b65ab689227926fd53d6f93482182611602dce6da9a47cbb6d9`.
   The runner checks compiler/harness/dependency identity before and after workers and rejects
   overwrites. Historical metadata is not refreshed when reports are rendered.
 - `upgrade-v3` is a retained preliminary run with known helper-entrypoint errors and only an
@@ -58,12 +61,17 @@ repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 - `upgrade-v9` completed but remains preliminary with a known package-attribute resolution defect
   found by controlled negative probes. Its qualification and raw results are preserved; v10 fixes
   the defect and repeats all 45 snapshots.
+- `upgrade-v11` is excluded from all headline metrics. Its evaluator incorrectly rejected omitted
+  root paths, and evaluation/report files were overwritten after manifest creation. The original
+  manifest and raw static results are retained with an explicit invalid-evaluation qualification;
+  the mismatching artifacts are not authoritative. v12 uses corrected matching, a new gold-input
+  version, write-once evaluation outputs and a manifest generated last.
 
 ## Local verification
 
-**240 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
+**272 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
 covering six UI interactions. Ruff and mypy pass. See the
-[verification record](../benchmark/runs/2026-09-15-upgrade-v10/verification.json) for exact versions,
+[verification record](../benchmark/runs/2026-09-16-upgrade-v12/verification.json) for exact versions,
 hashes and scope. These controlled tests are separate from public-repository task evaluation.
 
 The wheel and its dependencies install into a new virtualenv through uv, using network downloads
@@ -103,7 +111,7 @@ The 30 records in `benchmark/taskset-v1.json` are explicitly a **static prerequi
 with no execution oracle; they are not completed TaskSpecs. Historical runtime and official-Skill
 results are not reused as current runtime or Agent A/B scores.
 
-Next acceptance work: Python subcommand/parameter ownership, JS/TS and Go framework graphs,
+Next acceptance work: complete Python parameter semantics, JS/TS and Go framework graphs,
 external source authentication and full IR v2, then the shared job service and executable TaskSpecs.
 Human sign-off, model experiments and production hosting
 remain separate gates; their absence does not stop independent engineering.

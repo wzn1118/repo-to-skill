@@ -146,6 +146,12 @@ def bound_option_calls(module: ast.AST, scope: ast.AST | None) -> list[ast.Call]
     return [item.call for item in bound_options(module, scope)]
 
 
+def framework_bindings(module: ast.Module, blocked_imports: frozenset[str]) -> dict[str, str]:
+    bindings: dict[str, str] = {}
+    _statements(module.body, bindings, blocked_imports)
+    return {name: value for name, value in bindings.items() if value.split(".")[0] in {"argparse", "click", "typer"}}
+
+
 def is_click_command(module: ast.Module, scope: ast.FunctionDef, blocked_imports: frozenset[str]) -> bool:
     bindings: dict[str, str] = {}
     _statements(module.body, bindings, blocked_imports)

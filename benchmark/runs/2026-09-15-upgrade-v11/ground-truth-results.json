@@ -1,0 +1,879 @@
+{
+  "expected_facts": 40,
+  "generated_covered_facts": 13,
+  "hallucinated_executable_facts": null,
+  "human_verified_repositories": 0,
+  "method": "Agent-curated source assertions, independent of analyzer output; not human sign-off and not runtime task success",
+  "repositories": [
+    {
+      "covered": 1,
+      "expected": 5,
+      "facts": [
+        {
+          "anchor": "\"name\": \"prettier\"",
+          "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 2,
+          "path": "package.json",
+          "sha256": "95356dc885a972052cb575469ccd454c88f706ca67880b3df708035f5fca94d0",
+          "source_verified": true,
+          "url": "https://github.com/prettier/prettier/blob/0017ecf34df0b6a0bdd156bb02fe62603d4aa682/package.json#L2",
+          "value": "prettier"
+        },
+        {
+          "anchor": "  parser: {",
+          "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 107,
+          "path": "src/main/core-options.evaluate.js",
+          "sha256": "92c3b3fd8b94e9293d5f8b60055ff85feffa5be042418856ad2e956c32f1894d",
+          "source_verified": true,
+          "url": "https://github.com/prettier/prettier/blob/0017ecf34df0b6a0bdd156bb02fe62603d4aa682/src/main/core-options.evaluate.js#L107",
+          "value": "--parser"
+        },
+        {
+          "anchor": "## `--check`",
+          "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 64,
+          "path": "docs/cli.md",
+          "sha256": "2b1a31ec3205ad815122160bf74c268271f7698bd3f8ac3a9f58e6715033fb41",
+          "source_verified": true,
+          "url": "https://github.com/prettier/prettier/blob/0017ecf34df0b6a0bdd156bb02fe62603d4aa682/docs/cli.md#L64",
+          "value": "--check"
+        },
+        {
+          "anchor": "## `--find-config-path` and `--config`",
+          "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 108,
+          "path": "docs/cli.md",
+          "sha256": "2b1a31ec3205ad815122160bf74c268271f7698bd3f8ac3a9f58e6715033fb41",
+          "source_verified": true,
+          "url": "https://github.com/prettier/prettier/blob/0017ecf34df0b6a0bdd156bb02fe62603d4aa682/docs/cli.md#L108",
+          "value": "--config"
+        },
+        {
+          "anchor": "## `--ignore-path`",
+          "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 127,
+          "path": "docs/cli.md",
+          "sha256": "2b1a31ec3205ad815122160bf74c268271f7698bd3f8ac3a9f58e6715033fb41",
+          "source_verified": true,
+          "url": "https://github.com/prettier/prettier/blob/0017ecf34df0b6a0bdd156bb02fe62603d4aa682/docs/cli.md#L127",
+          "value": "--ignore-path"
+        }
+      ],
+      "id": "prettier",
+      "repository": "prettier/prettier",
+      "tasks": [
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "prettier",
+            "--parser"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "prettier",
+            "--check",
+            "--config"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "prettier",
+            "--ignore-path"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 5
+    },
+    {
+      "covered": 1,
+      "expected": 5,
+      "facts": [
+        {
+          "anchor": "func main()",
+          "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 9,
+          "path": "cmd/gh/main.go",
+          "sha256": "cb5651bc0b702e28adac867f130729b351b8cbc51af7013c528f178a3ce4f593",
+          "source_verified": true,
+          "url": "https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/cmd/gh/main.go#L9",
+          "value": "gh"
+        },
+        {
+          "anchor": "Use:   \"status\"",
+          "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+          "generated_coverage": false,
+          "kind": "subcommand",
+          "line": 52,
+          "path": "pkg/cmd/status/status.go",
+          "sha256": "fecd9bf68a26b20b17c502d046de97c571d254f4c1cdd874a0bf1657123d5a48",
+          "source_verified": true,
+          "url": "https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/pkg/cmd/status/status.go#L52",
+          "value": "status"
+        },
+        {
+          "anchor": "Use:   \"create\"",
+          "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+          "generated_coverage": false,
+          "kind": "subcommand",
+          "line": 80,
+          "path": "pkg/cmd/issue/create/create.go",
+          "sha256": "44016ce1c58e613c9bffe87b0c900d9a0666edfb7418465f87cb77cd463bda60",
+          "source_verified": true,
+          "url": "https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/pkg/cmd/issue/create/create.go#L80",
+          "value": "issue create"
+        },
+        {
+          "anchor": "Use:   \"list\"",
+          "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+          "generated_coverage": false,
+          "kind": "subcommand",
+          "line": 57,
+          "path": "pkg/cmd/pr/list/list.go",
+          "sha256": "4c87b28445444eb3d2b095bc1d8549dd3aa3aff786fa8c69a3ee2fdb5fa4d3f7",
+          "source_verified": true,
+          "url": "https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/pkg/cmd/pr/list/list.go#L57",
+          "value": "pr list"
+        },
+        {
+          "anchor": "cmdutil.AddJSONFlags(cmd, &opts.Exporter, api.PullRequestFields)",
+          "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 126,
+          "path": "pkg/cmd/pr/list/list.go",
+          "sha256": "4c87b28445444eb3d2b095bc1d8549dd3aa3aff786fa8c69a3ee2fdb5fa4d3f7",
+          "source_verified": true,
+          "url": "https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/pkg/cmd/pr/list/list.go#L126",
+          "value": "--json"
+        }
+      ],
+      "id": "github-cli",
+      "repository": "cli/cli",
+      "tasks": [
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "gh",
+            "status"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "gh",
+            "issue create"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "gh",
+            "pr list",
+            "--json"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 5
+    },
+    {
+      "covered": 1,
+      "expected": 4,
+      "facts": [
+        {
+          "anchor": "yt-dlp = \"yt_dlp:main\"",
+          "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 144,
+          "path": "pyproject.toml",
+          "sha256": "52966ad39751ddd50157a1bf9b3ba508c438bce6ef732991b63ef49a0be114fc",
+          "source_verified": true,
+          "url": "https://github.com/yt-dlp/yt-dlp/blob/bbc809a1161d3bfca51fa36f59dda35556ee85a0/pyproject.toml#L144",
+          "value": "yt-dlp"
+        },
+        {
+          "anchor": "'-j', '--dump-json',",
+          "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 1306,
+          "path": "yt_dlp/options.py",
+          "sha256": "3c4f75696a3c7a2528c5bcec38bed4919469f00a6e4e401026ca8b60bb6971f5",
+          "source_verified": true,
+          "url": "https://github.com/yt-dlp/yt-dlp/blob/bbc809a1161d3bfca51fa36f59dda35556ee85a0/yt_dlp/options.py#L1306",
+          "value": "--dump-json"
+        },
+        {
+          "anchor": "'-f', '--format',",
+          "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 879,
+          "path": "yt_dlp/options.py",
+          "sha256": "3c4f75696a3c7a2528c5bcec38bed4919469f00a6e4e401026ca8b60bb6971f5",
+          "source_verified": true,
+          "url": "https://github.com/yt-dlp/yt-dlp/blob/bbc809a1161d3bfca51fa36f59dda35556ee85a0/yt_dlp/options.py#L879",
+          "value": "--format"
+        },
+        {
+          "anchor": "'-o', '--output',",
+          "commit_sha": "bbc809a1161d3bfca51fa36f59dda35556ee85a0",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 1412,
+          "path": "yt_dlp/options.py",
+          "sha256": "3c4f75696a3c7a2528c5bcec38bed4919469f00a6e4e401026ca8b60bb6971f5",
+          "source_verified": true,
+          "url": "https://github.com/yt-dlp/yt-dlp/blob/bbc809a1161d3bfca51fa36f59dda35556ee85a0/yt_dlp/options.py#L1412",
+          "value": "--output"
+        }
+      ],
+      "id": "yt-dlp",
+      "repository": "yt-dlp/yt-dlp",
+      "tasks": [
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "yt-dlp",
+            "--dump-json"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "yt-dlp",
+            "--format"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "yt-dlp",
+            "--output"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 4
+    },
+    {
+      "covered": 1,
+      "expected": 4,
+      "facts": [
+        {
+          "anchor": "\"eslint\": \"./bin/eslint.js\"",
+          "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 8,
+          "path": "package.json",
+          "sha256": "37880b431c2063b49429dd8ff916f81f15a1a8a5287931ff8ff24b040123d5c2",
+          "source_verified": true,
+          "url": "https://github.com/eslint/eslint/blob/24310e3a0e22b3c086ca402f88448676f2e1cfcd/package.json#L8",
+          "value": "eslint"
+        },
+        {
+          "anchor": "#### `-c`, `--config`",
+          "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 174,
+          "path": "docs/src/use/command-line-interface.md",
+          "sha256": "81fafdad26daf700976ad66de94f50e708c82ca7207af7416bdb5e6c32358f44",
+          "source_verified": true,
+          "url": "https://github.com/eslint/eslint/blob/24310e3a0e22b3c086ca402f88448676f2e1cfcd/docs/src/use/command-line-interface.md#L174",
+          "value": "--config"
+        },
+        {
+          "anchor": "#### `--fix`",
+          "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 353,
+          "path": "docs/src/use/command-line-interface.md",
+          "sha256": "81fafdad26daf700976ad66de94f50e708c82ca7207af7416bdb5e6c32358f44",
+          "source_verified": true,
+          "url": "https://github.com/eslint/eslint/blob/24310e3a0e22b3c086ca402f88448676f2e1cfcd/docs/src/use/command-line-interface.md#L353",
+          "value": "--fix"
+        },
+        {
+          "anchor": "#### `--ignore-pattern`",
+          "commit_sha": "24310e3a0e22b3c086ca402f88448676f2e1cfcd",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 436,
+          "path": "docs/src/use/command-line-interface.md",
+          "sha256": "81fafdad26daf700976ad66de94f50e708c82ca7207af7416bdb5e6c32358f44",
+          "source_verified": true,
+          "url": "https://github.com/eslint/eslint/blob/24310e3a0e22b3c086ca402f88448676f2e1cfcd/docs/src/use/command-line-interface.md#L436",
+          "value": "--ignore-pattern"
+        }
+      ],
+      "id": "eslint",
+      "repository": "eslint/eslint",
+      "tasks": [
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "eslint",
+            "--config"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "eslint",
+            "--fix"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "eslint",
+            "--ignore-pattern"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 4
+    },
+    {
+      "covered": 1,
+      "expected": 4,
+      "facts": [
+        {
+          "anchor": "func main()",
+          "commit_sha": "a374b865f7e99cccafcbe443dcdb47552b91af3c",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 26,
+          "path": "main.go",
+          "sha256": "e26ba20011ffab2a7cd5bb777196e6ca701cc71f7f93e64db2b4e163f1a9e2dd",
+          "source_verified": true,
+          "url": "https://github.com/gohugoio/hugo/blob/a374b865f7e99cccafcbe443dcdb47552b91af3c/main.go#L26",
+          "value": "hugo"
+        },
+        {
+          "anchor": "return \"server\"",
+          "commit_sha": "a374b865f7e99cccafcbe443dcdb47552b91af3c",
+          "generated_coverage": false,
+          "kind": "subcommand",
+          "line": 483,
+          "path": "commands/server.go",
+          "sha256": "2cf046d346eb9f3f3f6e3eb8f867c6780a83b2a8dc3f04c04763836cd825059b",
+          "source_verified": true,
+          "url": "https://github.com/gohugoio/hugo/blob/a374b865f7e99cccafcbe443dcdb47552b91af3c/commands/server.go#L483",
+          "value": "server"
+        },
+        {
+          "anchor": "StringP(\"destination\", \"d\", \"\", \"filesystem path to write files to\")",
+          "commit_sha": "a374b865f7e99cccafcbe443dcdb47552b91af3c",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 565,
+          "path": "commands/commandeer.go",
+          "sha256": "7202480b414c9be91706ccd54823e346dc76a37974327085071c21bdb45032be",
+          "source_verified": true,
+          "url": "https://github.com/gohugoio/hugo/blob/a374b865f7e99cccafcbe443dcdb47552b91af3c/commands/commandeer.go#L565",
+          "value": "--destination"
+        },
+        {
+          "anchor": "BoolP(\"buildDrafts\", \"D\", false, \"include content marked as draft\")",
+          "commit_sha": "a374b865f7e99cccafcbe443dcdb47552b91af3c",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 613,
+          "path": "commands/commandeer.go",
+          "sha256": "7202480b414c9be91706ccd54823e346dc76a37974327085071c21bdb45032be",
+          "source_verified": true,
+          "url": "https://github.com/gohugoio/hugo/blob/a374b865f7e99cccafcbe443dcdb47552b91af3c/commands/commandeer.go#L613",
+          "value": "--buildDrafts"
+        }
+      ],
+      "id": "hugo",
+      "repository": "gohugoio/hugo",
+      "tasks": [
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "hugo",
+            "server"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "hugo",
+            "--destination"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "hugo",
+            "--buildDrafts"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 4
+    },
+    {
+      "covered": 1,
+      "expected": 4,
+      "facts": [
+        {
+          "anchor": "func main()",
+          "commit_sha": "b1be3a8be1b833ce5b92fbbac11637643d60a046",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 57,
+          "path": "main.go",
+          "sha256": "dfa587a659dbc3b54ffb95c95a5069fa260c1a1ef7f73fe5c278a4fff33014c5",
+          "source_verified": true,
+          "url": "https://github.com/junegunn/fzf/blob/b1be3a8be1b833ce5b92fbbac11637643d60a046/main.go#L57",
+          "value": "fzf"
+        },
+        {
+          "anchor": "\\-\\-filter=",
+          "commit_sha": "b1be3a8be1b833ce5b92fbbac11637643d60a046",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 1207,
+          "path": "man/man1/fzf.1",
+          "sha256": "f674e7c9cee9335c4c63b47e8b358f9319d801de332d12ace6d10663b5da51b8",
+          "source_verified": true,
+          "url": "https://github.com/junegunn/fzf/blob/b1be3a8be1b833ce5b92fbbac11637643d60a046/man/man1/fzf.1#L1207",
+          "value": "--filter"
+        },
+        {
+          "anchor": "\\-\\-preview=",
+          "commit_sha": "b1be3a8be1b833ce5b92fbbac11637643d60a046",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 875,
+          "path": "man/man1/fzf.1",
+          "sha256": "f674e7c9cee9335c4c63b47e8b358f9319d801de332d12ace6d10663b5da51b8",
+          "source_verified": true,
+          "url": "https://github.com/junegunn/fzf/blob/b1be3a8be1b833ce5b92fbbac11637643d60a046/man/man1/fzf.1#L875",
+          "value": "--preview"
+        },
+        {
+          "anchor": "\\-\\-bind=",
+          "commit_sha": "b1be3a8be1b833ce5b92fbbac11637643d60a046",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 1249,
+          "path": "man/man1/fzf.1",
+          "sha256": "f674e7c9cee9335c4c63b47e8b358f9319d801de332d12ace6d10663b5da51b8",
+          "source_verified": true,
+          "url": "https://github.com/junegunn/fzf/blob/b1be3a8be1b833ce5b92fbbac11637643d60a046/man/man1/fzf.1#L1249",
+          "value": "--bind"
+        }
+      ],
+      "id": "fzf",
+      "repository": "junegunn/fzf",
+      "tasks": [
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "fzf",
+            "--filter"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "fzf",
+            "--preview"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "fzf",
+            "--bind"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 4
+    },
+    {
+      "covered": 1,
+      "expected": 4,
+      "facts": [
+        {
+          "anchor": "black = \"black:patched_main\"",
+          "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 110,
+          "path": "pyproject.toml",
+          "sha256": "19235ff95aeb5b7af2ced4819af7330b222bb9fd00fc4f5e8d5f83a160ab466a",
+          "source_verified": true,
+          "url": "https://github.com/psf/black/blob/20622e1259c29bda81831962ace1348ba1921c84/pyproject.toml#L110",
+          "value": "black"
+        },
+        {
+          "anchor": "\"--check\",",
+          "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 373,
+          "path": "src/black/__init__.py",
+          "sha256": "12e5c6a885f1c24ef273eb7feff827ad171e40257b2bdee728b30d78256ed718",
+          "source_verified": true,
+          "url": "https://github.com/psf/black/blob/20622e1259c29bda81831962ace1348ba1921c84/src/black/__init__.py#L373",
+          "value": "--check"
+        },
+        {
+          "anchor": "\"--exclude\",",
+          "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 428,
+          "path": "src/black/__init__.py",
+          "sha256": "12e5c6a885f1c24ef273eb7feff827ad171e40257b2bdee728b30d78256ed718",
+          "source_verified": true,
+          "url": "https://github.com/psf/black/blob/20622e1259c29bda81831962ace1348ba1921c84/src/black/__init__.py#L428",
+          "value": "--exclude"
+        },
+        {
+          "anchor": "\"--include\",",
+          "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+          "generated_coverage": false,
+          "kind": "option",
+          "line": 471,
+          "path": "src/black/__init__.py",
+          "sha256": "12e5c6a885f1c24ef273eb7feff827ad171e40257b2bdee728b30d78256ed718",
+          "source_verified": true,
+          "url": "https://github.com/psf/black/blob/20622e1259c29bda81831962ace1348ba1921c84/src/black/__init__.py#L471",
+          "value": "--include"
+        }
+      ],
+      "id": "black",
+      "repository": "psf/black",
+      "tasks": [
+        {
+          "facts_covered": true,
+          "required_facts": [
+            "black"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "black",
+            "--check"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "black",
+            "--exclude"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 4
+    },
+    {
+      "covered": 4,
+      "expected": 4,
+      "facts": [
+        {
+          "anchor": "pre-commit = pre_commit.main:main",
+          "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 35,
+          "path": "setup.cfg",
+          "sha256": "4a1f8c948061f0e1d1b04f16bcf8b2c68b597e4abe9ce21cd6cba5a233ab1223",
+          "source_verified": true,
+          "url": "https://github.com/pre-commit/pre-commit/blob/a9bba55a3f74068b53f4bd4d831d7e05e34eae6c/setup.cfg#L35",
+          "value": "pre-commit"
+        },
+        {
+          "anchor": "_add_cmd('run', help='Run hooks.')",
+          "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+          "generated_coverage": true,
+          "kind": "subcommand",
+          "line": 311,
+          "path": "pre_commit/main.py",
+          "sha256": "43cec538a6683e1fb243319a06de6d5f1ffe5c4f52cfa585789d9d39bce079bb",
+          "source_verified": true,
+          "url": "https://github.com/pre-commit/pre-commit/blob/a9bba55a3f74068b53f4bd4d831d7e05e34eae6c/pre_commit/main.py#L311",
+          "value": "run"
+        },
+        {
+          "anchor": "_add_cmd('install', help='Install the pre-commit script.')",
+          "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+          "generated_coverage": true,
+          "kind": "subcommand",
+          "line": 273,
+          "path": "pre_commit/main.py",
+          "sha256": "43cec538a6683e1fb243319a06de6d5f1ffe5c4f52cfa585789d9d39bce079bb",
+          "source_verified": true,
+          "url": "https://github.com/pre-commit/pre-commit/blob/a9bba55a3f74068b53f4bd4d831d7e05e34eae6c/pre_commit/main.py#L273",
+          "value": "install"
+        },
+        {
+          "anchor": "'--all-files', '-a', action='store_true',",
+          "command_path": [
+            "run"
+          ],
+          "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+          "generated_coverage": true,
+          "kind": "option",
+          "line": 69,
+          "path": "pre_commit/main.py",
+          "sha256": "43cec538a6683e1fb243319a06de6d5f1ffe5c4f52cfa585789d9d39bce079bb",
+          "source_verified": true,
+          "url": "https://github.com/pre-commit/pre-commit/blob/a9bba55a3f74068b53f4bd4d831d7e05e34eae6c/pre_commit/main.py#L69",
+          "value": "--all-files"
+        }
+      ],
+      "id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "tasks": [
+        {
+          "facts_covered": true,
+          "required_facts": [
+            "pre-commit",
+            "run",
+            "--all-files"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": true,
+          "required_facts": [
+            "pre-commit",
+            "run"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": true,
+          "required_facts": [
+            "pre-commit",
+            "install"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 4
+    },
+    {
+      "covered": 1,
+      "expected": 2,
+      "facts": [
+        {
+          "anchor": "\"webpack\": \"bin/webpack.js\"",
+          "commit_sha": "9dc7f1a65c21f80d70ec80e45e9a9390bb5e9b04",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 20,
+          "path": "package.json",
+          "sha256": "da899680cc0dc2b6d7ecbdc54d4579321c7531a7b18a54dc611ea5a26d7096c0",
+          "source_verified": true,
+          "url": "https://github.com/webpack/webpack/blob/9dc7f1a65c21f80d70ec80e45e9a9390bb5e9b04/package.json#L20",
+          "value": "webpack"
+        },
+        {
+          "anchor": "package: \"webpack-cli\"",
+          "commit_sha": "9dc7f1a65c21f80d70ec80e45e9a9390bb5e9b04",
+          "generated_coverage": false,
+          "kind": "external_dependency",
+          "line": 125,
+          "path": "bin/webpack.js",
+          "sha256": "3e63c44b89b334b87cf4c059db92f16d7bbf814bcd09c436d346cc291589f281",
+          "source_verified": true,
+          "url": "https://github.com/webpack/webpack/blob/9dc7f1a65c21f80d70ec80e45e9a9390bb5e9b04/bin/webpack.js#L125",
+          "value": "webpack-cli"
+        }
+      ],
+      "id": "webpack",
+      "repository": "webpack/webpack",
+      "tasks": [
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "webpack",
+            "webpack-cli"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "webpack",
+            "webpack-cli"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "webpack",
+            "webpack-cli"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 2
+    },
+    {
+      "covered": 1,
+      "expected": 4,
+      "facts": [
+        {
+          "anchor": "poetry = \"poetry.console.application:main\"",
+          "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+          "generated_coverage": true,
+          "kind": "command",
+          "line": 58,
+          "path": "pyproject.toml",
+          "sha256": "2fe617655c8c9a9915564b426d159cdce3ad72ea2c86e70503e628747f584855",
+          "source_verified": true,
+          "url": "https://github.com/python-poetry/poetry/blob/be56ff07db06e9b82574648433ca228e4cac549b/pyproject.toml#L58",
+          "value": "poetry"
+        },
+        {
+          "anchor": "name = \"install\"",
+          "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+          "generated_coverage": false,
+          "kind": "subcommand",
+          "line": 18,
+          "path": "src/poetry/console/commands/install.py",
+          "sha256": "911852785b9a2d21f611ce88b6bc27b7b556957f6f875f7dbbc5e21e9e5807fe",
+          "source_verified": true,
+          "url": "https://github.com/python-poetry/poetry/blob/be56ff07db06e9b82574648433ca228e4cac549b/src/poetry/console/commands/install.py#L18",
+          "value": "install"
+        },
+        {
+          "anchor": "name = \"add\"",
+          "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+          "generated_coverage": false,
+          "kind": "subcommand",
+          "line": 29,
+          "path": "src/poetry/console/commands/add.py",
+          "sha256": "1bf38723e501e551c8a1f3c2f519d27c5440567a0fc6e423660c897a3b2f3253",
+          "source_verified": true,
+          "url": "https://github.com/python-poetry/poetry/blob/be56ff07db06e9b82574648433ca228e4cac549b/src/poetry/console/commands/add.py#L29",
+          "value": "add"
+        },
+        {
+          "anchor": "name = \"env info\"",
+          "commit_sha": "be56ff07db06e9b82574648433ca228e4cac549b",
+          "generated_coverage": false,
+          "kind": "subcommand",
+          "line": 18,
+          "path": "src/poetry/console/commands/env/info.py",
+          "sha256": "049a5546fb3f6620d79f70ccda0ae76fd091e710c0a261d717d3ddfe5acb2ea5",
+          "source_verified": true,
+          "url": "https://github.com/python-poetry/poetry/blob/be56ff07db06e9b82574648433ca228e4cac549b/src/poetry/console/commands/env/info.py#L18",
+          "value": "env info"
+        }
+      ],
+      "id": "poetry",
+      "repository": "python-poetry/poetry",
+      "tasks": [
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "poetry",
+            "install"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 1
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "poetry",
+            "add"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 2
+        },
+        {
+          "facts_covered": false,
+          "required_facts": [
+            "poetry",
+            "env info"
+          ],
+          "scope": "static prerequisite coverage only; not execution success",
+          "task_index": 3
+        }
+      ],
+      "verified": 4
+    }
+  ],
+  "scope": "Selected source-grounded facts, not an exhaustive CLI inventory or task success metric",
+  "semantic_precision_status": "Full generated-fact semantic audit not completed; hash provenance is not semantic correctness",
+  "source_verified_facts": 40,
+  "static_task_prerequisites_covered": 4,
+  "tasks_evaluated": 30
+}

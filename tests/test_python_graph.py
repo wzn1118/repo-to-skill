@@ -116,7 +116,7 @@ def test_skipped_framework_module_still_blocks_trust(tmp_path: Path) -> None:
 
 def test_argument_groups_stay_with_parsed_root(tmp_path: Path) -> None:
     root = repository(tmp_path, {"app.py": "import argparse\ndef entry():\n parser = argparse.ArgumentParser()\n group = parser.add_argument_group('root')\n group.add_argument('--root')\n child = parser.add_subparsers().add_parser('child')\n child.add_argument('--child')\n unused = argparse.ArgumentParser()\n unused.add_argument('--unused')\n parser.parse_args()\n"})
-    assert flags(root) == {"--root"}
+    assert {(tuple(claim.object.get("command_path", ())), claim.object.get("option")) for claim in discover(root).claims if claim.predicate == "supports_option"} == {((), "--root"), (("child",), "--child")}
 
 
 def test_parser_instances_on_same_line_keep_distinct_owners(tmp_path: Path) -> None:

@@ -7,9 +7,11 @@ from typing import Any
 
 from pydantic import TypeAdapter
 
+from r2s.command_graph import command_specs
 from r2s.domain import DiscoveryIR
 from r2s.policy import is_safe_command
 from r2s.scan_policy import INCOMPLETE_REASONS
+from r2s.serialization import canonical_json
 
 DISCOVERY_ADAPTER = TypeAdapter(DiscoveryIR)
 MAX_JSON_DEPTH = 64
@@ -104,9 +106,17 @@ def validate_relations(discovery: DiscoveryIR) -> None:
         _unique(claim.evidence_ids, "CLAIM_EVIDENCE_REFERENCE")
         if not claim.evidence_ids or any(identifier not in evidence for identifier in claim.evidence_ids):
             raise ValueError("IR_CLAIM_EVIDENCE_MISSING")
-        executable = claim.predicate in {"provides_cli", "supports_option"}
-        required_field = {"provides_cli": "target", "supports_option": "option", "has_license_file": "path"}[claim.predicate]
+        executable = claim.predicate in {"provides_cli", "supports_subcommand", "supports_option"}
+        required_field = {"provides_cli": "target", "supports_subcommand": "command_path", "supports_option": "option", "has_license_file": "path"}[claim.predicate]
         if required_field not in claim.object:
+            raise ValueError("IR_FACT_PAYLOAD_MISMATCH")
+        allowed_fields = {
+            "provides_cli": {"command", "target", "workspace", "role"},
+            "supports_subcommand": {"command", "command_path"},
+            "supports_option": {"command", "option", "command_path"},
+            "has_license_file": {"path"},
+        }
+        if set(claim.object) - allowed_fields[claim.predicate]:
             raise ValueError("IR_FACT_PAYLOAD_MISMATCH")
         if claim.executable_fact != executable:
             raise ValueError("IR_EXECUTABLE_CLASSIFICATION_MISMATCH")
@@ -114,7 +124,7 @@ def validate_relations(discovery: DiscoveryIR) -> None:
             command = claim.object.get("command")
             if not isinstance(command, str) or not is_safe_command(command):
                 raise ValueError("IR_COMMAND_INVALID")
-            if claim.predicate == "supports_option" and claim.subject != command:
+            if claim.predicate in {"supports_option", "supports_subcommand"} and claim.subject != command:
                 raise ValueError("IR_OPTION_OWNER_MISMATCH")
             if claim.predicate == "provides_cli" and claim.subject != "repository":
                 raise ValueError("IR_ENTRYPOINT_OWNER_MISMATCH")
@@ -125,7 +135,7 @@ def validate_relations(discovery: DiscoveryIR) -> None:
             witness = dict(evidence[identifier].normalized_value)
             if evidence[identifier].kind == "manifest.entrypoint":
                 witness["target"] = f"{witness.get('module')}:{witness.get('symbol')}"
-            witnesses.append(all(witness.get(key) == value for key, value in claim.object.items()))
+            witnesses.append(all(canonical_json(witness.get(key)) == canonical_json(value) for key, value in claim.object.items()))
         if not any(witnesses):
             raise ValueError("IR_CLAIM_EVIDENCE_MISMATCH")
         if claim.status == "supported" and any(evidence[identifier].confidence <= 0 for identifier in claim.evidence_ids):
@@ -138,8 +148,10 @@ def validate_relations(discovery: DiscoveryIR) -> None:
         if len(entries) != 1:
             raise ValueError("IR_CAPABILITY_ENTRYPOINT_AMBIGUOUS")
         command = entries[0].object.get("command")
-        if any(claims[identifier].predicate == "supports_option" and claims[identifier].subject != command for identifier in capability.claim_ids):
+        if any(claims[identifier].predicate in {"supports_option", "supports_subcommand"} and claims[identifier].subject != command for identifier in capability.claim_ids):
             raise ValueError("IR_CAPABILITY_OPTION_OWNER_MISMATCH")
+    if discovery.commands != command_specs(discovery.claims):
+        raise ValueError("IR_COMMAND_GRAPH_MISMATCH")
 
 
 def _parse_discovery_structure(value: Any) -> DiscoveryIR:
@@ -148,7 +160,9 @@ def _parse_discovery_structure(value: Any) -> DiscoveryIR:
         raise TypeError("DISCOVERY_OBJECT_REQUIRED")
     if "snapshot" not in value:
         raise ValueError("DISCOVERY_MIGRATION_REQUIRED")
-    if value.get("schema_version") != "1.2.0":
+    if value.get("schema_version") == "1.2.0":
+        raise ValueError("DISCOVERY_MIGRATION_REQUIRED")
+    if value.get("schema_version") != "1.3.0":
         raise ValueError("DISCOVERY_SCHEMA_UNSUPPORTED")
     return DISCOVERY_ADAPTER.validate_json(json.dumps(value, allow_nan=False), strict=True)
 
@@ -163,7 +177,7 @@ def discovery_schema() -> dict[str, Any]:
     schema = DISCOVERY_ADAPTER.json_schema()
     schema.update({
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": "https://r2s.local/schema/discovery-1.2.0.json",
-        "title": "Repo-to-Skill Discovery IR (strict boundary revision 2)",
+        "$id": "https://r2s.local/schema/discovery-1.3.0.json",
+        "title": "Repo-to-Skill Discovery IR with scoped commands",
     })
     return schema

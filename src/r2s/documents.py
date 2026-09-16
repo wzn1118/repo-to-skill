@@ -4,6 +4,7 @@ import json
 import re
 
 from r2s.bundle_contracts import BundleProvenance
+from r2s.command_graph import command_path, command_specs
 from r2s.policy import is_safe_command
 
 
@@ -13,6 +14,8 @@ def slugify(value: str) -> str:
 
 
 def render_document(provenance: BundleProvenance) -> dict[str, bytes]:
+    if provenance.commands != command_specs(provenance.claims):
+        raise ValueError("Document command graph does not match supported claims")
     claims = {claim.id: claim for claim in provenance.claims}
     entrypoint = claims[provenance.document.entrypoint_claim_id]
     command = entrypoint.object.get("command")
@@ -35,7 +38,15 @@ def render_document(provenance: BundleProvenance) -> dict[str, bytes]:
         or procedure.precondition_claim_ids != (entrypoint.id,)
     ):
         raise ValueError("Procedure does not match the supported document format")
-    option_lines = []
+    subcommands = [claims[identifier] for identifier in provenance.document.subcommand_claim_ids]
+    if any(item.predicate != "supports_subcommand" or item.object.get("command") != command or item.status != "supported" for item in subcommands):
+        raise ValueError("Document subcommand must belong to the CLI")
+    listed_options = {identifier for item in provenance.commands for identifier in item.option_claim_ids}
+    if listed_options != set(provenance.document.option_claim_ids) or {item.declaration_claim_id for item in provenance.commands if item.path} != set(provenance.document.subcommand_claim_ids):
+        raise ValueError("Document must retain complete scoped claim references")
+    option_groups: dict[tuple[str, ...], list[str]] = {(): []}
+    for item in subcommands:
+        option_groups[command_path(item)] = []
     for claim_id in provenance.document.option_claim_ids:
         claim = claims[claim_id]
         option = claim.object.get("option")
@@ -46,10 +57,10 @@ def render_document(provenance: BundleProvenance) -> dict[str, bytes]:
             or claim.subject != command
             or claim.object.get("command") != command
             or not isinstance(option, str)
-            or not re.fullmatch(r"--?[A-Za-z0-9][A-Za-z0-9_-]*", option)
+            or not re.fullmatch(r"--?[A-Za-z0-9][A-Za-z0-9_.-]{0,127}", option)
         ):
             raise ValueError("Document option must reference a supported option owned by the CLI")
-        option_lines.append(f"- `{option}`")
+        option_groups[command_path(claim)].append(f"- `{option}`")
     description = (
         f"Use the {command} CLI with its statically discovered options. "
         "Check source evidence and preview invocations before execution."
@@ -60,8 +71,8 @@ def render_document(provenance: BundleProvenance) -> dict[str, bytes]:
         "## Workflow\n\n"
         f"1. Treat `{command}` as the evidence-backed executable name; confirm it is available "
         "in the user's environment without assuming an installation method.\n"
-        "2. Select only options listed in `references/cli.md` or arguments explicitly supplied "
-        "by the user. Do not invent flags.\n"
+        "2. Select a documented command path and only its own listed options from `references/cli.md`, "
+        "or arguments explicitly supplied by the user. Do not invent flags. Do not move child options to the root or infer inheritance.\n"
         "3. Preview the complete invocation and identify its side effects before asking for "
         "execution approval.\n"
         "4. After execution, verify the user-requested result rather than relying only on the "
@@ -69,14 +80,12 @@ def render_document(provenance: BundleProvenance) -> dict[str, bytes]:
         "See `references/cli.md` for statically discovered options and `references/provenance.md` "
         "for source evidence.\n"
     )
-    cli = (
-        f"# {command} CLI\n\n## Statically discovered options\n\n"
-        + ("\n".join(option_lines) if option_lines else (
-            "No options were statically discovered. Do not infer flags; obtain additional "
-            "evidence or explicit user input before constructing an invocation."
-        ))
-        + "\n"
-    )
+    cli = f"# {command} CLI\n\nPartial static command inventory. Argument types, defaults, positional inputs, inheritance and runtime behavior remain unknown unless separately evidenced.\n"
+    for path, options in sorted(option_groups.items()):
+        invocation = " ".join([command, *path])
+        cli += f"\n## `{invocation}`\n\n"
+        cli += "\n".join(options) if options else "No options were statically discovered for this command path. Do not infer flags."
+        cli += "\n"
     references = "# Provenance\n\n" + "\n".join(
         f"- Claim `{claim_id}`" for claim_id in sorted(claims)
     ) + "\n"

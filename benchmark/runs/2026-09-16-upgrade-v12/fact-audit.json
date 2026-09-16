@@ -1,0 +1,3854 @@
+{
+  "binary_name_regressions": [
+    {
+      "emitted_commands": [
+        "goreleaser"
+      ],
+      "expected_binary_name": "goreleaser",
+      "name_regression_fixed": true,
+      "repository": "goreleaser/goreleaser",
+      "scope": "binary name only; not complete semantic audit",
+      "source": {
+        "commit_sha": "2ab310007902c215786382916e7e00477de597c4",
+        "line": 100,
+        "path": "cmd/root.go",
+        "sha256": "5757b6db731b0a5aef7d705980f4faface907e00f37e9c68a5334c49406f8afc"
+      },
+      "source_anchor_found": true
+    },
+    {
+      "emitted_commands": [
+        "gum"
+      ],
+      "expected_binary_name": "gum",
+      "name_regression_fixed": true,
+      "repository": "charmbracelet/gum",
+      "scope": "binary name only; not complete semantic audit",
+      "source": {
+        "commit_sha": "7179388031ae67d7f538d001be87d931f1cf5e28",
+        "line": 40,
+        "path": "main.go",
+        "sha256": "59ad6f7b390502b57f30cfcf24ad3d7ca16afda128d325816f85e7029feb4ccb"
+      },
+      "source_anchor_found": true
+    },
+    {
+      "emitted_commands": [
+        "yq"
+      ],
+      "expected_binary_name": "yq",
+      "name_regression_fixed": true,
+      "repository": "mikefarah/yq",
+      "scope": "binary name only; not complete semantic audit",
+      "source": {
+        "commit_sha": "8b5af0694bb82b41d4ae180fac9972029066f90a",
+        "line": 42,
+        "path": "cmd/root.go",
+        "sha256": "496a1a86918708af82fd554ad090ae5644260ef34de3282eb2b8febc7d9741a6"
+      },
+      "source_anchor_found": true
+    },
+    {
+      "emitted_commands": [
+        "direnv"
+      ],
+      "expected_binary_name": "direnv",
+      "name_regression_fixed": true,
+      "repository": "direnv/direnv",
+      "scope": "binary name only; not complete semantic audit",
+      "source": {
+        "commit_sha": "b00e451f547f39be7ab836d969054114a465a0f9",
+        "line": 13,
+        "path": "GNUmakefile",
+        "sha256": "df184ed5375378f2345a760bfd354fb7482d48568aaf30766ca7e9e9b8f0f966"
+      },
+      "source_anchor_found": true
+    }
+  ],
+  "confirmed_wrong_executable_facts": 0,
+  "facts": [
+    {
+      "claim_id": "cl_33078114337c933442a0",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "yt-dlp/yt-dlp",
+      "value": {
+        "command": "yt-dlp",
+        "target": "yt_dlp:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c9d3b2e911b5966dbc3c",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "target": "black:patched_main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_1214602e7b9cd0c9baf9",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8b0f03cde78b74980c5a",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--code"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_917c2324c5a244046a0e",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-l"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_30f80ce3243704254b48",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--line-length"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_48e8585ecbfa528ba1b8",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-t"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_bd6eabb5db4cdeb4c371",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--target-version"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d0488d7521f25d410202",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--pyi"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_36ecad9c239721a48a96",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--ipynb"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b87344a3e8bfd8c08265",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--python-cell-magics"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_486769bf7f62cd6ecbbb",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-x"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_23327b2e3a092fa02ced",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--skip-source-first-line"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_dd5a9460f691bd097f97",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-S"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_671ccb8506cd134ab1df",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--skip-string-normalization"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_7e84ceb8ed9a46fb19a1",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-C"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_60673a7ed0a97f26f36e",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--skip-magic-trailing-comma"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_40e086bdcd934471f0a0",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--preview"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d5995a54a8e39269b857",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--unstable"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_93f14a9e471127d0f0b7",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--enable-unstable-feature"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_296d4748b0b0ab32104e",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--check"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2d4460e8d0d85a350671",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--diff"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_554ccb592d365f2466f5",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_747f4002fd9fdb81363e",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--no-color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c50b6d0a2eb04acc579e",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--line-ranges"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f844d7a2128abcec546f",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--fast"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_93e175823e1a52d3d090",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--safe"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5554c49be7507f56f3fe",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--required-version"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_82981dea08cb5fca0942",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--exclude"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_deaf3c0ca855f5a2e55e",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--extend-exclude"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c3c12f20fa255d71e4a6",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--force-exclude"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d74f6b7b92637449a972",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--stdin-filename"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ebb7ee50ac43b816b310",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--include"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_9e20d3bedf68c55c86b5",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-W"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_22277618f541a8d5dd0c",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--workers"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6dc06d16d0c4ba1ad890",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-q"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_48794f4f89327c59d337",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--quiet"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ada8b20e2675ee96ecf7",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "-v"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ac572454bf657fca58e8",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--verbose"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ae91d875a38089ae8903",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_9465a3df20871eebec9b",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "black",
+        "command_path": [],
+        "option": "--no-cache"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_bc69c68e460b6d5ddf35",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "psf/black",
+      "value": {
+        "command": "blackd",
+        "target": "blackd:patched_main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4a7d73065439c099ad35",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "blackd",
+        "command_path": [],
+        "option": "--bind-host"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2cff49e4b2088507ecba",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "blackd",
+        "command_path": [],
+        "option": "--bind-port"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_27f80a2b97c2554e2e1c",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "blackd",
+        "command_path": [],
+        "option": "--cors-allow-origin"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8d45277efaf4a5a825d0",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "psf/black",
+      "value": {
+        "command": "blackd",
+        "command_path": [],
+        "option": "--max-body-size"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_87e90acb5c6f86a81156",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "httpie/cli",
+      "value": {
+        "command": "http",
+        "target": "httpie.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_9dd88bac6a9809ef854d",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "httpie/cli",
+      "value": {
+        "command": "httpie",
+        "target": "httpie.manager.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b0efe71e79379841ab3f",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "httpie/cli",
+      "value": {
+        "command": "https",
+        "target": "httpie.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_35fcf4648f9aabe18fca",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "python-poetry/poetry",
+      "value": {
+        "command": "poetry",
+        "target": "poetry.console.application:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3d081b84603d439fd608",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "prettier/prettier",
+      "value": {
+        "command": "prettier",
+        "role": "product",
+        "target": "bin/prettier.cjs",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a926110f1658ab2a1b50",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "vitejs/vite",
+      "value": {
+        "command": "create-vite",
+        "role": "product",
+        "target": "packages/create-vite/index.js",
+        "workspace": "packages/create-vite"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_855c90a1a8b6fbab2671",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "vitejs/vite",
+      "value": {
+        "command": "cva",
+        "role": "product",
+        "target": "packages/create-vite/index.js",
+        "workspace": "packages/create-vite"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_99cc8c7167445dee05d7",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "vitejs/vite",
+      "value": {
+        "command": "vite",
+        "role": "product",
+        "target": "packages/vite/bin/vite.js",
+        "workspace": "packages/vite"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6cf4bcc2e286790f57de",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "webpack/webpack",
+      "value": {
+        "command": "webpack",
+        "role": "product",
+        "target": "bin/webpack.js",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2bd424036439449f9622",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "cli/cli",
+      "value": {
+        "command": "gh",
+        "role": "product",
+        "target": "cmd/gh",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b054b97209a390681a9c",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "gohugoio/hugo",
+      "value": {
+        "command": "hugo",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_cf802618c8e26d6ddd15",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "junegunn/fzf",
+      "value": {
+        "command": "fzf",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f22c4ffb62e5e5b5e1b0",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "nektos/act",
+      "value": {
+        "command": "act",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_75b41a91f911a9ad8e3c",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "pnpm-render",
+        "role": "product",
+        "target": "pnpm11/cli/default-reporter/bin/pnpm-render.mjs",
+        "workspace": "pnpm11/cli/default-reporter"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_cad6565b103a7566ae0e",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "lockfile.make-dedicated-lockfile",
+        "role": "product",
+        "target": "pnpm11/lockfile/make-dedicated-lockfile/bin/make-dedicated-lockfile.js",
+        "workspace": "pnpm11/lockfile/make-dedicated-lockfile"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0cf589d82f075debc23f",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "modules-mounter.daemon",
+        "role": "product",
+        "target": "pnpm11/modules-mounter/daemon/bin/mount-modules.js",
+        "workspace": "pnpm11/modules-mounter/daemon"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4a164ccea13ebd687caf",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pnpm/pnpm",
+      "value": {
+        "command": "pnpr",
+        "role": "product",
+        "target": "pnpr/npm/pnpr/bin/pnpr",
+        "workspace": "pnpr/npm/pnpr"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_7c98a983c320538e8b08",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pytest-dev/pytest",
+      "value": {
+        "command": "py.test",
+        "target": "_pytest.config:_console_main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c487b5c39246b4959d76",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pytest-dev/pytest",
+      "value": {
+        "command": "pytest",
+        "target": "_pytest.config:_console_main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_18dd1bfb37dcfac393da",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8f4af9decca660fc2ad6",
+      "command_path": [
+        "clean"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "clean"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_899885f33e2de344da79",
+      "command_path": [
+        "gc"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "gc"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a40f82ea3728dec9bedd",
+      "command_path": [
+        "hazmat"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hazmat"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_29ededfaedbb0c943503",
+      "command_path": [
+        "help"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "help"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_57683d6053c63541bb9a",
+      "command_path": [
+        "hook-impl"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hook-impl"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e5d46368b9e16294bd50",
+      "command_path": [
+        "init-templatedir"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "init-templatedir"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d334bbc5f83a784bc341",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_818001531bf14d9ff585",
+      "command_path": [
+        "install-hooks"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install-hooks"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ad080f81b7da5bd982ed",
+      "command_path": [
+        "migrate-config"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "migrate-config"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2a6898050b86d4b5e025",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c3bc40cb7194ef304408",
+      "command_path": [
+        "sample-config"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "sample-config"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_701ec2b92da5cfcf54eb",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a26c1f9905bd58c20bdf",
+      "command_path": [
+        "uninstall"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "uninstall"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ee382ef23cd0ce9a8465",
+      "command_path": [
+        "validate-config"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "validate-config"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_20bc9927fc90451c57b1",
+      "command_path": [
+        "validate-manifest"
+      ],
+      "predicate": "supports_subcommand",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "validate-manifest"
+        ]
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4de7d14b91cab7f57b1d",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "target": "pre_commit.main:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_486af7b0aac390d18372",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [],
+        "option": "-V"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b3464192f36e0d7e49df",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [],
+        "option": "--version"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_868d773d4f5c97d8d4e7",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_aa4204ee83684e84e46b",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_08cd54692f8248895e37",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_bab888797950fccdeeb4",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ],
+        "option": "--bleeding-edge"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_65f1d0001e239926434b",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ],
+        "option": "--freeze"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_462360b9bef8fa58902d",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ],
+        "option": "--repo"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_920ce391af2991836c5d",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ],
+        "option": "-j"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2669e597fbaa0002afc1",
+      "command_path": [
+        "autoupdate"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "autoupdate"
+        ],
+        "option": "--jobs"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_1eee88c5d96b64e94d63",
+      "command_path": [
+        "clean"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "clean"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_fe5f72a223aa61750092",
+      "command_path": [
+        "gc"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "gc"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ced727a555247f04f320",
+      "command_path": [
+        "hazmat"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hazmat"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_09872a7b8864da9af33a",
+      "command_path": [
+        "init-templatedir"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "init-templatedir"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_859ee388eec86d24213a",
+      "command_path": [
+        "init-templatedir"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "init-templatedir"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c32bc856c31b8aa57d09",
+      "command_path": [
+        "init-templatedir"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "init-templatedir"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_04140f22ffe496fb6f11",
+      "command_path": [
+        "init-templatedir"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "init-templatedir"
+        ],
+        "option": "--no-allow-missing-config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_dd0cf5889cbadf0dae17",
+      "command_path": [
+        "init-templatedir"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "init-templatedir"
+        ],
+        "option": "-t"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_fb861a36d99a379c5425",
+      "command_path": [
+        "init-templatedir"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "init-templatedir"
+        ],
+        "option": "--hook-type"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f8d1b11553db93c12c2c",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0b5ffaa1db9d9a0fd6e5",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_af61414551579585d701",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3eae5ff743f5644a36a4",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "-f"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b400ed32b39a2a5a38c2",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "--overwrite"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_cd9fdbdc9ce6774ddb06",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "--install-hooks"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f52ffc675eafd15224c8",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "-t"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a6cb6dbce526f325e372",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "--hook-type"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_408c41ea2c366c4af96c",
+      "command_path": [
+        "install"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install"
+        ],
+        "option": "--allow-missing-config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8639996aa5f525e421e2",
+      "command_path": [
+        "install-hooks"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install-hooks"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_205dbb36aa196680e7af",
+      "command_path": [
+        "install-hooks"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install-hooks"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2726628d10c7daefb3a4",
+      "command_path": [
+        "install-hooks"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "install-hooks"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2ac25fc61ce898de23a7",
+      "command_path": [
+        "migrate-config"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "migrate-config"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_24cca39bb6e846ff409e",
+      "command_path": [
+        "migrate-config"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "migrate-config"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a6395bd08e8a4046a21f",
+      "command_path": [
+        "migrate-config"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "migrate-config"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a48a8c06d0a5b9c38679",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_1ead96a0eb9aac3d53c6",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_928e91f6f531a5fdfc45",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5d0c2d3ecb026377e801",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--verbose"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_61f3d040f732df81ddac",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "-v"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0afea9cb40896c83f750",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--all-files"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a8ec065dfc3cc0609c38",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "-a"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e791f95922766e875d16",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--files"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_302068adeaab634224cd",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--show-diff-on-failure"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_cd94472e65a266781de3",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--fail-fast"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_fc221e63496b3d47ff4b",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--hook-stage"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3cf2ef57eaee83c0669b",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--remote-branch"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_02a46c868bac6a5c59ea",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--local-branch"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_351022e31121bfd1eaff",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--from-ref"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f716aff5b8a459a28046",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--source"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ced4bebf94cb8e29957f",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "-s"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4722a9c33d30f004f479",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--to-ref"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8caffb88536ddd7b7ff1",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--origin"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f8939f31599325c03837",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "-o"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_27dcafb3610202c7961a",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--pre-rebase-upstream"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_1d2c4f9b77af283b0236",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--pre-rebase-branch"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f93561c787f8925a6f0c",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--commit-msg-filename"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0af94344f85f44ddb507",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--prepare-commit-message-source"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_7e66e97dc5829cb26b4b",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--commit-object-name"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0800c119944d6ee02135",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--remote-name"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_62612ec5fac7567d0bd2",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--remote-url"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_aed6b008e822e17a8861",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--checkout-type"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_97d4b0be6a5c1e856bde",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--is-squash-merge"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_81df9695c3a476513070",
+      "command_path": [
+        "run"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "run"
+        ],
+        "option": "--rewrite-command"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3969c065399328f34f47",
+      "command_path": [
+        "sample-config"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "sample-config"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_99d16c82ac579f84f1f5",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_bb2f5a0553c2967605b1",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6d60771960cf71386064",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5484c329e88f6830d9b7",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--ref"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d69f411100d4a6458c29",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--rev"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ca9525e5ccb5660ac2f1",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--verbose"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_89fd462e7cb65356620f",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "-v"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3112682b8ea7b8577a02",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--all-files"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6adee7ca7b88a68fac9c",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "-a"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_00572b51a1eb1f238518",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--files"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4e67abba342f6e1f8d20",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--show-diff-on-failure"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_194884c60e2f866fa523",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--fail-fast"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_1568ba730afb957e91b6",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--hook-stage"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b012382c12eea5b82bb5",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--remote-branch"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8f3c185c05b3cb1c61f5",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--local-branch"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3cfe50e0656f641c2f35",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--from-ref"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_aa07e5f04696a5e01442",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--source"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_53105ff13eafc3aed227",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "-s"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3539c846a9db5c92094c",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--to-ref"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_033122c60dff498c38f7",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--origin"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0a65cfdb87bcb8771f13",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "-o"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4887fef6bf81bd93d31b",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--pre-rebase-upstream"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3c5082606962e128547c",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--pre-rebase-branch"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4f088ea3c14093788e70",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--commit-msg-filename"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_fe12544ee454e3a559db",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--prepare-commit-message-source"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_867603ed38e82bbd9882",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--commit-object-name"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_584e4969989efe090782",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--remote-name"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a24afb3a077d1e8b55f9",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--remote-url"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e38098d2a549ce041ae6",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--checkout-type"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b18dbb1ea9193739f9de",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--is-squash-merge"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3ea5153d406c6553db64",
+      "command_path": [
+        "try-repo"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "try-repo"
+        ],
+        "option": "--rewrite-command"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6e737d89378052492773",
+      "command_path": [
+        "uninstall"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "uninstall"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_cec7e7c92783c8d47517",
+      "command_path": [
+        "uninstall"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "uninstall"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a80fa87bab79720929d3",
+      "command_path": [
+        "uninstall"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "uninstall"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_32c6ab22ecefbcd0b08c",
+      "command_path": [
+        "uninstall"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "uninstall"
+        ],
+        "option": "-t"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_560ed127b7eecda7136c",
+      "command_path": [
+        "uninstall"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "uninstall"
+        ],
+        "option": "--hook-type"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_679a1844a51119167a77",
+      "command_path": [
+        "validate-config"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "validate-config"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6e1df9731bed2b17e0b5",
+      "command_path": [
+        "validate-manifest"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "validate-manifest"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f3269f01936b62a5197f",
+      "command_path": [
+        "hook-impl"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hook-impl"
+        ],
+        "option": "--color"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5bf6ae266cbd96751339",
+      "command_path": [
+        "hook-impl"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hook-impl"
+        ],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a3706067c98914164042",
+      "command_path": [
+        "hook-impl"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hook-impl"
+        ],
+        "option": "--config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d3ba05a1455f638f903b",
+      "command_path": [
+        "hook-impl"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hook-impl"
+        ],
+        "option": "--hook-type"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2247be8177652c1f7713",
+      "command_path": [
+        "hook-impl"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hook-impl"
+        ],
+        "option": "--hook-dir"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f7bae0071000adafafd7",
+      "command_path": [
+        "hook-impl"
+      ],
+      "predicate": "supports_option",
+      "repository": "pre-commit/pre-commit",
+      "value": {
+        "command": "pre-commit",
+        "command_path": [
+          "hook-impl"
+        ],
+        "option": "--skip-on-missing-config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_07ac96c2dd35a1e4b8e4",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "target": "cookiecutter.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5d32c4aeb37688e1f1a2",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--no-input"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a4be04b0f48ad309b0b5",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "-c"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_017e7623d0942a4a8b02",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--checkout"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_aae1f1695e067271785a",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--directory"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_018f3807ebf1649e308c",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "-v"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_364467bdb69a74244af0",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--verbose"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_874242ccb597425a3aae",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--replay"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_aa4dbfc7180795a3cbd6",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--replay-file"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a84eb651d2ab3d39ac80",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "-f"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3563f3081dc224cb54a6",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--overwrite-if-exists"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d2a132372cb8987c6714",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "-s"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4184dbc99909fcd7d858",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--skip-if-file-exists"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_aabf357fa73a5cd972d4",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "-o"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ebaf291a26dc34424f6e",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--output-dir"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_2861860b2f4cdbb3e6f6",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--config-file"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_615c2c08920199e20b26",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--default-config"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_616acda999aa56a6b6fe",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--debug-file"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_872022316c9229fdf725",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--accept-hooks"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ea1ada4068f27acc472a",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "-l"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_509df77d3ec8faab426a",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--list-installed"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_730ce0e6ab0478000b0e",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "cookiecutter/cookiecutter",
+      "value": {
+        "command": "cookiecutter",
+        "command_path": [],
+        "option": "--keep-project-on-failure"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_1957065f1e3b5db940fd",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "eslint/eslint",
+      "value": {
+        "command": "eslint",
+        "role": "product",
+        "target": "bin/eslint.js",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_462d524f182cb0cd61cb",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "npm/cli",
+      "value": {
+        "command": "npm",
+        "role": "product",
+        "target": "bin/npm-cli.js",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_eb5a9040231fdfd79aba",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "npm/cli",
+      "value": {
+        "command": "npx",
+        "role": "product",
+        "target": "bin/npx-cli.js",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_86f47bb7010f6fa6bec7",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "npm/cli",
+      "value": {
+        "command": "arborist",
+        "role": "product",
+        "target": "workspaces/arborist/bin/index.js",
+        "workspace": "workspaces/arborist"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0560cb23ef54eb3e512f",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "goreleaser/goreleaser",
+      "value": {
+        "command": "goreleaser",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6938a82e04cea3f0c548",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "charmbracelet/gum",
+      "value": {
+        "command": "gum",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_09054f3e9ffcb8202b5a",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age",
+        "role": "product",
+        "target": "cmd/age",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f85dca99cc0a85b52acb",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age-inspect",
+        "role": "product",
+        "target": "cmd/age-inspect",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_21a8586972933e1f0e39",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age-keygen",
+        "role": "product",
+        "target": "cmd/age-keygen",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5647ccb822bbae0be1a5",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age-plugin-batchpass",
+        "role": "product",
+        "target": "cmd/age-plugin-batchpass",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_edcaf6561151c8476e1e",
+      "command_path": null,
+      "predicate": "supports_option",
+      "repository": "FiloSottile/age",
+      "value": {
+        "command": "age-plugin-batchpass",
+        "option": "-version"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6ca1b24ebf3cd69abbea",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "mikefarah/yq",
+      "value": {
+        "command": "yq",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8288c4cd0e85d4058092",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "direnv/direnv",
+      "value": {
+        "command": "direnv",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4db1624b0838371d2b86",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "charmbracelet/vhs",
+      "value": {
+        "command": "vhs",
+        "role": "product",
+        "target": ".",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_bdc25f4d0c6f761f57da",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pypa/pipx",
+      "value": {
+        "command": "pipx",
+        "target": "pipx.main:cli"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_dad328a7748555a652c7",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pypa/pip",
+      "value": {
+        "command": "pip",
+        "target": "pip._internal.cli.main:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_67e0ba120dcc8610f12d",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "pypa/pip",
+      "value": {
+        "command": "pip3",
+        "target": "pip._internal.cli.main:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a08fc8341f24eaebe94f",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "dmypy",
+        "target": "mypy.dmypy.client:console_entry"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a84853fce58ce5dd459e",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "mypy",
+        "target": "mypy.__main__:console_entry"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8e76b2075d23982b48f2",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "mypyc",
+        "target": "mypyc.__main__:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e1ceef87817432d96442",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "target": "mypy.stubgen:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8d2307111e3c2fa7a321",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--ignore-errors"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_dbc1bc3479179b087e91",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--no-import"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c1cbf265a174882768a3",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--no-analysis"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_591c87ee60325071dc72",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--parse-only"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_aa82f38def56fbc19cd0",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--inspect-mode"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4535fc6e41d93d325415",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--include-private"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ce15a44dc3777d960082",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--export-less"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_ac3c7ec92b9d32088067",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--include-docstrings"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_0f37a689b3ac81b60c1a",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "-v"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_3a74c434603075e4a0ff",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--verbose"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_1631a3c3024a4184adf8",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "-q"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d0b5c549b6e3c889dd0b",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--quiet"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6d3b9b482406e9473cb9",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--doc-dir"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6258ac117ee8340bb2e8",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--search-path"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_c04060aa403aab383505",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "-o"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_023ee50ec35d54b03d91",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--output"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_569b146f0c9aae1d3ed0",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "-m"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_54117d48af933c96f4ec",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--module"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_fe4592fb5edf3dd93fe5",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "-p"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8b7635856bba86ea8cfa",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--package"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6b882fda8d5e0624f8d6",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubgen",
+        "command_path": [],
+        "option": "--version"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_9019ef24ce4339bd96ec",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "target": "mypy.stubtest:main"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5cb56a6804c707fc1c7a",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--concise"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_159e463d29b2a948de58",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--ignore-missing-stub"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8ae4c57414608e2ad695",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--ignore-positional-only"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_93735e93c8a4553a32a6",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--ignore-disjoint-bases"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_79c38212d227a6bbb426",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--strict-type-check-only"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_b986efbf6ae2fef4b204",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--allowlist"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f04704bc8733465948e9",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--whitelist"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_5d2ab63ffb9c9a82e9ae",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--generate-allowlist"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_775a1f6450796b536dab",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--generate-whitelist"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_f990f88b8801adcf253c",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--ignore-unused-allowlist"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_db2011a91a28f666f492",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--ignore-unused-whitelist"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_a4a86137a04f843d5b0f",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--mypy-config-file"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6976396d394c2782d401",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--custom-typeshed-dir"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_4b5ed27b72c079dbfdea",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--check-typeshed"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e4e0170fb57b6062521f",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--version"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_e303faae3b30e93c0ea4",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--pdb"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_d2bda77655b19e00b365",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--show-traceback"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_8f1513b2484de12eb674",
+      "command_path": [],
+      "predicate": "supports_option",
+      "repository": "python/mypy",
+      "value": {
+        "command": "stubtest",
+        "command_path": [],
+        "option": "--tb"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_6a4111985c78ccdeddd8",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "simonw/llm",
+      "value": {
+        "command": "llm",
+        "target": "llm.cli:cli"
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    },
+    {
+      "claim_id": "cl_64fc3b0983800b91549b",
+      "command_path": null,
+      "predicate": "provides_cli",
+      "repository": "go-task/task",
+      "value": {
+        "command": "task",
+        "role": "product",
+        "target": "cmd/task",
+        "workspace": "."
+      },
+      "verdict": "NOT_SEMANTICALLY_REVIEWED"
+    }
+  ],
+  "hallucination_rate": null,
+  "indexed_executable_facts": 275,
+  "interpretation": "Confirmed errors are a lower bound; unreviewed is not correct. Provenance-valid facts can still be wrong.",
+  "not_semantically_reviewed": 275,
+  "scope": "All emitted Core facts indexed; targeted source review of Go binary-name failures"
+}

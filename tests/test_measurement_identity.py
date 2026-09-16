@@ -1,3 +1,4 @@
+import importlib
 import json
 import sys
 from pathlib import Path
@@ -44,3 +45,20 @@ def test_existing_measurement_cannot_be_overwritten(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="MEASUREMENT_OUTPUT_EXISTS"):
         public_measure.run(tmp_path / "missing-metadata.json", tmp_path / "work", output, 30)
     assert json.loads(output.read_text()) == {"historical": True}
+
+
+@pytest.mark.parametrize("script", ["public_evaluate", "public_fact_audit", "render_run_report", "create_run_manifest"])
+def test_finalized_evaluation_cannot_be_overwritten(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, script: str) -> None:
+    files = {"manifest.json": b'{"sealed": true}', "ground-truth-results.json": b'{"historical": true}', "report.md": b'historical report'}
+    for name, content in files.items():
+        (tmp_path / name).write_bytes(content)
+    arguments = {
+        "public_evaluate": ["--work", str(tmp_path), "--output-dir", str(tmp_path)],
+        "public_fact_audit": ["--work", str(tmp_path), "--output", str(tmp_path / "fact-audit.json")],
+        "render_run_report": ["--run", str(tmp_path)],
+        "create_run_manifest": ["--run", str(tmp_path)],
+    }
+    monkeypatch.setattr(sys, "argv", [script, *arguments[script]])
+    with pytest.raises(ValueError, match="OUTPUT_EXISTS|RUN_FINALIZED"):
+        importlib.import_module(script).main()
+    assert {path.name: path.read_bytes() for path in tmp_path.iterdir()} == files

@@ -265,22 +265,31 @@ def _verify_discovery_index(
             raise ValueError(f"DISCOVERY_INDEX_HASH_MISMATCH: {name}")
 
 
-def _load_discovery_envelope(run_root: Path) -> DiscoveryIR:
+def _load_discovery_envelope(run_root: Path, *, migration: bool = False) -> DiscoveryIR:
     run_root = run_root.resolve()
     values = {name: _read_json(run_root, name) for name in DISCOVERY_ARTIFACTS}
     try:
-        discovery = _parse_discovery_structure(values["discovery.json"])
+        if migration:
+            from r2s.legacy_contracts import import_structure
+
+            discovery = import_structure(values["discovery.json"])
+        else:
+            discovery = _parse_discovery_structure(values["discovery.json"])
     except (KeyError, TypeError, ValueError) as exc:
         raise ValueError(f"DISCOVERY_IR_INVALID: {exc}") from exc
 
     discovery_value = discovery.to_dict()
+    locked_schema = values["discovery.json"]["schema_version"]
+    if locked_schema == "1.2.0" and migration:
+        discovery_value.pop("commands")
+        discovery_value["schema_version"] = locked_schema
     discovery_sha256 = canonical_sha256(discovery_value)
     snapshot_value = asdict(discovery.snapshot)
     snapshot_digest = stable_id("snapshot", snapshot_value)
     expected_run_id = stable_id(
         "run",
         [
-            discovery.schema_version,
+            locked_schema,
             snapshot_digest,
             discovery_sha256,
             "discovery-envelope-v2",
@@ -299,7 +308,7 @@ def _load_discovery_envelope(run_root: Path) -> DiscoveryIR:
         "source.lock.json",
         values["source.lock.json"],
         {
-            "schema_version": discovery.schema_version,
+            "schema_version": locked_schema,
             "snapshot": snapshot_value,
             "discovery_sha256": discovery_sha256,
         },
@@ -316,12 +325,12 @@ def _load_discovery_envelope(run_root: Path) -> DiscoveryIR:
             "discovery_sha256": discovery_sha256,
         },
     )
-    _verify_discovery_index(run_root, expected_run_id, snapshot_digest)
     if discovery.snapshot.scan_policy_id.startswith("workspace-bounded-v1:"):
         _require_equal(
             SCAN_ARTIFACT, _read_json(run_root, SCAN_ARTIFACT),
             scan_coverage(discovery.inventory, discovery.snapshot.scan_policy_id),
         )
+    _verify_discovery_index(run_root, expected_run_id, snapshot_digest)
     return discovery
 
 

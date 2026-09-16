@@ -1,0 +1,9 @@
+{
+  "run_id": "2026-09-15-upgrade-v11",
+  "status": "SUPERSEDED_PRE_PUBLICATION",
+  "headline_eligible": false,
+  "raw_measurement": "results.json is the immutable static compiler output from all 45 pinned repositories.",
+  "evaluation_invalid": "The evaluator mistakenly rejected omitted root paths. ground-truth-results.json and report.md were then overwritten after manifest creation and no longer match the original manifest. They are retained as failed, unpublished evaluation records; neither is authoritative. fact-audit-v2.json is an unsealed intermediate audit, not a repaired manifest.",
+  "supersession_reason": "v12 uses a new versioned, explicitly scoped ground-truth input, corrects omitted-root matching, reruns the fixed corpus, and creates its manifest only after final evaluation. The original v11 manifest and raw results remain unchanged; v11 must not contribute to headline metrics.",
+  "limits": "No semantic precision, runtime task success, human sign-off, or Agent A/B claim."
+}

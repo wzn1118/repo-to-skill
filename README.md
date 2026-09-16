@@ -15,7 +15,7 @@ executing the target repository.
 > runs, and thin client projections. Claude/Cursor native loading is not verified. Runtime task evaluation, agent A/B evidence and
 > private/hosted workflows remain incomplete.
 
-[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-15-upgrade-v10/report.md) · [Legacy benchmark](benchmark/report.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
+[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-16-upgrade-v12/report.md) · [Legacy benchmark](benchmark/report.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
 
 ## Public Repo Benchmark 1.0
 
@@ -27,9 +27,9 @@ stars**, using the saved `2026-09-14` snapshot; stars are not unique users.
 | --- | ---: |
 | Core static generation | 20 STATIC_READY · 10 REVIEW_REQUIRED · 6 UNSUITABLE |
 | Star-weighted coverage, using static-generation status | 53.5% |
-| Ground truth across 10 repositories | **13 / 40 selected facts covered** |
-| Tasks with all selected static prerequisites covered | **3 / 30** |
-| Generated executable facts indexed / hash-and-pin checked | 114 / 114; full semantic review pending |
+| Ground truth across 10 repositories | **16 / 40 selected facts covered** |
+| Tasks with all selected static prerequisites covered | **6 / 30** |
+| Generated executable facts indexed / hash-and-pin checked | 275 / 275; full semantic review pending |
 | Four known Go module-suffix name regressions | 4 / 4 corrected against pinned source |
 
 STATIC_READY does not guarantee correct commands or successful tasks. The audit caught Go module
@@ -37,22 +37,24 @@ suffixes becoming executable names (`v2`, `v4`), test fixtures becoming Skills, 
 The ground truth is **agent-curated**, not human sign-off. No zero-hallucination or
 with/without-skill improvement claim is made. Failures are published alongside successes.
 
-The versioned [upgrade-v10 report](benchmark/runs/2026-09-15-upgrade-v10/report.md) contains the
+The versioned [upgrade-v12 report](benchmark/runs/2026-09-16-upgrade-v12/report.md) contains the
 compiler fingerprint, raw static results, targeted name checks and explicit limits. All 45 runs now
 complete; TypeScript and webpack return partial discoveries with unknown regions. Selected fact recall
-is **13/40**, up from 10/40 through three Black flags, with no task-success uplift claim. The
+is **16/40**, up from 13/40 through pre-commit's `run`, `install` and scoped `run --all-files` facts.
+The v10 baseline was rescored with the same explicit-path evaluation input; its 13/40 result is unchanged. The
 older headline remains in `benchmark/report.md` as a legacy measurement; it is not overwritten.
 
-The latest upgrade adds a bounded [Python entrypoint graph](docs/python-entrypoint-graph.md):
-imports, aliases and direct delegation preserve evidence chains. It extracts 43 explicit Black/blackd
-options and 21 Cookiecutter options on the same source pins. All **240 local tests** pass, including
-real Docker/browser checks. A wheel installed with independently resolved dependencies passes seven
-CLI checks in an isolated environment. Full command graphs, semantic review and Agent A/B remain open.
+Discovery IR 1.3 adds a bounded Python command-path graph: imports, aliases, direct delegation
+and supported argparse helper calls preserve evidence chains. On the fixed corpus it retains 16
+`pre-commit` child paths and 108 path-owned options, plus 39 options across mypy's auxiliary CLIs.
+Child options stay off the root command. All **275 emitted facts remain pending complete semantic
+review**. Full command graphs, argument semantics and Agent A/B remain open.
 [Workspace scan budgets](docs/scan-budgets.md) still require partial discoveries to remain under review.
-The [v9 preliminary run](benchmark/runs/2026-09-15-upgrade-v9/qualification.json) retains an attribute
-resolution defect found by extra negative probes; v10 fixes it and reruns the entire corpus.
+The [v11 preliminary record](benchmark/runs/2026-09-15-upgrade-v11/qualification.json) retains an
+evaluation error and a manifest-ordering failure. It is excluded from the headline. v12 reruns all
+45 snapshots with corrected scope matching and write-once evaluation artifacts.
 
-![Fixed-corpus v8 versus v10: unchanged static outcomes and selected fact recall from 10/40 to 13/40](docs/assets/upgrade-comparison.png)
+![Fixed-corpus v10 versus v12: unchanged static outcomes and selected fact recall from 13/40 to 16/40](docs/assets/upgrade-comparison.png)
 
 ```bash
 python scripts/public_measure.py run --work /path/on/data-disk/new-run --output benchmark/runs/new-run/results.json
@@ -88,7 +90,7 @@ and generator consume the IR; they do not inspect raw repository text to invent 
 | --- | --- |
 | Sources | Local directories, clean local Git snapshots, public GitHub HTTPS URLs |
 | Static analyzers | Python, JavaScript/TypeScript, Go CLI entrypoints |
-| Python | PEP 621/Poetry/`setup.cfg`, bounded static import/delegation graph, parsed argparse ownership and Click command options |
+| Python | PEP 621/Poetry/`setup.cfg`, bounded static import/delegation graph, parsed argparse command paths/helper bindings and Click command options |
 | JavaScript/TypeScript | `package.json` `bin` entries, target containment and file existence checks |
 | Go | Root and `cmd/<name>` main packages, conservative standard flag/Cobra-style extraction |
 | Outputs | Portable Skills, Codex plugin; experimental Claude/Cursor directory projections |
@@ -298,7 +300,7 @@ Snapshot → Inventory → Evidence → Claim → Capability → Procedure → S
 
 - 输入：本地目录、干净的本地 Git 快照、公共 GitHub HTTPS URL。
 - 静态分析：Python、JavaScript/TypeScript、Go CLI 入口。
-- Python：PEP 621、Poetry、`setup.cfg`，静态导入/别名/委派证据链，已解析 argparse 的选项归属及 Click 命令参数。
+- Python：PEP 621、Poetry、`setup.cfg`，静态导入/别名/委派证据链，argparse 子命令及 helper 参数绑定、Click 命令参数。
 - JavaScript/TypeScript：`package.json` 的 `bin`、目标路径 containment 和文件存在性检查。
 - Go：根目录与 `cmd/<name>` 主包，保守识别标准 flag/Cobra 风格参数。
 - 输出：Portable Agent Skills 与薄 Codex skill-only plugin 适配器。
@@ -357,19 +359,21 @@ python -m pytest
 Stars 只描述 corpus 的开源影响力，不等于独立用户数。
 
 **High-Star Public Repositories Tested: 36**。45 个真实源码快照（含 challenge/edge）均已固定并验证；
-最新 [upgrade-v10](benchmark/runs/2026-09-15-upgrade-v10/report.md) 的 Core 结果为 20 个 `STATIC_READY`、
+最新 [upgrade-v12](benchmark/runs/2026-09-16-upgrade-v12/report.md) 的 Core 结果为 20 个 `STATIC_READY`、
 10 个 `REVIEW_REQUIRED`、6 个 `UNSUITABLE`，按静态状态计算的 Star-weighted coverage 为 **53.5%**。
 45 个运行全部完成；TypeScript、webpack 现在返回部分发现结果，未知区域明确保留。
 
-本轮新增 [Python 入口调用链](docs/python-entrypoint-graph.md)，静态追踪导入、别名和直接委派，保留每一跳证据。
-**240 项本地测试通过**，包含真实 Docker 和浏览器检查；全新环境独立安装 wheel 和依赖后，七项 CLI 检查通过。
-部分扫描在独立校验、安装时仍保持 `REVIEW_REQUIRED`。额外负例发现包属性误判后，
-[v9 初测](benchmark/runs/2026-09-15-upgrade-v9/qualification.json)明确标记缺陷并保留，v10 修复后重新跑完整 corpus。
+本轮新增 [Python 子命令图与 helper 绑定](docs/python-entrypoint-graph.md)，用 IR 1.3 保留父子命令及参数归属，
+避免把子命令选项错误放到根命令。**272 项本地测试和 12 个子测试通过**，包含真实 Docker 和浏览器检查。
+部分扫描在独立校验、安装时仍保持 `REVIEW_REQUIRED`。45 份历史 IR 显式迁移后仍需审核，原文件保持不变。
+[v11 前置记录](benchmark/runs/2026-09-15-upgrade-v11/qualification.json)保留评测误判和 manifest 顺序错误，
+不参与首页成绩；v12 修复口径后重新跑全部仓库，并禁止覆盖已封存的评测产物。
 
-更关键的结果是：10 仓库的 40 条源码事实覆盖从 **10 条增至 13 条**，新增 Black 的三个选项。
-30 个任务中 **3 个**具备所选静态前提，这不是执行成功率。新版本生成 **114 条**可执行事实，
-均通过哈希和 commit 核对；增量为 Black/blackd 的 43 个选项和 Cookiecutter 的 21 个选项。
-四项 Go 后缀命名回归仍通过定向核对。**114 条事实仍待完整语义审计**，不宣称真实任务成功率提高。
+更关键的结果是：10 仓库的 40 条源码事实覆盖从 **13 条增至 16 条**，新增 pre-commit 的 `run`、`install`
+和归属 `run` 的 `--all-files`。v10 使用同一新版评测输入重算后仍为 13 条，旧文件未修改。
+30 个任务中 **6 个**具备所选静态前提，这不是执行成功率。新版本生成 **275 条**可执行事实，
+均通过哈希和 commit 核对。pre-commit 提取出 16 条子命令路径与 108 条带归属的选项；mypy 的辅助 CLI 新增 39 条选项。
+四项 Go 后缀命名回归仍通过定向核对。**275 条事实仍待完整语义审计**，不宣称真实任务成功率提高。
 旧版的 91 条事实、4 个已确认错误及四项目 10 项运行检查保留在 legacy 报告，不移作新版运行成绩。
 
 ground truth 由 Agent 按源码整理，不冒称人工签字；没有提前写“零幻觉”，也没有声称优于官方 Skill。

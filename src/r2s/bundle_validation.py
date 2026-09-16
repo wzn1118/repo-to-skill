@@ -16,6 +16,7 @@ from yaml.nodes import MappingNode, ScalarNode
 from yaml.tokens import AliasToken, AnchorToken, TagToken
 
 from r2s.bundle_contracts import BundleLock, BundleProvenance, PluginManifest, relative_path
+from r2s.command_graph import command_specs
 from r2s.documents import render_document
 from r2s.domain import DiscoveryIR, Finding
 from r2s.scan_policy import bundle_scan_scope
@@ -174,6 +175,7 @@ def _check_provenance(provenance: BundleProvenance) -> list[Finding]:
     used = set(provenance.procedure.precondition_claim_ids)
     used.add(provenance.document.entrypoint_claim_id)
     used.update(provenance.document.option_claim_ids)
+    used.update(provenance.document.subcommand_claim_ids)
     for step in provenance.procedure.steps:
         used.update(step.claim_ids)
     for claim_ids in provenance.artifact_claims.values():
@@ -197,7 +199,7 @@ def _check_provenance(provenance: BundleProvenance) -> list[Finding]:
             value = dict(item.normalized_value)
             if item.kind == "manifest.entrypoint" and "module" in value and "symbol" in value:
                 value["target"] = f"{value['module']}:{value['symbol']}"
-            witnesses.append(all(value.get(key) == field for key, field in claim.object.items()))
+            witnesses.append(all(canonical_json(value.get(key)) == canonical_json(field) for key, field in claim.object.items()))
         if claim.executable_fact and not any(witnesses):
             findings.append(Finding(
                 "CLAIM_EVIDENCE_MISMATCH", "error", "Executable claim disagrees with evidence",
@@ -222,6 +224,11 @@ def _check_provenance(provenance: BundleProvenance) -> list[Finding]:
                 raise ValueError("Invalid source location")
         except ValueError:
             findings.append(Finding("EVIDENCE_SOURCE_INVALID", "error", "Invalid source location"))
+    try:
+        if provenance.commands != command_specs(provenance.claims):
+            raise ValueError("IR_COMMAND_GRAPH_MISMATCH")
+    except ValueError as exc:
+        findings.append(Finding("COMMAND_GRAPH_INVALID", "error", str(exc)))
     return findings
 
 
@@ -264,7 +271,7 @@ def _validate_skill_files(
         return [*findings, Finding("DOCUMENT_INVALID", "error", "Document has unsupported executable facts")]
     expected_mapping = {
         "SKILL.md": [provenance.document.entrypoint_claim_id],
-        "references/cli.md": provenance.document.option_claim_ids,
+        "references/cli.md": [*provenance.document.subcommand_claim_ids, *provenance.document.option_claim_ids],
         "references/provenance.md": sorted(claim.id for claim in provenance.claims),
     }
     if provenance.artifact_claims != expected_mapping:

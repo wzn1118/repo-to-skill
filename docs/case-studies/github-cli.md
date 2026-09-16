@@ -8,14 +8,14 @@ contains substantially more task guidance. Smaller output does not demonstrate b
 Both artifacts use source commit `38316c1c4f275030e3df6666382922e75410d68b`.
 The [official Skill](https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/skills/gh/SKILL.md)
 is comparison data, never compiler instructions. The generated artifact is measured before editorial changes.
-[Current machine-readable comparison](../../benchmark/runs/2026-09-15-upgrade-v10/official-comparison.json).
-The table uses the upgrade-v10 compiler. The [legacy comparison](../../benchmark/official-comparison.json)
+[Current machine-readable comparison](../../benchmark/runs/2026-09-16-upgrade-v12/official-comparison.json).
+The table uses the upgrade-v12 compiler. The [legacy comparison](../../benchmark/official-comparison.json)
 is retained separately; the source commit is unchanged.
 
 | Measurement | Generated gh | Official gh |
 | --- | ---: | ---: |
 | Files | 5 | 1 |
-| Total file bytes | 4,703 | 11,958 |
+| Total file bytes | 5,106 | 11,958 |
 | Selected facts present | 1 / 5 | 4 / 5 |
 | Explicit source commit in artifact text/metadata | Yes | No |
 | Runnable task pass rate | Not measured | Not measured |

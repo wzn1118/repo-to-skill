@@ -36,6 +36,7 @@ def render(run: Path) -> str:
         f"| Emitted executable facts | {stats['emitted_executable_facts']} |",
         f"| Hash + commit verified facts | {stats['hash_and_pin_verified_facts']} |",
         f"| Selected source facts covered | {truth['generated_covered_facts']} / {truth['expected_facts']} |",
+        f"| Static task prerequisites covered | {truth['static_task_prerequisites_covered']} / {truth['tasks_evaluated']} |",
         f"| Generated facts awaiting full semantic review | {audit['not_semantically_reviewed']} |",
         f"| Four legacy binary-name regressions corrected | {sum(item['name_regression_fixed'] for item in audit.get('binary_name_regressions', []))} / 4 |",
         "",
@@ -57,6 +58,22 @@ def render(run: Path) -> str:
             f"| `{item['repository']}` | {item['tier']} | {item['stars_at_benchmark']:,} | "
             f"{item['status']} | {item.get('bundles', 0)} |"
         )
+    if "ground_truth_input" in truth:
+        source = truth["ground_truth_input"]
+        lines.extend([
+            "", "## Evaluation input", "",
+            f"Selected facts use [`{source['path']}`](../../../{source['path']}) with SHA-256 `{source['sha256']}`. Empty command paths denote root options; child options require the exact command path.",
+        ])
+    baseline_path = run / "baseline-ground-truth-results.json"
+    if baseline_path.is_file():
+        baseline = load(baseline_path)
+        if baseline["ground_truth_input"] != truth["ground_truth_input"]:
+            raise ValueError("EVALUATION_INPUT_MISMATCH")
+        lines.extend([
+            "", "## Same-input baseline comparison", "",
+            f"The retained `{baseline['rescored_run']}` raw results were rescored with the same evaluator and input without modifying historical files. Selected facts: {baseline['generated_covered_facts']}/{baseline['expected_facts']} → {truth['generated_covered_facts']}/{truth['expected_facts']}. Static prerequisites: {baseline['static_task_prerequisites_covered']}/{baseline['tasks_evaluated']} → {truth['static_task_prerequisites_covered']}/{truth['tasks_evaluated']}.",
+            "", "See [baseline-ground-truth-results.json](baseline-ground-truth-results.json). These are static declaration checks, not runtime or Agent task success.",
+        ])
     scans = [item for item in results["repositories"] if item.get("scan")]
     if scans:
         lines.extend([
@@ -96,6 +113,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run", type=Path, required=True)
     args = parser.parse_args()
+    if (args.run / "manifest.json").exists():
+        raise ValueError("RUN_FINALIZED: report is immutable after manifest creation")
     report = args.run / "report.md"
     report.write_text(render(args.run), encoding="utf-8")
     print(report)

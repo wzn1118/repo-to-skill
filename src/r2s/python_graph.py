@@ -42,6 +42,17 @@ class ResolvedOption:
     framework: str
     owner: SymbolRef
     scope: ast.FunctionDef
+    command_path: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class ResolvedCommand:
+    command_path: tuple[str, ...]
+    path: Path
+    call: ast.Call
+    hops: tuple[Hop, ...]
+    owner: SymbolRef
+    scope: ast.FunctionDef
 
 
 @dataclass
@@ -49,6 +60,7 @@ class GraphResult:
     entrypoint: ResolvedFunction | None = None
     options: list[ResolvedOption] = field(default_factory=list)
     diagnostics: set[str] = field(default_factory=set)
+    commands: list[ResolvedCommand] = field(default_factory=list)
 
 
 def dotted(node: ast.AST) -> str | None:
@@ -65,6 +77,12 @@ def stored_names(node: ast.AST) -> set[str]:
     for child in ast.walk(node):
         if isinstance(child, ast.Name) and isinstance(child.ctx, (ast.Store, ast.Del)):
             result.add(child.id)
+        elif isinstance(child, ast.Attribute) and isinstance(child.ctx, (ast.Store, ast.Del)):
+            base = child.value
+            while isinstance(base, ast.Attribute):
+                base = base.value
+            if isinstance(base, ast.Name):
+                result.add(base.id)
         elif isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
             result.add(child.name)
         elif isinstance(child, ast.Import):
@@ -88,6 +106,7 @@ class PythonGraph:
         self.symbol_count = 0
         self.diagnostics: set[str] = set()
         self.cli_roots: set[SymbolRef] = set()
+        self.commands: list[ResolvedCommand] = []
         paths = {item.path for item in scan.inventory}
         self.inventory_paths = paths
         self.blocked_frameworks = frozenset(
@@ -250,7 +269,9 @@ class PythonGraph:
         if self.symbol_count > self.max_symbols or len(visited) > self.max_depth:
             self.diagnostics.add("PYTHON_GRAPH_TRAVERSAL_LIMIT")
             return []
-        options = bound_options(function.module_tree, function.node, self.blocked_frameworks, require_parse=True)
+        from r2s.python_argparse import ArgparseFlow
+
+        options = [option for option in bound_options(function.module_tree, function.node, self.blocked_frameworks, require_parse=True) if option.framework != "argparse"]
         click_command = is_click_command(function.module_tree, function.node, self.blocked_frameworks)
         if not click_command:
             options = [option for option in options if option.framework != "click"]
@@ -266,6 +287,14 @@ class PythonGraph:
         ):
             self.diagnostics.add("PYTHON_CALL_ARGUMENTS_UNRESOLVED")
             return []
+        if not click_command:
+            flow = ArgparseFlow(self)
+            parsed_options, commands, parsed = flow.analyze(function, via)
+            self.diagnostics.update(flow.diagnostics)
+            if parsed:
+                self.cli_roots.add(function.ref)
+                self.commands.extend(commands)
+                return parsed_options
         result = [
             ResolvedOption(flag, function.path, option.call, via, option.framework, function.ref, function.node)
             for option in options for flag in declarations(option)
@@ -288,9 +317,11 @@ class PythonGraph:
         if len(self.cli_roots) > 1:
             self.diagnostics.add("PYTHON_CLI_DELEGATION_AMBIGUOUS")
             options = []
+            self.commands = []
         if any(code.endswith("LIMIT") for code in self.diagnostics):
             options = []
-        return GraphResult(entry, options, self.diagnostics)
+            self.commands = []
+        return GraphResult(entry, options, self.diagnostics, self.commands)
 
 
 def declarations(option: BoundOption) -> list[str]:

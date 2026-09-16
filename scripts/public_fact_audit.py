@@ -4,7 +4,8 @@ import argparse
 import json
 from pathlib import Path
 
-from public_sources import digest, write_json
+from measurement_identity import write_new
+from public_sources import digest
 
 ROOT = Path(__file__).resolve().parents[1]
 WRONG_NAMES = {
@@ -42,6 +43,7 @@ def audit(results: dict, work: Path) -> dict:
                 continue
             result = {"repository": repository["repository"], "claim_id": fact["id"],
                       "predicate": fact["predicate"], "value": fact["value"],
+                      "command_path": fact["value"].get("command_path") if isinstance(fact["value"], dict) else None,
                       "verdict": "NOT_SEMANTICALLY_REVIEWED"}
             if (repository["id"] in WRONG_NAMES and fact["predicate"] == "provides_cli"
                     and fact["value"].get("command") in {"v2", "v4"}):
@@ -71,8 +73,10 @@ def main() -> None:
     parser.add_argument("--results", type=Path, default=ROOT / "benchmark/results.json")
     parser.add_argument("--output", type=Path, default=ROOT / "benchmark/fact-audit.json")
     args = parser.parse_args()
+    if args.output.exists() or (args.output.parent / "manifest.json").exists():
+        raise ValueError("AUDIT_OUTPUT_EXISTS: use a new run directory")
     result = audit(json.loads(args.results.read_text()), args.work)
-    write_json(args.output, result)
+    write_new(args.output, result)
     print(result["confirmed_wrong_executable_facts"], "confirmed wrong executable names")
 
 

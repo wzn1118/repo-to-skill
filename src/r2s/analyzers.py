@@ -6,6 +6,7 @@ from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Any, Final
 
+from r2s.command_graph import command_specs
 from r2s.domain import (
     Capability,
     Claim,
@@ -23,7 +24,7 @@ from r2s.scanner import ScanResult, scan
 from r2s.serialization import stable_id
 from r2s.toml_compat import loads as toml_loads
 
-SCHEMA_VERSION: Final = "1.2.0"
+SCHEMA_VERSION: Final = "1.3.0"
 
 
 class _CaseSensitiveConfigParser(configparser.ConfigParser):
@@ -296,22 +297,35 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             chain.append(_python_evidence(scan_result, entry.path, entry.node, "python.symbol", symbol_value, f"ast:symbol:{entry.ref.name}"))
             discovery.evidence.extend(chain)
             entry_evidence_ids.extend(item.id for item in chain)
-        seen_options: set[str] = set()
+        subcommand_ids: list[str] = []
+        subcommand_evidence: dict[tuple[str, ...], tuple[str, ...]] = {(): tuple(entry_evidence_ids)}
+        for declared in sorted(graph.commands, key=lambda item: (len(item.command_path), item.command_path)):
+            chain = [_hop_evidence(scan_result, hop) for hop in declared.hops]
+            declared_value = {"command": command, "command_path": list(declared.command_path)}
+            item = _python_evidence(scan_result, declared.path, declared.call, "cli.subcommand", declared_value, f"ast:subcommand:{':'.join(declared.command_path)}")
+            discovery.evidence.extend([*chain, item])
+            identifiers = tuple(dict.fromkeys([*subcommand_evidence[declared.command_path[:-1]], *[hop.id for hop in chain], item.id]))
+            subcommand_evidence[declared.command_path] = identifiers
+            declared_id = stable_id("cl", [command, "supports_subcommand", declared_value, identifiers])
+            discovery.claims.append(Claim(declared_id, command, "supports_subcommand", parse_fact(declared_value), identifiers, 0.95, True))
+            subcommand_ids.append(declared_id)
+        seen_options: set[tuple[tuple[str, ...], str]] = set()
         for option in graph.options:
-            if option.option in seen_options:
+            key = (option.command_path, option.option)
+            if key in seen_options:
                 continue
-            seen_options.add(option.option)
+            seen_options.add(key)
             chain = [_hop_evidence(scan_result, hop) for hop in option.hops]
             symbol_value = {"module": option.owner.module, "symbol": option.owner.name, "kind": type(option.scope).__name__}
             chain.append(_python_evidence(scan_result, option.path, option.scope, "python.symbol", symbol_value, f"ast:symbol:{option.owner.name}"))
-            value = {"command": command, "option": option.option}
+            value = {"command": command, "option": option.option, "command_path": list(option.command_path)}
             item = _python_evidence(
                 scan_result, option.path, option.call, "cli.option", value,
                 f"ast:bound-option:{option.owner.module}:{option.owner.name}:{option.option}",
                 {**value, "framework": option.framework, "declarations": [argument.value for argument in option.call.args if isinstance(argument, ast.Constant) and isinstance(argument.value, str)]},
             )
             discovery.evidence.extend([*chain, item])
-            identifiers = tuple(dict.fromkeys([*entry_evidence_ids, *[hop.id for hop in chain], item.id]))
+            identifiers = tuple(dict.fromkeys([*subcommand_evidence[option.command_path], *[hop.id for hop in chain], item.id]))
             option_evidence.append((item, identifiers))
         claim_value = {"command": command, "target": clean_target}
         claim_id = stable_id("cl", ["repository", "provides_cli", claim_value, entry_evidence_ids])
@@ -344,13 +358,13 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     True,
                 )
             )
-        capability_id = stable_id("cap", ["invoke_cli", command, claim_id, option_claim_ids])
+        capability_id = stable_id("cap", ["invoke_cli", command, claim_id, subcommand_ids, option_claim_ids])
         discovery.capabilities.append(
             Capability(
                 capability_id,
                 f"Use the {command} CLI",
                 f"Invoke the {command} command",
-                (claim_id, *option_claim_ids),
+                (claim_id, *subcommand_ids, *option_claim_ids),
             )
         )
 def _resolve_command_conflicts(discovery: DiscoveryIR) -> None:
@@ -415,4 +429,5 @@ def discover(
     analyze_go(discovery, scan_result)
     _resolve_command_conflicts(discovery)
     _normalize_classification(discovery)
+    discovery.commands = command_specs(discovery.claims)
     return discovery

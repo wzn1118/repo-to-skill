@@ -46,6 +46,10 @@ def _skill_bundle(
         claim_id for claim_id in capability.claim_ids
         if claim_id in claim_by_id and claim_by_id[claim_id].predicate == "supports_option"
     ]
+    subcommand_claim_ids = [
+        claim_id for claim_id in capability.claim_ids
+        if claim_id in claim_by_id and claim_by_id[claim_id].predicate == "supports_subcommand"
+    ]
     all_claim_ids = sorted(set(capability.claim_ids) | set(procedure.precondition_claim_ids))
     all_evidence_ids = sorted({
         evidence_id for claim_id in all_claim_ids
@@ -58,17 +62,19 @@ def _skill_bundle(
         "artifact_path": "SKILL.md",
         "procedure": asdict(procedure),
         "document": {
-            "renderer": "r2s-cli-v1",
+            "renderer": "r2s-cli-v2",
             "entrypoint_claim_id": procedure.precondition_claim_ids[0],
             "option_claim_ids": option_claim_ids,
+            "subcommand_claim_ids": subcommand_claim_ids,
         },
         "artifact_claims": {
             "SKILL.md": [procedure.precondition_claim_ids[0]],
-            "references/cli.md": option_claim_ids,
+            "references/cli.md": [*subcommand_claim_ids, *option_claim_ids],
             "references/provenance.md": all_claim_ids,
         },
         "claims": [asdict(claim_by_id[claim_id]) for claim_id in all_claim_ids],
         "evidence": [asdict(evidence_by_id[evidence_id]) for evidence_id in all_evidence_ids],
+        "commands": [asdict(item) for item in discovery.commands if item.entrypoint_claim_id in all_claim_ids],
     }))
     documents = render_document(provenance)
     for relative, content in documents.items():
