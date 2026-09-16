@@ -24,7 +24,7 @@ from r2s.scanner import ScanResult, scan
 from r2s.serialization import stable_id
 from r2s.toml_compat import loads as toml_loads
 
-SCHEMA_VERSION: Final = "1.3.0"
+SCHEMA_VERSION: Final = "1.4.0"
 
 
 class _CaseSensitiveConfigParser(configparser.ConfigParser):
@@ -278,7 +278,8 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
         )
         entry_evidence_ids = [entry_id]
         option_evidence: list[tuple[Evidence, tuple[str, ...]]] = []
-        graph = PythonGraph(scan_result).analyze(module, symbol)
+        resolver = PythonGraph(scan_result)
+        graph = resolver.analyze(module, symbol)
         for code in sorted(graph.diagnostics):
             discovery.findings.append(Finding(code, "warning", f"Static Python entrypoint analysis for {command}: {code}; unresolved branches do not supply option facts.", source.path))
         entry = graph.entrypoint
@@ -318,7 +319,13 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             chain = [_hop_evidence(scan_result, hop) for hop in option.hops]
             symbol_value = {"module": option.owner.module, "symbol": option.owner.name, "kind": type(option.scope).__name__}
             chain.append(_python_evidence(scan_result, option.path, option.scope, "python.symbol", symbol_value, f"ast:symbol:{option.owner.name}"))
-            value = {"command": command, "option": option.option, "command_path": list(option.command_path)}
+            from r2s.option_semantics import explicit_semantics
+
+            value: dict[str, Any] = {"command": command, "option": option.option, "command_path": list(option.command_path)}
+            resolved_module = resolver.module(option.owner.module)
+            semantics = explicit_semantics(option, resolved_module[1]) if resolved_module else None
+            if semantics is not None:
+                value["semantics"] = semantics
             item = _python_evidence(
                 scan_result, option.path, option.call, "cli.option", value,
                 f"ast:bound-option:{option.owner.module}:{option.owner.name}:{option.option}",

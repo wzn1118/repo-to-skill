@@ -1,0 +1,807 @@
+{
+  "format": "r2s-oracle-taskset-v1",
+  "cohort": "development; deliberately selected known supported tools, not held-out",
+  "review": "agent-authored, not human-signed",
+  "policy": {
+    "network": "none",
+    "hooks": "disabled; no user repository hooks",
+    "timeout_per_step_seconds": 20
+  },
+  "scope": "Reference solutions with file/output oracles. These are not Planner outputs, generated-Skill task scores or Agent A/B results.",
+  "tasks": [
+    {
+      "id": "black-code",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Format a Python assignment supplied as code.",
+      "files": {},
+      "steps": [
+        {
+          "argv": [
+            "--code",
+            "value=  1"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "stdout_exact": "value = 1\n"
+      }
+    },
+    {
+      "id": "black-file",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Format the file sample.py.",
+      "files": {
+        "sample.py": "value=  1\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "sample.py"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "sample.py": "value = 1\n"
+        }
+      }
+    },
+    {
+      "id": "black-check-clean",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Check a formatted file without changing it.",
+      "files": {
+        "sample.py": "value = 1\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--check",
+            "sample.py"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "sample.py": "value = 1\n"
+        }
+      }
+    },
+    {
+      "id": "black-check-dirty",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Detect a file requiring formatting without changing it.",
+      "files": {
+        "sample.py": "value=  1\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--check",
+            "sample.py"
+          ],
+          "expected_exit": 1
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "sample.py": "value=  1\n"
+        },
+        "stderr_contains": "would reformat"
+      }
+    },
+    {
+      "id": "black-diff",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Produce a diff without modifying the input.",
+      "files": {
+        "sample.py": "value=  1\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--diff",
+            "sample.py"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "sample.py": "value=  1\n"
+        },
+        "stdout_contains": "+value = 1"
+      }
+    },
+    {
+      "id": "black-exclude",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Format the directory while excluding skip.py.",
+      "files": {
+        "skip.py": "skip=  1\n",
+        "keep.py": "keep=  2\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--exclude",
+            "skip.py",
+            "."
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "skip.py": "skip=  1\n",
+          "keep.py": "keep = 2\n"
+        }
+      }
+    },
+    {
+      "id": "black-quotes",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Preserve single quotes while formatting.",
+      "files": {
+        "sample.py": "name= 'hello'\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--skip-string-normalization",
+            "sample.py"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "sample.py": "name = 'hello'\n"
+        }
+      }
+    },
+    {
+      "id": "black-config",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Read string-normalization settings from pyproject.toml.",
+      "files": {
+        "pyproject.toml": "[tool.black]\nskip-string-normalization = true\n",
+        "sample.py": "name= 'hello'\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "sample.py"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "sample.py": "name = 'hello'\n"
+        }
+      }
+    },
+    {
+      "id": "black-invalid",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Reject invalid Python while retaining its bytes.",
+      "files": {
+        "sample.py": "def broken(:\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "sample.py"
+          ],
+          "expected_exit": 123
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "sample.py": "def broken(:\n"
+        },
+        "stderr_contains": "cannot parse"
+      }
+    },
+    {
+      "id": "black-idempotence",
+      "repository_id": "black",
+      "repository": "psf/black",
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "goal": "Format a file then verify the result needs no further changes.",
+      "files": {
+        "sample.py": "numbers=[1,2,3]\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "sample.py"
+          ],
+          "expected_exit": 0
+        },
+        {
+          "argv": [
+            "--check",
+            "sample.py"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "sample.py": "numbers = [1, 2, 3]\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-empty",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Accept an empty hook configuration.",
+      "files": {
+        "config.yaml": "repos: []\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-config",
+            "config.yaml"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "config.yaml": "repos: []\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-local",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Accept a local system hook configuration.",
+      "files": {
+        "config.yaml": "repos:\n- repo: local\n  hooks:\n  - id: check\n    name: check\n    entry: python check.py\n    language: system\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-config",
+            "config.yaml"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "config.yaml": "repos:\n- repo: local\n  hooks:\n  - id: check\n    name: check\n    entry: python check.py\n    language: system\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-regex",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Reject an invalid files regular expression.",
+      "files": {
+        "config.yaml": "repos: []\nfiles: '['\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-config",
+            "config.yaml"
+          ],
+          "expected_exit": 1
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "config.yaml": "repos: []\nfiles: '['\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-stages",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Reject an unsupported hook stage.",
+      "files": {
+        "config.yaml": "repos: []\ndefault_stages: [invented-stage]\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-config",
+            "config.yaml"
+          ],
+          "expected_exit": 1
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "config.yaml": "repos: []\ndefault_stages: [invented-stage]\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-language",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Reject an unknown hook language.",
+      "files": {
+        "config.yaml": "repos:\n- repo: local\n  hooks:\n  - id: check\n    name: check\n    entry: check\n    language: invented-language\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-config",
+            "config.yaml"
+          ],
+          "expected_exit": 1
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "config.yaml": "repos:\n- repo: local\n  hooks:\n  - id: check\n    name: check\n    entry: check\n    language: invented-language\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-missing-id",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Reject a local hook without an id.",
+      "files": {
+        "config.yaml": "repos:\n- repo: local\n  hooks:\n  - name: check\n    entry: check\n    language: system\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-config",
+            "config.yaml"
+          ],
+          "expected_exit": 1
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "config.yaml": "repos:\n- repo: local\n  hooks:\n  - name: check\n    entry: check\n    language: system\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-install-type",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Reject an invalid installation hook type.",
+      "files": {
+        "config.yaml": "repos: []\ndefault_install_hook_types: [invented-hook]\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-config",
+            "config.yaml"
+          ],
+          "expected_exit": 1
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "config.yaml": "repos: []\ndefault_install_hook_types: [invented-hook]\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-manifest",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Accept a valid local hook manifest.",
+      "files": {
+        "hooks.yaml": "- id: check\n  name: check\n  entry: check\n  language: system\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-manifest",
+            "hooks.yaml"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "hooks.yaml": "- id: check\n  name: check\n  entry: check\n  language: system\n"
+        }
+      }
+    },
+    {
+      "id": "pre-commit-manifest-missing-entry",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Reject a manifest without an executable entry.",
+      "files": {
+        "hooks.yaml": "- id: check\n  name: check\n  language: system\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "validate-manifest",
+            "hooks.yaml"
+          ],
+          "expected_exit": 1
+        }
+      ],
+      "oracle": {
+        "stdout_contains": "entry"
+      }
+    },
+    {
+      "id": "pre-commit-sample",
+      "repository_id": "pre-commit",
+      "repository": "pre-commit/pre-commit",
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "goal": "Generate a sample configuration and validate the resulting file.",
+      "files": {},
+      "steps": [
+        {
+          "argv": [
+            "sample-config"
+          ],
+          "expected_exit": 0,
+          "stdout_file": "config.yaml"
+        },
+        {
+          "argv": [
+            "validate-config",
+            "config.yaml"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_contains": {
+          "config.yaml": "repos:"
+        }
+      }
+    },
+    {
+      "id": "cookiecutter-default",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Generate a local template with default context.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "demo/README.txt": "Hello Ada!\n"
+        }
+      }
+    },
+    {
+      "id": "cookiecutter-name",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Override the generated project directory name.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template",
+            "project_name=custom"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "custom/README.txt": "Hello Ada!\n"
+        },
+        "absent": [
+          "demo"
+        ]
+      }
+    },
+    {
+      "id": "cookiecutter-author",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Override a context value in a rendered file.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template",
+            "author=Grace"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "demo/README.txt": "Hello Grace!\n"
+        }
+      }
+    },
+    {
+      "id": "cookiecutter-multiple",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Override both project name and author.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template",
+            "project_name=custom",
+            "author=Grace"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "custom/README.txt": "Hello Grace!\n"
+        },
+        "absent": [
+          "demo"
+        ]
+      }
+    },
+    {
+      "id": "cookiecutter-nested",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Render a nested file inside the generated project.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n",
+        "template/{{cookiecutter.project_name}}/src/name.txt": "{{cookiecutter.project_name}}\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "demo/src/name.txt": "demo\n"
+        }
+      }
+    },
+    {
+      "id": "cookiecutter-output",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Generate the project inside a selected output directory.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template",
+            "--output-dir",
+            "out"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "out/demo/README.txt": "Hello Ada!\n"
+        },
+        "absent": [
+          "demo"
+        ]
+      }
+    },
+    {
+      "id": "cookiecutter-overwrite",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Replace a pre-existing generated file when explicitly requested.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n",
+        "demo/README.txt": "old\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template",
+            "--overwrite-if-exists"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "demo/README.txt": "Hello Ada!\n"
+        }
+      }
+    },
+    {
+      "id": "cookiecutter-skip",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Preserve an existing file when skip-if-file-exists is selected.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n",
+        "demo/README.txt": "keep\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template",
+            "--overwrite-if-exists",
+            "--skip-if-file-exists"
+          ],
+          "expected_exit": 0
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "demo/README.txt": "keep\n"
+        }
+      }
+    },
+    {
+      "id": "cookiecutter-refuse-overwrite",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Refuse to overwrite an existing project without authorization.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n",
+        "demo/README.txt": "keep\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template"
+          ],
+          "expected_exit": 1
+        }
+      ],
+      "oracle": {
+        "files_exact": {
+          "demo/README.txt": "keep\n"
+        }
+      }
+    },
+    {
+      "id": "cookiecutter-invalid-context",
+      "repository_id": "cookiecutter",
+      "repository": "cookiecutter/cookiecutter",
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "goal": "Reject a context argument without key=value syntax.",
+      "files": {
+        "template/cookiecutter.json": "{\"project_name\":\"demo\",\"author\":\"Ada\"}\n",
+        "template/{{cookiecutter.project_name}}/README.txt": "Hello {{cookiecutter.author}}!\n"
+      },
+      "steps": [
+        {
+          "argv": [
+            "--no-input",
+            "--default-config",
+            "--accept-hooks",
+            "no",
+            "template",
+            "broken"
+          ],
+          "expected_exit": 2
+        }
+      ],
+      "oracle": {
+        "absent": [
+          "demo"
+        ],
+        "stderr_contains": "key=value"
+      }
+    }
+  ],
+  "revision": "v2: correct Black invalid-syntax stderr anchor casing to pinned source output; preserve v1 and its 29/30 first attempt. Exit 123 and unchanged source remain required."
+}

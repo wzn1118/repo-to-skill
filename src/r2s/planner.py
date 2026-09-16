@@ -49,8 +49,13 @@ def plan(
             normalized_goal, re.IGNORECASE,
         )
     }
-    if not mentioned_commands and normalized_goal.casefold() not in GENERIC_GOALS:
-        return []
+    if normalized_goal.casefold() not in GENERIC_GOALS:
+        remainder = normalized_goal.casefold()
+        for command in sorted(mentioned_commands, key=len, reverse=True):
+            remainder = re.sub(rf"(?<![A-Za-z0-9_.+-]){re.escape(command)}(?![A-Za-z0-9_.+-])", " ", remainder)
+        remainder = re.sub(r"\b(use|run|inspect|explore|the|cli|commands?|options?|and)\b|使用|运行|查看|检查|命令|选项|以及|和|的", " ", remainder)
+        if not mentioned_commands or remainder.strip(" ,，。.!！、/&"):
+            return []
     procedures: list[Procedure] = []
     for capability in discovery.capabilities:
         if capability_ids is not None and capability.id not in capability_ids:

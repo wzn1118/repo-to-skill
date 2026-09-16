@@ -29,7 +29,7 @@ def compiler_identity(target: str) -> dict[str, Any]:
         "dependencies": {name: version(name) for name in ("pydantic", "pydantic-core", "PyYAML", "jinja2")},
         "runtime": {"python": platform.python_version(), "implementation": sys.implementation.name, "platform": sys.platform},
         "profile": asdict(profile),
-        "discovery_boundary": "scoped-discovery-1.3",
+        "discovery_boundary": "declared-option-semantics-1.4",
     }
     return {**payload, "sha256": canonical_sha256(payload)}
 

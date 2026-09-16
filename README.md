@@ -15,7 +15,7 @@ executing the target repository.
 > runs, and thin client projections. Claude/Cursor native loading is not verified. Runtime task evaluation, agent A/B evidence and
 > private/hosted workflows remain incomplete.
 
-[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-16-upgrade-v12/report.md) · [Legacy benchmark](benchmark/report.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
+[English](#english) · [中文](#中文) · [Latest measured run](benchmark/runs/2026-09-16-upgrade-v13/report.md) · [Task validation](benchmark/task-runs/2026-09-16-cli-value-v1/README.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
 
 ## Public Repo Benchmark 1.0
 
@@ -37,24 +37,32 @@ suffixes becoming executable names (`v2`, `v4`), test fixtures becoming Skills, 
 The ground truth is **agent-curated**, not human sign-off. No zero-hallucination or
 with/without-skill improvement claim is made. Failures are published alongside successes.
 
-The versioned [upgrade-v12 report](benchmark/runs/2026-09-16-upgrade-v12/report.md) contains the
+The versioned [upgrade-v13 report](benchmark/runs/2026-09-16-upgrade-v13/report.md) contains the
 compiler fingerprint, raw static results, targeted name checks and explicit limits. All 45 runs now
 complete; TypeScript and webpack return partial discoveries with unknown regions. Selected fact recall
-is **16/40**, up from 13/40 through pre-commit's `run`, `install` and scoped `run --all-files` facts.
-The v10 baseline was rescored with the same explicit-path evaluation input; its 13/40 result is unchanged. The
+remains **16/40**, unchanged from v12. The current improvement is richer option declarations, not
+a claimed recall or task-success increase. The
 older headline remains in `benchmark/report.md` as a legacy measurement; it is not overwritten.
 
-Discovery IR 1.3 adds a bounded Python command-path graph: imports, aliases, direct delegation
+Discovery IR 1.4 retains the bounded Python command-path graph: imports, aliases, direct delegation
 and supported argparse helper calls preserve evidence chains. On the fixed corpus it retains 16
 `pre-commit` child paths and 108 path-owned options, plus 39 options across mypy's auxiliary CLIs.
 Child options stay off the root command. All **275 emitted facts remain pending complete semantic
-review**. Full command graphs, argument semantics and Agent A/B remain open.
+review**. It adds explicit source parameter declarations to 132 emitted options, including 95 across
+Black/blackd, pre-commit and Cookiecutter. Missing fields and effective runtime semantics remain unknown.
 [Workspace scan budgets](docs/scan-budgets.md) still require partial discoveries to remain under review.
 The [v11 preliminary record](benchmark/runs/2026-09-15-upgrade-v11/qualification.json) retains an
 evaluation error and a manifest-ordering failure. It is excluded from the headline. v12 reruns all
 45 snapshots with corrected scope matching and write-once evaluation artifacts.
 
-![Fixed-corpus v10 versus v12: unchanged static outcomes and selected fact recall from 13/40 to 16/40](docs/assets/upgrade-comparison.png)
+**Product-value milestone:** [30 reference tasks](benchmark/task-runs/2026-09-16-cli-value-v1/README.md)
+now run against pinned source in offline containers. The first attempt passed 29/30; correcting one
+oracle's error-message casing produced 30/30 on a full rerun. These are authored reference solutions,
+**not generated-Skill or Agent success rates**. Agent trials and human sign-offs remain zero.
+Task-specific goals such as “use demo to export results” now return NEEDS_INPUT instead of a generic
+empty-argument procedure. See the [three-arm evaluation protocol and held-out registry](docs/product-value-evaluation.md).
+
+![Explicit parameter declarations and separately measured reference task checks, not Agent uplift](docs/assets/product-value.png)
 
 ```bash
 python scripts/public_measure.py run --work /path/on/data-disk/new-run --output benchmark/runs/new-run/results.json
@@ -136,7 +144,7 @@ r2s runs --output run-output
 `inspect` creates a goal-independent Discovery Run. Reuse its `run_<id>` for multiple goals and
 client targets without rescanning the source.
 
-Historical 1.2 records can be explicitly imported with `r2s migrate old-run/discovery.json --output migrated-runs`.
+Historical 1.2/1.3 records can be explicitly imported with `r2s migrate old-run/discovery.json --output migrated-runs`.
 This preserves the source and produces a new review-required run; see the [migration contract](docs/discovery-contract.md).
 
 ### 3. Plan and build
@@ -359,22 +367,28 @@ python -m pytest
 Stars 只描述 corpus 的开源影响力，不等于独立用户数。
 
 **High-Star Public Repositories Tested: 36**。45 个真实源码快照（含 challenge/edge）均已固定并验证；
-最新 [upgrade-v12](benchmark/runs/2026-09-16-upgrade-v12/report.md) 的 Core 结果为 20 个 `STATIC_READY`、
+最新 [upgrade-v13](benchmark/runs/2026-09-16-upgrade-v13/report.md) 的 Core 结果为 20 个 `STATIC_READY`、
 10 个 `REVIEW_REQUIRED`、6 个 `UNSUITABLE`，按静态状态计算的 Star-weighted coverage 为 **53.5%**。
 45 个运行全部完成；TypeScript、webpack 现在返回部分发现结果，未知区域明确保留。
 
-本轮新增 [Python 子命令图与 helper 绑定](docs/python-entrypoint-graph.md)，用 IR 1.3 保留父子命令及参数归属，
-避免把子命令选项错误放到根命令。**272 项本地测试和 12 个子测试通过**，包含真实 Docker 和浏览器检查。
+本轮 IR 1.4 在 [Python 子命令图](docs/python-entrypoint-graph.md) 上增加显式参数声明，132 个选项带有
+至少一个可静态提取的字段；其中 Black/blackd、pre-commit、Cookiecutter 合计 95 个。
+**302 项本地测试和 12 个子测试通过**，包含真实 Docker 和浏览器检查。
 部分扫描在独立校验、安装时仍保持 `REVIEW_REQUIRED`。45 份历史 IR 显式迁移后仍需审核，原文件保持不变。
 [v11 前置记录](benchmark/runs/2026-09-15-upgrade-v11/qualification.json)保留评测误判和 manifest 顺序错误，
 不参与首页成绩；v12 修复口径后重新跑全部仓库，并禁止覆盖已封存的评测产物。
 
-更关键的结果是：10 仓库的 40 条源码事实覆盖从 **13 条增至 16 条**，新增 pre-commit 的 `run`、`install`
-和归属 `run` 的 `--all-files`。v10 使用同一新版评测输入重算后仍为 13 条，旧文件未修改。
+本轮 40 条所选源码事实仍覆盖 **16 条**，与 v12 一致，没有把增加参数字段包装成召回率提升。
 30 个任务中 **6 个**具备所选静态前提，这不是执行成功率。新版本生成 **275 条**可执行事实，
 均通过哈希和 commit 核对。pre-commit 提取出 16 条子命令路径与 108 条带归属的选项；mypy 的辅助 CLI 新增 39 条选项。
 四项 Go 后缀命名回归仍通过定向核对。**275 条事实仍待完整语义审计**，不宣称真实任务成功率提高。
 旧版的 91 条事实、4 个已确认错误及四项目 10 项运行检查保留在 legacy 报告，不移作新版运行成绩。
+
+另建立 [三个工具、各十个真实任务](benchmark/task-runs/2026-09-16-cli-value-v1/README.md)，用文件内容、
+修改保留和预期拒绝验证标准解法。第一轮 29/30，保留失败；修正一个错误信息大小写断言后全量重跑 30/30。
+**这是标准解法验证，不是生成 Skill 或 Agent 的成功率**。模型三组对照与人工签核尚未执行。
+“使用 demo 导出结果”现在返回 `NEEDS_INPUT`，不再假装已理解任务。三个留出仓库只登记元数据和 SHA，
+还未读取源码或计入 headline，见 [产品价值评测协议](docs/product-value-evaluation.md)。
 
 ground truth 由 Agent 按源码整理，不冒称人工签字；没有提前写“零幻觉”，也没有声称优于官方 Skill。
 旧版 27.9% 报告因 Python 3.10 fallback、未验证缓存和未实际扫描的 challenge 已被更正，历史数据保留。

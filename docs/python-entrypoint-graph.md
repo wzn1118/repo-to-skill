@@ -27,7 +27,8 @@ flowchart LR
   unknown callbacks and control-flow blocks do not supply delegated option facts.
 - Click options require a recognized command/group decorator and known decorators. Literal dual
   declarations such as `--fast/--safe` become two explicit names. Implicit help/version options,
-  defaults, types, requiredness and runtime behavior are not inferred. See the
+  framework defaults and runtime behavior are not inferred. Literal parameter keywords and recognized
+  built-in types are retained as explicit declarations in IR 1.4; missing/dynamic values stay unknown. See the
   [official Click boolean-option contract](https://click.palletsprojects.com/en/stable/options/#boolean).
 - argparse options require a bound root parser that is parsed on the reachable path. Argument groups
   retain their parent's owner. Literal `add_parser` calls form bounded child paths, including nested
@@ -37,7 +38,7 @@ flowchart LR
   excluding `-`, aliases, `parents`, parser-class overrides or dynamic names do not supply facts.
   Registrations after the first parse do not supply facts for that invocation; invalid group parse
   methods and declarations containing unresolved option aliases are excluded.
-- Discovery IR 1.3 represents a command as a `CommandSpec`, a child as `supports_subcommand`, and
+- Discovery IR 1.4 represents a command as a `CommandSpec`, a child as `supports_subcommand`, and
   an option with its exact `command_path`. Parent declaration evidence is required for every child
   and child option. Portable/client documents group options by invocation path.
 - Each Claim references the manifest, resolved symbols, import/alias/call hops and declaration.

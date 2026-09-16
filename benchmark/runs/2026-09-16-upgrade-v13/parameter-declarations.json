@@ -1,0 +1,49 @@
+{
+  "compiler_sha256": "bea4d8f30b8cafe1ad19233c2ec10ca238178590d69b3c082747e2ba71de97dc",
+  "options_with_explicit_declarations": 132,
+  "repositories": [
+    {
+      "commit_sha": "20622e1259c29bda81831962ace1348ba1921c84",
+      "field_counts": {
+        "default": 6,
+        "is_flag": 21,
+        "multiple": 6,
+        "value_type": 12
+      },
+      "options_with_explicit_declarations": 41,
+      "repository": "psf/black"
+    },
+    {
+      "commit_sha": "a9bba55a3f74068b53f4bd4d831d7e05e34eae6c",
+      "field_counts": {
+        "action": 29,
+        "default": 7,
+        "nargs": 2,
+        "required": 1,
+        "value_type": 2
+      },
+      "options_with_explicit_declarations": 36,
+      "repository": "pre-commit/pre-commit"
+    },
+    {
+      "commit_sha": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "field_counts": {
+        "choices": 1,
+        "default": 10,
+        "is_flag": 12
+      },
+      "options_with_explicit_declarations": 18,
+      "repository": "cookiecutter/cookiecutter"
+    },
+    {
+      "commit_sha": "4fa665256c52b09ff20fb91af45dfa005f8a27e8",
+      "field_counts": {
+        "action": 33,
+        "default": 10
+      },
+      "options_with_explicit_declarations": 37,
+      "repository": "python/mypy"
+    }
+  ],
+  "scope": "Explicit source keyword declarations on emitted options. Not effective runtime semantics, parameter recall or agent task success. Each field is carried by its option Claim and matching source evidence."
+}

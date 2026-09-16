@@ -1,0 +1,30 @@
+{
+  "compiler_sha256": "bea4d8f30b8cafe1ad19233c2ec10ca238178590d69b3c082747e2ba71de97dc",
+  "evaluation_inputs": {
+    "benchmark/ground-truth-facts-v2.json": "30c70ff5ef3e70f56e2ba7785e8ed571217c50cd61a06120abdcfcc2ded7f126",
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc"
+  },
+  "evaluation_tools": {
+    "scripts/create_run_manifest.py": "1ec8d5d285af8b1bb81ce12e3d7239e962ff7f9df4a373b65ec7ab2a7df3c8ad",
+    "scripts/public_evaluate.py": "ff419027b8aa435305aed9632623e770e1ddc56b4fadba93c3f5cfe22afe27bf",
+    "scripts/public_fact_audit.py": "d92d430e2fb98997c51aebdef70c6490225f1069f890048a17bd275eae183453",
+    "scripts/render_run_report.py": "bd70bd8d211d765c6879f935a4f737e17a950be4b193b7d9f416e383f05843ef"
+  },
+  "format": "r2s-benchmark-run-v2",
+  "human_verified_repositories": 0,
+  "metadata_sha256": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+  "run_id": "2026-09-16-upgrade-v13",
+  "scope": "static discovery and generation; local regression checks, if present, are separate",
+  "source_artifacts": {
+    "baseline-ground-truth-results.json": "318a2a1e05b208c49b675ebe8bf6cf0808a02070058089d4956fc32b97a8ade4",
+    "fact-audit.json": "e673fcaf0ecec6a97369c07d6ab2bbaa38d55dae20614e51dd54a00e21376ce0",
+    "ground-truth-results.json": "e63fc46eb9ee659b3dd7353dabc66402ae140807733d969cd2769ea35fed016f",
+    "migration-verification.json": "9721bc48f3eb2171ec57e382319d8489cb43ca13e61cb1073570e0c6ebba65c1",
+    "official-comparison.json": "18071825f4eb3d14b048d6188f6a8ee2b2f2d73f4bafbc007e1e15aff4400e37",
+    "parameter-declarations.json": "11c00a1fe0a916dc3dc48b50c90750e95808da9da99ce290bfa08f79e7280b22",
+    "report.md": "1116729d24390b2b487fdc295feda368240adff2d5fe10982dc0e68a3d39b0e0",
+    "results.json": "df09bb5db25361f055c23241c2babbaace4a102bd1354c22261dbfb5e185ef2e",
+    "verification.json": "807c4d9e2634cfdbff52ea1b56f18ab42629e3d906e39416bba8e17ff1310cc9"
+  },
+  "source_authentication": "HTTPS archives addressed by pinned commit; self-consistent unsigned manifest"
+}

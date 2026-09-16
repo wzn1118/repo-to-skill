@@ -13,15 +13,15 @@ reviewable implementation, not that the work package or release gate is passed.
 | U03 Go names / roles | partial | Four known v2/v4 name regressions checked against pinned source; pnpm hidden fixtures, bat syntax-test Go module and goreleaser nested test module no longer produce product Skills. Binary/role inference still uses heuristics, not a complete Go command graph. |
 | U04 goal matching | partial | Unrelated goals produce NEEDS_INPUT/REVIEW_REQUIRED; user goal text is not emitted as a capability fact. Explicit multilingual ambiguity handling and workflow matching are pending. |
 | U05 source identity | partial | Raw byte hashes and committed Git blob IDs separated; CRLF, BOM, dirty trees and SHA-256 Git cases tested. Git filters/fsmonitor disabled. Byte-range mappings and complete snapshot attestations remain open. |
-| U06 IR v2 / migration | partial | Discovery IR 1.3 adds strict `CommandSpec`, typed child paths and scoped option ownership to the existing contracts. 1.2 imports only as review-blocked root facts, without guessing child ownership; historical input is preserved. Full command/argument semantics, byte ranges and general migration remain pending. See [contract and import evidence](discovery-contract.md). |
+| U06 IR v2 / migration | partial | Discovery IR 1.4 adds typed explicit option keyword declarations to scoped `CommandSpec`. 1.2/1.3 imports preserve prior facts with no guessed semantics and remain review-blocked; all 45 retained v12 IR files migrate without source changes. Full argument/runtime semantics, byte ranges and general migration remain pending. See [contract and import evidence](discovery-contract.md). |
 | U07 workspace scanning | partial | Deterministic workspace/role content budgets, independent metadata limits, tracked-directory inclusion and scanner-gated analyzer reads implemented. Partial scans carry indexed scan.json plus bundle scope, and remain review-required through standalone validation/install. TypeScript/webpack now return partial discoveries. Resolver consolidation, complete workspace graphs, process quotas and hostile-filesystem race isolation remain pending. See [scope contract](scan-budgets.md). |
 | U08 Python command graph | partial | Bounded local import/re-export/alias resolution, direct delegation and argparse helper parameter binding preserve source hops. Parsed argparse subcommands, groups and nested children retain their own option paths; fixed pre-commit exposes 16 child paths and 108 scoped options. Black/blackd adds 43 options and Cookiecutter 21 on fixed pins. Dynamic registration, aliases, parser inheritance, local import semantics and complete framework coverage remain pending. See [implemented boundary](python-entrypoint-graph.md). |
 | U09 JS/TS command graph | pending | Manifest bin extraction and role exclusions only; AST/framework/delegation support pending. |
 | U10 Go AST/Cobra graph | pending | Lexical extraction remains; AST helper, build conditions, command inheritance and ownership pending. |
-| U11 workflows/documents | partial | Deterministic typed SkillDocument with claim-bound content; task-oriented procedures for the five target projects are not implemented. |
+| U11 workflows/documents | partial | Deterministic typed SkillDocument now renders explicit parameter keywords by command path. Task-specific goals mentioning a known CLI return NEEDS_INPUT instead of a generic empty-argv plan. Complete task-oriented procedures remain unimplemented. |
 | U12 application jobs/policy | partial | Execution policy and bounded local writes exist. CLI/UI still need unified application services, persisted jobs, idempotency, cancellation and approvals. |
 | U13 sandbox/replay | partial | Local installed-image pinning, filtered readonly source, no network, non-root process, quotas, output bounds and cleanup tested in real Docker. Dependency build profiles, distributed replay and task oracles pending. |
-| U14 gold/tasks/evaluator | partial | 40 selected source facts and 30 static prerequisite records; command/subcommand ownership checked in evaluator. The 200-fact target, executable TaskSpecs, negative oracles and human review remain pending. |
+| U14 gold/tasks/evaluator | partial | 40 selected source facts and 30 static prerequisite records remain separate from 30 new reference tasks with file/output oracles on Black, pre-commit and Cookiecutter. First attempt 29/30; corrected oracle casing 30/30 on full rerun. Three metadata-only holdouts registered. Broader TaskSpecs, 200-fact gold, human review and Agent trials remain pending. |
 | U15 Agent A/B / official gh | pending | Version-specific static official comparison is recorded. No Agent A/B execution, task uplift, confidence interval or two-version maintenance result. |
 | U16 UI/API | partial | Browser-tested inspect → build → evidence/error flow; Host/Origin/token/source-root boundaries. Background jobs, cancellation, capability selection and artifact downloads pending. |
 | U17 install/clients | partial | Codex managed destination, staged update, receipt, rollback API, user-modification rejection and receipt-write failure recovery. The bundled plugin-creator validator passes after manifest fixes; native-client loading, full crash recovery, Windows lock behavior and multi-client install lifecycle pending. |
@@ -33,7 +33,7 @@ reviewable implementation, not that the work package or release gate is passed.
 
 ## Measured results
 
-The [upgrade-v12 run](../benchmark/runs/2026-09-16-upgrade-v12/report.md) runs the same 45 pinned
+The [upgrade-v13 run](../benchmark/runs/2026-09-16-upgrade-v13/report.md) runs the same 45 pinned
 repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 
 - Core: **20 STATIC_READY, 10 REVIEW_REQUIRED, 6 UNSUITABLE**; all 36 Core and all 45 total runs
@@ -42,16 +42,17 @@ repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 - **275 emitted facts / 275 hash-and-pin checks**. All 275 still await complete semantic review.
 - Four known Go binary-name regressions match pinned source. This is a targeted regression check,
   not zero hallucination or full semantic precision.
-- **16/40 selected source facts; 6/30 static task prerequisites**. The three additional selected facts
-  are pre-commit's `run`, `install` and the scoped `run --all-files` option. This does not establish task
-  success. v10 rescored with the same versioned explicit-path input remains 13/40 and 3/30.
+- **16/40 selected source facts; 6/30 static task prerequisites**, unchanged from v12. More parameter
+  fields are not counted as extra selected facts or task success.
+- **132 emitted options have explicit keyword declarations**, including Black/blackd 41, pre-commit
+  36, Cookiecutter 18 and mypy auxiliary CLIs 37. Unknown fields and effective runtime behavior remain unknown.
 - Compared with v10, the compiler adds 16 pre-commit command paths; it now retains 108 scoped options
   there and 39 additional options across mypy's auxiliary CLIs. Black and
   Cookiecutter facts retain the same source declarations with an explicit empty root path. This is
   declaration coverage, not semantically verified command completeness.
 - Partial scans now block static readiness, including standalone bundle validation/install. The
   26→20 decline from v6 reflects this stricter scope gate, not a measured accuracy decline.
-- Compiler fingerprint: `a32c83ac0c644b65ab689227926fd53d6f93482182611602dce6da9a47cbb6d9`.
+- Compiler fingerprint: `bea4d8f30b8cafe1ad19233c2ec10ca238178590d69b3c082747e2ba71de97dc`.
   The runner checks compiler/harness/dependency identity before and after workers and rejects
   overwrites. Historical metadata is not refreshed when reports are rendered.
 - `upgrade-v3` is a retained preliminary run with known helper-entrypoint errors and only an
@@ -69,9 +70,9 @@ repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
 
 ## Local verification
 
-**272 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
+**302 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
 covering six UI interactions. Ruff and mypy pass. See the
-[verification record](../benchmark/runs/2026-09-16-upgrade-v12/verification.json) for exact versions,
+[verification record](../benchmark/runs/2026-09-16-upgrade-v13/verification.json) for exact versions,
 hashes and scope. These controlled tests are separate from public-repository task evaluation.
 
 The wheel and its dependencies install into a new virtualenv through uv, using network downloads
@@ -102,6 +103,12 @@ validation result, not a claim of native Codex installation/loading. The layout 
 `codex-plugin/` artifact contract; managed installation uses the manifest name for its destination.
 
 ## Integrity and release boundaries
+
+The [product-value task run](../benchmark/task-runs/2026-09-16-cli-value-v1/README.md) is separate:
+30 authored reference solutions run on pinned source, without models or generated-Skill use. The
+first 29/30 attempt is preserved; only a case-sensitive Black diagnostic assertion is corrected in
+taskset v2 before a complete 30/30 rerun. This validates task setup, not Skill benefit. The
+[three-arm protocol](product-value-evaluation.md) and three metadata-only holdouts have no results yet.
 
 `BUNDLE.lock.json` establishes self-consistency; it does not independently authenticate upstream
 source. Reports retain `not_independently_authenticated`. Local Docker is a trusted-daemon boundary,

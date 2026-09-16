@@ -1,0 +1,14 @@
+{
+  "format": "r2s-held-out-registry-v1",
+  "registered_at": "2026-09-16T06:46:27.629828+00:00",
+  "status": "METADATA_ONLY_SOURCE_UNINSPECTED",
+  "selection": "Mature public CLIs outside the fixed 45-repository corpus; selection precedes source analysis. Two Python candidates and one actual-primary-language Rust challenge.",
+  "headline_eligible": false,
+  "first_evaluation": null,
+  "rules": ["Freeze candidate compiler before first source scan", "Preserve first-attempt failures", "Do not tune rules using this cohort before first results", "After inspection mark exposed; register new holdout before another generalization claim"],
+  "repositories": [
+    {"repository": "dbt-labs/dbt-core", "stars_at_registration": 13835, "forks_at_registration": 2563, "default_branch": "main", "commit_sha": "4547d559fb1ede787de990a91aa09d6c1c276a45", "archived": false, "primary_language": "Rust", "license": "Apache-2.0", "public": true, "cohort": "unsupported-language-challenge"},
+    {"repository": "aws/aws-cli", "stars_at_registration": 17259, "forks_at_registration": 4650, "default_branch": "develop", "commit_sha": "a1a569733a6a413f460342b61c6a8909984c2e48", "archived": false, "primary_language": "Python", "license": "NOASSERTION", "public": true, "cohort": "python-cli", "license_review": "GitHub metadata is inconclusive; no redistribution approval inferred"},
+    {"repository": "ansible/ansible", "stars_at_registration": 70694, "forks_at_registration": 24331, "default_branch": "devel", "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3", "archived": false, "primary_language": "Python", "license": "GPL-3.0", "public": true, "cohort": "python-cli"}
+  ]
+}

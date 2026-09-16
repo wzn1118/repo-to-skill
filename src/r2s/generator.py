@@ -62,7 +62,7 @@ def _skill_bundle(
         "artifact_path": "SKILL.md",
         "procedure": asdict(procedure),
         "document": {
-            "renderer": "r2s-cli-v2",
+            "renderer": "r2s-cli-v3",
             "entrypoint_claim_id": procedure.precondition_claim_ids[0],
             "option_claim_ids": option_claim_ids,
             "subcommand_claim_ids": subcommand_claim_ids,

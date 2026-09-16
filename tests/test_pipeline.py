@@ -251,11 +251,8 @@ class PipelineTests(unittest.TestCase):
                 Path(output),
                 "portable",
             )
-            skill = Path(result.bundles[0]) / "SKILL.md"
-            text = skill.read_text()
-            self.assertEqual(text.count("\n---\n"), 1)
-            self.assertIn('description: "Use the demo CLI', text)
-            self.assertEqual(validate_path(skill.parent), [])
+            self.assertEqual(result.bundles, ())
+            self.assertEqual(result.outcome.value, "NEEDS_INPUT")
 
     def test_standalone_validation_detects_broken_provenance(self) -> None:
         discovery = discover(ROOT / "fixtures/python_cli")

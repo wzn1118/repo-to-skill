@@ -1,0 +1,19 @@
+{
+  "files": {
+    "benchmark/task-runs/2026-09-16-cli-value-v1/README.md": "554ba60cf545c922cb6beca56bee979d2160d40b66238d3fd62ed94ebbca308d",
+    "benchmark/task-runs/2026-09-16-cli-value-v1/attempt-1.json": "21c076992e235c52342f0fbb0d9fd59c2af5c3bfc6b56a1c5e145b4332643166",
+    "benchmark/task-runs/2026-09-16-cli-value-v1/attempt-2.json": "18dabece7c97271c553fde8f7c5582573f16e3fc55dfe2a75fba76ed28337767",
+    "benchmark/task-runs/2026-09-16-cli-value-v1/tool-snapshots/run_task_oracles_attempt_1.py": "4f9e59d5e91746276c514c2e2fd7c503b50cd353ef45d2d47478e6a402f81fb7",
+    "benchmark/tasks/cli-value-v1.json": "e5cb657b23e2739ee8eb21d0dcb9055f30899b5308eddc48c558a7052dcde302",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "docs/product-value-evaluation.md": "31a5ae2439480b83c395ef348acc3115bc98159f2e455529768c031ddfcff58a",
+    "scripts/run_task_oracles.py": "ad96d138da8ccf384fc28f1541fac74fa37cff91c4862f4b63d3fa94b4f38ddd",
+    "scripts/task_oracle_worker.py": "8240f8cebd335092c989deeed08aadd6d936c2acb7f22618afd9c7a6c33fd5e5"
+  },
+  "first_attempt_passed": 29,
+  "format": "r2s-reference-task-manifest-v1",
+  "scope": "Both reference-solution attempts, task inputs and tool snapshots; no Agent/model execution",
+  "second_attempt_passed": 30,
+  "source_authentication": "Pinned cached source verified before and after container invocation; unsigned local report",
+  "tasks_selected": 30
+}

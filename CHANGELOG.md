@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — explicit parameter declarations and task oracles
+
+- Discovery 1.4 records literal option keywords and recognized built-in types with source witnesses. Missing/dynamic fields remain unknown; declarations do not guarantee runtime behavior.
+- Reject task-specific goals that only mention a known CLI instead of returning a generic empty-argument procedure. Inventory exploration remains available; workflow planning is still incomplete.
+- Add 30 pinned-source reference tasks with file/output oracles. Preserve the 29/30 first attempt; a separately versioned Black error-message casing correction passes 30/30 after full rerun. These are not Agent or generated-Skill results.
+- Repeat the same 45-repository static corpus in v13: 16/40 selected facts, 6/30 static prerequisites and 275 emitted Core facts, unchanged from v12. 132 options now carry explicit parameter declarations.
+- Register three uninspected holdout repositories from live metadata and document a three-arm protocol. Model trials, human Skill authorship and held-out accuracy remain unmeasured.
+
 ## Unreleased — scoped command claims
 
 - Upgrade Discovery IR to 1.3 with strict `CommandSpec`, `supports_subcommand` claims and path-owned options. Bundles retain scoped command references and validators reject flattened, missing-parent or rewritten command graphs.

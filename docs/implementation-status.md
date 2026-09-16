@@ -1,10 +1,10 @@
 # Implementation Status
 
-Updated: 2026-09-15
+Updated: 2026-09-16
 
 The detailed U00–U22 ledger is in [upgrade-status.md](upgrade-status.md). The public benchmark section
 below records the **legacy** measurement; the current compiler has a separate
-[upgrade-v5 report](../benchmark/runs/2026-09-15-upgrade-v5/report.md).
+[upgrade-v13 report](../benchmark/runs/2026-09-16-upgrade-v13/report.md).
 
 ## Implemented
 
@@ -55,7 +55,8 @@ is not semantic accuracy. Those files remain unchanged; new measurements use sep
 - Deep JavaScript/TypeScript AST option and route extraction.
 - Native Go AST helper and multi-file flag-flow analysis.
 - External Agent Skills reference validator.
-- Independent task oracles, replay environment distribution and runtime readiness. The local
+- Complete task coverage, replay environment distribution and runtime readiness. Thirty reference
+  tasks now have file/output oracles; no Agent trials or Skill uplift are measured. The local
   executor is implemented, but the Docker daemon itself is not asserted to be rootless.
 - Secret, SBOM, license classification, and vulnerability tool adapters.
 - Model-based evaluation and complete bundle reuse across incremental updates.

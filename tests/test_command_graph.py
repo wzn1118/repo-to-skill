@@ -148,7 +148,7 @@ def test_legacy_root_claims_require_explicit_reviewed_migration(tmp_path: Path) 
         parse_discovery(payload)
     migrated = migrate_discovery(original, tmp_path / "migrated")
     loaded = load_discovery(Path(migrated["run_root"]))
-    assert loaded.schema_version == "1.3.0" and loaded.commands[0].path == ()
+    assert loaded.schema_version == "1.4.0" and loaded.commands[0].path == ()
     assert migrated["report"]["original_schema"] == "1.2.0"
     assert migrated["report"]["readiness"] == "REVIEW_REQUIRED"
     assert content == original.read_bytes()

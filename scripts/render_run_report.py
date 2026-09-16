@@ -75,6 +75,18 @@ def render(run: Path) -> str:
             "", "See [baseline-ground-truth-results.json](baseline-ground-truth-results.json). These are static declaration checks, not runtime or Agent task success.",
         ])
     scans = [item for item in results["repositories"] if item.get("scan")]
+    declarations = run / "parameter-declarations.json"
+    if declarations.is_file():
+        declared = load(declarations)
+        if declared["compiler_sha256"] != results["compiler_sha256"]:
+            raise ValueError("PARAMETER_REPORT_COMPILER_MISMATCH")
+        lines.extend([
+            "", "## Parameter declarations", "",
+            f"{declared['options_with_explicit_declarations']} emitted options carry explicit source keyword declarations. Missing fields remain unknown. These counts do not measure effective runtime semantics, complete parameter coverage or Agent success.",
+            "", "See [parameter-declarations.json](parameter-declarations.json).", "",
+            "| Repository | Options with explicit declarations |", "| --- | ---: |",
+        ])
+        lines.extend(f"| `{item['repository']}` | {item['options_with_explicit_declarations']} |" for item in declared["repositories"])
     if scans:
         lines.extend([
             "", "## Scan scope", "",

@@ -55,7 +55,7 @@ class LanguageAnalyzerTests(unittest.TestCase):
         self.assertEqual(entrypoint.object["command"], "greet")
         self.assertEqual(option.object["option"], "-name")
         with tempfile.TemporaryDirectory() as output:
-            result = generate(discovery, "greet a user", Path(output), "codex")
+            result = generate(discovery, "use greet", Path(output), "codex")
             self.assertEqual(result.readiness, BundleReadiness.STATIC_READY)
             cli_reference = Path(result.bundles[0]) / "references/cli.md"
             self.assertIn("`-name`", cli_reference.read_text())
