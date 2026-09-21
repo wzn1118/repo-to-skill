@@ -5,6 +5,7 @@ from dataclasses import asdict
 
 from r2s.domain import DiscoveryIR, Procedure, ProcedureStep
 from r2s.serialization import stable_id
+from r2s.workflows import WorkflowRequest, workflow_procedure
 
 MAX_GOAL_LENGTH = 500
 GENERIC_GOALS = {
@@ -19,12 +20,18 @@ def plan(
     discovery: DiscoveryIR,
     goal: str,
     capability_ids: set[str] | None = None,
+    workflow: WorkflowRequest | None = None,
 ) -> list[Procedure]:
     normalized_goal = " ".join(goal.split())
     if not normalized_goal:
         raise ValueError("GOAL_REQUIRED")
     if len(normalized_goal) > MAX_GOAL_LENGTH:
         raise ValueError("GOAL_TOO_LONG")
+    if workflow is not None:
+        procedure = workflow_procedure(discovery, normalized_goal, workflow)
+        if capability_ids is not None and set(procedure.capability_ids) - capability_ids:
+            raise ValueError("WORKFLOW_CAPABILITY_NOT_SELECTED")
+        return [procedure]
     claims = {claim.id: claim for claim in discovery.claims if claim.status == "supported"}
     command_by_capability: dict[str, str] = {}
     for capability in discovery.capabilities:

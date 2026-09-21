@@ -18,7 +18,7 @@ def fingerprint(root: Path) -> dict:
         for name in ("public_measure.py", "public_sources.py", "measurement_identity.py")
     }
     dependencies = {}
-    for name in ("pydantic", "pydantic-core", "PyYAML", "jinja2"):
+    for name in ("pydantic", "pydantic-core", "PyYAML", "jinja2", "tree-sitter", "tree-sitter-javascript", "tree-sitter-typescript", "tree-sitter-go"):
         try:
             dependencies[name] = version(name)
         except PackageNotFoundError:

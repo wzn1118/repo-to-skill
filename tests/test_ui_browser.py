@@ -41,7 +41,7 @@ def test_browser_static_workbench(tmp_path: Path) -> None:
             assert completed.returncode == 0, completed.stderr
             result = json.loads(completed.stdout)
             assert result["javascriptExceptions"] == 0
-            assert len(result["checks"]) == 6
+            assert len(result["checks"]) == 8
             print(completed.stdout)
         finally:
             browser.terminate()

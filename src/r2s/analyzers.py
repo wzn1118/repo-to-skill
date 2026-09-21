@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import ast
 import configparser
+import json
 from dataclasses import asdict, replace
 from pathlib import Path
-from typing import Any, Final
+from typing import Any, Final, Literal
 
 from r2s.command_graph import command_specs
 from r2s.domain import (
@@ -24,7 +25,7 @@ from r2s.scanner import ScanResult, scan
 from r2s.serialization import stable_id
 from r2s.toml_compat import loads as toml_loads
 
-SCHEMA_VERSION: Final = "1.4.0"
+SCHEMA_VERSION: Final = "1.5.0"
 
 
 class _CaseSensitiveConfigParser(configparser.ConfigParser):
@@ -121,6 +122,8 @@ def _python_evidence(
     scan_result: ScanResult, path: Path, node: ast.AST, kind: str,
     value: dict[str, Any], pointer: str, raw_value: dict[str, Any] | None = None,
 ) -> Evidence:
+    value = json.loads(json.dumps(value))
+    raw_value = json.loads(json.dumps(raw_value)) if raw_value is not None else None
     source = _location(scan_result, path, pointer, getattr(node, "lineno", None), getattr(node, "end_lineno", None))
     return Evidence(
         stable_id("ev", [kind, value, asdict(source)]), kind,
@@ -311,6 +314,7 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             discovery.claims.append(Claim(declared_id, command, "supports_subcommand", parse_fact(declared_value), identifiers, 0.95, True))
             subcommand_ids.append(declared_id)
         seen_options: set[tuple[tuple[str, ...], str]] = set()
+        positions: dict[tuple[str, ...], int] = {}
         for option in graph.options:
             key = (option.command_path, option.option)
             if key in seen_options:
@@ -319,11 +323,18 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             chain = [_hop_evidence(scan_result, hop) for hop in option.hops]
             symbol_value = {"module": option.owner.module, "symbol": option.owner.name, "kind": type(option.scope).__name__}
             chain.append(_python_evidence(scan_result, option.path, option.scope, "python.symbol", symbol_value, f"ast:symbol:{option.owner.name}"))
-            from r2s.option_semantics import explicit_semantics
+            from r2s.option_semantics import explicit_semantics, parameter_shape
 
             value: dict[str, Any] = {"command": command, "option": option.option, "command_path": list(option.command_path)}
             resolved_module = resolver.module(option.owner.module)
             semantics = explicit_semantics(option, resolved_module[1]) if resolved_module else None
+            if resolved_module:
+                value["shape"] = parameter_shape(option, resolved_module[1])
+            if option.positional:
+                value.pop("option")
+                value["argument"] = option.option
+                value["position"] = positions.get(option.command_path, 0)
+                positions[option.command_path] = value["position"] + 1
             if semantics is not None:
                 value["semantics"] = semantics
             item = _python_evidence(
@@ -349,16 +360,17 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
         )
         option_claim_ids: list[str] = []
         for item, identifiers in option_evidence:
+            predicate: Literal["supports_argument", "supports_option"] = "supports_argument" if "argument" in item.normalized_value else "supports_option"
             option_claim_id = stable_id(
                 "cl",
-                [command, "supports_option", item.normalized_value, identifiers],
+                [command, predicate, item.normalized_value, identifiers],
             )
             option_claim_ids.append(option_claim_id)
             discovery.claims.append(
                 Claim(
                     option_claim_id,
                     command,
-                    "supports_option",
+                    predicate,
                     parse_fact(item.normalized_value),
                     identifiers,
                     item.confidence,
@@ -400,9 +412,10 @@ def _resolve_command_conflicts(discovery: DiscoveryIR) -> None:
             )
         )
     if conflicted_ids:
+        conflicted_commands = {str(claim.object.get("command", "")).casefold() for claim in discovery.claims if claim.id in conflicted_ids}
         discovery.claims = [
             replace(claim, status="conflicted")
-            if claim.id in conflicted_ids
+            if claim.id in conflicted_ids or (claim.predicate in {"supports_subcommand", "supports_option", "supports_argument"} and str(claim.object.get("command", "")).casefold() in conflicted_commands)
             else claim
             for claim in discovery.claims
         ]

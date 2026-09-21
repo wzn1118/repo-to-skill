@@ -1,0 +1,2495 @@
+{
+  "compiler_files": {
+    "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+    "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+    "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+    "src/r2s/analyzers.py": "574ad038701c7186957e6e5c745c20adf7840b094528eca27410a7c1077822a1",
+    "src/r2s/application.py": "b7a922c42e3937dc88d2635c32be974ad708883b121cc994040a6226c220e176",
+    "src/r2s/bundle_contracts.py": "8896d58387ace8700346be8bc50fd73abf477004f9fea8717ae3dc9cf73cde16",
+    "src/r2s/bundle_validation.py": "3294f0811801c7c7b57723c7d50972378796bc893248733389930dd192de18be",
+    "src/r2s/cli.py": "e22f481f4a8387a2bc1f4bc18f0bff29b66273f43fc30f989105b8273f460d67",
+    "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+    "src/r2s/command_graph.py": "135af7c7eda75fbe3a5dee95d7cb41116a7d3c241e33d90caed4ff59e47ad970",
+    "src/r2s/compilation.py": "3063b4cc211af1e5e52517d88ee7a768709bde4161ce9e67abb26d3d63db56aa",
+    "src/r2s/compiler_identity.py": "fd33f07bff88ca4b0ade4625aaaed2c7c7743805cf1a43c6b8f83aa0154b7c02",
+    "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+    "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+    "src/r2s/discovery_contract.py": "77e8280c8e27f931795e7036b35e26f720e94e25ec238a27e0878f00821c6134",
+    "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+    "src/r2s/documents.py": "0216af135302df312b39526a4d7ee408894339ed882fbe7d3dd92c2e11ff9ee1",
+    "src/r2s/domain.py": "0e28a03d8b681852fa2d631a3153356fb6bc7933a8e05ae5f91c8370530fde9f",
+    "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+    "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+    "src/r2s/fact_contracts.py": "9fa7515928e65e1693417332a47fbd85c154ae28b99f5addae0c9aad667ce3eb",
+    "src/r2s/generator.py": "759dd7cda49085e582ceb44d3111ddf705073961af820f2c69019b8fa264f3f4",
+    "src/r2s/go_analyzer.py": "371a7ff846e9ace6b53edd0c5b70d08be31c7fd98f7aade871ed1eb22164c2b8",
+    "src/r2s/go_cobra.py": "f94fe55897637a61b7569241ad006cc85b2f4711735b5a49169214781b9317ed",
+    "src/r2s/go_graph.py": "7b0139d0161f60dc4bb262f2ff7e1188575722eed6ca0542c89aba69958e7989",
+    "src/r2s/javascript_analyzer.py": "905346313c64422c86d3e96b729400de8555cc9ec4887302e5c627f0d15bc800",
+    "src/r2s/javascript_graph.py": "405779c726e1b7462a537f0a057d901ab87a6939461d13234f59104d41a91af3",
+    "src/r2s/javascript_tables.py": "28c1a1d727c40f9c581890c2a4d0c4fcc10c9e49f2a4f1aaa248d5631a61d4f0",
+    "src/r2s/jobs.py": "884bf6b813466f52fe8915e2120b773b244430d7b2f305175df39f096a2b3374",
+    "src/r2s/legacy_contracts.py": "909c6531ec9fbc3c2436191cf1103c144453e5c05986a4c39645a466f1466c6e",
+    "src/r2s/migration.py": "2eea6ccefd9fa90d2162b0b2bd470488464f50a31ec9d6dea776a8fc5ade4468",
+    "src/r2s/model_adapter.py": "85bb678e07b8fca8f5ad7b1e35c09cbc0219c275cf6e91a89b0b0c645a0080e7",
+    "src/r2s/option_semantics.py": "df7133449918291035616b965186ddabcbe97247aaf01f20a7ee635a9b82a2c7",
+    "src/r2s/planner.py": "9cd82b8ae0fe08e5f98f6a9aa0180c292ec2f281f51e341eeeb4f5e310a51438",
+    "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+    "src/r2s/python_argparse.py": "dd53fbbe988c2d9df7bbd4d6c8b9f09e3852f947c61a39ab7f27a6594bd28926",
+    "src/r2s/python_bindings.py": "d3cba4a05c335fe1becf0421564efe6537563dd1a3105cf56bf7a107c9d2da18",
+    "src/r2s/python_graph.py": "ebc182722f61e022e2ea9b784872fe2c7e1c1e91109acaea43bd92d564cfe6c3",
+    "src/r2s/repair.py": "62a076b4e0bc75c16bca6a5090c0527741f666ba423781cd1159872f14b37c61",
+    "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+    "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+    "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+    "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+    "src/r2s/static_parameters.py": "478da0f7ad5ebcb5182d0eb11f025795ceca2427d4cd3afd940814a9dd297789",
+    "src/r2s/storage.py": "e7f6c9009c318af378c77ad5ae895b216e35e3daf9c9c25a901fe07b0c5729aa",
+    "src/r2s/syntax.py": "97755d2587a5d0e454bccb0f81b9fab938af83494f679c5ed88230b571a4e08e",
+    "src/r2s/task_worker.py": "a5d465151b7e8feca32c0c29c0ec2894a72b7497b2a2a130bb584524445da7c2",
+    "src/r2s/tasks.py": "966f094d541067406e586562c90c5f6c44a1aa704eae7ee1b698a3543896f18c",
+    "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+    "src/r2s/ui.py": "ff768e66727de98193500a7ce3401387540040ca0a0b42687f3ea3fe1c831b9b",
+    "src/r2s/workflows.py": "71292568b6ca422febdfdcc1456e5ae034104f5fda7d7a3c362dff5473f4c98e"
+  },
+  "compiler_sha256": "26e67b58863398f8ae53722cc6a14b8302218aafb8396c05580553a54912b4b5",
+  "dependencies": {
+    "PyYAML": "6.0.3",
+    "jinja2": "3.1.6",
+    "pydantic": "2.13.5",
+    "pydantic-core": "2.46.5",
+    "tree-sitter": "0.25.2",
+    "tree-sitter-go": "0.25.0",
+    "tree-sitter-javascript": "0.25.0",
+    "tree-sitter-typescript": "0.23.2"
+  },
+  "finished_at": "2026-09-21T03:46:41.717104+00:00",
+  "harness_files": {
+    "scripts/measurement_identity.py": "5b44a64468e68e5d3957024006b3d33137daadf552dcbc0e2da9a845ce0e1e86",
+    "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+    "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+  },
+  "identity_verification": "matched at parent and worker start/end",
+  "metadata_sha256": "a137d7f590b810e5cc588f2bee32a226b96748d7711169002c9085643cd73428",
+  "method": "Pinned source -> discover -> generate -> validate; no target code execution",
+  "platform": "Linux-5.15.0-191-generic-x86_64-with-glibc2.35",
+  "python": "3.12.14",
+  "repositories": [
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 50373635,
+        "files": 4241,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "0dc623f6e4887a52d5b8852a1a8fed1a6b2a7d39d0bf90381051f46f87c03a1b",
+        "skipped_links": [
+          {
+            "kind": "link",
+            "path": ".claude/skills",
+            "target": "../.agents/skills"
+          },
+          {
+            "kind": "link",
+            "path": ".github/actions/setup-postgres-windows/setup_db.sh",
+            "target": "../../../scripts/setup_db.sh"
+          },
+          {
+            "kind": "link",
+            "path": "CLAUDE.md",
+            "target": "AGENTS.md"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-auth/CLAUDE.md",
+            "target": "AGENTS.md"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja-autoreload/LICENSE",
+            "target": "../LICENSE"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja-autoreload/doc-header.html",
+            "target": "../doc-header.html"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja-contrib/LICENSE",
+            "target": "../LICENSE"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja-contrib/doc-header.html",
+            "target": "../doc-header.html"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja-embed/LICENSE",
+            "target": "../LICENSE"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja-embed/doc-header.html",
+            "target": "../doc-header.html"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja/LICENSE",
+            "target": "../LICENSE"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja/README.md",
+            "target": "../README.md"
+          },
+          {
+            "kind": "link",
+            "path": "crates/dbt-jinja/minijinja/doc-header.html",
+            "target": "../doc-header.html"
+          }
+        ]
+      },
+      "attempted": true,
+      "bundle_files": [],
+      "bundles": 0,
+      "capabilities": 0,
+      "commit_sha": "4547d559fb1ede787de990a91aa09d6c1c276a45",
+      "compiler_sha256": "26e67b58863398f8ae53722cc6a14b8302218aafb8396c05580553a54912b4b5",
+      "completed": true,
+      "elapsed_seconds": 6.098,
+      "facts": [],
+      "files_scanned": 3926,
+      "findings": [
+        {
+          "code": "SENSITIVE_INPUT_SKIPPED",
+          "message": "Skipped 1 sensitive path(s) under the active scan policy",
+          "path": null,
+          "severity": "warning"
+        },
+        {
+          "code": "NO_ACTIONABLE_CAPABILITY",
+          "message": "No supported CLI entrypoint was found",
+          "path": null,
+          "severity": "error"
+        }
+      ],
+      "id": "dbt-core",
+      "language": "Rust",
+      "languages_detected": [
+        "python",
+        "typescript"
+      ],
+      "license": "Apache-2.0",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "574ad038701c7186957e6e5c745c20adf7840b094528eca27410a7c1077822a1",
+          "src/r2s/application.py": "b7a922c42e3937dc88d2635c32be974ad708883b121cc994040a6226c220e176",
+          "src/r2s/bundle_contracts.py": "8896d58387ace8700346be8bc50fd73abf477004f9fea8717ae3dc9cf73cde16",
+          "src/r2s/bundle_validation.py": "3294f0811801c7c7b57723c7d50972378796bc893248733389930dd192de18be",
+          "src/r2s/cli.py": "e22f481f4a8387a2bc1f4bc18f0bff29b66273f43fc30f989105b8273f460d67",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/command_graph.py": "135af7c7eda75fbe3a5dee95d7cb41116a7d3c241e33d90caed4ff59e47ad970",
+          "src/r2s/compilation.py": "3063b4cc211af1e5e52517d88ee7a768709bde4161ce9e67abb26d3d63db56aa",
+          "src/r2s/compiler_identity.py": "fd33f07bff88ca4b0ade4625aaaed2c7c7743805cf1a43c6b8f83aa0154b7c02",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "77e8280c8e27f931795e7036b35e26f720e94e25ec238a27e0878f00821c6134",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "0216af135302df312b39526a4d7ee408894339ed882fbe7d3dd92c2e11ff9ee1",
+          "src/r2s/domain.py": "0e28a03d8b681852fa2d631a3153356fb6bc7933a8e05ae5f91c8370530fde9f",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "9fa7515928e65e1693417332a47fbd85c154ae28b99f5addae0c9aad667ce3eb",
+          "src/r2s/generator.py": "759dd7cda49085e582ceb44d3111ddf705073961af820f2c69019b8fa264f3f4",
+          "src/r2s/go_analyzer.py": "371a7ff846e9ace6b53edd0c5b70d08be31c7fd98f7aade871ed1eb22164c2b8",
+          "src/r2s/go_cobra.py": "f94fe55897637a61b7569241ad006cc85b2f4711735b5a49169214781b9317ed",
+          "src/r2s/go_graph.py": "7b0139d0161f60dc4bb262f2ff7e1188575722eed6ca0542c89aba69958e7989",
+          "src/r2s/javascript_analyzer.py": "905346313c64422c86d3e96b729400de8555cc9ec4887302e5c627f0d15bc800",
+          "src/r2s/javascript_graph.py": "405779c726e1b7462a537f0a057d901ab87a6939461d13234f59104d41a91af3",
+          "src/r2s/javascript_tables.py": "28c1a1d727c40f9c581890c2a4d0c4fcc10c9e49f2a4f1aaa248d5631a61d4f0",
+          "src/r2s/jobs.py": "884bf6b813466f52fe8915e2120b773b244430d7b2f305175df39f096a2b3374",
+          "src/r2s/legacy_contracts.py": "909c6531ec9fbc3c2436191cf1103c144453e5c05986a4c39645a466f1466c6e",
+          "src/r2s/migration.py": "2eea6ccefd9fa90d2162b0b2bd470488464f50a31ec9d6dea776a8fc5ade4468",
+          "src/r2s/model_adapter.py": "85bb678e07b8fca8f5ad7b1e35c09cbc0219c275cf6e91a89b0b0c645a0080e7",
+          "src/r2s/option_semantics.py": "df7133449918291035616b965186ddabcbe97247aaf01f20a7ee635a9b82a2c7",
+          "src/r2s/planner.py": "9cd82b8ae0fe08e5f98f6a9aa0180c292ec2f281f51e341eeeb4f5e310a51438",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_argparse.py": "dd53fbbe988c2d9df7bbd4d6c8b9f09e3852f947c61a39ab7f27a6594bd28926",
+          "src/r2s/python_bindings.py": "d3cba4a05c335fe1becf0421564efe6537563dd1a3105cf56bf7a107c9d2da18",
+          "src/r2s/python_graph.py": "ebc182722f61e022e2ea9b784872fe2c7e1c1e91109acaea43bd92d564cfe6c3",
+          "src/r2s/repair.py": "62a076b4e0bc75c16bca6a5090c0527741f666ba423781cd1159872f14b37c61",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/static_parameters.py": "478da0f7ad5ebcb5182d0eb11f025795ceca2427d4cd3afd940814a9dd297789",
+          "src/r2s/storage.py": "e7f6c9009c318af378c77ad5ae895b216e35e3daf9c9c25a901fe07b0c5729aa",
+          "src/r2s/syntax.py": "97755d2587a5d0e454bccb0f81b9fab938af83494f679c5ed88230b571a4e08e",
+          "src/r2s/task_worker.py": "a5d465151b7e8feca32c0c29c0ec2894a72b7497b2a2a130bb584524445da7c2",
+          "src/r2s/tasks.py": "966f094d541067406e586562c90c5f6c44a1aa704eae7ee1b698a3543896f18c",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "ff768e66727de98193500a7ce3401387540040ca0a0b42687f3ea3fe1c831b9b",
+          "src/r2s/workflows.py": "71292568b6ca422febdfdcc1456e5ae034104f5fda7d7a3c362dff5473f4c98e"
+        },
+        "compiler_sha256": "26e67b58863398f8ae53722cc6a14b8302218aafb8396c05580553a54912b4b5",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5",
+          "tree-sitter": "0.25.2",
+          "tree-sitter-go": "0.25.0",
+          "tree-sitter-javascript": "0.25.0",
+          "tree-sitter-typescript": "0.23.2"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "5b44a64468e68e5d3957024006b3d33137daadf552dcbc0e2da9a845ce0e1e86",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "dbt-labs/dbt-core",
+      "repository_types": [
+        "library"
+      ],
+      "scan": {
+        "analyzed_files": 3903,
+        "budget_reasons": {},
+        "budget_skipped_files": 0,
+        "complete_within_policy": true,
+        "content_bytes_read": 38385396,
+        "content_files_read": 3925,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 3926,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 135,
+            "hashed_bytes": 3411884,
+            "hashed_files": 139,
+            "inventory_entries": 139,
+            "root": "."
+          },
+          {
+            "analyzed_files": 10,
+            "hashed_bytes": 77083,
+            "hashed_files": 10,
+            "inventory_entries": 10,
+            "root": "crates/adbc-record-replay"
+          },
+          {
+            "analyzed_files": 215,
+            "hashed_bytes": 3671765,
+            "hashed_files": 215,
+            "inventory_entries": 215,
+            "root": "crates/dbt-adapter"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 23900,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-adapter-core"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 26905,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-adapter-engine"
+          },
+          {
+            "analyzed_files": 9,
+            "hashed_bytes": 228853,
+            "hashed_files": 9,
+            "inventory_entries": 9,
+            "root": "crates/dbt-adapter-sql"
+          },
+          {
+            "analyzed_files": 38,
+            "hashed_bytes": 401806,
+            "hashed_files": 38,
+            "inventory_entries": 38,
+            "root": "crates/dbt-adbc"
+          },
+          {
+            "analyzed_files": 19,
+            "hashed_bytes": 377202,
+            "hashed_files": 19,
+            "inventory_entries": 19,
+            "root": "crates/dbt-agate"
+          },
+          {
+            "analyzed_files": 25,
+            "hashed_bytes": 435477,
+            "hashed_files": 25,
+            "inventory_entries": 25,
+            "root": "crates/dbt-auth"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 19112,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-base"
+          },
+          {
+            "analyzed_files": 16,
+            "hashed_bytes": 164779,
+            "hashed_files": 16,
+            "inventory_entries": 16,
+            "root": "crates/dbt-ci"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 180292,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-clap-core"
+          },
+          {
+            "analyzed_files": 7,
+            "hashed_bytes": 12055,
+            "hashed_files": 7,
+            "inventory_entries": 7,
+            "root": "crates/dbt-classification-types"
+          },
+          {
+            "analyzed_files": 53,
+            "hashed_bytes": 628498,
+            "hashed_files": 53,
+            "inventory_entries": 53,
+            "root": "crates/dbt-cloud-api"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 24725,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-cloud-config"
+          },
+          {
+            "analyzed_files": 93,
+            "hashed_bytes": 880641,
+            "hashed_files": 93,
+            "inventory_entries": 93,
+            "root": "crates/dbt-common"
+          },
+          {
+            "analyzed_files": 9,
+            "hashed_bytes": 46434,
+            "hashed_files": 9,
+            "inventory_entries": 9,
+            "root": "crates/dbt-compilation"
+          },
+          {
+            "analyzed_files": 25,
+            "hashed_bytes": 178695,
+            "hashed_files": 25,
+            "inventory_entries": 25,
+            "root": "crates/dbt-csv"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 37918,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-dag"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 71993,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-defer"
+          },
+          {
+            "analyzed_files": 28,
+            "hashed_bytes": 359389,
+            "hashed_files": 28,
+            "inventory_entries": 28,
+            "root": "crates/dbt-deps"
+          },
+          {
+            "analyzed_files": 10,
+            "hashed_bytes": 51195,
+            "hashed_files": 10,
+            "inventory_entries": 10,
+            "root": "crates/dbt-df-providers"
+          },
+          {
+            "analyzed_files": 9,
+            "hashed_bytes": 353000,
+            "hashed_files": 9,
+            "inventory_entries": 9,
+            "root": "crates/dbt-dist"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 34061,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-dist-classify"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 3222,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-docs-core"
+          },
+          {
+            "analyzed_files": 18,
+            "hashed_bytes": 551705,
+            "hashed_files": 18,
+            "inventory_entries": 18,
+            "root": "crates/dbt-docs-server"
+          },
+          {
+            "analyzed_files": 524,
+            "hashed_bytes": 3329587,
+            "hashed_files": 535,
+            "inventory_entries": 536,
+            "root": "crates/dbt-docs-server/web"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 4078,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-env"
+          },
+          {
+            "analyzed_files": 11,
+            "hashed_bytes": 117268,
+            "hashed_files": 11,
+            "inventory_entries": 11,
+            "root": "crates/dbt-error"
+          },
+          {
+            "analyzed_files": 18,
+            "hashed_bytes": 65587,
+            "hashed_files": 18,
+            "inventory_entries": 18,
+            "root": "crates/dbt-features"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 78236,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-freshness"
+          },
+          {
+            "analyzed_files": 19,
+            "hashed_bytes": 148565,
+            "hashed_files": 19,
+            "inventory_entries": 19,
+            "root": "crates/dbt-frontend-common"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 8218,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-goldie"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 1868,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-handles"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 6649,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-ident"
+          },
+          {
+            "analyzed_files": 33,
+            "hashed_bytes": 701287,
+            "hashed_files": 33,
+            "inventory_entries": 33,
+            "root": "crates/dbt-index-core"
+          },
+          {
+            "analyzed_files": 74,
+            "hashed_bytes": 1695453,
+            "hashed_files": 74,
+            "inventory_entries": 74,
+            "root": "crates/dbt-init"
+          },
+          {
+            "analyzed_files": 39,
+            "hashed_bytes": 209203,
+            "hashed_files": 39,
+            "inventory_entries": 39,
+            "root": "crates/dbt-jinja-ctx"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 9827,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-jinja-filters"
+          },
+          {
+            "analyzed_files": 57,
+            "hashed_bytes": 643116,
+            "hashed_files": 57,
+            "inventory_entries": 57,
+            "root": "crates/dbt-jinja-utils"
+          },
+          {
+            "analyzed_files": 7,
+            "hashed_bytes": 30729,
+            "hashed_files": 7,
+            "inventory_entries": 7,
+            "root": "crates/dbt-jinja-vars"
+          },
+          {
+            "analyzed_files": 19,
+            "hashed_bytes": 15925,
+            "hashed_files": 19,
+            "inventory_entries": 19,
+            "root": "crates/dbt-jinja/benchmarks"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 3763,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/actix-web-demo"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 2304,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/autoreload"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 2882,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/build-script"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 1419,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/call-block-function"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 2363,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/custom-error"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 1797,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/custom-loader"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 855,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/debug"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 1933,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/deserialize"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 5083,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/dsl"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 1883,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/dynamic-context"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 3268,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/dynamic-objects"
+          },
+          {
+            "analyzed_files": 6,
+            "hashed_bytes": 1832,
+            "hashed_files": 6,
+            "inventory_entries": 6,
+            "root": "crates/dbt-jinja/examples/embedding"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 2927,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/error"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 2315,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/eval-to-state"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 1432,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/expr"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 1614,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/filters"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 3137,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/function-using-async"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 1723,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/generate-yaml"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 635,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/hello"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 1378,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/inheritance"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 1548,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/invalid-value"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 1093,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/line-statements"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 3018,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/load-lazy"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 2072,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/load-resource"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 1329,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/macros"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 1417,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/merge-context"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 812,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/minimal"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 1644,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/none-as-undefined"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 2993,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/object-ref"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 1621,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/object-using-async"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 1031,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/path-loader"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 2127,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/recursive-for"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 504,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/render-macro"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 1920,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-jinja/examples/render-template"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 700,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/render-value"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 1884,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/self-referential-context"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 1308,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/streaming"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 3220,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-jinja/examples/syntax-highlighting"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 2805,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/undefined-tracking"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 2211,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/examples/value-tracking"
+          },
+          {
+            "analyzed_files": 39,
+            "hashed_bytes": 5424,
+            "hashed_files": 39,
+            "inventory_entries": 39,
+            "root": "crates/dbt-jinja/fuzz"
+          },
+          {
+            "analyzed_files": 541,
+            "hashed_bytes": 1838922,
+            "hashed_files": 541,
+            "inventory_entries": 541,
+            "root": "crates/dbt-jinja/minijinja"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 16646,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/minijinja-autoreload"
+          },
+          {
+            "analyzed_files": 15,
+            "hashed_bytes": 39136,
+            "hashed_files": 15,
+            "inventory_entries": 15,
+            "root": "crates/dbt-jinja/minijinja-cabi"
+          },
+          {
+            "analyzed_files": 26,
+            "hashed_bytes": 130994,
+            "hashed_files": 26,
+            "inventory_entries": 26,
+            "root": "crates/dbt-jinja/minijinja-cli"
+          },
+          {
+            "analyzed_files": 26,
+            "hashed_bytes": 363864,
+            "hashed_files": 26,
+            "inventory_entries": 26,
+            "root": "crates/dbt-jinja/minijinja-contrib"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 7355,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-jinja/minijinja-embed"
+          },
+          {
+            "analyzed_files": 20,
+            "hashed_bytes": 86935,
+            "hashed_files": 20,
+            "inventory_entries": 20,
+            "root": "crates/dbt-jinja/minijinja-py"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 32162,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/dbt-lease"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 2668,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-lineage-core"
+          },
+          {
+            "analyzed_files": 641,
+            "hashed_bytes": 1658723,
+            "hashed_files": 641,
+            "inventory_entries": 641,
+            "root": "crates/dbt-loader"
+          },
+          {
+            "analyzed_files": 6,
+            "hashed_bytes": 26517,
+            "hashed_files": 6,
+            "inventory_entries": 6,
+            "root": "crates/dbt-login"
+          },
+          {
+            "analyzed_files": 15,
+            "hashed_bytes": 429466,
+            "hashed_files": 15,
+            "inventory_entries": 15,
+            "root": "crates/dbt-main"
+          },
+          {
+            "analyzed_files": 9,
+            "hashed_bytes": 350260,
+            "hashed_files": 9,
+            "inventory_entries": 9,
+            "root": "crates/dbt-metadata"
+          },
+          {
+            "analyzed_files": 15,
+            "hashed_bytes": 131889,
+            "hashed_files": 15,
+            "inventory_entries": 15,
+            "root": "crates/dbt-metadata-parquet"
+          },
+          {
+            "analyzed_files": 50,
+            "hashed_bytes": 2386605,
+            "hashed_files": 54,
+            "inventory_entries": 54,
+            "root": "crates/dbt-metricflow"
+          },
+          {
+            "analyzed_files": 49,
+            "hashed_bytes": 1260205,
+            "hashed_files": 49,
+            "inventory_entries": 49,
+            "root": "crates/dbt-parser"
+          },
+          {
+            "analyzed_files": 7,
+            "hashed_bytes": 41385,
+            "hashed_files": 7,
+            "inventory_entries": 7,
+            "root": "crates/dbt-platform"
+          },
+          {
+            "analyzed_files": 14,
+            "hashed_bytes": 130926,
+            "hashed_files": 14,
+            "inventory_entries": 14,
+            "root": "crates/dbt-platform-auth"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 23621,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-pretty-table"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 25991,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-proc-macros"
+          },
+          {
+            "analyzed_files": 7,
+            "hashed_bytes": 88030,
+            "hashed_files": 7,
+            "inventory_entries": 7,
+            "root": "crates/dbt-profile"
+          },
+          {
+            "analyzed_files": 13,
+            "hashed_bytes": 74354,
+            "hashed_files": 13,
+            "inventory_entries": 13,
+            "root": "crates/dbt-profile-schemas"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 20633,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-python-core"
+          },
+          {
+            "analyzed_files": 35,
+            "hashed_bytes": 192124,
+            "hashed_files": 35,
+            "inventory_entries": 35,
+            "root": "crates/dbt-runtime"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 36477,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-runtime-macros"
+          },
+          {
+            "analyzed_files": 18,
+            "hashed_bytes": 9323,
+            "hashed_files": 18,
+            "inventory_entries": 18,
+            "root": "crates/dbt-sa-cli"
+          },
+          {
+            "analyzed_files": 54,
+            "hashed_bytes": 116317,
+            "hashed_files": 54,
+            "inventory_entries": 54,
+            "root": "crates/dbt-sa-python"
+          },
+          {
+            "analyzed_files": 6,
+            "hashed_bytes": 318032,
+            "hashed_files": 6,
+            "inventory_entries": 6,
+            "root": "crates/dbt-scheduler"
+          },
+          {
+            "analyzed_files": 8,
+            "hashed_bytes": 134622,
+            "hashed_files": 8,
+            "inventory_entries": 8,
+            "root": "crates/dbt-schema-store"
+          },
+          {
+            "analyzed_files": 88,
+            "hashed_bytes": 2205675,
+            "hashed_files": 88,
+            "inventory_entries": 88,
+            "root": "crates/dbt-schemas"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 50428,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-selector-parser"
+          },
+          {
+            "analyzed_files": 10,
+            "hashed_bytes": 108064,
+            "hashed_files": 10,
+            "inventory_entries": 10,
+            "root": "crates/dbt-skills"
+          },
+          {
+            "analyzed_files": 20,
+            "hashed_bytes": 70158,
+            "hashed_files": 20,
+            "inventory_entries": 20,
+            "root": "crates/dbt-sql-keywords"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 273704,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-sql/dbt-lexer-bigquery"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 265063,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-sql/dbt-lexer-databricks"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 259212,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-sql/dbt-lexer-duckdb"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 267447,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-sql/dbt-lexer-redshift"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 297244,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-sql/dbt-lexer-snowflake"
+          },
+          {
+            "analyzed_files": 5,
+            "hashed_bytes": 229505,
+            "hashed_files": 5,
+            "inventory_entries": 5,
+            "root": "crates/dbt-sql/dbt-lexer-trino"
+          },
+          {
+            "analyzed_files": 6,
+            "hashed_bytes": 24420,
+            "hashed_files": 6,
+            "inventory_entries": 6,
+            "root": "crates/dbt-sql/dbt-sql-utils"
+          },
+          {
+            "analyzed_files": 42,
+            "hashed_bytes": 555254,
+            "hashed_files": 42,
+            "inventory_entries": 42,
+            "root": "crates/dbt-state"
+          },
+          {
+            "analyzed_files": 30,
+            "hashed_bytes": 703092,
+            "hashed_files": 30,
+            "inventory_entries": 30,
+            "root": "crates/dbt-tasks-core"
+          },
+          {
+            "analyzed_files": 57,
+            "hashed_bytes": 851709,
+            "hashed_files": 57,
+            "inventory_entries": 57,
+            "root": "crates/dbt-tasks-sa"
+          },
+          {
+            "analyzed_files": 93,
+            "hashed_bytes": 864633,
+            "hashed_files": 94,
+            "inventory_entries": 94,
+            "root": "crates/dbt-telemetry"
+          },
+          {
+            "analyzed_files": 13,
+            "hashed_bytes": 30541,
+            "hashed_files": 13,
+            "inventory_entries": 13,
+            "root": "crates/dbt-test-containers"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 3320,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-test-primitives"
+          },
+          {
+            "analyzed_files": 31,
+            "hashed_bytes": 223686,
+            "hashed_files": 31,
+            "inventory_entries": 32,
+            "root": "crates/dbt-test-utils"
+          },
+          {
+            "analyzed_files": 63,
+            "hashed_bytes": 536324,
+            "hashed_files": 63,
+            "inventory_entries": 63,
+            "root": "crates/dbt-tracing"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 14860,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/dbt-tracked-stmt"
+          },
+          {
+            "analyzed_files": 6,
+            "hashed_bytes": 32495,
+            "hashed_files": 6,
+            "inventory_entries": 6,
+            "root": "crates/dbt-tui-progress"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 2059,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/dbt-vortex"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 29555,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/minijinja-typecheck-builtins"
+          },
+          {
+            "analyzed_files": 31,
+            "hashed_bytes": 1005244,
+            "hashed_files": 32,
+            "inventory_entries": 32,
+            "root": "crates/proto-rust"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 13837,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "crates/proto-rust-macros"
+          },
+          {
+            "analyzed_files": 4,
+            "hashed_bytes": 62289,
+            "hashed_files": 4,
+            "inventory_entries": 4,
+            "root": "crates/vortex-client"
+          },
+          {
+            "analyzed_files": 3,
+            "hashed_bytes": 27987,
+            "hashed_files": 3,
+            "inventory_entries": 3,
+            "root": "crates/vortex-events"
+          }
+        ]
+      },
+      "set": "holdout",
+      "stars_at_benchmark": 13835,
+      "status": "UNSUITABLE",
+      "tier": "holdout",
+      "tree_sha256": "7653acbf5080c17e82702ebf2fe392aac00aedf260a584916fb54d61d9ff822b"
+    },
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 149908192,
+        "files": 12467,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "f09e6eaa02b6e14197fe5e113c8a755f0ceadd41f770153f2f522c8900f5d543",
+        "skipped_links": []
+      },
+      "attempted": true,
+      "bundle_files": [],
+      "bundles": 0,
+      "capabilities": 0,
+      "commit_sha": "a1a569733a6a413f460342b61c6a8909984c2e48",
+      "compiler_sha256": "26e67b58863398f8ae53722cc6a14b8302218aafb8396c05580553a54912b4b5",
+      "completed": true,
+      "elapsed_seconds": 12.968,
+      "facts": [],
+      "files_scanned": 12467,
+      "findings": [
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Content budget excluded 8640 files; affected paths and reasons remain in the inventory. Unscanned capabilities are unknown.",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "NO_ACTIONABLE_CAPABILITY",
+          "message": "No supported CLI entrypoint was found",
+          "path": null,
+          "severity": "error"
+        }
+      ],
+      "id": "aws-cli",
+      "language": "Python",
+      "languages_detected": [
+        "python"
+      ],
+      "license": "NOASSERTION",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "574ad038701c7186957e6e5c745c20adf7840b094528eca27410a7c1077822a1",
+          "src/r2s/application.py": "b7a922c42e3937dc88d2635c32be974ad708883b121cc994040a6226c220e176",
+          "src/r2s/bundle_contracts.py": "8896d58387ace8700346be8bc50fd73abf477004f9fea8717ae3dc9cf73cde16",
+          "src/r2s/bundle_validation.py": "3294f0811801c7c7b57723c7d50972378796bc893248733389930dd192de18be",
+          "src/r2s/cli.py": "e22f481f4a8387a2bc1f4bc18f0bff29b66273f43fc30f989105b8273f460d67",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/command_graph.py": "135af7c7eda75fbe3a5dee95d7cb41116a7d3c241e33d90caed4ff59e47ad970",
+          "src/r2s/compilation.py": "3063b4cc211af1e5e52517d88ee7a768709bde4161ce9e67abb26d3d63db56aa",
+          "src/r2s/compiler_identity.py": "fd33f07bff88ca4b0ade4625aaaed2c7c7743805cf1a43c6b8f83aa0154b7c02",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "77e8280c8e27f931795e7036b35e26f720e94e25ec238a27e0878f00821c6134",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "0216af135302df312b39526a4d7ee408894339ed882fbe7d3dd92c2e11ff9ee1",
+          "src/r2s/domain.py": "0e28a03d8b681852fa2d631a3153356fb6bc7933a8e05ae5f91c8370530fde9f",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "9fa7515928e65e1693417332a47fbd85c154ae28b99f5addae0c9aad667ce3eb",
+          "src/r2s/generator.py": "759dd7cda49085e582ceb44d3111ddf705073961af820f2c69019b8fa264f3f4",
+          "src/r2s/go_analyzer.py": "371a7ff846e9ace6b53edd0c5b70d08be31c7fd98f7aade871ed1eb22164c2b8",
+          "src/r2s/go_cobra.py": "f94fe55897637a61b7569241ad006cc85b2f4711735b5a49169214781b9317ed",
+          "src/r2s/go_graph.py": "7b0139d0161f60dc4bb262f2ff7e1188575722eed6ca0542c89aba69958e7989",
+          "src/r2s/javascript_analyzer.py": "905346313c64422c86d3e96b729400de8555cc9ec4887302e5c627f0d15bc800",
+          "src/r2s/javascript_graph.py": "405779c726e1b7462a537f0a057d901ab87a6939461d13234f59104d41a91af3",
+          "src/r2s/javascript_tables.py": "28c1a1d727c40f9c581890c2a4d0c4fcc10c9e49f2a4f1aaa248d5631a61d4f0",
+          "src/r2s/jobs.py": "884bf6b813466f52fe8915e2120b773b244430d7b2f305175df39f096a2b3374",
+          "src/r2s/legacy_contracts.py": "909c6531ec9fbc3c2436191cf1103c144453e5c05986a4c39645a466f1466c6e",
+          "src/r2s/migration.py": "2eea6ccefd9fa90d2162b0b2bd470488464f50a31ec9d6dea776a8fc5ade4468",
+          "src/r2s/model_adapter.py": "85bb678e07b8fca8f5ad7b1e35c09cbc0219c275cf6e91a89b0b0c645a0080e7",
+          "src/r2s/option_semantics.py": "df7133449918291035616b965186ddabcbe97247aaf01f20a7ee635a9b82a2c7",
+          "src/r2s/planner.py": "9cd82b8ae0fe08e5f98f6a9aa0180c292ec2f281f51e341eeeb4f5e310a51438",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_argparse.py": "dd53fbbe988c2d9df7bbd4d6c8b9f09e3852f947c61a39ab7f27a6594bd28926",
+          "src/r2s/python_bindings.py": "d3cba4a05c335fe1becf0421564efe6537563dd1a3105cf56bf7a107c9d2da18",
+          "src/r2s/python_graph.py": "ebc182722f61e022e2ea9b784872fe2c7e1c1e91109acaea43bd92d564cfe6c3",
+          "src/r2s/repair.py": "62a076b4e0bc75c16bca6a5090c0527741f666ba423781cd1159872f14b37c61",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/static_parameters.py": "478da0f7ad5ebcb5182d0eb11f025795ceca2427d4cd3afd940814a9dd297789",
+          "src/r2s/storage.py": "e7f6c9009c318af378c77ad5ae895b216e35e3daf9c9c25a901fe07b0c5729aa",
+          "src/r2s/syntax.py": "97755d2587a5d0e454bccb0f81b9fab938af83494f679c5ed88230b571a4e08e",
+          "src/r2s/task_worker.py": "a5d465151b7e8feca32c0c29c0ec2894a72b7497b2a2a130bb584524445da7c2",
+          "src/r2s/tasks.py": "966f094d541067406e586562c90c5f6c44a1aa704eae7ee1b698a3543896f18c",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "ff768e66727de98193500a7ce3401387540040ca0a0b42687f3ea3fe1c831b9b",
+          "src/r2s/workflows.py": "71292568b6ca422febdfdcc1456e5ae034104f5fda7d7a3c362dff5473f4c98e"
+        },
+        "compiler_sha256": "26e67b58863398f8ae53722cc6a14b8302218aafb8396c05580553a54912b4b5",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5",
+          "tree-sitter": "0.25.2",
+          "tree-sitter-go": "0.25.0",
+          "tree-sitter-javascript": "0.25.0",
+          "tree-sitter-typescript": "0.23.2"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "5b44a64468e68e5d3957024006b3d33137daadf552dcbc0e2da9a845ce0e1e86",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "aws/aws-cli",
+      "repository_types": [
+        "library"
+      ],
+      "scan": {
+        "analyzed_files": 3827,
+        "budget_reasons": {
+          "FILE_TOO_LARGE": 2,
+          "WORKSPACE_BYTE_BUDGET": 8638
+        },
+        "budget_skipped_files": 8640,
+        "complete_within_policy": false,
+        "content_bytes_read": 67108864,
+        "content_files_read": 3827,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 12467,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 3827,
+            "budget_skipped_files": 8640,
+            "hashed_bytes": 67108864,
+            "hashed_files": 3827,
+            "inventory_entries": 12467,
+            "root": "."
+          }
+        ]
+      },
+      "set": "holdout",
+      "stars_at_benchmark": 17259,
+      "status": "REVIEW_REQUIRED",
+      "tier": "holdout",
+      "tree_sha256": "8bbb6f641e0bb36da86988cef3f0c0d245dfc475f14725b2348825735ff983b7"
+    },
+    {
+      "analyzer_version": "compiler fingerprint verified before and after worker; runner v3",
+      "archive": {
+        "expanded_bytes": 15436028,
+        "files": 5863,
+        "identity_method": "HTTPS archive addressed by commit SHA",
+        "restored_files": [],
+        "sha256": "e2dddeff4849c16dc171addbbeaac8e9596e08f249755261007772a44714db98",
+        "skipped_links": [
+          {
+            "kind": "link",
+            "path": ".azure-pipelines/commands/alpine.sh",
+            "target": "remote.sh"
+          },
+          {
+            "kind": "link",
+            "path": ".azure-pipelines/commands/fedora.sh",
+            "target": "remote.sh"
+          },
+          {
+            "kind": "link",
+            "path": ".azure-pipelines/commands/freebsd.sh",
+            "target": "remote.sh"
+          },
+          {
+            "kind": "link",
+            "path": ".azure-pipelines/commands/galaxy.sh",
+            "target": "cloud.sh"
+          },
+          {
+            "kind": "link",
+            "path": ".azure-pipelines/commands/macos.sh",
+            "target": "remote.sh"
+          },
+          {
+            "kind": "link",
+            "path": ".azure-pipelines/commands/rhel.sh",
+            "target": "remote.sh"
+          },
+          {
+            "kind": "link",
+            "path": ".azure-pipelines/commands/ubuntu.sh",
+            "target": "remote.sh"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible",
+            "target": "../lib/ansible/cli/adhoc.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-config",
+            "target": "../lib/ansible/cli/config.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-console",
+            "target": "../lib/ansible/cli/console.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-doc",
+            "target": "../lib/ansible/cli/doc.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-galaxy",
+            "target": "../lib/ansible/cli/galaxy.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-inventory",
+            "target": "../lib/ansible/cli/inventory.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-playbook",
+            "target": "../lib/ansible/cli/playbook.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-pull",
+            "target": "../lib/ansible/cli/pull.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-test",
+            "target": "../test/lib/ansible_test/_util/target/cli/ansible_test_cli_stub.py"
+          },
+          {
+            "kind": "link",
+            "path": "bin/ansible-vault",
+            "target": "../lib/ansible/cli/vault.py"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/module_utils/ansible_release.py",
+            "target": "../release.py"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/modules/systemd.py",
+            "target": "systemd_service.py"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/change.yml",
+            "target": "changed.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/failure.yml",
+            "target": "failed.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/is_abs.yml",
+            "target": "abs.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/is_dir.yml",
+            "target": "directory.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/is_file.yml",
+            "target": "file.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/is_link.yml",
+            "target": "link.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/is_mount.yml",
+            "target": "mount.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/is_same_file.yml",
+            "target": "same_file.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/isnan.yml",
+            "target": "nan.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/issubset.yml",
+            "target": "subset.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/issuperset.yml",
+            "target": "superset.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/skip.yml",
+            "target": "skipped.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/succeeded.yml",
+            "target": "success.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/successful.yml",
+            "target": "success.yml"
+          },
+          {
+            "kind": "link",
+            "path": "lib/ansible/plugins/test/version_compare.yml",
+            "target": "version.yml"
+          },
+          {
+            "kind": "link",
+            "path": "test/integration/targets/ansible-doc/filter_plugins/split.yml",
+            "target": "donothing.yml"
+          },
+          {
+            "kind": "link",
+            "path": "test/integration/targets/ansible-galaxy-role/files/safe-symlinks/defaults/main.yml",
+            "target": "common_vars/subdir/group0/main.yml"
+          },
+          {
+            "kind": "link",
+            "path": "test/integration/targets/ansible-galaxy-role/files/safe-symlinks/handlers/utils.yml",
+            "target": "../tasks/utils/suite.yml"
+          },
+          {
+            "kind": "link",
+            "path": "test/integration/targets/ansible-vault/symlink/get-password-symlink",
+            "target": "../script/vault-secret.sh"
+          },
+          {
+            "kind": "link",
+            "path": "test/integration/targets/gathering_facts/library/dummy2",
+            "target": "dummy1"
+          },
+          {
+            "kind": "link",
+            "path": "test/integration/targets/gathering_facts/library/dummy3",
+            "target": "dummy1"
+          },
+          {
+            "kind": "link",
+            "path": "test/integration/targets/meta_tasks/inventory_refresh.yml",
+            "target": "inventory_old.yml"
+          },
+          {
+            "kind": "link",
+            "path": "test/integration/targets/roles/roles/vars_scope/tasks/check_vars.yml",
+            "target": "../../../tasks/check_vars.yml"
+          },
+          {
+            "kind": "link",
+            "path": "test/lib/ansible_test/_internal/junit_xml.py",
+            "target": "../../../../lib/ansible/utils/_junit_xml.py"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/action/win_copy.py",
+            "target": "../../../../../../plugins/action/win_copy.py"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/async_status.ps1",
+            "target": "../../../../../../plugins/modules/async_status.ps1"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_acl.ps1",
+            "target": "../../../../../../plugins/modules/win_acl.ps1"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_acl.py",
+            "target": "../../../../../../plugins/modules/win_acl.py"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_copy.ps1",
+            "target": "../../../../../../plugins/modules/win_copy.ps1"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_copy.py",
+            "target": "../../../../../../plugins/modules/win_copy.py"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_file.ps1",
+            "target": "../../../../../../plugins/modules/win_file.ps1"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_file.py",
+            "target": "../../../../../../plugins/modules/win_file.py"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_ping.ps1",
+            "target": "../../../../../../plugins/modules/win_ping.ps1"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_ping.py",
+            "target": "../../../../../../plugins/modules/win_ping.py"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_shell.ps1",
+            "target": "../../../../../../plugins/modules/win_shell.ps1"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_shell.py",
+            "target": "../../../../../../plugins/modules/win_shell.py"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_stat.ps1",
+            "target": "../../../../../../plugins/modules/win_stat.ps1"
+          },
+          {
+            "kind": "link",
+            "path": "test/support/windows-integration/collections/ansible_collections/ansible/windows/plugins/modules/win_stat.py",
+            "target": "../../../../../../plugins/modules/win_stat.py"
+          }
+        ]
+      },
+      "attempted": true,
+      "bundle_files": [
+        {
+          "bytes": 2810,
+          "path": "portable/ansible/PROVENANCE.json",
+          "sha256": "1ccffd455964b975e48167d7899c88f942ca418691a93a5bdd75ca12f484e8e9"
+        },
+        {
+          "bytes": 1043,
+          "path": "portable/ansible/SKILL.md",
+          "sha256": "77cd4026d615eed73d0b62bd3c6e2ebd4f60d912b302fc0585c3f8fb98ba78f8"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible/BUNDLE.lock.json",
+          "sha256": "ac1402ba0e5a4706fa166109664a777cb52213ad1fa971ad51967853522dd29d"
+        },
+        {
+          "bytes": 557,
+          "path": "portable/ansible/references/provenance.md",
+          "sha256": "0bd8afc4d714691e09cef26d8df2e09a677fbb7db08624fa1e20fd511ecb9b7d"
+        },
+        {
+          "bytes": 512,
+          "path": "portable/ansible/references/cli.md",
+          "sha256": "8455163f60d40f44563aeb7243f7cf1e4158cfd39a1db7fff0f3797bfcfe0ee8"
+        },
+        {
+          "bytes": 2866,
+          "path": "portable/ansible-config/PROVENANCE.json",
+          "sha256": "d0db96f54624c29c7809d379bc0718cbacf0f897bdc16f1b15b3ae53303def90"
+        },
+        {
+          "bytes": 1071,
+          "path": "portable/ansible-config/SKILL.md",
+          "sha256": "34815787614e6428d16472e73d102712954a8aee575f80f2c9a78707c5337e7f"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-config/BUNDLE.lock.json",
+          "sha256": "0c852c527f77a95edb54bde8f1a39a9c9204d0a69dbdbf0f6c299c67d5e3f1a4"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-config/references/provenance.md",
+          "sha256": "31f5dcf2f64a9d4d227900266f8b9058eb4f34598b50dc370e0920f24f7e2034"
+        },
+        {
+          "bytes": 526,
+          "path": "portable/ansible-config/references/cli.md",
+          "sha256": "74be63fa260465a36094613c4a6a4236593301bd7ccc2212f3cf6ff738ec2d6e"
+        },
+        {
+          "bytes": 2876,
+          "path": "portable/ansible-console/PROVENANCE.json",
+          "sha256": "be0ddd0cbb3750d586a164ff824d0a4b73ee2d9969f63da531943f37dccd46bf"
+        },
+        {
+          "bytes": 1075,
+          "path": "portable/ansible-console/SKILL.md",
+          "sha256": "72af4fcb259a7d75a4595e239fb512a8b4a1d6f97055fa947104b4ecaba1e3d7"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-console/BUNDLE.lock.json",
+          "sha256": "e5720d4ef3b43aecd64614c0a04314932c11bb71bbacce077eee752a200aac35"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-console/references/provenance.md",
+          "sha256": "febee514728b123d785b5cd36bd11c7fc2e2c5b21621fb67c642fde76b8f7d79"
+        },
+        {
+          "bytes": 528,
+          "path": "portable/ansible-console/references/cli.md",
+          "sha256": "41ef578ac53d220bc9961b846ee5af41e28252a33f879f3619bafb1e677c65a8"
+        },
+        {
+          "bytes": 2836,
+          "path": "portable/ansible-doc/PROVENANCE.json",
+          "sha256": "96e289c97bdb102bf0d9ed39a9bfdcc9a1a08c5ec80c6b269cfa94d303d5fe1a"
+        },
+        {
+          "bytes": 1059,
+          "path": "portable/ansible-doc/SKILL.md",
+          "sha256": "4033e2b4cf3205b967d7b968f638382c7680967cd26eb1336c5460063049fe4c"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-doc/BUNDLE.lock.json",
+          "sha256": "61e442509898a41d1a1a54eaff4b91697c99aba772fc5a49371e53e8d6e31c1b"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-doc/references/provenance.md",
+          "sha256": "f8a907bcd6ad6fb336c45bca83a65f3bc70eb0750bbee1c2dd476f60968c2ad4"
+        },
+        {
+          "bytes": 520,
+          "path": "portable/ansible-doc/references/cli.md",
+          "sha256": "6da1e4ee1e15a27f34c162039084cd0ecdce4c317b868564817277d5079362f6"
+        },
+        {
+          "bytes": 2866,
+          "path": "portable/ansible-galaxy/PROVENANCE.json",
+          "sha256": "84be322e760e387a2f3f28ff8eeeffedd769c645b20a3f07a0cf72d60f1e1fde"
+        },
+        {
+          "bytes": 1071,
+          "path": "portable/ansible-galaxy/SKILL.md",
+          "sha256": "ffa747f8560497d74ea4bcc69d84054a4550e0d8cece8debdae39edec8f9dff9"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-galaxy/BUNDLE.lock.json",
+          "sha256": "ab3799ba6e46861af1db2144231ef8ee383007c471ecaa2cf212cd6ac9a90ff8"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-galaxy/references/provenance.md",
+          "sha256": "170ddabced83f9e3a5e48f7d7233175407f96d76350b7e779ba197a3bb10ee41"
+        },
+        {
+          "bytes": 526,
+          "path": "portable/ansible-galaxy/references/cli.md",
+          "sha256": "0ae3c28fa347889659e68359318e8aa4448a89810cdaca1bf2562a64f8407d4e"
+        },
+        {
+          "bytes": 2896,
+          "path": "portable/ansible-inventory/PROVENANCE.json",
+          "sha256": "dd9c23ccf63df704c125c2bfb5b79059fa4dc28b46b846995230af993d02d446"
+        },
+        {
+          "bytes": 1083,
+          "path": "portable/ansible-inventory/SKILL.md",
+          "sha256": "0fe7e58ada8165a9979dc5e92c3e9770d278d56b6cd2b803dc1e2db9c460ba48"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-inventory/BUNDLE.lock.json",
+          "sha256": "5e3e7d9825d5e432923f370c0917d2be633789789e6046717a2cdb89ccc9efb1"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-inventory/references/provenance.md",
+          "sha256": "13f32a55e2c592c4da8c9ecfa3ac9e3ee8c4242af6917ff24ed130d80d61c075"
+        },
+        {
+          "bytes": 532,
+          "path": "portable/ansible-inventory/references/cli.md",
+          "sha256": "3f018ac81d1f4284a2b743924be1743e8739bf05675e78ce81b82a7e6a70b8a0"
+        },
+        {
+          "bytes": 2886,
+          "path": "portable/ansible-playbook/PROVENANCE.json",
+          "sha256": "8c286136dffffbf623191dbd3bc3b15260ed8b1028a9a92802b165c4d8c2e25f"
+        },
+        {
+          "bytes": 1079,
+          "path": "portable/ansible-playbook/SKILL.md",
+          "sha256": "ad792699819d3bd63eee28d24e8fa4a1b6256f78962d42c90ddef88b00907182"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-playbook/BUNDLE.lock.json",
+          "sha256": "d473789cfb15ad2497173c6ec5743d98e95ea7d0e53a926a7a8022c4201422cf"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-playbook/references/provenance.md",
+          "sha256": "ab3d73c956ae217ed88a93461e9bfe4e93140289daf9aae810ee9aa59d7cd726"
+        },
+        {
+          "bytes": 530,
+          "path": "portable/ansible-playbook/references/cli.md",
+          "sha256": "e3bb885cb9543a139239220598cb9b5b5f77010a51e7941097d699eb40cf0a9d"
+        },
+        {
+          "bytes": 2846,
+          "path": "portable/ansible-pull/PROVENANCE.json",
+          "sha256": "3c60ede75da6852297e1d303fba473ec41ed34ca48ed288788864b54511a3899"
+        },
+        {
+          "bytes": 1063,
+          "path": "portable/ansible-pull/SKILL.md",
+          "sha256": "6450905de61093da58b69cf5614e5a63a01c5219dc6d0d8b0a11a099f7ec6c37"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-pull/BUNDLE.lock.json",
+          "sha256": "4c628229ff6dce1e15d5271e5d4bd4dfddf650db83e1341062a2d5f0c94fccc3"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-pull/references/provenance.md",
+          "sha256": "be3da9605352609644d52fbb0f0d425980987e957b65def660c89cd6d6243797"
+        },
+        {
+          "bytes": 522,
+          "path": "portable/ansible-pull/references/cli.md",
+          "sha256": "3c9e11dac1c5421a6972d31cf6145cf77c4537d5eb286349beac9c30186278b7"
+        },
+        {
+          "bytes": 2951,
+          "path": "portable/ansible-test/PROVENANCE.json",
+          "sha256": "22adbff40cb82eb84dc858fbfa9503e59b73bbcf19e20ea0c138a50f18b5a926"
+        },
+        {
+          "bytes": 1063,
+          "path": "portable/ansible-test/SKILL.md",
+          "sha256": "daea1e548f142fb4025159fbf4590e0cbf155caa8f31490939e01d3d2e2d7bd1"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-test/BUNDLE.lock.json",
+          "sha256": "a798227ed6cc949f85dffe280e94a6aff6ce24a436cef3892b73ea205eb0e8cf"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-test/references/provenance.md",
+          "sha256": "915905e99d9a5968705804ed1b1e86709a41d8bea21d236cc07a7ee6fc0c1b4b"
+        },
+        {
+          "bytes": 522,
+          "path": "portable/ansible-test/references/cli.md",
+          "sha256": "982b01269b8a1acecd9c1beb43e74d01746a2f7a6ba80031a2886231257423ed"
+        },
+        {
+          "bytes": 2856,
+          "path": "portable/ansible-vault/PROVENANCE.json",
+          "sha256": "ad6a481448a6e2d322573201c623cf3ef96a913ad27fcfc8c26d4204ddaf4358"
+        },
+        {
+          "bytes": 1067,
+          "path": "portable/ansible-vault/SKILL.md",
+          "sha256": "95fea165d7eadcc053394dbbe70e0ccb8c6cb76f4acdf044f8473de49f385fa1"
+        },
+        {
+          "bytes": 381,
+          "path": "portable/ansible-vault/BUNDLE.lock.json",
+          "sha256": "6610e7463392fc1238d0dc66268c395f9a414267b692f01aa570e5adac9034b9"
+        },
+        {
+          "bytes": 559,
+          "path": "portable/ansible-vault/references/provenance.md",
+          "sha256": "b478fc02a43c9d458c3dd3bbc7bb09ae3c55ccc6c896e4a2ac6c5bb27d65d4ee"
+        },
+        {
+          "bytes": 524,
+          "path": "portable/ansible-vault/references/cli.md",
+          "sha256": "d8c5e9debecc01040837d45840832a1bbb8f83fd4913b2e258cf4f2af2403759"
+        }
+      ],
+      "bundles": 10,
+      "capabilities": 10,
+      "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+      "compiler_sha256": "26e67b58863398f8ae53722cc6a14b8302218aafb8396c05580553a54912b4b5",
+      "completed": true,
+      "elapsed_seconds": 9.845,
+      "facts": [
+        {
+          "emitted": true,
+          "id": "cl_2df7bffcd18d3e36dd0d",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 7,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible",
+              "start_line": 7,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible",
+            "target": "ansible.cli.adhoc:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_cc8299a0e6c9e52e7c4c",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 106,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-config",
+              "start_line": 106,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-config",
+            "target": "ansible.cli.config:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_82f0b33b19582ac37f19",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 107,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-console",
+              "start_line": 107,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-console",
+            "target": "ansible.cli.console:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_d06388ee2a2e4d0bbdb5",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 108,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-doc",
+              "start_line": 108,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-doc",
+            "target": "ansible.cli.doc:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_3375eba8313cfff9db12",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 109,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-galaxy",
+              "start_line": 109,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-galaxy",
+            "target": "ansible.cli.galaxy:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_27c49629dddba4883f4f",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 110,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-inventory",
+              "start_line": 110,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-inventory",
+            "target": "ansible.cli.inventory:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_91b96d4c326c479116b6",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 111,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-playbook",
+              "start_line": 111,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-playbook",
+            "target": "ansible.cli.playbook:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_27585d7c0f3dad916d34",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 112,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-pull",
+              "start_line": 112,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-pull",
+            "target": "ansible.cli.pull:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_e8e52b7493c2ff7adff9",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 114,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-test",
+              "start_line": 114,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-test",
+            "target": "ansible_test._util.target.cli.ansible_test_cli_stub:main"
+          }
+        },
+        {
+          "emitted": true,
+          "id": "cl_95f9ccf2fb88b172cb7d",
+          "predicate": "provides_cli",
+          "provenance_valid": true,
+          "sources": [
+            {
+              "blob_sha": null,
+              "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+              "confidence": 1.0,
+              "content_sha256": "a0f1e0c0ad23c1ca377045ab67aa81dd06b2ea7d7f5b8e4f5ee8bb5d363ed11a",
+              "end_line": 113,
+              "extractor": "python-manifest@2",
+              "path": "pyproject.toml",
+              "pointer": "$.project.scripts.ansible-vault",
+              "start_line": 113,
+              "verified_hash_and_pin": true
+            }
+          ],
+          "status": "supported",
+          "subject": "repository",
+          "value": {
+            "command": "ansible-vault",
+            "target": "ansible.cli.vault:main"
+          }
+        }
+      ],
+      "files_scanned": 5863,
+      "findings": [
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Content budget excluded 3920 files; affected paths and reasons remain in the inventory. Unscanned capabilities are unknown.",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SENSITIVE_INPUT_SKIPPED",
+          "message": "Skipped 1 sensitive path(s) under the active scan policy",
+          "path": null,
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.adhoc:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.config:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.console:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.doc:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.galaxy:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.inventory:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.playbook:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.pull:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible_test._util.target.cli.ansible_test_cli_stub:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "ENTRYPOINT_SYMBOL_UNRESOLVED",
+          "message": "Static symbol resolution unavailable: ansible.cli.vault:main",
+          "path": "pyproject.toml",
+          "severity": "warning"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        },
+        {
+          "code": "SCAN_INCOMPLETE",
+          "message": "Bundle comes from a partial scan; unscanned capabilities remain unknown",
+          "path": null,
+          "severity": "error"
+        }
+      ],
+      "id": "ansible",
+      "language": "Python",
+      "languages_detected": [
+        "python"
+      ],
+      "license": "GPL-3.0",
+      "measurement_identity": {
+        "compiler_files": {
+          "src/r2s/__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+          "src/r2s/__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+          "src/r2s/adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+          "src/r2s/analyzers.py": "574ad038701c7186957e6e5c745c20adf7840b094528eca27410a7c1077822a1",
+          "src/r2s/application.py": "b7a922c42e3937dc88d2635c32be974ad708883b121cc994040a6226c220e176",
+          "src/r2s/bundle_contracts.py": "8896d58387ace8700346be8bc50fd73abf477004f9fea8717ae3dc9cf73cde16",
+          "src/r2s/bundle_validation.py": "3294f0811801c7c7b57723c7d50972378796bc893248733389930dd192de18be",
+          "src/r2s/cli.py": "e22f481f4a8387a2bc1f4bc18f0bff29b66273f43fc30f989105b8273f460d67",
+          "src/r2s/client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+          "src/r2s/command_graph.py": "135af7c7eda75fbe3a5dee95d7cb41116a7d3c241e33d90caed4ff59e47ad970",
+          "src/r2s/compilation.py": "3063b4cc211af1e5e52517d88ee7a768709bde4161ce9e67abb26d3d63db56aa",
+          "src/r2s/compiler_identity.py": "fd33f07bff88ca4b0ade4625aaaed2c7c7743805cf1a43c6b8f83aa0154b7c02",
+          "src/r2s/contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+          "src/r2s/core.py": "419654ebdb701f55757f1bc52db3c0dc772ed020ec1eaa76d7523b5a24a6d41c",
+          "src/r2s/discovery_contract.py": "77e8280c8e27f931795e7036b35e26f720e94e25ec238a27e0878f00821c6134",
+          "src/r2s/distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+          "src/r2s/documents.py": "0216af135302df312b39526a4d7ee408894339ed882fbe7d3dd92c2e11ff9ee1",
+          "src/r2s/domain.py": "0e28a03d8b681852fa2d631a3153356fb6bc7933a8e05ae5f91c8370530fde9f",
+          "src/r2s/drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+          "src/r2s/execution.py": "88a593a96a0b7e1ebf53196d3853b80c8993953743b625f0d116610cc922332d",
+          "src/r2s/fact_contracts.py": "9fa7515928e65e1693417332a47fbd85c154ae28b99f5addae0c9aad667ce3eb",
+          "src/r2s/generator.py": "759dd7cda49085e582ceb44d3111ddf705073961af820f2c69019b8fa264f3f4",
+          "src/r2s/go_analyzer.py": "371a7ff846e9ace6b53edd0c5b70d08be31c7fd98f7aade871ed1eb22164c2b8",
+          "src/r2s/go_cobra.py": "f94fe55897637a61b7569241ad006cc85b2f4711735b5a49169214781b9317ed",
+          "src/r2s/go_graph.py": "7b0139d0161f60dc4bb262f2ff7e1188575722eed6ca0542c89aba69958e7989",
+          "src/r2s/javascript_analyzer.py": "905346313c64422c86d3e96b729400de8555cc9ec4887302e5c627f0d15bc800",
+          "src/r2s/javascript_graph.py": "405779c726e1b7462a537f0a057d901ab87a6939461d13234f59104d41a91af3",
+          "src/r2s/javascript_tables.py": "28c1a1d727c40f9c581890c2a4d0c4fcc10c9e49f2a4f1aaa248d5631a61d4f0",
+          "src/r2s/jobs.py": "884bf6b813466f52fe8915e2120b773b244430d7b2f305175df39f096a2b3374",
+          "src/r2s/legacy_contracts.py": "909c6531ec9fbc3c2436191cf1103c144453e5c05986a4c39645a466f1466c6e",
+          "src/r2s/migration.py": "2eea6ccefd9fa90d2162b0b2bd470488464f50a31ec9d6dea776a8fc5ade4468",
+          "src/r2s/model_adapter.py": "85bb678e07b8fca8f5ad7b1e35c09cbc0219c275cf6e91a89b0b0c645a0080e7",
+          "src/r2s/option_semantics.py": "df7133449918291035616b965186ddabcbe97247aaf01f20a7ee635a9b82a2c7",
+          "src/r2s/planner.py": "9cd82b8ae0fe08e5f98f6a9aa0180c292ec2f281f51e341eeeb4f5e310a51438",
+          "src/r2s/policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+          "src/r2s/python_argparse.py": "dd53fbbe988c2d9df7bbd4d6c8b9f09e3852f947c61a39ab7f27a6594bd28926",
+          "src/r2s/python_bindings.py": "d3cba4a05c335fe1becf0421564efe6537563dd1a3105cf56bf7a107c9d2da18",
+          "src/r2s/python_graph.py": "ebc182722f61e022e2ea9b784872fe2c7e1c1e91109acaea43bd92d564cfe6c3",
+          "src/r2s/repair.py": "62a076b4e0bc75c16bca6a5090c0527741f666ba423781cd1159872f14b37c61",
+          "src/r2s/scan_policy.py": "522c3a647f6ff5018e309e2be8cbba42710145129ee51c2bc34c8cb168b6063d",
+          "src/r2s/scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+          "src/r2s/serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+          "src/r2s/source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+          "src/r2s/static_parameters.py": "478da0f7ad5ebcb5182d0eb11f025795ceca2427d4cd3afd940814a9dd297789",
+          "src/r2s/storage.py": "e7f6c9009c318af378c77ad5ae895b216e35e3daf9c9c25a901fe07b0c5729aa",
+          "src/r2s/syntax.py": "97755d2587a5d0e454bccb0f81b9fab938af83494f679c5ed88230b571a4e08e",
+          "src/r2s/task_worker.py": "a5d465151b7e8feca32c0c29c0ec2894a72b7497b2a2a130bb584524445da7c2",
+          "src/r2s/tasks.py": "966f094d541067406e586562c90c5f6c44a1aa704eae7ee1b698a3543896f18c",
+          "src/r2s/toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+          "src/r2s/ui.py": "ff768e66727de98193500a7ce3401387540040ca0a0b42687f3ea3fe1c831b9b",
+          "src/r2s/workflows.py": "71292568b6ca422febdfdcc1456e5ae034104f5fda7d7a3c362dff5473f4c98e"
+        },
+        "compiler_sha256": "26e67b58863398f8ae53722cc6a14b8302218aafb8396c05580553a54912b4b5",
+        "dependencies": {
+          "PyYAML": "6.0.3",
+          "jinja2": "3.1.6",
+          "pydantic": "2.13.5",
+          "pydantic-core": "2.46.5",
+          "tree-sitter": "0.25.2",
+          "tree-sitter-go": "0.25.0",
+          "tree-sitter-javascript": "0.25.0",
+          "tree-sitter-typescript": "0.23.2"
+        },
+        "harness_files": {
+          "scripts/measurement_identity.py": "5b44a64468e68e5d3957024006b3d33137daadf552dcbc0e2da9a845ce0e1e86",
+          "scripts/public_measure.py": "d5767be3ac00dc1b8b48be6994a144f736fa45104547821a93bc1f6fb1917cf3",
+          "scripts/public_sources.py": "2e3ae916520cd3fc31bec8c41ae16dfc2e7e02c7116667c2908d65e561164969"
+        }
+      },
+      "repository": "ansible/ansible",
+      "repository_types": [
+        "cli"
+      ],
+      "scan": {
+        "analyzed_files": 1940,
+        "budget_reasons": {
+          "ROLE_FILE_BUDGET": 3920
+        },
+        "budget_skipped_files": 3920,
+        "complete_within_policy": false,
+        "content_bytes_read": 9704636,
+        "content_files_read": 1940,
+        "format": "r2s-scan-coverage-v1",
+        "inventory_entries": 5863,
+        "policy_id": "workspace-bounded-v1:592ffceefd024b78becf36185f1b86cb160c55af068d95a2a7bcf62a735ac91a:06fa7cea932bfeb3afb3673952cdc51405d05d9ac245a70b06b1626862d14da8",
+        "scope": "Selected regular source content under the recorded policy; excluded content is unknown, not repository coverage",
+        "workspaces": [
+          {
+            "analyzed_files": 1936,
+            "budget_skipped_files": 3920,
+            "hashed_bytes": 9704055,
+            "hashed_files": 1936,
+            "inventory_entries": 5858,
+            "root": "."
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 447,
+            "hashed_files": 2,
+            "inventory_entries": 3,
+            "root": "test/integration/targets/collections_runtime_pythonpath/ansible-collection-python-dist-boo"
+          },
+          {
+            "analyzed_files": 2,
+            "hashed_bytes": 134,
+            "hashed_files": 2,
+            "inventory_entries": 2,
+            "root": "test/integration/targets/pip/files/sample-project"
+          }
+        ]
+      },
+      "set": "holdout",
+      "stars_at_benchmark": 70694,
+      "status": "REVIEW_REQUIRED",
+      "tier": "holdout",
+      "tree_sha256": "7111ac99447cc59a866fc7cee4ab005055bc41f07baab2722ddbb4d7e3e95dd0"
+    }
+  ],
+  "schema_version": 3,
+  "started_at": "2026-09-21T03:45:28.893730+00:00",
+  "summary": {
+    "emitted_executable_facts": 0,
+    "hash_and_pin_verified_facts": 0,
+    "high_star_completed": 0,
+    "high_star_public_repositories_tested": 0,
+    "high_star_selected": 0,
+    "repository_static_generation_rate": null,
+    "sets": {
+      "core": {},
+      "edge": {},
+      "unsupported-challenge": {}
+    },
+    "star_weighted_repository_coverage": null,
+    "static_ready": 0,
+    "total_benchmark_stars": 0
+  }
+}

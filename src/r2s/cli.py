@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from r2s import __version__
+from r2s.application import build_workflow
 from r2s.core import (
     canonical_json,
     compare_discoveries,
@@ -21,10 +22,12 @@ from r2s.core import (
     validate_path,
     write_discovery,
 )
+from r2s.discovery_contract import strict_json_loads
 from r2s.generator import install_codex_plugin
 from r2s.scan_policy import scan_coverage
 from r2s.storage import compilation_root, list_runs, record_compilation, record_update
 from r2s.toml_compat import TOMLDecodeError
+from r2s.workflows import WorkflowRequest
 
 
 def parser() -> argparse.ArgumentParser:
@@ -53,6 +56,9 @@ def parser() -> argparse.ArgumentParser:
         "--target", choices=["portable", "codex", "claude", "cursor"], default="portable",
     )
     build_command.add_argument("--output", default="run-output")
+    for command_parser in (plan_command, build_command):
+        command_parser.add_argument("--workflow", type=Path, help="Structured task inputs and evidence-checked steps (JSON)")
+        command_parser.add_argument("--capability", action="append", help="Select an existing capability ID")
 
     check = commands.add_parser("validate")
     check.add_argument("bundle")
@@ -103,6 +109,25 @@ def parser() -> argparse.ArgumentParser:
     verify.add_argument("--execute", action="store_true")
     verify.add_argument("--arg", action="append", help="Explicit CLI argument; use --arg=--flag")
     verify.add_argument("--report", type=Path, help="Write a new execution report")
+    task = commands.add_parser("task", help="Prepare or execute independent output checks for a generated workflow")
+    task.add_argument("action", choices=["prepare", "run"])
+    task.add_argument("bundle", type=Path)
+    task.add_argument("--definition", type=Path, required=True)
+    task.add_argument("--source", type=Path)
+    task.add_argument("--wheels", type=Path)
+    task.add_argument("--executable", type=Path)
+    task.add_argument("--dependencies", type=Path)
+    task.add_argument("--image", default="python:3.12-slim")
+    task.add_argument("--report", type=Path, required=True)
+    task.add_argument("--execute", action="store_true")
+    proposal = commands.add_parser("propose", help="Preview or request a fact-checked workflow from a configured model adapter")
+    proposal.add_argument("source")
+    proposal.add_argument("--goal", required=True)
+    proposal.add_argument("--config", type=Path, required=True)
+    proposal.add_argument("--output", default="run-output")
+    proposal.add_argument("--report", type=Path, required=True)
+    proposal.add_argument("--execute", action="store_true")
+    proposal.add_argument("--allow-metadata-transfer", action="store_true")
     return root
 
 
@@ -134,7 +159,39 @@ def _build_payload(result: Any) -> dict[str, Any]:
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     try:
-        if args.command == "inspect":
+        if args.command == "propose":
+            from r2s.model_adapter import ModelConfig, propose
+
+            discovery, _ = _discovery(args.source, Path(args.output))
+            config = ModelConfig.model_validate(strict_json_loads(args.config.read_bytes()))
+            proposal = propose(discovery, args.goal, config, args.execute, args.allow_metadata_transfer)
+            args.report.parent.mkdir(parents=True, exist_ok=True)
+            with args.report.open("x", encoding="utf-8") as handle:
+                handle.write(canonical_json(proposal))
+            print(canonical_json(proposal), end="")
+        elif args.command == "task":
+            from r2s.execution import ExecutionPolicy
+            from r2s.tasks import TaskOracle, TaskRuntime, TaskSpec, run_task, task_for_bundle
+
+            value = strict_json_loads(args.definition.read_bytes())
+            if args.action == "prepare":
+                allowed = {"id", "files", "expected_exit_codes", "oracle", "python_dependencies"}
+                if not isinstance(value, dict) or set(value) - allowed:
+                    raise ValueError("TASK_DEFINITION_INVALID")
+                prepared = task_for_bundle(args.bundle, value["id"], value.get("files", {}), value["expected_exit_codes"], TaskOracle.model_validate(value["oracle"]), value.get("python_dependencies"))
+                if "runtime" in value:
+                    prepared = prepared.model_copy(update={"runtime": TaskRuntime.model_validate(value["runtime"])})
+                task_result = prepared.model_dump(mode="json")
+            else:
+                if args.source is None:
+                    raise ValueError("TASK_SOURCE_REQUIRED")
+                task_result = run_task(args.bundle, args.source, TaskSpec.model_validate(value), ExecutionPolicy(args.image), args.wheels, args.execute, args.executable, args.dependencies)
+            args.report.parent.mkdir(parents=True, exist_ok=True)
+            with args.report.open("x", encoding="utf-8") as handle:
+                handle.write(canonical_json(task_result))
+            print(canonical_json(task_result), end="")
+            return 0 if args.action == "prepare" or task_result["status"] in {"PASS", "PREVIEW"} else 3
+        elif args.command == "inspect":
             discovery = discover_source(args.repo, Path(args.output), args.ref)
             run_root = write_discovery(discovery, Path(args.output))
             inspect_result = {
@@ -154,7 +211,8 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"{run_root.name}: {len(discovery.capabilities)} capabilities")
         elif args.command == "plan":
             discovery, _ = _discovery(args.source, Path(args.output), args.ref)
-            procedures = plan(discovery, args.goal)
+            workflow = WorkflowRequest.model_validate(strict_json_loads(args.workflow.read_bytes())) if args.workflow else None
+            procedures = plan(discovery, args.goal, set(args.capability) if args.capability else None, workflow)
             plan_value = [asdict(item) for item in procedures]
             if args.json:
                 print(canonical_json(plan_value), end="")
@@ -166,17 +224,11 @@ def main(argv: list[str] | None = None) -> int:
                 Path(args.output),
                 args.ref,
             )
-            compile_root = compilation_root(discovery_root, args.goal, args.target)
-            build_result = generate(discovery, args.goal, compile_root, args.target)
-            record_compilation(
-                discovery_root,
-                compile_root,
-                args.goal,
-                args.target,
-                build_result.readiness.value,
-            )
-            print(canonical_json(_build_payload(build_result)), end="")
-            return 0 if build_result.readiness.value == "STATIC_READY" else 3
+            workflow = WorkflowRequest.model_validate(strict_json_loads(args.workflow.read_bytes())) if args.workflow else None
+            selected = set(args.capability) if args.capability else None
+            build_payload = build_workflow(discovery_root, args.goal, args.target, workflow, selected)
+            print(canonical_json(build_payload), end="")
+            return 0 if build_payload["readiness"] == "STATIC_READY" else 3
         elif args.command == "validate":
             findings = validate_path(Path(args.bundle))
             status = readiness(findings)

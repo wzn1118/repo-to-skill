@@ -26,6 +26,7 @@ from r2s.domain import (
 from r2s.planner import plan
 from r2s.scan_policy import bundle_scan_scope
 from r2s.serialization import canonical_json
+from r2s.workflows import WorkflowRequest
 
 __all__ = ["CODEX_PROFILE", "PORTABLE_PROFILE", "generate", "install_codex_plugin", "readiness", "slugify", "validate_path"]
 
@@ -50,6 +51,7 @@ def _skill_bundle(
         claim_id for claim_id in capability.claim_ids
         if claim_id in claim_by_id and claim_by_id[claim_id].predicate == "supports_subcommand"
     ]
+    argument_claim_ids = [claim_id for claim_id in capability.claim_ids if claim_by_id[claim_id].predicate == "supports_argument"]
     all_claim_ids = sorted(set(capability.claim_ids) | set(procedure.precondition_claim_ids))
     all_evidence_ids = sorted({
         evidence_id for claim_id in all_claim_ids
@@ -62,14 +64,15 @@ def _skill_bundle(
         "artifact_path": "SKILL.md",
         "procedure": asdict(procedure),
         "document": {
-            "renderer": "r2s-cli-v3",
+            "renderer": "r2s-cli-v4",
             "entrypoint_claim_id": procedure.precondition_claim_ids[0],
             "option_claim_ids": option_claim_ids,
             "subcommand_claim_ids": subcommand_claim_ids,
+            "argument_claim_ids": argument_claim_ids,
         },
         "artifact_claims": {
-            "SKILL.md": [procedure.precondition_claim_ids[0]],
-            "references/cli.md": [*subcommand_claim_ids, *option_claim_ids],
+            "SKILL.md": list(procedure.precondition_claim_ids),
+            "references/cli.md": [*subcommand_claim_ids, *option_claim_ids, *argument_claim_ids],
             "references/provenance.md": all_claim_ids,
         },
         "claims": [asdict(claim_by_id[claim_id]) for claim_id in all_claim_ids],
@@ -94,6 +97,7 @@ def generate(
     run_root: Path,
     target: str,
     capability_ids: set[str] | None = None,
+    workflow: WorkflowRequest | None = None,
 ) -> BuildResult:
     discovery = parse_discovery(discovery.to_dict())
     if target not in CLIENT_PROFILES:
@@ -102,7 +106,7 @@ def generate(
     identity = compiler_identity(target)
     if run_root.is_symlink():
         raise ValueError("COMPILATION_PATH_SYMLINK")
-    request = check_compiler_lock(run_root, discovery, goal, target, capability_ids, identity)
+    request = check_compiler_lock(run_root, discovery, goal, target, capability_ids, identity, workflow)
     run_root.mkdir(parents=True, exist_ok=True)
     reservation = run_root / ".generation-in-progress"
     try:
@@ -113,10 +117,10 @@ def generate(
     try:
         with tempfile.TemporaryDirectory(prefix=".generation-stage-", dir=run_root) as directory:
             staging = Path(directory)
-            result = _generate(discovery, " ".join(goal.split()), staging, target, capability_ids)
+            result = _generate(discovery, " ".join(goal.split()), staging, target, capability_ids, workflow)
             if compiler_identity(target) != identity:
                 raise ValueError("COMPILER_CHANGED_DURING_GENERATION")
-            if check_compiler_lock(run_root, discovery, goal, target, capability_ids, identity) != request:
+            if check_compiler_lock(run_root, discovery, goal, target, capability_ids, identity, workflow) != request:
                 raise ValueError("COMPILATION_INPUT_CHANGED")
             if result.root is None:
                 return result
@@ -133,13 +137,14 @@ def generate(
 def _generate(
     discovery: DiscoveryIR, goal: str, run_root: Path, target: str,
     capability_ids: set[str] | None,
+    workflow: WorkflowRequest | None = None,
 ) -> BuildResult:
     profile = CLIENT_PROFILES.get(target)
     if profile is None:
         finding = Finding("CLIENT_PROFILE_UNKNOWN", "error", f"Unsupported target: {target}")
         return BuildResult(target, None, (), BundleReadiness.REVIEW_REQUIRED, (finding,))
     generation_scope = "capability_delta" if capability_ids is not None else "full"
-    procedures = plan(discovery, goal, capability_ids)
+    procedures = plan(discovery, goal, capability_ids, workflow)
     if not procedures:
         has_supported_entrypoint = any(
             claim.predicate == "provides_cli" and claim.status == "supported"

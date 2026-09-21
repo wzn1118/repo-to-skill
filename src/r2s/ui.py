@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import hmac
+import io
 import json
 import re
 import secrets
 import threading
 import time
+import zipfile
 from dataclasses import asdict
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -13,10 +15,15 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlsplit
 
-from r2s.core import discover_source, generate, plan, write_discovery
+from r2s.application import build_workflow
+from r2s.bundle_validation import inventory, validate_path
+from r2s.compilation import GENERATION_LOCK, generation_inventory, read_lock
+from r2s.core import discover_source, plan, write_discovery
 from r2s.domain import DiscoveryIR
+from r2s.jobs import JobStore
 from r2s.scan_policy import scan_coverage
-from r2s.storage import compilation_root, list_runs, load_discovery, record_compilation
+from r2s.storage import list_runs, load_discovery
+from r2s.workflows import WorkflowRequest
 
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost", "::1"}
 RUN_ID_RE = re.compile(r"^run_[0-9a-f]{20}$")
@@ -187,13 +194,44 @@ async function inspectSource(event) {
   try {
     const source = $('#source').value.trim();
     const ref = $('#ref').value.trim();
-    const result = await writeRequest('/api/runs', {source, ...(ref ? {ref} : {})});
+    const result = await runJob({action:'inspect', source, ...(ref ? {ref} : {})}, status);
     status.textContent = '分析完成，已加载结果。';
     await refresh();
     await selectRun(result.run_id);
   } catch (error) {
     status.textContent = error.message;
   }
+}
+async function runJob(payload, status) {
+  const submitted = await writeRequest('/api/jobs', payload);
+  localStorage.setItem('r2s-active-job', submitted.id);
+  return await monitorJob(submitted.id, status);
+}
+async function monitorJob(identifier, status) {
+  const cancel = element('button', '', '取消 / Cancel'); cancel.type = 'button';
+  cancel.addEventListener('click', async () => { await writeRequest('/api/jobs/' + identifier + '/cancel', {}); cancel.disabled = true; });
+  status.after(cancel);
+  try {
+    while (true) {
+      const job = await request('/api/jobs/' + identifier);
+      const stage = job.events.length ? job.events[job.events.length-1].stage : job.status;
+      status.textContent = job.status + ' · ' + stage + (job.cancel_requested ? ' · 本阶段结束后取消' : '');
+      if (job.status === 'SUCCEEDED') { localStorage.removeItem('r2s-active-job'); return job.result; }
+      if (['FAILED', 'CANCELLED', 'INTERRUPTED'].includes(job.status)) {
+        localStorage.removeItem('r2s-active-job');
+        const retry = element('button', '', '重试此任务 / Resume'); retry.type = 'button';
+        retry.addEventListener('click', async () => {
+          await writeRequest('/api/jobs/' + identifier + '/resume', {});
+          retry.remove();
+          const result = await monitorJob(identifier, status);
+          if (result.run_id) { await refresh(); await selectRun(result.run_id); }
+        });
+        status.after(retry);
+        throw new Error(job.result?.error || job.status);
+      }
+      await new Promise(resolve => setTimeout(resolve, 400));
+    }
+  } finally { cancel.remove(); }
 }
 function renderRuns() {
   const root = $('#runs');
@@ -263,7 +301,52 @@ function renderDetail(data) {
   submit.type = 'submit';
   const status = element('div', 'subtle');
   status.setAttribute('role', 'status');
-  form.append(goal, target, submit, status);
+  const commandChoice = element('select');
+  commandChoice.setAttribute('aria-label', '选择命令或子命令');
+  commandChoice.append(element('option', '', '命令清单模式 / Inventory'));
+  commandChoice.firstChild.value = '';
+  const choices = [];
+  for (const capability of data.capabilities) {
+    for (const command of capability.commands || []) {
+      const option = element('option', '', [command.command, ...command.path].join(' '));
+      option.value = String(choices.length);
+      choices.push({capability, command});
+      commandChoice.append(option);
+    }
+  }
+  const parameterFields = element('div');
+  const acceptance = element('input');
+  acceptance.setAttribute('aria-label', '预期结果');
+  acceptance.placeholder = '预期结果，例如：生成的 JSON 包含所有输入记录';
+  acceptance.hidden = true;
+  let inputs = [];
+  commandChoice.addEventListener('change', () => {
+    parameterFields.replaceChildren(); inputs = [];
+    acceptance.hidden = commandChoice.value === '';
+    if (commandChoice.value === '') return;
+    const selected = choices[Number(commandChoice.value)];
+    if (!goal.value) goal.value = '使用 ' + [selected.command.command, ...selected.command.path].join(' ');
+    for (const claim of selected.capability.claims.filter(item => [...selected.command.option_claim_ids, ...selected.command.argument_claim_ids].includes(item.id))) {
+      const value = claim.object;
+      const shape = value.shape;
+      const name = value.option || value.argument;
+      const label = element('label', '', name + (shape && shape.required ? ' · 必填' : ''));
+      const input = element('input');
+      const toggle = element('input'); toggle.type = 'checkbox';
+      toggle.setAttribute('aria-label', '使用参数 ' + name);
+      input.setAttribute('aria-label', '参数 ' + name);
+      input.placeholder = shape && shape.arity === 0 ? '无需参数值' : '输入值；多个值使用 JSON 数组';
+      input.disabled = !shape || shape.unknown_reasons.length > 0 || shape.arity === 0;
+      toggle.disabled = !shape || shape.unknown_reasons.length > 0;
+      toggle.checked = Boolean(shape && shape.required);
+      input.addEventListener('input', () => { toggle.checked = true; });
+      label.append(toggle, input);
+      if (!shape || shape.unknown_reasons.length) label.append(element('span', 'subtle', ' 暂不能确定调用方式'));
+      parameterFields.append(label);
+      inputs.push({name, input, toggle, shape});
+    }
+  });
+  form.append(goal, commandChoice, parameterFields, acceptance, target, submit, status);
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     submit.disabled = true;
@@ -271,10 +354,19 @@ function renderDetail(data) {
     state.buildTarget = target.value;
     status.textContent = '正在生成并验证…';
     try {
-      const result = await writeRequest('/api/runs/' + encodeURIComponent(data.run_id) + '/compilations', {
-        goal: goal.value, target: target.value,
-      });
-      state.buildResult = result.result;
+      const payload = {goal: goal.value, target: target.value};
+      if (commandChoice.value !== '') {
+        const selected = choices[Number(commandChoice.value)];
+        const parameters = {};
+        for (const item of inputs.filter(item => item.toggle.checked)) {
+          parameters[item.name] = item.shape.arity === 0 ? [] : item.input.value.startsWith('[') ? JSON.parse(item.input.value) : [item.input.value];
+        }
+        if (!acceptance.value) throw new Error('请填写预期结果');
+        payload.workflow = {title: goal.value, steps: [{command: selected.command.command, path: selected.command.path, parameters, expected_observation: acceptance.value}]};
+      }
+      const result = await runJob({...payload, action:'build', run_id:data.run_id}, status);
+      if (result.root) result.download_url = '/api/runs/' + data.run_id + '/compilations/' + result.compilation_id + '/download';
+      state.buildResult = result;
       renderDetail(await request('/api/runs/' + encodeURIComponent(data.run_id)));
     } catch (error) {
       status.textContent = error.message;
@@ -290,6 +382,12 @@ function renderDetail(data) {
       const location = element('p', 'subtle', result.root);
       location.style.overflowWrap = 'anywhere';
       action.append(location);
+      if (result.download_url) {
+        const download = element('a', '', '下载 Skill ZIP / Download');
+        download.href = result.download_url;
+        download.download = 'repo-to-skill.zip';
+        action.append(download);
+      }
     }
   }
   grid.append(action);
@@ -466,6 +564,13 @@ async function refresh() {
 }
 $('#refresh').addEventListener('click', refresh);
 $('#search').addEventListener('input', renderRuns);
+const pendingJob = localStorage.getItem('r2s-active-job');
+if (pendingJob) {
+  monitorJob(pendingJob, $('#action-status')).then(async result => {
+    await refresh();
+    if (result.run_id) await selectRun(result.run_id);
+  }).catch(error => { $('#action-status').textContent = error.message; });
+}
 $('#inspect-form').addEventListener('submit', inspectSource);
 async function start() {
   try {
@@ -562,6 +667,7 @@ def _capability_payload(discovery: DiscoveryIR) -> list[dict[str, Any]]:
                 "intent": capability.intent,
                 "support_level": capability.support_level,
                 "command": command,
+                "commands": [asdict(item) for item in discovery.commands if item.command == command],
                 "claims": [
                     {
                         "id": claim.id,
@@ -656,6 +762,7 @@ class R2SUIHTTPServer(ThreadingHTTPServer):
     source_roots: tuple[Path, ...]
     write_lock: threading.Lock
     request_times: list[float]
+    jobs: JobStore
 
 
 class R2SUIRequestHandler(BaseHTTPRequestHandler):
@@ -743,11 +850,47 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
             self._send_html()
             return
         try:
+            job = re.fullmatch(r"/api/jobs/(job_[0-9a-f]{20})", parsed.path)
+            if job is not None:
+                self._send_json(HTTPStatus.OK, self.server.jobs.get(job.group(1)))
+                return
             if parsed.path == "/api/session":
                 self._send_json(HTTPStatus.OK, {"csrf_token": self.server.ui_token})
                 return
             if parsed.path == "/api/runs":
                 self._send_json(HTTPStatus.OK, {"runs": _discovery_runs(self.output_root)})
+                return
+            download = re.fullmatch(r"/api/runs/(run_[0-9a-f]{20})/compilations/(compile_[0-9a-f]{20})/download", parsed.path)
+            if download is not None:
+                run_root = _run_root(self.output_root, download.group(1))
+                records = list_runs(self.output_root)
+                record = next((item for item in records if item["run_id"] == download.group(2) and item.get("parent_run_id") == run_root.name), None)
+                if record is None:
+                    raise ValueError("UI_COMPILATION_NOT_FOUND")
+                compilation = run_root / "compilations" / download.group(2)
+                if read_lock(compilation / GENERATION_LOCK)["files"] != generation_inventory(compilation):
+                    raise ValueError("UI_COMPILATION_CHANGED")
+                target = record["target"]
+                artifact = compilation / ({"portable": "portable", "codex": "codex-plugin", "claude": "claude", "cursor": "cursor"}[target])
+                if artifact.is_symlink() or compilation.is_symlink() or compilation.parent.is_symlink():
+                    raise ValueError("UI_ARTIFACT_SYMLINK")
+                files, findings = inventory(artifact)
+                skills_parent = artifact / "skills" if target in {"claude", "cursor"} else artifact
+                checked_roots = [artifact] if target == "codex" else [item for item in skills_parent.iterdir() if item.is_dir() and not item.is_symlink()]
+                if findings or not checked_roots or any(validate_path(item) for item in checked_roots) or sum(len(data) for data in files.values()) > 16 * 1024 * 1024:
+                    raise ValueError("UI_ARTIFACT_INVALID_OR_TOO_LARGE")
+                buffer = io.BytesIO()
+                with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                    for name, data in sorted(files.items()):
+                        archive.writestr(name, data)
+                content = buffer.getvalue()
+                self.send_response(HTTPStatus.OK)
+                self.send_header("Content-Type", "application/zip")
+                self.send_header("Content-Disposition", 'attachment; filename="repo-to-skill.zip"')
+                self.send_header("Content-Length", str(len(content)))
+                self.send_header("X-Content-Type-Options", "nosniff")
+                self.end_headers()
+                self.wfile.write(content)
                 return
             match = re.fullmatch(r"/api/runs/(run_[0-9a-f]{20})", parsed.path)
             if match is not None:
@@ -783,6 +926,39 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
                 return
             self.server.request_times.append(now)
             body = self._body()
+            job_action = re.fullmatch(r"/api/jobs/(job_[0-9a-f]{20})/(cancel|resume)", parsed.path)
+            if job_action is not None:
+                identifier, action = job_action.groups()
+                if action == "cancel":
+                    result = self.server.jobs.cancel(identifier)
+                else:
+                    self.server.jobs.resume(identifier)
+                    self.server.jobs.start(identifier)
+                    result = self.server.jobs.get(identifier)
+                self._send_json(HTTPStatus.OK, result)
+                return
+            if parsed.path == "/api/jobs":
+                action = body.get("action")
+                if action == "inspect":
+                    source = body.get("source")
+                    if not isinstance(source, str) or not source.strip() or len(source) > 2048:
+                        raise ValueError("UI_SOURCE_INVALID")
+                    if not source.startswith("https://github.com/"):
+                        path = Path(source).resolve(strict=True)
+                        if not any(path.is_relative_to(root) for root in self.server.source_roots):
+                            raise ValueError("UI_SOURCE_OUTSIDE_ALLOWED_ROOT")
+                elif action == "build":
+                    _run_root(self.output_root, body.get("run_id", ""))
+                    if not isinstance(body.get("goal"), str) or not 1 <= len(body["goal"]) <= 500:
+                        raise ValueError("GOAL_INVALID")
+                    if body.get("workflow"):
+                        WorkflowRequest.model_validate(body["workflow"])
+                else:
+                    raise ValueError("JOB_ACTION_INVALID")
+                identifier = self.server.jobs.submit(body)
+                self.server.jobs.start(identifier)
+                self._send_json(HTTPStatus.ACCEPTED, {"id": identifier, "status": "QUEUED"})
+                return
             if parsed.path == "/api/runs":
                 source = body.get("source")
                 ref = body.get("ref")
@@ -807,7 +983,8 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
                 goal = body.get("goal")
                 if not isinstance(goal, str) or not goal.strip() or len(goal) > 500:
                     raise ValueError("GOAL_INVALID")
-                procedures = plan(discovery, goal)
+                workflow = WorkflowRequest.model_validate(body["workflow"]) if "workflow" in body else None
+                procedures = plan(discovery, goal, workflow=workflow)
                 self._send_json(HTTPStatus.OK, {"procedures": [asdict(item) for item in procedures]})
                 return
             match = re.fullmatch(r"/api/runs/(run_[0-9a-f]{20})/compilations", parsed.path)
@@ -820,10 +997,11 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
                     raise ValueError("GOAL_INVALID")
                 if not isinstance(target, str) or target not in {"portable", "codex", "claude", "cursor"}:
                     raise ValueError("CLIENT_PROFILE_UNKNOWN")
-                root = compilation_root(discovery_root, goal, target)
-                result = generate(discovery, goal, root, target)
-                record_compilation(discovery_root, root, goal, target, result.readiness.value)
-                self._send_json(HTTPStatus.CREATED, {"result": asdict(result)})
+                workflow = WorkflowRequest.model_validate(body["workflow"]) if "workflow" in body else None
+                payload = build_workflow(discovery_root, goal, target, workflow)
+                if payload["root"]:
+                    payload["download_url"] = f"/api/runs/{discovery_root.name}/compilations/{payload['compilation_id']}/download"
+                self._send_json(HTTPStatus.CREATED, {"result": payload})
                 return
             self._send_json(HTTPStatus.NOT_FOUND, {"error": "UI_ROUTE_NOT_FOUND"})
         except (ValueError, TypeError, OSError) as exc:
@@ -848,6 +1026,7 @@ def make_server(
         raise ValueError("UI_PORT_INVALID")
     server = R2SUIHTTPServer((host, port), R2SUIRequestHandler)
     server.output_root = output_root.resolve()
+    server.jobs = JobStore(server.output_root)
     server.ui_token = secrets.token_urlsafe(32)
     server.allowed_hosts = {
         f"{hostname}:{server.server_port}" for hostname in ("localhost", "127.0.0.1", "[::1]")

@@ -176,6 +176,7 @@ def _check_provenance(provenance: BundleProvenance) -> list[Finding]:
     used.add(provenance.document.entrypoint_claim_id)
     used.update(provenance.document.option_claim_ids)
     used.update(provenance.document.subcommand_claim_ids)
+    used.update(provenance.document.argument_claim_ids)
     for step in provenance.procedure.steps:
         used.update(step.claim_ids)
     for claim_ids in provenance.artifact_claims.values():
@@ -267,11 +268,11 @@ def _validate_skill_files(
             findings.append(Finding("SOURCE_IR_MISMATCH", "error", "Bundle differs from supplied discovery"))
     try:
         rendered = render_document(provenance)
-    except (ValueError, KeyError):
+    except (ValueError, TypeError, KeyError):
         return [*findings, Finding("DOCUMENT_INVALID", "error", "Document has unsupported executable facts")]
     expected_mapping = {
-        "SKILL.md": [provenance.document.entrypoint_claim_id],
-        "references/cli.md": [*provenance.document.subcommand_claim_ids, *provenance.document.option_claim_ids],
+        "SKILL.md": list(provenance.procedure.precondition_claim_ids),
+        "references/cli.md": [*provenance.document.subcommand_claim_ids, *provenance.document.option_claim_ids, *provenance.document.argument_claim_ids],
         "references/provenance.md": sorted(claim.id for claim in provenance.claims),
     }
     if provenance.artifact_claims != expected_mapping:

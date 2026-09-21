@@ -263,48 +263,6 @@ def analyze_go(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                 )
             )
             option_claim_ids: list[str] = []
-            for match in FLAG_RE.finditer(lexical_source):
-                name = match.group("name")
-                prefix = match.group("prefix")
-                option = f"--{name}" if prefix != "flag." else f"-{name}"
-                option_source = _location(
-                    scan_result,
-                    main_path,
-                    f"go:flag:{name}",
-                    _line_number(lexical_source, match.start()),
-                )
-                option_value = {"command": command, "option": option}
-                option_evidence_id = stable_id(
-                    "ev",
-                    ["go.cli_option", option_value, asdict(option_source)],
-                )
-                discovery.evidence.append(
-                    Evidence(
-                        option_evidence_id,
-                        "go.cli_option",
-                        {"name": name, "prefix": prefix},
-                        option_value,
-                        option_source,
-                        "go-lexical@1",
-                        0.85,
-                    )
-                )
-                option_claim_id = stable_id(
-                    "cl",
-                    [command, "supports_option", option_value, option_evidence_id],
-                )
-                option_claim_ids.append(option_claim_id)
-                discovery.claims.append(
-                    Claim(
-                        option_claim_id,
-                        command,
-                        "supports_option",
-                        parse_fact(option_value),
-                        (option_evidence_id,),
-                        0.85,
-                        True,
-                    )
-                )
             capability_id = stable_id(
                 "cap",
                 ["invoke_cli", command, relative_target, claim_id, option_claim_ids],
@@ -317,3 +275,6 @@ def analyze_go(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     (claim_id, *option_claim_ids),
                 )
             )
+            from r2s.go_graph import analyze_commands
+
+            analyze_commands(discovery, scan_result, next(claim for claim in discovery.claims if claim.id == claim_id), main_path, module_root, module_name)

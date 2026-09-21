@@ -7,6 +7,7 @@ from r2s.compiler_identity import compilation_request
 from r2s.discovery_contract import strict_json_loads
 from r2s.domain import DiscoveryIR
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256
+from r2s.workflows import WorkflowRequest
 
 GENERATION_LOCK = "generation.lock.json"
 OWNED_NAMES = frozenset({
@@ -24,10 +25,11 @@ def read_lock(path: Path) -> Any:
 def check_compiler_lock(
     root: Path, discovery: DiscoveryIR, goal: str, target: str,
     capability_ids: set[str] | None, identity: dict[str, Any],
+    workflow: WorkflowRequest | None = None,
 ) -> dict[str, Any]:
     path = root / "compiler.lock.json"
     parent = root.parent.parent.name if path.exists() or path.is_symlink() else None
-    request = compilation_request(discovery, goal, target, capability_ids, identity, parent)
+    request = compilation_request(discovery, goal, target, capability_ids, identity, parent, workflow)
     if parent is not None:
         expected = {"compiler": identity, "request": request, "request_sha256": canonical_sha256(request)}
         if read_lock(path) != expected:

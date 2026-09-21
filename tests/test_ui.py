@@ -1,7 +1,9 @@
+import io
 import json
 import tempfile
 import threading
 import unittest
+import zipfile
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
@@ -97,6 +99,14 @@ class UIDashboardTests(unittest.TestCase):
                 with urlopen(build_request) as response:
                     built = json.loads(response.read())
                 self.assertEqual(built["result"]["readiness"], "STATIC_READY")
+                with urlopen(base_url + built["result"]["download_url"]) as response:
+                    archive = zipfile.ZipFile(io.BytesIO(response.read()))
+                    self.assertIn("demo/SKILL.md", archive.namelist())
+                compilation = output_root / created["run_id"] / "compilations" / built["result"]["compilation_id"]
+                (compilation / "portable" / "unexpected.txt").write_text("not generated")
+                with self.assertRaises(HTTPError) as changed:
+                    urlopen(base_url + built["result"]["download_url"])
+                self.assertEqual(changed.exception.code, 409)
             finally:
                 server.shutdown()
                 server.server_close()

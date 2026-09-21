@@ -1,0 +1,6 @@
+{
+  "status": "PRELIMINARY_KNOWN_DEFECT",
+  "reason": "TypeScript returned COMMAND_OPTION_OWNER_MISSING after duplicate executable roots were marked conflicted but their parameter claims remained supported.",
+  "scope": "Raw results and all failures are retained. This run is not the post-fix compiler. Re-run in a new directory after conflict propagation is corrected.",
+  "semantic_precision": "not measured"
+}

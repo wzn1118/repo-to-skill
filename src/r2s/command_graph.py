@@ -31,11 +31,14 @@ def command_specs(claims: list[Claim]) -> list[CommandSpec]:
         options = [claim for claim in supported if claim.predicate == "supports_option" and claim.object.get("command") == command and command_path(claim) == path]
         if len({str(claim.object.get("option")) for claim in options}) != len(options):
             raise ValueError("COMMAND_OPTION_AMBIGUOUS")
-        for option in options:
+        arguments = sorted((claim for claim in supported if claim.predicate == "supports_argument" and claim.object.get("command") == command and command_path(claim) == path), key=lambda claim: int(str(claim.object.get("position"))))
+        if [claim.object.get("position") for claim in arguments] != list(range(len(arguments))) or len({claim.object.get("argument") for claim in arguments}) != len(arguments):
+            raise ValueError("COMMAND_ARGUMENT_ORDER_INVALID")
+        for option in [*options, *arguments]:
             if path and not set(declaration.evidence_ids).issubset(option.evidence_ids):
                 raise ValueError("COMMAND_OPTION_OWNER_EVIDENCE_MISSING")
-        result.append(CommandSpec(command, path, root.id, declaration.id, parent.id if parent else None, tuple(sorted(claim.id for claim in options))))
+        result.append(CommandSpec(command, path, root.id, declaration.id, parent.id if parent else None, tuple(sorted(claim.id for claim in options)), argument_claim_ids=tuple(claim.id for claim in arguments)))
     for claim in supported:
-        if claim.predicate == "supports_option" and (str(claim.object.get("command")), command_path(claim)) not in declarations:
+        if claim.predicate in {"supports_option", "supports_argument"} and (str(claim.object.get("command")), command_path(claim)) not in declarations:
             raise ValueError("COMMAND_OPTION_OWNER_MISSING")
     return result

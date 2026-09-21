@@ -1,0 +1,38 @@
+{
+  "format": "r2s-heldout-measurement-input-v1",
+  "source_registry": "benchmark/holdout-v1.json",
+  "headline_eligible": false,
+  "star_snapshot_date": "2026-09-16T06:46:27.629828+00:00",
+  "repositories": [
+    {
+      "id": "dbt-core",
+      "repository": "dbt-labs/dbt-core",
+      "commit_sha": "4547d559fb1ede787de990a91aa09d6c1c276a45",
+      "language": "Rust",
+      "license": "Apache-2.0",
+      "stars_at_benchmark": 13835,
+      "tier": "holdout",
+      "set": "holdout"
+    },
+    {
+      "id": "aws-cli",
+      "repository": "aws/aws-cli",
+      "commit_sha": "a1a569733a6a413f460342b61c6a8909984c2e48",
+      "language": "Python",
+      "license": "NOASSERTION",
+      "stars_at_benchmark": 17259,
+      "tier": "holdout",
+      "set": "holdout"
+    },
+    {
+      "id": "ansible",
+      "repository": "ansible/ansible",
+      "commit_sha": "6bece4066efa057435aa057231e956b759e6d2e3",
+      "language": "Python",
+      "license": "GPL-3.0",
+      "stars_at_benchmark": 70694,
+      "tier": "holdout",
+      "set": "holdout"
+    }
+  ]
+}

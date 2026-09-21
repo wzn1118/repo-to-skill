@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased — bound workflows and task execution
+
+- Discovery 1.5 adds positional arguments, bounded argparse/Click shapes, required/choice/type/arity checks and supported exclusive groups. Historical 1.2–1.4 imports remain review-blocked.
+- Compile structured inputs into multi-step Procedures, quickstarts, explicit stdin/output capture and acceptance checks; validate and export through the same IR and compiler identity.
+- Add opt-in tree-sitter analysis for bounded Commander, declarative JS tables, Go argv switches and Cobra factories. Dynamic bindings, inherited scope and complete language coverage remain open.
+- Add version-bound TaskSpecs, independent file/JSON/output oracles, offline Python/Node/native profiles and a budgeted Python repair SDK. Preserve unknown semantics rather than guess runnable arguments.
+- Share CLI/UI build services; persist jobs, stage events, cancellation, lease-expiry recovery, command selection and generation-locked ZIP downloads.
+- Add an explicitly authorized custom model-gateway adapter with bounded, schema-checked and fact-checked candidates. Only mock integration tests run; no Agent uplift claim.
+- Preserve the preliminary v14 TypeScript conflict-propagation failure; mark all descendant interface claims conflicted before building the command graph and repeat the fixed corpus separately.
+- Measure 36 five-tool structured-input tasks, offline Skill Seekers 3.9.0 generation, two-version sample workflows and the registered holdouts. Individual failures and incomplete acceptance gates remain visible.
+
 ## Unreleased — explicit parameter declarations and task oracles
 
 - Discovery 1.4 records literal option keywords and recognized built-in types with source witnesses. Missing/dynamic fields remain unknown; declarations do not guarantee runtime behavior.

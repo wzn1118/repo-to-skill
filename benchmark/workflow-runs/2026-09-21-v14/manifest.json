@@ -1,0 +1,29 @@
+{
+  "files": {
+    "README.md": "5a926e2885052a48b185efd9a6d8528e109fb4e2ea3787c0f5ad4615a8338fa4",
+    "attempt-1.json": "54f2df4c2488ebeea2ca42234083be91547f6c35efd7d92649b48f30744c6e37",
+    "attempt-2.json": "aa6ad6843c0bb8ee29c9cb1dbaa9fbd69bb71bbf40a42cc900b3e366f6491b04",
+    "holdout-input.json": "a137d7f590b810e5cc588f2bee32a226b96748d7711169002c9085643cd73428",
+    "holdout-results.json": "c4f55b605d90130c9fa3582ee3691c4dfc8b4756e62c7579a37fa0f5a303208d",
+    "skill-seekers-dependencies.json": "82c0dadf55fdc130481395eba395ba96cb54b6954bf40a2f2dab2bc4b376e6ae",
+    "skill-seekers-summary.json": "9dc91800152ede59d6a04dd172b9d221714477bc29970c6519f1341f17e51cb1",
+    "tasks.svg": "29c60fc7535fd48d5afb06331ee4a1968b77bdda5a32e3acf75f344799433775",
+    "upstream-updates.json": "99ce10914df3897f7600fe749ace904b9cfc1864e943c2498a7f7d70153d2944"
+  },
+  "format": "r2s-workflow-run-manifest-v1",
+  "harness": {
+    "scripts/measure_bound_workflows.py": "ac8633dc34b52bafdd3adf09a71f17612d84e712bdbb2953a9028362fadc17e4",
+    "scripts/measure_skill_seekers.py": "00f616a034efb93acae0f38e5c57c36b6dde7059a073584af21f7d082c698126",
+    "scripts/measure_upstream_updates.py": "3471dd66cb08510b8fbe7f6b814cd7d3edaa1f1823aadc8b65dc7d1820e2ea01",
+    "scripts/render_workflow_report.py": "a24491599ab2f6365eb76b0c0f09666e393aa2019ea9c03899b1e9c9724c3dd9",
+    "scripts/skill_seekers_worker.py": "f2b97fc63502322b0ce49dd5d8c0a8dcfdd3fffb112411e3066f485cbff85681"
+  },
+  "inputs": {
+    "benchmark/history/2026-09-21-v14-compiler.patch": "83b75e30336b5c13c0565a1d37f6f5de83cd99987a795814cef9247d2e2b9045",
+    "benchmark/holdout-v1.json": "d97574fbd9419542a1e2c3b266fd8c5ba38dea315400e5efa77f0b45630238a6",
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96"
+  },
+  "scope": "Source-bound task execution, separate competitor generation and historical holdouts/updates. Not Agent uplift or human semantic review."
+}

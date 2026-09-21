@@ -32,7 +32,7 @@ DeclaredValues = Annotated[tuple[DeclaredScalar, ...], Field(max_length=32), Bef
 
 @with_config(ConfigDict(strict=True, extra="forbid", allow_inf_nan=False))
 class OptionSemantics(TypedDict):
-    framework: Literal["argparse", "click"]
+    framework: Literal["argparse", "click", "commander", "go-flag", "go-switch", "cobra", "js-option-table"]
     scope: Literal["explicit_source_keywords"]
     required: NotRequired[bool]
     nargs: NotRequired[Annotated[int, Field(ge=0, le=32)] | Literal["?", "*", "+"]]
@@ -40,9 +40,22 @@ class OptionSemantics(TypedDict):
     is_flag: NotRequired[bool]
     multiple: NotRequired[bool]
     count: NotRequired[bool]
-    value_type: NotRequired[Literal["str", "int", "float", "bool"]]
+    value_type: NotRequired[Literal["str", "int", "float", "bool", "path"]]
     default: NotRequired[DeclaredScalar | DeclaredValues]
     choices: NotRequired[DeclaredValues]
+
+
+@with_config(ConfigDict(strict=True, extra="forbid"))
+class ParameterShape(TypedDict):
+    framework: Literal["argparse", "click", "commander", "go-flag", "go-switch", "cobra", "js-option-table"]
+    rule: Literal["python-parameters-v1", "static-cli-v1"]
+    arity: Annotated[int, Field(ge=-1, le=32)] | Literal["?", "*", "+", "unknown"]
+    required: bool | None
+    repeatable: bool | None
+    aliases: Annotated[tuple[OptionName, ...], BeforeValidator(lambda value: tuple(value) if isinstance(value, list) else value)]
+    exclusive_group: str | None
+    group_required: bool | None
+    unknown_reasons: Annotated[tuple[Text, ...], BeforeValidator(lambda value: tuple(value) if isinstance(value, list) else value)]
 
 
 @with_config(ConfigDict(strict=True, extra="forbid"))
@@ -59,6 +72,17 @@ class OptionValue(TypedDict):
     option: OptionName
     command_path: NotRequired[CommandPath]
     semantics: NotRequired[OptionSemantics]
+    shape: NotRequired[ParameterShape]
+
+
+@with_config(ConfigDict(strict=True, extra="forbid"))
+class PositionalValue(TypedDict):
+    command: CommandName
+    argument: CommandName
+    position: Annotated[int, Field(ge=0, le=127)]
+    command_path: CommandPath
+    semantics: NotRequired[OptionSemantics]
+    shape: ParameterShape
 
 
 @with_config(ConfigDict(strict=True, extra="forbid"))
@@ -72,7 +96,7 @@ class LicenseValue(TypedDict):
     path: SourcePath
 
 
-type FactValue = EntrypointValue | OptionValue | SubcommandValue | LicenseValue
+type FactValue = EntrypointValue | OptionValue | PositionalValue | SubcommandValue | LicenseValue
 FACT_ADAPTER: TypeAdapter[FactValue] = TypeAdapter(FactValue)
 
 

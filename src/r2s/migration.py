@@ -41,7 +41,7 @@ def migrate_discovery(source: Path, output: Path) -> dict[str, Any]:
     payload["evidence"] = [asdict(item) for item in unique.values()]
     payload["findings"].append(asdict(Finding(
         "MIGRATION_REVIEW_REQUIRED", "error",
-        "Imported through declared-option-semantics-1.4; prior readiness is not inherited. Missing command paths from 1.2 remain review-blocked root claims. Parameter semantics are not inferred during migration.",
+        "Imported through bound-workflows-1.5; prior readiness is not inherited. Parameter bindings and operational semantics are not inferred during migration.",
     )))
     migrated = parse_discovery(payload)
     if file_sha256(input_file) != original_sha256:
@@ -49,7 +49,7 @@ def migrate_discovery(source: Path, output: Path) -> dict[str, Any]:
     run_root = write_discovery(migrated, output)
     report = {
         "format": "r2s-discovery-migration-v1",
-        "ruleset": "declared-option-semantics-1.4",
+        "ruleset": "bound-workflows-1.5",
         "source_name": source.name,
         "original_schema": original_payload["schema_version"],
         "target_schema": migrated.schema_version,

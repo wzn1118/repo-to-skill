@@ -28,6 +28,8 @@ class ParserRef:
     hops: tuple[Hop, ...]
     subparsers: bool = False
     group: bool = False
+    exclusive_group: str | None = None
+    group_required: bool | None = None
 
 
 @dataclass
@@ -144,16 +146,25 @@ class ArgparseFlow:
             self.commands.append((parser.identity, ResolvedCommand(path, function.path, node, child_parser.hops, function.ref, function.node)))
             return child_parser
         elif name in {"add_argument_group", "add_mutually_exclusive_group"} and not parser.subparsers:
-            return ParserRef(parser.identity, parser.path, (*hops, self.hop(function, node, "python.argument_group")), group=True)
+            group_id = parser.exclusive_group
+            required = parser.group_required
+            if name == "add_mutually_exclusive_group":
+                group_id = f"{function.ref.module}:{node.lineno}:{node.col_offset}"
+                value = next((item.value for item in node.keywords if item.arg == "required"), ast.Constant(value=False))
+                required = value.value if isinstance(value, ast.Constant) and type(value.value) is bool else None
+            return ParserRef(parser.identity, parser.path, (*hops, self.hop(function, node, "python.argument_group")), group=True, exclusive_group=group_id, group_required=required)
         elif name == "add_argument" and not parser.subparsers:
             if any(item.arg is None for item in node.keywords):
                 return None
             flags = [self.expression(argument, environment, function, via, stack) for argument in node.args]
+            if len(flags) == 1 and isinstance(flags[0], str) and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+-]{0,127}", flags[0]):
+                self.options.append((parser.identity, ResolvedOption(flags[0], function.path, node, hops, "argparse", function.ref, function.node, parser.path, True, parser.exclusive_group, parser.group_required)))
+                return None
             if not flags or any(not isinstance(flag, str) or not re.fullmatch(r"--?[A-Za-z0-9][A-Za-z0-9_.-]{0,127}", flag) for flag in flags):
                 return None
             for flag in flags:
                 if isinstance(flag, str):
-                    self.options.append((parser.identity, ResolvedOption(flag, function.path, node, hops, "argparse", function.ref, function.node, parser.path)))
+                    self.options.append((parser.identity, ResolvedOption(flag, function.path, node, hops, "argparse", function.ref, function.node, parser.path, False, parser.exclusive_group, parser.group_required)))
         return None
 
     def statements(self, statements: list[ast.stmt], environment: dict[str, Value], function: ResolvedFunction, via: tuple[Hop, ...], stack: tuple[SymbolRef, ...]) -> Value:

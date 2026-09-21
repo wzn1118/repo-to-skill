@@ -1,5 +1,17 @@
 # GitHub CLI: generated vs official Skill / 官方 Skill 对照实测
 
+## Workflow-stage update (2026-09-21)
+
+The bounded Cobra analyzer now extracts substantially more scoped interface declarations, but
+the four frozen gh workflow tasks all fail parameter binding: completion shell selection,
+config positional input and local alias composition are not yet fully represented. gh's
+partial source scan is also a separate readiness gate. [Five-tool task evidence](../../benchmark/workflow-runs/2026-09-21-v14/README.md).
+This is a concrete limitation, not a claim that the official Skill was beaten. The post-fix
+[v15 static comparison](../../benchmark/runs/2026-09-21-upgrade-v15/official-comparison.json)
+uses the same upstream pin. No official-vs-generated Agent task experiment has run.
+
+## Retained v13 comparison
+
 **The generated Skill traces the gh entrypoint but misses its workflows.** The official Skill
 contains substantially more task guidance. Smaller output does not demonstrate better quality.
 

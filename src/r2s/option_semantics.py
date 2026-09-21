@@ -6,7 +6,7 @@ from typing import Any, cast
 
 from pydantic import TypeAdapter, ValidationError
 
-from r2s.fact_contracts import OptionSemantics
+from r2s.fact_contracts import OptionSemantics, ParameterShape
 from r2s.python_bindings import framework_bindings
 from r2s.python_graph import ResolvedOption, stored_names
 
@@ -67,6 +67,8 @@ def explicit_semantics(option: ResolvedOption, module: ast.Module) -> OptionSema
                     known = {"click.STRING": "str", "click.INT": "int", "click.FLOAT": "float", "click.BOOL": "bool"}
                     if type_name in known:
                         additions["value_type"] = known[type_name]
+                    elif isinstance(node, ast.Call) and qualified(node.func, bindings) in {"click.Path", "click.File"}:
+                        additions["value_type"] = "path"
                     elif isinstance(node, ast.Call) and qualified(node.func, bindings) == "click.Choice" and len(node.args) == 1 and not node.keywords and not sensitive:
                         additions["choices"] = literal(node.args[0])
             if additions:
@@ -75,3 +77,72 @@ def explicit_semantics(option: ResolvedOption, module: ast.Module) -> OptionSema
         except (ValueError, ValidationError):
             continue
     return SEMANTICS_ADAPTER.validate_python(result, strict=True) if len(result) > 2 else None
+
+
+def parameter_shape(option: ResolvedOption, module: ast.Module) -> ParameterShape:
+    keywords = {item.arg: item.value for item in option.call.keywords}
+    semantics: dict[str, Any] = dict(explicit_semantics(option, module) or {})
+    unknown: list[str] = []
+    arity: Any = 1
+    required: bool | None = option.positional
+    repeatable: bool | None = False
+    if option.framework == "argparse":
+        action = semantics.get("action", "store")
+        if "action" in keywords and "action" not in semantics:
+            arity = "unknown"
+            unknown.append("custom_or_dynamic_action")
+        elif action in {"store_true", "store_false", "store_const", "append_const", "count", "help", "version"}:
+            arity = 0
+        repeatable = action in {"append", "append_const", "count", "extend"}
+        if action in {"help", "version"}:
+            unknown.append("terminates_parser")
+    else:
+        if semantics.get("is_flag") is True or semantics.get("count") is True:
+            arity = 0
+        elif "flag_value" in keywords or any("/" in argument.value for argument in option.call.args if isinstance(argument, ast.Constant) and isinstance(argument.value, str)):
+            arity = "unknown"
+            unknown.append("implicit_click_flag_behavior")
+        repeatable = bool(semantics.get("multiple") or semantics.get("count"))
+        if "callback" in keywords or "cls" in keywords:
+            unknown.append("custom_click_behavior")
+        for key in ("is_flag", "multiple", "count"):
+            if key in keywords and key not in semantics:
+                arity = "unknown"
+                unknown.append(f"dynamic_{key}")
+    if "nargs" in keywords:
+        try:
+            value = literal(keywords["nargs"])
+            if type(value) is int and -1 <= value <= 32 or value in ("?", "*", "+"):
+                arity = value
+            else:
+                arity = "unknown"
+        except ValueError:
+            arity = "unknown"
+        if arity == "unknown":
+            unknown.append("dynamic_or_unsupported_nargs")
+    if option.positional:
+        required = arity not in ("?", "*", -1, 0)
+        if option.framework == "click" and "default" in keywords:
+            required = False
+    if "required" in keywords:
+        value = semantics.get("required")
+        required = value if isinstance(value, bool) else None
+        if required is None:
+            unknown.append("dynamic_required")
+    if "type" in keywords and "value_type" not in semantics and "choices" not in semantics:
+        unknown.append("custom_or_dynamic_type")
+    if "choices" in keywords and "choices" not in semantics:
+        unknown.append("dynamic_choices")
+    if option.exclusive_group is not None and option.group_required is None:
+        unknown.append("dynamic_group_required")
+    aliases: list[str] = []
+    if not option.positional:
+        for argument in option.call.args:
+            if isinstance(argument, ast.Constant) and isinstance(argument.value, str):
+                aliases.extend(value for value in argument.value.split("/") if re.fullmatch(r"--?[A-Za-z0-9][A-Za-z0-9_.-]{0,127}", value))
+    return TypeAdapter(ParameterShape).validate_python({
+        "framework": option.framework, "rule": "python-parameters-v1", "arity": arity,
+        "required": required, "repeatable": repeatable, "aliases": tuple(aliases),
+        "exclusive_group": option.exclusive_group, "group_required": option.group_required,
+        "unknown_reasons": tuple(unknown),
+    }, strict=True)

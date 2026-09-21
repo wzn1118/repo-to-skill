@@ -251,3 +251,6 @@ def analyze_javascript(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
                     (claim_id,),
                 )
             )
+            from r2s.javascript_graph import analyze_commands
+
+            analyze_commands(discovery, scan_result, next(claim for claim in discovery.claims if claim.id == claim_id), target)

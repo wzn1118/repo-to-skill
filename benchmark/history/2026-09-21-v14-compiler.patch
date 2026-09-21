@@ -1,0 +1,14 @@
+--- a/src/r2s/analyzers.py
++++ b/src/r2s/analyzers.py
+@@ -412,10 +412,9 @@
+             )
+         )
+     if conflicted_ids:
+-        conflicted_commands = {str(claim.object.get("command", "")).casefold() for claim in discovery.claims if claim.id in conflicted_ids}
+         discovery.claims = [
+             replace(claim, status="conflicted")
+-            if claim.id in conflicted_ids or (claim.predicate in {"supports_subcommand", "supports_option", "supports_argument"} and str(claim.object.get("command", "")).casefold() in conflicted_commands)
++            if claim.id in conflicted_ids
+             else claim
+             for claim in discovery.claims
+         ]

@@ -54,6 +54,12 @@ try {
   await until('Boolean(document.querySelector("input[aria-label=用户目标]"))');
   await evaluate('document.querySelector("input[aria-label=用户目标]").value="inspect options"; document.querySelector("#detail form button").click()');
   await until('document.querySelector("#detail").textContent.includes("结果：STATIC_READY")');
+  await evaluate(`const choice=document.querySelector('select[aria-label="选择命令或子命令"]'); choice.value='0'; choice.dispatchEvent(new Event('change')); document.querySelector('input[aria-label="参数 --output"]').value='result.json'; document.querySelector('input[aria-label="参数 --output"]').dispatchEvent(new Event('input')); document.querySelector('input[aria-label="预期结果"]').value='Review requested output'; document.querySelector('input[aria-label="用户目标"]').value='Bind output'; document.querySelector('#detail form button').click()`);
+  await until('document.querySelector("#detail").textContent.includes("结果：STATIC_READY") && !document.querySelector("#detail form button").disabled');
+  const downloaded = await evaluate(`(async () => {const link=Array.from(document.querySelectorAll('#detail a')).find(item=>item.textContent.includes('Download')); const result=await fetch(link.href); return {status:result.status,type:result.headers.get('Content-Type'),bytes:(await result.arrayBuffer()).byteLength};})()`);
+  assert.equal(downloaded.status, 200);
+  assert.equal(downloaded.type, 'application/zip');
+  assert(downloaded.bytes > 100);
   await evaluate('Array.from(document.querySelectorAll("button")).find(button=>button.textContent.includes("加载前 100 条证据")).click()');
   await until('Boolean(document.querySelector(".evidence"))');
   if (screenshot) {
@@ -66,7 +72,7 @@ try {
   await until('document.querySelector("#action-status").textContent.includes("UI_SOURCE_OUTSIDE_ALLOWED_ROOT")');
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser: await call('Browser.getVersion'), checks: [
-    'empty state', 'static inspect', 'successful build', 'evidence view', 'unmatched goal', 'source boundary',
+    'empty state', 'static inspect', 'successful build', 'parameter binding', 'locked ZIP download', 'evidence view', 'unmatched goal', 'source boundary',
   ], javascriptExceptions: errors.length}));
 } finally {
   socket.close();

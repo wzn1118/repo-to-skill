@@ -1,5 +1,27 @@
 # Product value evaluation / 产品价值评测
 
+## Current milestone: structured workflows
+
+The following sections retain the v13 protocol and reference-task history. The current
+[bound-workflow contract](bound-workflows.md) adds structured inputs and executable Procedures;
+[five-tool measurements](../benchmark/workflow-runs/2026-09-21-v14/README.md) report generated
+invocation checks separately. The development cohort is now Black, pre-commit, Prettier, gh and fzf;
+Cookiecutter reference tasks remain historical, not silently exchanged into that denominator.
+
+The requested next model experiment has **four arms**: fixed upstream docs, Skill Seekers 3.9.0
+output, the previous Repo-to-Skill baseline, and upgraded output. Same source SHA, tasks, model,
+budget, tool permissions and acceptance rules must apply to every arm. Offline competitor generation
+has run; no Agent arm or model-enhanced competitor arm has run. The custom proposal gateway does
+not by itself implement a complete multi-turn four-arm evaluator. Do not substitute its loopback
+contract test or token counters for an Agent trial. The original human-authored arm below remains
+a separate optional design and requires genuine human authorship.
+
+The registered holdouts have now been exposed to a frozen candidate compiler. Their first outcomes
+are retained in the workflow run; none is promoted into the 36-Core headline. New generalization
+claims require a new unexposed cohort. The 200-fact semantic gold and human review gates remain open.
+
+## Historical v13 protocol
+
 The review of `8746371` correctly identifies the gap between a reproducible compiler and useful
 task guidance. v12 adds scoped commands, but does not close that gap. The next milestone concentrates
 on Black, pre-commit and Cookiecutter; the 45-repository discovery corpus remains unchanged.

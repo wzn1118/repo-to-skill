@@ -106,14 +106,15 @@ def validate_relations(discovery: DiscoveryIR) -> None:
         _unique(claim.evidence_ids, "CLAIM_EVIDENCE_REFERENCE")
         if not claim.evidence_ids or any(identifier not in evidence for identifier in claim.evidence_ids):
             raise ValueError("IR_CLAIM_EVIDENCE_MISSING")
-        executable = claim.predicate in {"provides_cli", "supports_subcommand", "supports_option"}
-        required_field = {"provides_cli": "target", "supports_subcommand": "command_path", "supports_option": "option", "has_license_file": "path"}[claim.predicate]
+        executable = claim.predicate in {"provides_cli", "supports_subcommand", "supports_option", "supports_argument"}
+        required_field = {"provides_cli": "target", "supports_subcommand": "command_path", "supports_option": "option", "supports_argument": "argument", "has_license_file": "path"}[claim.predicate]
         if required_field not in claim.object:
             raise ValueError("IR_FACT_PAYLOAD_MISMATCH")
         allowed_fields = {
             "provides_cli": {"command", "target", "workspace", "role"},
             "supports_subcommand": {"command", "command_path"},
-            "supports_option": {"command", "option", "command_path", "semantics"},
+            "supports_option": {"command", "option", "command_path", "semantics", "shape"},
+            "supports_argument": {"command", "argument", "position", "command_path", "semantics", "shape"},
             "has_license_file": {"path"},
         }
         if set(claim.object) - allowed_fields[claim.predicate]:
@@ -124,7 +125,7 @@ def validate_relations(discovery: DiscoveryIR) -> None:
             command = claim.object.get("command")
             if not isinstance(command, str) or not is_safe_command(command):
                 raise ValueError("IR_COMMAND_INVALID")
-            if claim.predicate in {"supports_option", "supports_subcommand"} and claim.subject != command:
+            if claim.predicate in {"supports_option", "supports_subcommand", "supports_argument"} and claim.subject != command:
                 raise ValueError("IR_OPTION_OWNER_MISMATCH")
             if claim.predicate == "provides_cli" and claim.subject != "repository":
                 raise ValueError("IR_ENTRYPOINT_OWNER_MISMATCH")
@@ -148,7 +149,7 @@ def validate_relations(discovery: DiscoveryIR) -> None:
         if len(entries) != 1:
             raise ValueError("IR_CAPABILITY_ENTRYPOINT_AMBIGUOUS")
         command = entries[0].object.get("command")
-        if any(claims[identifier].predicate in {"supports_option", "supports_subcommand"} and claims[identifier].subject != command for identifier in capability.claim_ids):
+        if any(claims[identifier].predicate in {"supports_option", "supports_subcommand", "supports_argument"} and claims[identifier].subject != command for identifier in capability.claim_ids):
             raise ValueError("IR_CAPABILITY_OPTION_OWNER_MISMATCH")
     if discovery.commands != command_specs(discovery.claims):
         raise ValueError("IR_COMMAND_GRAPH_MISMATCH")
@@ -160,9 +161,9 @@ def _parse_discovery_structure(value: Any) -> DiscoveryIR:
         raise TypeError("DISCOVERY_OBJECT_REQUIRED")
     if "snapshot" not in value:
         raise ValueError("DISCOVERY_MIGRATION_REQUIRED")
-    if value.get("schema_version") in {"1.2.0", "1.3.0"}:
+    if value.get("schema_version") in {"1.2.0", "1.3.0", "1.4.0"}:
         raise ValueError("DISCOVERY_MIGRATION_REQUIRED")
-    if value.get("schema_version") != "1.4.0":
+    if value.get("schema_version") != "1.5.0":
         raise ValueError("DISCOVERY_SCHEMA_UNSUPPORTED")
     return DISCOVERY_ADAPTER.validate_json(json.dumps(value, allow_nan=False), strict=True)
 
@@ -177,7 +178,7 @@ def discovery_schema() -> dict[str, Any]:
     schema = DISCOVERY_ADAPTER.json_schema()
     schema.update({
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": "https://r2s.local/schema/discovery-1.4.0.json",
+        "$id": "https://r2s.local/schema/discovery-1.5.0.json",
         "title": "Repo-to-Skill Discovery IR with scoped commands",
     })
     return schema

@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
+
+from pydantic import StringConstraints
 
 from r2s.contract_types import (
     ByteCount,
@@ -71,7 +73,7 @@ class Evidence(StrictRecord):
 class Claim(StrictRecord):
     id: ClaimId
     subject: Text
-    predicate: Literal["provides_cli", "supports_subcommand", "supports_option", "has_license_file"]
+    predicate: Literal["provides_cli", "supports_subcommand", "supports_option", "supports_argument", "has_license_file"]
     object: FactValue
     evidence_ids: tuple[EvidenceId, ...]
     confidence: Confidence
@@ -97,6 +99,14 @@ class CommandSpec(StrictRecord):
     parent_claim_id: ClaimId | None
     option_claim_ids: tuple[ClaimId, ...]
     completeness: Literal["partial"] = "partial"
+    argument_claim_ids: tuple[ClaimId, ...] = ()
+
+
+@dataclass(frozen=True)
+class ParameterBinding(StrictRecord):
+    claim_id: ClaimId
+    values: tuple[str, ...]
+    origin: Literal["user_input", "model_candidate"] = "user_input"
 
 
 @dataclass(frozen=True)
@@ -106,6 +116,11 @@ class ProcedureStep(StrictRecord):
     claim_ids: tuple[str, ...]
     expected_observation: str
     risk: str = "read_only"
+    command_path: CommandPath = ()
+    bindings: tuple[ParameterBinding, ...] = ()
+    mode: Literal["inventory", "invocation"] = "inventory"
+    stdout_file: SourcePath | None = None
+    stdin: Annotated[str, StringConstraints(max_length=16384)] | None = None
 
 
 @dataclass(frozen=True)
@@ -150,7 +165,7 @@ class RepositorySnapshot(StrictRecord):
 
 @dataclass
 class DiscoveryIR(StrictRecord):
-    schema_version: Literal["1.4.0"]
+    schema_version: Literal["1.5.0"]
     snapshot: RepositorySnapshot
     languages: list[Literal["python", "javascript", "typescript", "go", "rust"]] = field(default_factory=list)
     repository_types: list[Literal["cli", "library", "framework", "http", "data", "gui", "unknown"]] = field(default_factory=list)

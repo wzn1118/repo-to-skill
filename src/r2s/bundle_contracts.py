@@ -44,10 +44,11 @@ class BundleLock(BaseModel):
 class SkillDocument(BaseModel):
     model_config = ConfigDict(strict=True, extra="forbid")
 
-    renderer: Literal["r2s-cli-v3"] = "r2s-cli-v3"
+    renderer: Literal["r2s-cli-v4"] = "r2s-cli-v4"
     entrypoint_claim_id: str
     option_claim_ids: list[str]
     subcommand_claim_ids: list[str]
+    argument_claim_ids: list[str]
 
 
 class ScanScope(BaseModel):
@@ -62,7 +63,7 @@ class ScanScope(BaseModel):
 class BundleProvenance(BaseModel):
     model_config = ConfigDict(strict=True, extra="forbid")
 
-    schema_version: Literal["1.4.0"]
+    schema_version: Literal["1.5.0"]
     source_snapshot: RepositorySnapshot
     artifact_path: Literal["SKILL.md"]
     procedure: Procedure

@@ -113,6 +113,12 @@ def test_scoped_legacy_migration_does_not_invent_semantics(tmp_path: Path) -> No
     )))
     payload = discovery.to_dict()
     payload["schema_version"] = "1.3.0"
+    for claim in payload["claims"]:
+        claim["object"].pop("shape", None)
+    for evidence in payload["evidence"]:
+        evidence["normalized_value"].pop("shape", None)
+    for command in payload["commands"]:
+        command.pop("argument_claim_ids", None)
     source = tmp_path / "legacy.json"
     source.write_text(json.dumps(payload))
     before = source.read_bytes()
@@ -120,6 +126,6 @@ def test_scoped_legacy_migration_does_not_invent_semantics(tmp_path: Path) -> No
         parse_discovery(payload)
     result = migrate_discovery(source, tmp_path / "migrated")
     migrated = load_discovery(Path(result["run_root"]))
-    assert migrated.schema_version == "1.4.0"
+    assert migrated.schema_version == "1.5.0"
     assert not any("semantics" in claim.object for claim in migrated.claims)
     assert migrated.commands == discovery.commands and source.read_bytes() == before

@@ -1,6 +1,6 @@
 # Upgrade status / 升级进度
 
-Updated: 2026-09-16. **Active goal; M0 is not fully accepted and the full upgrade is not complete.**
+Updated: 2026-09-21. **Execution resumed; M0 is not fully accepted and the full upgrade is not complete.**
 
 The [U00–U22 plan](upgrade-plan.md) remains the acceptance contract. “Partial” means there is
 reviewable implementation, not that the work package or release gate is passed.
@@ -11,19 +11,19 @@ reviewable implementation, not that the work package or release gate is passed.
 | U01 independent validation | partial | Typed provenance, safe YAML, full inventory locks, deterministic re-rendering and install-time checks reject modified bundles. External source authentication/signatures and reference-client conformance are pending. |
 | U02 Python bindings | partial | argparse options require a parsed owner; Click options require a recognized command. Aliases, shadowing, same-line parser identities, local framework impersonation, invalid group methods and registrations after parsing are tested. Typer registration, dynamic bindings and complete framework semantics remain incomplete. |
 | U03 Go names / roles | partial | Four known v2/v4 name regressions checked against pinned source; pnpm hidden fixtures, bat syntax-test Go module and goreleaser nested test module no longer produce product Skills. Binary/role inference still uses heuristics, not a complete Go command graph. |
-| U04 goal matching | partial | Unrelated goals produce NEEDS_INPUT/REVIEW_REQUIRED; user goal text is not emitted as a capability fact. Explicit multilingual ambiguity handling and workflow matching are pending. |
+| U04 goal matching | partial | Structured workflow inputs and explicit command selection bind to source facts. Optional, separately authorized model gateway candidates pass the same binder. Free natural-language interpretation remains unmeasured. |
 | U05 source identity | partial | Raw byte hashes and committed Git blob IDs separated; CRLF, BOM, dirty trees and SHA-256 Git cases tested. Git filters/fsmonitor disabled. Byte-range mappings and complete snapshot attestations remain open. |
-| U06 IR v2 / migration | partial | Discovery IR 1.4 adds typed explicit option keyword declarations to scoped `CommandSpec`. 1.2/1.3 imports preserve prior facts with no guessed semantics and remain review-blocked; all 45 retained v12 IR files migrate without source changes. Full argument/runtime semantics, byte ranges and general migration remain pending. See [contract and import evidence](discovery-contract.md). |
+| U06 IR v2 / migration | partial | Discovery IR 1.5 adds positional arguments, bounded parameter shapes and workflow bindings. Historical 1.2–1.4 imports remain review-blocked without invented facts. Full runtime semantics, byte ranges and external attestation remain pending. See [contract](discovery-contract.md). |
 | U07 workspace scanning | partial | Deterministic workspace/role content budgets, independent metadata limits, tracked-directory inclusion and scanner-gated analyzer reads implemented. Partial scans carry indexed scan.json plus bundle scope, and remain review-required through standalone validation/install. TypeScript/webpack now return partial discoveries. Resolver consolidation, complete workspace graphs, process quotas and hostile-filesystem race isolation remain pending. See [scope contract](scan-budgets.md). |
 | U08 Python command graph | partial | Bounded local import/re-export/alias resolution, direct delegation and argparse helper parameter binding preserve source hops. Parsed argparse subcommands, groups and nested children retain their own option paths; fixed pre-commit exposes 16 child paths and 108 scoped options. Black/blackd adds 43 options and Cookiecutter 21 on fixed pins. Dynamic registration, aliases, parser inheritance, local import semantics and complete framework coverage remain pending. See [implemented boundary](python-entrypoint-graph.md). |
-| U09 JS/TS command graph | pending | Manifest bin extraction and role exclusions only; AST/framework/delegation support pending. |
-| U10 Go AST/Cobra graph | pending | Lexical extraction remains; AST helper, build conditions, command inheritance and ownership pending. |
-| U11 workflows/documents | partial | Deterministic typed SkillDocument now renders explicit parameter keywords by command path. Task-specific goals mentioning a known CLI return NEEDS_INPUT instead of a generic empty-argv plan. Complete task-oriented procedures remain unimplemented. |
-| U12 application jobs/policy | partial | Execution policy and bounded local writes exist. CLI/UI still need unified application services, persisted jobs, idempotency, cancellation and approvals. |
-| U13 sandbox/replay | partial | Local installed-image pinning, filtered readonly source, no network, non-root process, quotas, output bounds and cleanup tested in real Docker. Dependency build profiles, distributed replay and task oracles pending. |
-| U14 gold/tasks/evaluator | partial | 40 selected source facts and 30 static prerequisite records remain separate from 30 new reference tasks with file/output oracles on Black, pre-commit and Cookiecutter. First attempt 29/30; corrected oracle casing 30/30 on full rerun. Three metadata-only holdouts registered. Broader TaskSpecs, 200-fact gold, human review and Agent trials remain pending. |
-| U15 Agent A/B / official gh | pending | Version-specific static official comparison is recorded. No Agent A/B execution, task uplift, confidence interval or two-version maintenance result. |
-| U16 UI/API | partial | Browser-tested inspect → build → evidence/error flow; Host/Origin/token/source-root boundaries. Background jobs, cancellation, capability selection and artifact downloads pending. |
+| U09 JS/TS command graph | partial | Optional pinned tree-sitter support for bounded Commander declarations, local imports and explicit option-table normalization. Prettier API-option forwarding, dynamic wrappers and complete framework scopes remain unsupported; no full JS support claim. |
+| U10 Go AST/Cobra graph | partial | Bounded local call/argv traversal, direct Cobra factories, command paths, option ownership and explicit scalar declarations. Conditional registration/build-tag files are excluded; inherited scope and custom consumption remain unknown. |
+| U11 workflows/documents | partial | Same-tool multi-step Procedures, explicit stdin/output capture, bound quickstarts, input types/choices/required/exclusive checks and acceptance descriptions. Cross-tool composition and evidence-backed automatic recovery remain pending. |
+| U12 application jobs/policy | partial | CLI/UI share build service. SQLite jobs/events, two worker slots, cancellation boundaries, attempt history and expired-lease recovery implemented. Hosted approvals, transactional artifact publication recovery and distributed scheduling remain pending. |
+| U13 sandbox/replay | partial | Identity-bound TaskSpecs, offline wheel preparation, native/Node artifact profiles, isolated writable tasks, independent file/JSON/output oracles and Python repair SDK. Quotas, cleanup and wrong-output negatives tested; multi-tenant and universal dependency preparation remain pending. |
+| U14 gold/tasks/evaluator | partial | 36 structured-input tasks across the five target tools: first attempt 24 pass, 12 retained failures. Existing reference tasks and static prerequisites stay separate. Three registered holdouts now have retained first outcomes. 200-fact semantic gold and human review are not complete. |
+| U15 Agent A/B / official gh | partial | Skill Seekers 3.9.0 offline generation measured on the five fixed snapshots; two-version sample workflows pass on Black/pre-commit. Neither result measures Agent utility or superiority. Four-arm Agent execution, model-enhanced comparison and native-client tests remain pending. |
+| U16 UI/API | partial | Browser-tested command selection, parameter binding and locked ZIP download, plus inspect/build/evidence/errors. Persisted background jobs, phase progress, cancel/retry and refresh reconnect exist; native installation/execution still use CLI. |
 | U17 install/clients | partial | Codex managed destination, staged update, receipt, rollback API, user-modification rejection and receipt-write failure recovery. The bundled plugin-creator validator passes after manifest fixes; native-client loading, full crash recovery, Windows lock behavior and multi-client install lifecycle pending. |
 | U18 packaging/community | partial | Current wheel and dependencies install independently into a fresh environment and pass seven CLI checks in isolated Python mode; package bytes match the wheel. Contribution/security/changelog documentation added. License decision, locked release dependencies, signed publishing and complete platform qualification pending. |
 | U19 Beta acceptance | pending | Missing recall, semantic review, workflow, client and user-study gates prevent acceptance. |
@@ -31,7 +31,33 @@ reviewable implementation, not that the work package or release gate is passed.
 | U21 new domains | pending | Rust remains challenge coverage; no complete Rust/library/HTTP support claim. |
 | U22 private/hosted | pending | No multi-tenant deployment, private-model transfer authorization or hosted SLO claim. |
 
-## Measured results
+## New workflow measurements
+
+The [five-tool run](../benchmark/workflow-runs/2026-09-21-v14/README.md) first passes **24/36**:
+Black 9/10, pre-commit 10/10, fzf 5/6, Prettier 0/6 and gh 0/4. The failed bindings and scan-gated
+tasks remain in the denominator. This measures generated argv from authored structured inputs,
+not Agent goal understanding. The same frozen oracles and all attempts are retained.
+
+Skill Seekers 3.9.0 produces output on all five snapshots in offline mode; sizes and generation
+times do not establish correctness or a win. Two real commits each for Black and pre-commit pass
+the unchanged sample task (4 checks); minimal invalidation precision and native-client update are
+not proven. Holdout first outcomes: dbt-core UNSUITABLE, AWS CLI REVIEW_REQUIRED, Ansible REVIEW_REQUIRED.
+The cohort is now exposed and remains outside the 36-Core headline.
+
+v14's public run exposed a TypeScript conflict-propagation defect. Its raw data and qualification
+are preserved; the fix marks descendant interface claims conflicted before constructing the graph.
+The post-fix [v15 run](../benchmark/runs/2026-09-21-upgrade-v15/report.md) is recorded separately.
+All 45 snapshots now complete: selected source facts **23/40**, static prerequisites **12/30**,
+and **1,085** emitted Core facts with hash/pin checks. Core outcomes remain 20 STATIC_READY,
+10 REVIEW_REQUIRED, 6 UNSUITABLE; full semantic precision remains unmeasured.
+
+Current local verification: **335 passed, 12 subtests passed**, with all explicitly enabled
+Docker/browser checks included. Browser coverage includes eight interactions, now including
+parameter binding and locked ZIP download. Ruff and strict mypy pass. The 45 v13 IR files migrate
+to review-required 1.5 records without changing originals. Windows CI is a separate platform gate,
+not inferred from these Linux results.
+
+## Historical v13 measurements
 
 The [upgrade-v13 run](../benchmark/runs/2026-09-16-upgrade-v13/report.md) runs the same 45 pinned
 repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
@@ -68,7 +94,7 @@ repositories: 36 high-star Core, 6 Rust challenges and 3 secondary cases.
   the mismatching artifacts are not authoritative. v12 uses corrected matching, a new gold-input
   version, write-once evaluation outputs and a manifest generated last.
 
-## Local verification
+## Historical v13 verification
 
 **302 passed, 12 subtests passed**, including five real Docker checks and one real Chromium test
 covering six UI interactions. Ruff and mypy pass. See the
@@ -118,7 +144,9 @@ The 30 records in `benchmark/taskset-v1.json` are explicitly a **static prerequi
 with no execution oracle; they are not completed TaskSpecs. Historical runtime and official-Skill
 results are not reused as current runtime or Agent A/B scores.
 
-Next acceptance work: complete Python parameter semantics, JS/TS and Go framework graphs,
-external source authentication and full IR v2, then the shared job service and executable TaskSpecs.
+Next acceptance work: close the retained Prettier/gh bindings and scan boundaries, custom Python/Go
+semantics, the 200-fact semantic gold, full four-arm model runner, native-client trials,
+external source authentication and full IR v2. The shared local job service and TaskSpec are now
+implemented but do not close those acceptance gates.
 Human sign-off, model experiments and production hosting
 remain separate gates; their absence does not stop independent engineering.

@@ -43,6 +43,9 @@ class ResolvedOption:
     owner: SymbolRef
     scope: ast.FunctionDef
     command_path: tuple[str, ...] = ()
+    positional: bool = False
+    exclusive_group: str | None = None
+    group_required: bool | None = None
 
 
 @dataclass(frozen=True)
@@ -299,6 +302,16 @@ class PythonGraph:
             ResolvedOption(flag, function.path, option.call, via, option.framework, function.ref, function.node)
             for option in options for flag in declarations(option)
         ]
+        if click_command:
+            from r2s.option_semantics import qualified
+            from r2s.python_bindings import framework_bindings
+
+            bindings = framework_bindings(function.module_tree, self.blocked_frameworks)
+            for decorator in function.node.decorator_list:
+                if isinstance(decorator, ast.Call) and qualified(decorator.func, bindings) == "click.argument" and len(decorator.args) == 1 and isinstance(decorator.args[0], ast.Constant):
+                    name = decorator.args[0].value
+                    if isinstance(name, str) and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._+-]{0,127}", name) and not any(keyword.arg is None for keyword in decorator.keywords):
+                        result.append(ResolvedOption(name, function.path, decorator, via, "click", function.ref, function.node, positional=True))
         if options or click_command:
             self.cli_roots.add(function.ref)
             return result

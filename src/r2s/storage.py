@@ -21,6 +21,7 @@ from r2s.discovery_contract import (
 from r2s.domain import DiscoveryIR, DriftReport
 from r2s.scan_policy import scan_coverage
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256, stable_id
+from r2s.workflows import WorkflowRequest
 
 DB_NAME = "runs.sqlite3"
 MAX_DISCOVERY_ARTIFACT_BYTES = 32 * 1024 * 1024
@@ -282,8 +283,10 @@ def _load_discovery_envelope(run_root: Path, *, migration: bool = False) -> Disc
     locked_schema = values["discovery.json"]["schema_version"]
     if locked_schema == "1.2.0" and migration:
         discovery_value.pop("commands")
-    if locked_schema in {"1.2.0", "1.3.0"} and migration:
+    if locked_schema in {"1.2.0", "1.3.0", "1.4.0"} and migration:
         discovery_value["schema_version"] = locked_schema
+        for command in discovery_value.get("commands", []):
+            command.pop("argument_claim_ids", None)
     discovery_sha256 = canonical_sha256(discovery_value)
     snapshot_value = asdict(discovery.snapshot)
     snapshot_digest = stable_id("snapshot", snapshot_value)
@@ -352,10 +355,11 @@ def resolve_discovery(source: str, output_root: Path) -> tuple[DiscoveryIR | Non
 
 def compilation_root(
     discovery_root: Path, goal: str, target: str, capability_ids: set[str] | None = None,
+    workflow: WorkflowRequest | None = None,
 ) -> Path:
     identity = compiler_identity(target)
     discovery = load_discovery(discovery_root)
-    request = compilation_request(discovery, goal, target, capability_ids, identity, discovery_root.name)
+    request = compilation_request(discovery, goal, target, capability_ids, identity, discovery_root.name, workflow)
     compilation_id = stable_id(
         "compile",
         request,
