@@ -21,7 +21,7 @@ reviewable implementation, not that the work package or release gate is passed.
 | U11 workflows/documents | partial | Same-tool multi-step Procedures, explicit stdin/output capture, bound quickstarts, input types/choices/required/exclusive checks and acceptance descriptions. Cross-tool composition and evidence-backed automatic recovery remain pending. |
 | U12 application jobs/policy | partial | CLI/UI share build service. SQLite jobs/events, two worker slots, cancellation boundaries, attempt history and expired-lease recovery implemented. Hosted approvals, transactional artifact publication recovery and distributed scheduling remain pending. |
 | U13 sandbox/replay | partial | Identity-bound TaskSpecs, offline runtime profiles, independent oracles and Python repair SDK. Native benchmark binaries require matching successful build receipts; bounded open-file limits and complete execution policies are recorded. Multi-tenant and universal dependency preparation remain pending. |
-| U14 gold/tasks/evaluator | partial | 36 structured-input tasks across the five target tools: first attempt 24 pass, 12 retained failures. Existing reference tasks and static prerequisites stay separate. Three registered holdouts now have retained first outcomes. 200-fact semantic gold and human review are not complete. |
+| U14 gold/tasks/evaluator | partial | 36 structured-input tasks across the five target tools: first attempt 24 pass, 12 retained failures. A new frozen v23 semantic gold set covers 200 positive operational subjects and 20 negative probes across 10 high-Star repositories; v22 agreement is 69/200, with 118 missing, 10 field mismatches and 3 partial/unknown. This is retrospective agent-curated static evidence, not human review, held-out accuracy or Agent uplift. Existing reference tasks and static prerequisites stay separate. Three registered holdouts retain first outcomes. |
 | U15 Agent A/B / official gh | partial | Skill Seekers 3.9.0 offline generation measured on the five fixed snapshots; two-version sample workflows pass on Black/pre-commit. Neither result measures Agent utility or superiority. Four-arm Agent execution, model-enhanced comparison and native-client tests remain pending. |
 | U16 UI/API | partial | Browser-tested command selection, parameter binding and locked ZIP download, plus inspect/build/evidence/errors. Persisted background jobs, phase progress, cancel/retry and refresh reconnect exist; native installation/execution still use CLI. |
 | U17 install/clients | partial | Codex managed destination, staged update, receipt, rollback API, user-modification rejection and receipt-write failure recovery. The bundled plugin-creator validator passes after manifest fixes; native-client loading, full crash recovery, Windows lock behavior and multi-client install lifecycle pending. |
@@ -58,7 +58,7 @@ remain in retained diagnostic records with exact compiler-reconstruction patches
 them and repeats all source and task measurements. [JS boundaries](javascript-option-flow.md)
 and [Python/Go validator boundaries](source-validators.md) document the supported subset.
 
-Next acceptance gaps: broaden independent semantic gold, test generalization on unexposed repos,
+Next acceptance gaps: add human-verified and held-out semantic gold, test generalization on unexposed repos,
 run configured model arms, verify native-client loading and preserve behavior across real upstream
 updates. Complete dynamic framework semantics and full U00–U22 acceptance remain open.
 

@@ -1,0 +1,35 @@
+{
+  "artifacts": {
+    "report-v2.md": "5f3682dbc093ecc216b80c4f48af10f4d6d0f5b520963c9b104a90fb9350b8ec",
+    "semantic-coverage-v2.svg": "e7b4241b1c855ea4f47ef05648877a5a2471bc12bbaead144682f8e1e027b215",
+    "semantic-evaluation-v2.json": "05e6aff40a47648fce8424a1baaf25baaaa41fa8e75c7f8f338d368ec88911b9",
+    "semantic-gold.json": "6a0e2c8451786ed5231dc7b3266fc11d9773be69b0469cb1189e5fa0a0f2d8e3",
+    "v22-semantic-results.json": "05732ee1653f85ae4e520965e33098227c9d5fc0fb079888b993bb24b5a5736b"
+  },
+  "counts": {
+    "fields": {
+      "MATCH": 153,
+      "MISMATCH": 10,
+      "NOT_EVALUATED": 238
+    },
+    "negative_subjects": 20,
+    "positive_subjects": 200,
+    "statuses": {
+      "FIELD_MISMATCH": 10,
+      "MISSING_FACT": 118,
+      "NEGATIVE_CLEAR": 20,
+      "PARTIAL_OR_UNKNOWN": 3,
+      "SELECTED_FIELDS_MATCH": 69
+    }
+  },
+  "evaluation_identity": {
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "scripts/create_semantic_manifest.py": "b76383bae276f865020476bf7cfc94ed719f17cc50c1183965322396d7b4dd7a",
+    "scripts/freeze_semantic_gold.py": "88ed4228f90c30cbceb27328798749441edce6344305bb4f8798753db62608c6",
+    "scripts/render_semantic_report.py": "c3eea02219cb5d0ddb1a72935004240e3e242590b16a96ef0eaa21657343267c",
+    "scripts/semantic_gold.py": "4d94273bef38e414a4edff90127bd096343a7ce7cd1b345bebf1074fccfdff36"
+  },
+  "format": "r2s-semantic-gold-run-v1",
+  "run_id": "2026-09-22-upgrade-v23-semantic-audit",
+  "scope": "Retrospective agent-curated selected-field agreement; no human sign-off, held-out accuracy, complete precision or Agent uplift."
+}

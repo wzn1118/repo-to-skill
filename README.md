@@ -15,7 +15,7 @@ executing the target repository.
 > runs, structured workflows, independent task checks and thin client projections. Claude/Cursor native loading is not verified. Agent A/B evidence and
 > private/hosted workflows remain incomplete.
 
-[English](#english) · [Latest static run](benchmark/runs/2026-09-22-upgrade-v22/report.md) · [Generated workflow tasks](benchmark/workflow-runs/2026-09-22-v22-native/README.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
+[English](#english) · [Latest static run](benchmark/runs/2026-09-22-upgrade-v22/report.md) · [Semantic audit](benchmark/runs/2026-09-22-upgrade-v23-semantic-audit/report-v2.md) · [Generated workflow tasks](benchmark/workflow-runs/2026-09-22-v22-native/README.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
 
 ## From command lists to usable workflows
 
@@ -47,6 +47,12 @@ sample workflows and registered holdouts have real results. [Raw measurements an
 repositories. Selected fact coverage rises from **16/40 → 24/40**; static task prerequisites from
 **6/30 → 13/30**. **1,130** emitted facts have hash/pin checks; full semantic review remains pending.
 Core static readiness stays **20/36**. [v22 report](benchmark/runs/2026-09-22-upgrade-v22/report.md).
+
+**Latest semantic audit:** an independently authored, commit-bound set checks **200 positive
+operational subjects and 20 negative probes across 10 high-Star repositories**. The immutable v22
+result reaches **69/200 selected-field matches**; **118** subjects are missing, **10** disagree on a
+selected field, and **3** are partial or unknown. These are static semantic measurements, not Agent
+task success or full generated-fact precision. [Report and SVG chart](benchmark/runs/2026-09-22-upgrade-v23-semantic-audit/report-v2.md).
 
 ## Public Repo Benchmark 1.0 — retained v13 baseline
 
@@ -339,6 +345,10 @@ Black 10/10、pre-commit 10/10、fzf 6/6、Prettier 6/6、GitHub CLI 4/4；标�
 最新 v22 静态复测完成全部 45 个固定快照，含 36 个高 Star 核心仓库。所选事实覆盖
 **16/40 → 24/40**，静态任务前提 **6/30 → 13/30**；1,130 条生成事实有哈希/commit 核对，
 **完整语义审查仍未完成**。Core 静态就绪仍为 20/36，不能把事实数量当作任务成功率。
+
+最新 v23 语义审计固定了 10 个高 Star 仓库、200 个正向操作主体和 20 个独立负例。对不可变
+的 v22 编译结果，69/200 个主体完成选定字段匹配，118 个缺失，10 个字段不匹配，3 个部分或
+未知。该结果是回溯式静态语义测量，不是 Agent 任务成功率或完整事实精确率。[报告和统计图](benchmark/runs/2026-09-22-upgrade-v23-semantic-audit/report-v2.md)。
 
 普通的“README → 提示词”方案很容易编造参数、混淆文档与真实 API，或把错误 commit 的命令写进
 Skill。Repo-to-Skill 固定一条可审计链路：
