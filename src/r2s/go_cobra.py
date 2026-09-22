@@ -5,8 +5,9 @@ from pathlib import Path
 from typing import Any
 
 from r2s.domain import Claim, DiscoveryIR
+from r2s.go_helpers import wrapped_enum
 from r2s.scanner import ScanResult
-from r2s.static_parameters import add_parameter, shape
+from r2s.static_parameters import add_parameter, add_trace, shape
 from r2s.syntax import field, literal, text, unconditional, walk
 
 
@@ -55,11 +56,13 @@ def expand_cobra(discovery: DiscoveryIR, scan: ScanResult, root: Claim, function
     overwritten = any(node.type == "assignment_statement" and any(text(left) in {owner, owner + ".Args", owner + ".Use"} for left in field(node, "left").named_children) for node in walk(field(function, "body")))
     if not overwritten:
         _positionals(discovery, scan, root, filename, declaration, use, imports, path, declared)
-    required = set()
+    required: dict[str, str] = {}
     for node in walk(field(function, "body")):
         if node.type == "call_expression" and unconditional(node, function) and text(field(node, "function")) == owner + ".MarkFlagRequired":
             try:
-                required.add(literal(field(node, "arguments").named_children[0]))
+                flag = literal(field(node, "arguments").named_children[0])
+                if isinstance(flag, str):
+                    required[flag] = add_trace(discovery, scan, filename, node.start_point.row+1, node.end_point.row+1, "go.required_flag", {"flag": flag, "owner": owner})
             except (ValueError, IndexError):
                 pass
     for node in walk(field(function, "body")):
@@ -82,6 +85,7 @@ def expand_cobra(discovery: DiscoveryIR, scan: ScanResult, root: Claim, function
                 expand_cobra(discovery, scan, root, functions, (directory, symbol), module_root, module, path, declared, visited | {key})
         match = re.fullmatch(re.escape(owner) + r"\.(Flags|PersistentFlags)\(\)\.(String|Bool|Int|StringSlice)(Var)?(P)?", call_name)
         if not match:
+            wrapped_enum(discovery, scan, root, filename, node, imports, functions, module_root, module, owner, path, declared, required)
             continue
         arguments = field(node, "arguments").named_children
         offset = 1 if match.group(3) else 0
@@ -111,7 +115,8 @@ def expand_cobra(discovery: DiscoveryIR, scan: ScanResult, root: Claim, function
             pass
         value = {"command": root.object.get("command"), "command_path": list(path), "option": option,
                  "shape": shape("cobra", 0 if match.group(2) == "Bool" else 1, aliases, flag_name in required, unknown), "semantics": semantics}
-        add_parameter(discovery, scan, root, filename, node.start_point.row+1, value, "cobra", declared.evidence_ids)
+        requirement = (required[flag_name],) if flag_name in required else ()
+        add_parameter(discovery, scan, root, filename, node.start_point.row+1, value, "cobra", (*declared.evidence_ids, *requirement))
 
 
 def _positionals(discovery: DiscoveryIR, scan: ScanResult, root: Claim, filename: Path, declaration: Any, use: str, imports: dict[str, str], path: tuple[str, ...], declared: Claim) -> None:

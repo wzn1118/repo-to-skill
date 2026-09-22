@@ -43,6 +43,25 @@ class OptionSemantics(TypedDict):
     value_type: NotRequired[Literal["str", "int", "float", "bool", "path"]]
     default: NotRequired[DeclaredScalar | DeclaredValues]
     choices: NotRequired[DeclaredValues]
+    validation: NotRequired[Literal["python_regex", "ascii_case_insensitive_choices"]]
+
+
+def validate_semantics(value: OptionSemantics) -> OptionSemantics:
+    validation = value.get("validation")
+    if validation is None:
+        return value
+    if value.get("value_type") != "str":
+        raise ValueError("VALIDATION_REQUIRES_STRING_TYPE")
+    if validation == "python_regex" and value["framework"] != "click":
+        raise ValueError("REGEX_VALIDATION_FRAMEWORK_MISMATCH")
+    if validation == "ascii_case_insensitive_choices":
+        choices = value.get("choices")
+        if value["framework"] != "cobra" or not choices or any(not isinstance(choice, str) or not choice.isascii() for choice in choices):
+            raise ValueError("ENUM_VALIDATION_DECLARATION_INVALID")
+    return value
+
+
+ValidatedSemantics = Annotated[OptionSemantics, AfterValidator(validate_semantics)]
 
 
 @with_config(ConfigDict(strict=True, extra="forbid"))
@@ -71,7 +90,7 @@ class OptionValue(TypedDict):
     command: CommandName
     option: OptionName
     command_path: NotRequired[CommandPath]
-    semantics: NotRequired[OptionSemantics]
+    semantics: NotRequired[ValidatedSemantics]
     shape: NotRequired[ParameterShape]
 
 
@@ -81,7 +100,7 @@ class PositionalValue(TypedDict):
     argument: CommandName
     position: Annotated[int, Field(ge=0, le=127)]
     command_path: CommandPath
-    semantics: NotRequired[OptionSemantics]
+    semantics: NotRequired[ValidatedSemantics]
     shape: ParameterShape
 
 

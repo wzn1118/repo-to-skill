@@ -283,8 +283,9 @@ def _load_discovery_envelope(run_root: Path, *, migration: bool = False) -> Disc
     locked_schema = values["discovery.json"]["schema_version"]
     if locked_schema == "1.2.0" and migration:
         discovery_value.pop("commands")
-    if locked_schema in {"1.2.0", "1.3.0", "1.4.0"} and migration:
+    if locked_schema in {"1.2.0", "1.3.0", "1.4.0", "1.5.0"} and migration:
         discovery_value["schema_version"] = locked_schema
+    if locked_schema in {"1.2.0", "1.3.0", "1.4.0"} and migration:
         for command in discovery_value.get("commands", []):
             command.pop("argument_claim_ids", None)
     discovery_sha256 = canonical_sha256(discovery_value)

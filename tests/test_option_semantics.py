@@ -126,6 +126,6 @@ def test_scoped_legacy_migration_does_not_invent_semantics(tmp_path: Path) -> No
         parse_discovery(payload)
     result = migrate_discovery(source, tmp_path / "migrated")
     migrated = load_discovery(Path(result["run_root"]))
-    assert migrated.schema_version == "1.5.0"
+    assert migrated.schema_version == "1.6.0"
     assert not any("semantics" in claim.object for claim in migrated.claims)
     assert migrated.commands == discovery.commands and source.read_bytes() == before

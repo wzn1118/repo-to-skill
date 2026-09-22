@@ -165,7 +165,7 @@ class RepositorySnapshot(StrictRecord):
 
 @dataclass
 class DiscoveryIR(StrictRecord):
-    schema_version: Literal["1.5.0"]
+    schema_version: Literal["1.6.0"]
     snapshot: RepositorySnapshot
     languages: list[Literal["python", "javascript", "typescript", "go", "rust"]] = field(default_factory=list)
     repository_types: list[Literal["cli", "library", "framework", "http", "data", "gui", "unknown"]] = field(default_factory=list)

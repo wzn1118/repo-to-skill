@@ -1,0 +1,8 @@
+{
+  "format": "r2s-retained-regression-v1",
+  "scope": "Version 1.5 discovery directory migration, independently of successful standalone JSON imports",
+  "source_discovery_sha256": "b550873bfca16502202d2768f68cb1680898fb129c40d81e6205d71c2515021d",
+  "status": "FAIL",
+  "reason": "DISCOVERY_ARTIFACT_MISMATCH: run directory",
+  "test_log_sha256": "6d352641ae5097c8f75990a6222825f7e2b2ca4dabe5049f49a9dbe718b30d54"
+}

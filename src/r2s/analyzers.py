@@ -25,7 +25,7 @@ from r2s.scanner import ScanResult, scan
 from r2s.serialization import stable_id
 from r2s.toml_compat import loads as toml_loads
 
-SCHEMA_VERSION: Final = "1.5.0"
+SCHEMA_VERSION: Final = "1.6.0"
 
 
 class _CaseSensitiveConfigParser(configparser.ConfigParser):
@@ -324,12 +324,18 @@ def analyze_python(discovery: DiscoveryIR, scan_result: ScanResult) -> None:
             symbol_value = {"module": option.owner.module, "symbol": option.owner.name, "kind": type(option.scope).__name__}
             chain.append(_python_evidence(scan_result, option.path, option.scope, "python.symbol", symbol_value, f"ast:symbol:{option.owner.name}"))
             from r2s.option_semantics import explicit_semantics, parameter_shape
+            from r2s.python_validators import regex_callback
 
             value: dict[str, Any] = {"command": command, "option": option.option, "command_path": list(option.command_path)}
             resolved_module = resolver.module(option.owner.module)
             semantics = explicit_semantics(option, resolved_module[1]) if resolved_module else None
             if resolved_module:
                 value["shape"] = parameter_shape(option, resolved_module[1])
+                validators = regex_callback(option, resolver) if semantics and semantics.get("value_type") == "str" else ()
+                if validators and semantics is not None and not any(keyword.arg == "cls" for keyword in option.call.keywords):
+                    semantics["validation"] = "python_regex"
+                    value["shape"]["unknown_reasons"] = tuple(reason for reason in value["shape"]["unknown_reasons"] if reason != "custom_click_behavior")
+                    chain.extend(_hop_evidence(scan_result, hop) for hop in validators)
             if option.positional:
                 value.pop("option")
                 value["argument"] = option.option

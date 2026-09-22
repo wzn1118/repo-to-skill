@@ -1,7 +1,7 @@
 # Strict discovery contract / 严格发现契约
 
-The serialized Discovery IR is version `1.5.0`. It adds positional arguments, bounded parameter
-shapes and evidence-bound workflow inputs to the scoped command graph;
+The serialized Discovery IR is version `1.6.0`. It adds bounded, source-backed regex and
+string-enum validators to positional arguments, parameter shapes and workflow inputs;
 **this is not completion of the planned IR v2 CLI graph**.
 The boundary, its schema and the compiler cache derive from the same implementation.
 
@@ -40,10 +40,10 @@ These checks establish structural and internal consistency. They do **not** inde
 authenticate an upstream source or prove that a string in source defines executable CLI behavior.
 Evidence payloads still have extractor-specific dictionaries; byte ranges, complete parameter
 semantics, option inheritance and complete cross-file command semantics remain future IR v2 work.
-Discovery 1.5 does not attest the original analyzer binary. Reusing any prior IR does not rerun
+Discovery 1.6 does not attest the original analyzer binary. Reusing any prior IR does not rerun
 repaired extraction rules; perform fresh discovery to benefit from analyzer fixes.
 
-## Explicit import of historical 1.2/1.3/1.4 data
+## Explicit import of historical 1.2–1.5 data
 
 Historical files are not rewritten during load. The reader rejects invalid records and does not
 silently infer missing security fields. Use a new output directory for an explicit migration:
@@ -61,9 +61,15 @@ index checks; standalone JSON has no such envelope. Old flat formats and future 
 require a supported importer or fresh discovery.
 Version 1.3 imports its existing command graph without inventing parameter fields; it also requires review.
 Version 1.4 retains explicit declaration fields but does not acquire inferred shapes or positionals.
-The 1.5 importer still requires review; fresh analysis is needed to discover the new facts.
+Version 1.5 retains its shapes and workflow graph but cannot contain the new validation field.
+All historical imports require review; fresh analysis is needed to discover new facts. See the
+[source-validator boundary](source-validators.md).
 The [v15 import check](../benchmark/runs/2026-09-21-upgrade-v15/migration-verification.json) migrates
 all 45 retained v13 discoveries into review-required 1.5 runs, retaining source hashes and commits.
+The [v19 import check](../benchmark/runs/2026-09-22-upgrade-v19/migration-verification.json) migrates
+all 45 retained v17 discoveries from 1.5 to review-required 1.6. A
+[retained 1.5 directory](../benchmark/runs/2026-09-22-upgrade-v19/directory-migration.json) additionally
+passes split-artifact, version-bound digest and SQLite index checks. Its original files remain unchanged.
 
 The new run contains `migration.json` with the original file hash, target IR hash, rule version,
 removed IDs and the new run ID. The original commit remains pinned. A blocking
@@ -101,7 +107,7 @@ installation while it is running; restart the process after upgrades.
 
 ## 中文说明
 
-本次升级将序列化 IR 升级到 `1.5.0`，增加位置参数、部分框架调用规则及工作流绑定，**没有把完整
+本次升级将序列化 IR 升级到 `1.6.0`，增加有源码证据的正则及字符串枚举校验，**没有把完整
 IR v2、参数语义或跨语言命令图标记为完成**。子命令、父命令和选项归属必须共享证据链；生成物不会
 将子命令选项扁平到根命令。字段、类型、枚举、路径、摘要和引用仍全部校验，不接受重复 JSON key 或未知字段。
 

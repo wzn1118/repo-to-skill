@@ -11,6 +11,15 @@ from r2s.scanner import ScanResult
 from r2s.serialization import stable_id
 
 
+def add_trace(discovery: DiscoveryIR, scan: ScanResult, path: Path, start: int, end: int, kind: str, value: dict[str, Any]) -> str:
+    source = scan.source_index[path]
+    location = SourceLocation(path.relative_to(scan.root).as_posix(), "ast:" + kind, source.content_sha256 or "", start, end, scan.snapshot.resolved_commit_sha if scan.snapshot.git_dirty is False else None, source.blob_sha)
+    identifier = stable_id("ev", [value, asdict(location), kind])
+    if not any(item.id == identifier for item in discovery.evidence):
+        discovery.evidence.append(Evidence(identifier, kind, value, value, location, kind + "@1", 0.9))
+    return identifier
+
+
 def add_parameter(discovery: DiscoveryIR, scan: ScanResult, root: Claim, path: Path, line: int, value: dict[str, Any], framework: str, hops: tuple[str, ...] = (), end_line: int | None = None) -> str:
     predicate: Literal["supports_option", "supports_argument", "supports_subcommand"] = "supports_subcommand" if "option" not in value and "argument" not in value else "supports_argument" if "argument" in value else "supports_option"
     source = scan.source_index[path]

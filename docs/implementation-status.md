@@ -1,10 +1,10 @@
 # Implementation Status
 
-Updated: 2026-09-16
+Updated: 2026-09-22
 
 The detailed U00–U22 ledger is in [upgrade-status.md](upgrade-status.md). The public benchmark section
 below records the **legacy** measurement; the current compiler has a separate
-[upgrade-v13 report](../benchmark/runs/2026-09-16-upgrade-v13/report.md).
+[versioned report linked from the upgrade ledger](upgrade-status.md).
 
 ## Implemented
 
@@ -20,6 +20,8 @@ below records the **legacy** measurement; the current compiler has a separate
 - Repository language/type classification and cross-language command conflict detection.
 - Goal-based deterministic command selection and generated Skill-name collision prevention.
 - Evidence, Claim, Capability, Procedure, portable Skill, and provenance chain.
+- IR 1.6 parameter shapes, explicit workflow bindings and bounded source-backed regex/enum validators.
+- Optional tree-sitter analysis for supported Commander, declarative JS tables, Go switches and Cobra graphs; complete language semantics remain unsupported.
 - Multiple Skills from multiple entrypoints.
 - Goal-independent Discovery Runs and reusable Compilation Runs.
 - SQLite run/artifact index and append-only run events.
@@ -66,6 +68,7 @@ is not semantic accuracy. Those files remain unchanged; new measurements use sep
 The public rerun uses Python 3.12.14 and verified GitHub archives/Git trees. The previous Python 3.10
 bootstrap measurement is superseded, not a before/after analyzer improvement. Runtime execution was
 measured on Linux containers only. Windows CI checks the compiler and harness unit tests, not Docker
-runtime compatibility. gh/Hugo builds require an unavailable Go 1.27 toolchain; webpack delegates to
-an external webpack-cli package absent from its runtime dependency set. Agent A/B evaluation remains
-unmeasured.
+runtime compatibility. The pinned gh source now has a successful isolated Go 1.27.1 build receipt;
+its earlier toolchain, capacity and timeout failures remain recorded. Hugo's earlier failed build
+has not been replaced by a successful new measurement. webpack delegates to an external webpack-cli
+package absent from its measured runtime dependency set. Agent A/B evaluation remains unmeasured.

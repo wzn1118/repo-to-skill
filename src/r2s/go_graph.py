@@ -13,6 +13,7 @@ from r2s.syntax import field, literal, parse, text, walk
 
 def analyze_commands(discovery: DiscoveryIR, scan: ScanResult, root: Claim, main_path: Path, module_root: Path, module: str | None) -> None:
     functions: dict[tuple[Path, str], tuple[Path, Any, dict[str, str]]] = {}
+    ambiguous: set[tuple[Path, str]] = set()
     for path in scan.analyzable_files:
         if path.suffix != ".go" or not path.is_relative_to(module_root) or path.name.endswith("_test.go") or path_role(path.relative_to(scan.root).as_posix()) == "test":
             continue
@@ -34,8 +35,9 @@ def analyze_commands(discovery: DiscoveryIR, scan: ScanResult, root: Claim, main
         for node in tree.named_children:
             if node.type == "function_declaration":
                 key = (path.parent, text(field(node, "name")))
-                if key in functions:
-                    functions.pop(key)
+                if key in functions or key in ambiguous:
+                    functions.pop(key, None)
+                    ambiguous.add(key)
                 else:
                     functions[key] = (path, node, imports)
     if (main_path.parent, "main") not in functions:

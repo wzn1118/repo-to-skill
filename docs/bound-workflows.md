@@ -1,8 +1,10 @@
 # Bound workflows / 可执行工作流
 
-Discovery 1.5 connects scoped parameter facts to structured inputs, multi-step Procedures,
+Discovery 1.6 connects scoped parameter facts to structured inputs, multi-step Procedures,
 portable Skills, client projections and independent task checks. This is a product capability,
-not a claim that arbitrary natural-language goals are understood.
+not a claim that arbitrary natural-language goals are understood. The
+[source-validator rules](source-validators.md) additionally reject invalid regex inputs and
+unsupported enum values before generating supported invocations.
 
 ## Start with a discovered command
 

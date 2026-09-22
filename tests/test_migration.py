@@ -1,5 +1,6 @@
 import copy
 import json
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -57,6 +58,24 @@ def test_migration_checks_run_envelope_and_rejects_nested_output(tmp_path: Path)
     (source / "claims.json").write_text("[]")
     with pytest.raises(ValueError, match="ARTIFACT_MISMATCH"):
         migrate_discovery(source, tmp_path / "other")
+
+
+def test_15_directory_migration_preserves_envelope_and_parameter_graph(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    historical = replace(discover(FIXTURE), schema_version="1.5.0")
+    with monkeypatch.context() as legacy_writer:
+        legacy_writer.setattr("r2s.storage.parse_discovery", lambda value: historical)
+        source = write_discovery(historical, tmp_path / "old")
+    original = {path.name: path.read_bytes() for path in source.iterdir()}
+    migrated = migrate_discovery(source, tmp_path / "new")
+    current = load_discovery(Path(migrated["run_root"]))
+    assert current.commands == historical.commands
+    assert current.claims == historical.claims
+    assert migrated["report"]["original_schema"] == "1.5.0"
+    assert migrated["report"]["source_integrity"] == "envelope checked"
+    assert original == {path.name: path.read_bytes() for path in source.iterdir()}
+    (source / "claims.json").write_text("[]")
+    with pytest.raises(ValueError, match="ARTIFACT_MISMATCH"):
+        migrate_discovery(source, tmp_path / "tampered")
 
 
 @pytest.mark.parametrize("mutation", ["future", "missing", "duplicate_key", "dangling"])

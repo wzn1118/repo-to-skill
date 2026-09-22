@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import re
 from dataclasses import asdict
 from typing import Annotated, Literal
 
@@ -68,7 +69,19 @@ def _validate_values(claim: Claim, values: tuple[str, ...]) -> None:
                 converted = value.casefold() in {"true", "1", "yes", "on"}
         except ValueError as exc:
             raise ValueError(f"PARAMETER_TYPE_MISMATCH: {claim.id}") from exc
-        if "choices" in semantics and converted not in semantics["choices"]:
+        validation = semantics.get("validation")
+        if validation == "python_regex":
+            try:
+                re.compile(value)
+            except (re.error, OverflowError, RecursionError) as exc:
+                raise ValueError(f"PARAMETER_REGEX_INVALID: {claim.id}") from exc
+        choices = semantics.get("choices")
+        if validation == "ascii_case_insensitive_choices":
+            if not isinstance(choices, (tuple, list)) or not value.isascii() or any(not isinstance(choice, str) or not choice.isascii() for choice in choices):
+                raise ValueError(f"PARAMETER_CHOICE_ALPHABET_UNSUPPORTED: {claim.id}")
+            if value.lower() not in [choice.lower() for choice in choices]:
+                raise ValueError(f"PARAMETER_CHOICE_MISMATCH: {claim.id}")
+        elif choices is not None and converted not in choices:
             raise ValueError(f"PARAMETER_CHOICE_MISMATCH: {claim.id}")
 
 

@@ -38,6 +38,14 @@ LEGACY_ADAPTER = TypeAdapter(LegacyDiscoveryIR)
 def import_structure(value: Any) -> DiscoveryIR:
     from r2s.discovery_contract import _parse_discovery_structure
 
+    if isinstance(value, dict) and value.get("schema_version") == "1.5.0":
+        payload = {**value, "schema_version": "1.6.0"}
+        current = _parse_discovery_structure(payload)
+        for claim in current.claims:
+            semantics = claim.object.get("semantics")
+            if isinstance(semantics, dict) and "validation" in semantics:
+                raise ValueError("LEGACY_FACT_SHAPE_INVALID")
+        return current
     if not isinstance(value, dict) or value.get("schema_version") not in {"1.2.0", "1.3.0", "1.4.0"}:
         return _parse_discovery_structure(value)
     legacy_value = dict(value)
@@ -47,10 +55,11 @@ def import_structure(value: Any) -> DiscoveryIR:
         raise ValueError("LEGACY_COMMAND_GRAPH_REQUIRED")
     legacy = LEGACY_ADAPTER.validate_json(canonical_json(legacy_value), strict=True)
     for claim in legacy.claims:
-        if "shape" in claim.object or claim.predicate == "supports_argument" or (version != "1.4.0" and "semantics" in claim.object) or (version == "1.2.0" and (claim.predicate == "supports_subcommand" or "command_path" in claim.object)):
+        semantics = claim.object.get("semantics")
+        if (isinstance(semantics, dict) and "validation" in semantics) or "shape" in claim.object or claim.predicate == "supports_argument" or (version != "1.4.0" and "semantics" in claim.object) or (version == "1.2.0" and (claim.predicate == "supports_subcommand" or "command_path" in claim.object)):
             raise ValueError("LEGACY_FACT_SHAPE_INVALID")
     payload = asdict(legacy)
-    payload["schema_version"] = "1.5.0"
+    payload["schema_version"] = "1.6.0"
     if commands is not None:
         commands = [{**command, "argument_claim_ids": []} for command in commands]
     payload["commands"] = commands if commands is not None else [asdict(command) for command in command_specs(legacy.claims)]

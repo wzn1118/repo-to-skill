@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — source-backed parameter validators
+
+- Discovery 1.6 records two bounded validation rules: nullable Click regex callbacks and local Cobra string-enum helpers. Source hops include validator implementations; unknown custom behavior remains blocked.
+- Validate supplied patterns and ASCII enum choices before compiling workflows. Preserve enum case and literal required-flag evidence; reject altered setters, extra value methods, wrong owners and conditional calls.
+- Reject invalid validation/framework/type combinations and mislabeled historical payloads. Import 1.2–1.5 explicitly with review required; do not invent new semantics during migration.
+- Keep repeated ambiguous Go function names excluded, including three or more definitions.
+
 ## Unreleased — bounded scans and Go task bindings
 
 - Expose standard/expanded content budgets through CLI inspection, fresh planning/builds and the UI. Record distinct scan identities; reject attempts to relabel cached runs.

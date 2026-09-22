@@ -63,7 +63,7 @@ class ScanScope(BaseModel):
 class BundleProvenance(BaseModel):
     model_config = ConfigDict(strict=True, extra="forbid")
 
-    schema_version: Literal["1.5.0"]
+    schema_version: Literal["1.6.0"]
     source_snapshot: RepositorySnapshot
     artifact_path: Literal["SKILL.md"]
     procedure: Procedure

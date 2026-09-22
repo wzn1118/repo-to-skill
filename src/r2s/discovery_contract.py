@@ -161,9 +161,9 @@ def _parse_discovery_structure(value: Any) -> DiscoveryIR:
         raise TypeError("DISCOVERY_OBJECT_REQUIRED")
     if "snapshot" not in value:
         raise ValueError("DISCOVERY_MIGRATION_REQUIRED")
-    if value.get("schema_version") in {"1.2.0", "1.3.0", "1.4.0"}:
+    if value.get("schema_version") in {"1.2.0", "1.3.0", "1.4.0", "1.5.0"}:
         raise ValueError("DISCOVERY_MIGRATION_REQUIRED")
-    if value.get("schema_version") != "1.5.0":
+    if value.get("schema_version") != "1.6.0":
         raise ValueError("DISCOVERY_SCHEMA_UNSUPPORTED")
     return DISCOVERY_ADAPTER.validate_json(json.dumps(value, allow_nan=False), strict=True)
 
@@ -178,7 +178,7 @@ def discovery_schema() -> dict[str, Any]:
     schema = DISCOVERY_ADAPTER.json_schema()
     schema.update({
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "$id": "https://r2s.local/schema/discovery-1.5.0.json",
+        "$id": "https://r2s.local/schema/discovery-1.6.0.json",
         "title": "Repo-to-Skill Discovery IR with scoped commands",
     })
     return schema

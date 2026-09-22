@@ -2,10 +2,13 @@
 
 ## Current workflow result (2026-09-22)
 
-The [v17 run](../../benchmark/workflow-runs/2026-09-22-v17/README.md) passes **2/4 gh tasks**
-with the expanded scan budget: default protocol lookup and a two-step local alias workflow.
-Both completion tasks still fail binding. The current standard scan passes 0/4 because its
-remaining scan gap blocks execution. No Agent comparison against the official Skill is claimed.
+The [v19 run](../../benchmark/workflow-runs/2026-09-22-v19/README.md) passes **4/4 gh tasks**
+with the expanded scan budget: Bash/Zsh completion, default protocol lookup and a two-step local
+alias workflow. v17 passed 2/4 under the same budget. A structurally verified local string-enum
+helper now supplies the completion shell flag's source-backed arity and choices. The completion
+oracles check output-script markers; they do not exercise interactive completion inside shells.
+The current standard scan passes 0/4 because its remaining scan gap blocks execution.
+No Agent comparison against the official Skill is claimed.
 
 ## Retained workflow-stage update (2026-09-21)
 
@@ -61,7 +64,7 @@ because source content was excluded by budget; extracting one entrypoint is not 
 官方内容还讨论交互、JSON、分页、仓库定位、搜索、API 回退和副作用。生成版只有通用预览步骤和入口溯源，
 没有提取这些业务流程。下一步应补跨文件 Cobra 子命令、选项归属及开发工具过滤。
 
-## Fixed-source local tasks / 固定源码本地任务
+## Retained v16 local tasks / 保留的 v16 本地任务
 
 The [v16 retained task run](../../benchmark/workflow-runs/2026-09-22-v16/README.md) builds
 the same pinned gh source using Go 1.27.1, then passes two generated workflows offline:

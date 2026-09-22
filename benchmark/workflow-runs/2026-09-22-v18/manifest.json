@@ -1,0 +1,16 @@
+{
+  "files": {
+    "README.md": "a6d2ed071fdf1d4c07fa4abcdd2b3259e7249c7420dc767d4ce3bc442cf1577b",
+    "expanded.json": "72ffbab5224718cd3531f360472126161b8e17cf5e917eb54f1e42ee7e393278",
+    "standard.json": "a610ecbd80e9c1a459892260355a2714b51212ae976e9d695269db31f1250510"
+  },
+  "format": "r2s-workflow-artifacts-v1",
+  "inputs": {
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96"
+  },
+  "run_id": "2026-09-22-v18",
+  "scope": "Retained diagnostic compiler before directory-migration fix; not final-compiler acceptance or Agent trials",
+  "source_authentication": "Unsigned local integrity manifest; fixed commit snapshots verified against retained download locks"
+}
