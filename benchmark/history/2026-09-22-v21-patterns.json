@@ -1,0 +1,22 @@
+{
+  "compiler_sha256": "e95b82cf81c726415089a345db65da1045e28cb0dba1e8ab5159fe4fbf4c247e",
+  "defects": [
+    "Dropping an array destructuring hole still matched its consumer template",
+    "Empty-string and comma string fragments could match because delimiter removal included named syntax nodes",
+    "Async generator methods could match ordinary async method bodies"
+  ],
+  "format": "r2s-retained-matcher-diagnostic-v1",
+  "reconstruction_patch": {
+    "path": "benchmark/history/2026-09-22-v21-patterns.patch",
+    "sha256": "3599412b81b3628386e206506efe6326c2eb8e466dae97a34f36f2e7d3b54bc8"
+  },
+  "replacement": "v22 retains array holes and named literal tokens, compares generator syntax flags, adds nine unit cases and three real-flow mutation cases, and reruns fixed public snapshots and tasks",
+  "repro": {
+    "failed": 3,
+    "log_sha256": "452b264a1544cbfb911d9d34e9cc2891a289b7dedb7757cc61f7f8e4b8c2da13",
+    "passed": 34,
+    "test_file": "tests/test_javascript_table_flow.py"
+  },
+  "scope": "Observed task outputs remain records of actual execution. They do not prove that all structurally matched inputs have correct semantics. Original immutable static/workflow reports remain intact.",
+  "status": "superseded_for_current_compiler_claims"
+}

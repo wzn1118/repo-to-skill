@@ -1,0 +1,27 @@
+{
+  "compiler_sha256": "e95b82cf81c726415089a345db65da1045e28cb0dba1e8ab5159fe4fbf4c247e",
+  "evaluation_inputs": {
+    "benchmark/ground-truth-facts-v2.json": "30c70ff5ef3e70f56e2ba7785e8ed571217c50cd61a06120abdcfcc2ded7f126",
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc"
+  },
+  "evaluation_tools": {
+    "scripts/create_run_manifest.py": "1ec8d5d285af8b1bb81ce12e3d7239e962ff7f9df4a373b65ec7ab2a7df3c8ad",
+    "scripts/public_evaluate.py": "ff419027b8aa435305aed9632623e770e1ddc56b4fadba93c3f5cfe22afe27bf",
+    "scripts/public_fact_audit.py": "d92d430e2fb98997c51aebdef70c6490225f1069f890048a17bd275eae183453",
+    "scripts/render_run_report.py": "bd70bd8d211d765c6879f935a4f737e17a950be4b193b7d9f416e383f05843ef"
+  },
+  "format": "r2s-benchmark-run-v2",
+  "human_verified_repositories": 0,
+  "metadata_sha256": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+  "run_id": "2026-09-22-upgrade-v21",
+  "scope": "static discovery and generation; local regression checks, if present, are separate",
+  "source_artifacts": {
+    "fact-audit.json": "3bd548705af0088b4ac98aa515da8f98cd37d2b05b3032ded62e77a536e43892",
+    "ground-truth-results.json": "1d85855c33ff8af80f89d9bba6c48b3fd673571248d07aed80c79bd100da6407",
+    "official-comparison.json": "b7c5fbad04fc3d6ace1ffdd4045e5abf797899eacc0212d98e317e2368309371",
+    "report.md": "a7e382c0cc19b89a6b5d42762f878241c3129a02379d5e70c2ae36e0293c1d4a",
+    "results.json": "532bc5a6ce593b38afec2006950f2b6c638a66b6e0e77fd67f72b3100292157d",
+    "verification.json": "39673cdfe6967ae44c1ab30a4fd87d1e373e847d31b4a944ad794977b7d17a58"
+  },
+  "source_authentication": "HTTPS archives addressed by pinned commit; self-consistent unsigned manifest"
+}

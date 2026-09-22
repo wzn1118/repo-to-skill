@@ -1,0 +1,29 @@
+{
+  "files": {
+    "README.md": "d13120197258259c310bb19223dc12daf94b2261a0153426ecd2ac56a4ce8393",
+    "comparison.json": "970e5324311b840c564c2820ca1e4f66a501ffc2fae0f93db3a460203e956527",
+    "expanded.json": "6fb36fb774d7d0f32f5b0542457c29c2c50d8d96b6371298ed99db7ba4dfe8fa",
+    "hardening-comparison.json": "0a6e7f65c6fae60148c4e58771f7d3e1e1f0e5d8cb79e9e14910d65fcda16460",
+    "progress.json": "9573d052c0fd6829639ec45b546a169b21180760399967ee33d5725cf6c48d86",
+    "progress.png": "8352e4e9ea5d4db59347265e1a417b21502e70557ce547396f46b17c800f20cf",
+    "progress.svg": "b4f49bae98b2bd86cd4532b3ef816ecee0e14f5a9de6a74f1c63589f7e078519",
+    "runtime-repair-comparison.json": "0e8e43bcec54768bd8c31201e01a907e9a875ae37cda998d8edc591178664cc9",
+    "standard.json": "05c6f74be1e966b75298366f766621cf85d60b8bfdd9f454b32d7f66d8b19ab6",
+    "tasks.png": "444cacf6c1d6e477c9d9208aae2d71b1775fe09f75de160fcb2f67e1e28d073f",
+    "tasks.svg": "bc102a5a34d43df8144281d4b6d05a9427a5bf5f26f68cf1bb4de630dd7c7b66",
+    "verification.json": "6e2eb041718d9ccd559dc79de5f3b8b89eddfa97a7f3f543edb43a7cdbfdcd77"
+  },
+  "format": "r2s-workflow-artifacts-v1",
+  "inputs": {
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96",
+    "benchmark/workflow-runs/2026-09-22-v21-glibc/complete-native-addition.json": "17f2ffbd6829f93cfa6047c3c57a011c1ebfd6aed136b4c73c5b3bb3257758d8",
+    "scripts/compare_runtime_addition.py": "cf247318669ab8a09ed1977271c6ea53d195049bfa414895b19608c4aa860a65",
+    "scripts/compare_workflow_measurements.py": "ae46e80c99ad782cdacfcc5db89a189a470f7864fadd70d6da2e725c02bde60a",
+    "scripts/render_workflow_progress.py": "d95d596cd5eaefd7fbae1fa511e4d07ff2e7818c55c7783613dbd6db6ac31c21"
+  },
+  "run_id": "2026-09-22-v22-native",
+  "scope": "Separate unchanged-environment source improvement and explicitly additive runtime repair; authored structured inputs, fixed task oracles, no Agent trials. All failures retained.",
+  "source_authentication": "Unsigned local integrity manifest, not external attestation"
+}

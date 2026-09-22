@@ -1,0 +1,31 @@
+{
+  "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+  "format": "r2s-native-dependency-preparation-v1",
+  "image_id": "sha256:dcca26b2248580b289b0ed070712e2ccd3447e9ef93e986c2a288c8fcfa445a0",
+  "node_sha256": "1abce2374a485bddae3c27b17a3e3143e2780232026e627c4fe74ddde3f380a1",
+  "original_inventory_sha256": "5a8043a0c95157c5e91f3eaffccc92774f0c2cc5dd953109dead10d0c35d31ee",
+  "package": "@oxc-parser/binding-linux-x64-gnu",
+  "policy": "Network enabled only for package retrieval; lifecycle scripts disabled, non-root, source read-only, no host credentials; no task success inferred",
+  "preparation": {
+    "argv": [
+      "/deps/node-toolchain/bin/node",
+      "/deps/node-toolchain/lib/node_modules/npm/bin/npm-cli.js",
+      "install",
+      "--prefix=/deps/native",
+      "--ignore-scripts",
+      "--no-audit",
+      "--no-fund",
+      "--workspaces=false",
+      "--registry=https://registry.npmmirror.com",
+      "--cache=/tmp/npm",
+      "@oxc-parser/binding-linux-x64-gnu@0.150.0"
+    ],
+    "exit_code": 0,
+    "stderr": "npm notice\nnpm notice New major version of npm available! 10.9.2 -> 12.0.2\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2\nnpm notice To update run: npm install -g npm@12.0.2\nnpm notice\n",
+    "stdout": "\nadded 1 package in 2s\n"
+  },
+  "reason": "Old cache contains musl binding; task sandbox uses glibc",
+  "repository": "prettier/prettier",
+  "source_optional_dependency_manifest_sha256": "f99a0d2e9c179527176b439ea2b5177a9685b54ef0310435579ac3034223958f",
+  "version": "0.150.0"
+}

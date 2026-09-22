@@ -1,0 +1,25 @@
+{
+  "files": {
+    "README.md": "b07bcbe4204ac05c8e6ec716b6d0f2565f398bc7ed81bba386617ca481e2ad6c",
+    "comparison.json": "6e70f889a5dafe3ee7efaa5ab8769d1306ffa938baf382f5a2315dcf1ca28b71",
+    "expanded.json": "26da7625c83025d817775b4a41c8cdef887e53f0a900fa6603c9432c6be99199",
+    "native-dependency-addition.json": "78bdad60887e7057d419d1903fa4cae4a352afec11281d68f4c2258323fb595a",
+    "native-dependency-assembly-attempt-1.json": "eef7a8e5fb0b23fc0be4061429101543dec5d5927de7b1f813c22f3564d1da0a",
+    "native-dependency-attempt-1.json": "cec5fd39aae99b54335337747371c33731e764cd889fb6820f7827a71688e284",
+    "native-package-lock.json": "b16167322f9467b85f2858bb4c06fd03058e887cb3e0da1f9830ac27698bfcdd",
+    "standard.json": "1163aa717355f7d073d13534b352a8d8d54decf34ab301077ec8233b865db6e4",
+    "tasks.png": "aff6eae4222a5ecb2d2581a397be1ec02c6073d66d00fc60764ae0050c3468af",
+    "tasks.svg": "e12414abd7e0588bf18f49ec6e3f5687f34e9576894f70624017f21c08e27c0b",
+    "verification.json": "39673cdfe6967ae44c1ab30a4fd87d1e373e847d31b4a944ad794977b7d17a58",
+    "version-comparison.json": "d87d9ff433229c4087174b8e8cb71ddf44d6e9ecf1746ed862a27c67578a41d1"
+  },
+  "format": "r2s-workflow-artifacts-v1",
+  "inputs": {
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96"
+  },
+  "run_id": "2026-09-22-v21",
+  "scope": "Original dependency environment retained with all three runtime failures; no pooled count or Agent trials",
+  "source_authentication": "Unsigned local integrity manifest; fixed commit snapshots checked against retained download locks"
+}

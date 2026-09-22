@@ -1,0 +1,159 @@
+{
+  "browser": {
+    "interactions": 9,
+    "test_sha256": "7f561306fc47d8d74bed180905b5e756c23db317fbd52f7a29e4f6331d554831"
+  },
+  "ci": "Not inferred from local results; see published commit GitHub Actions run",
+  "compiler": {
+    "dependencies": {
+      "PyYAML": "6.0.3",
+      "jinja2": "3.1.6",
+      "pydantic": "2.13.5",
+      "pydantic-core": "2.46.5"
+    },
+    "discovery_boundary": "source-validators-1.6",
+    "files": {
+      "__init__.py": "9b37620425272db5ab0d73d46e70cc034f6b91dc0fceb90938634eee4889ee92",
+      "__main__.py": "e93d1c59658660c198f9b710b811a7e76a57ccb0091cbea8bb66fef75d7d07a1",
+      "adapters.py": "ae553e902c2a216344cbad5544c98587c3e87944671646eb43ede70ee82d60b4",
+      "analyzers.py": "5c833794057750faeec14bcb44b49b6002a7b6aa133148730ac5ac11daed4392",
+      "application.py": "b7a922c42e3937dc88d2635c32be974ad708883b121cc994040a6226c220e176",
+      "bundle_contracts.py": "7d7d4ac7de46c35d6ae264a890233348667c2a1ac0f3f757d552a6e335d7c3a8",
+      "bundle_validation.py": "3294f0811801c7c7b57723c7d50972378796bc893248733389930dd192de18be",
+      "cli.py": "015ad4b177f9d66c9dd3479a48d3444432a62cdf7518ae69345f381764dacf4d",
+      "client_profiles.py": "db57f4de9cd0f394618883940a35b0c7100370381fbf83203417c7fc4cd39091",
+      "command_graph.py": "135af7c7eda75fbe3a5dee95d7cb41116a7d3c241e33d90caed4ff59e47ad970",
+      "compilation.py": "3063b4cc211af1e5e52517d88ee7a768709bde4161ce9e67abb26d3d63db56aa",
+      "compiler_identity.py": "0df00af5258058509e067663946275d9f8899a134b60d07cf15e0af4c4ecd520",
+      "contract_types.py": "23a7bf0d76a3dfee8444874472f77e5896bc7e1878f2353bf680d3e63f0d1480",
+      "core.py": "b4272e48ea6e31d0704e3aa9433c3f4f88a02c9fb8cce4660b75482e2a817026",
+      "discovery_contract.py": "2570a31498be715fe2bbd365f2a669eab0c5ce7f0af3917deae0fc6e2fcf764f",
+      "distribution.py": "a2de08e4888323c3534e673e283a1858e70aa14ca59b4f0da6507ebe6f93c41c",
+      "documents.py": "0216af135302df312b39526a4d7ee408894339ed882fbe7d3dd92c2e11ff9ee1",
+      "domain.py": "221a430cd7d6c33073df480b78ef8870024118d75d840ecd44cc5054e16f1ce1",
+      "drift.py": "78c2bb25f90f752e4dee7aade095ecde92c3fa49b92ba50bb70e3434ecdd929a",
+      "execution.py": "8660112c3e14578c214d2b225a6e60a6ae1ac713482edbd0982909cbf465b3c0",
+      "fact_contracts.py": "e0a64842d31f2b535e7b1dce3ab48d3cc6c8cb24c2e984af7efe1ee864371411",
+      "generator.py": "759dd7cda49085e582ceb44d3111ddf705073961af820f2c69019b8fa264f3f4",
+      "go_analyzer.py": "371a7ff846e9ace6b53edd0c5b70d08be31c7fd98f7aade871ed1eb22164c2b8",
+      "go_cobra.py": "94730fbafa638b58d04271d2485757cfe56e5366c46c883cdd45be0a23d525bf",
+      "go_graph.py": "e3a006ab05179782ca792f298648d3ee402227d3e6d88f7bf5e680950fbb8898",
+      "go_helpers.py": "9e9334f81c02d63aba6b43aca328903ccdb83562efec16237c1ae282b189f6f2",
+      "javascript_analyzer.py": "905346313c64422c86d3e96b729400de8555cc9ec4887302e5c627f0d15bc800",
+      "javascript_graph.py": "405779c726e1b7462a537f0a057d901ab87a6939461d13234f59104d41a91af3",
+      "javascript_patterns.py": "a6a749f4bb90a58bdb3cc41249263803e0e24a3b07a78ad1cb59ff96d06c34e8",
+      "javascript_symbols.py": "884f2047f34f3ba5acf5ee4d16127776442eada4c88832ee74e6d946e47b40a3",
+      "javascript_table_flow.py": "25a2f8ebb6b59daecca6a447547feeb12f8d1803971e5b8ec9c079e3419ac549",
+      "javascript_table_rules.py": "35293aa20c35e80a715cbd23b85c26b8f8282f2ab8d49cc086379650240421fd",
+      "javascript_tables.py": "f9543e74ceab4d83d501f0fb085aefdb306a6d5378f25901817a718b6a45d0e6",
+      "jobs.py": "f38154674e6997c0ec0732b8b3146c964404690213361b45c4e48b55f2ca85b2",
+      "legacy_contracts.py": "78b39e1b99e2a2ae2f8ca8081cced9c0e604ddd5d1141ef1338779e0f6baf3ea",
+      "migration.py": "357bc53b98344b7c05b31eb71d6050dda77e42e80d56fd682fbe9cbec14097e6",
+      "model_adapter.py": "85bb678e07b8fca8f5ad7b1e35c09cbc0219c275cf6e91a89b0b0c645a0080e7",
+      "option_semantics.py": "df7133449918291035616b965186ddabcbe97247aaf01f20a7ee635a9b82a2c7",
+      "planner.py": "9cd82b8ae0fe08e5f98f6a9aa0180c292ec2f281f51e341eeeb4f5e310a51438",
+      "policy.py": "065935a2433c3882fdbbbb8e5008d67e39b8db8bc47738be47ccd0559eafb99c",
+      "python_argparse.py": "dd53fbbe988c2d9df7bbd4d6c8b9f09e3852f947c61a39ab7f27a6594bd28926",
+      "python_bindings.py": "d3cba4a05c335fe1becf0421564efe6537563dd1a3105cf56bf7a107c9d2da18",
+      "python_graph.py": "ebc182722f61e022e2ea9b784872fe2c7e1c1e91109acaea43bd92d564cfe6c3",
+      "python_validators.py": "f3f91779f9a4b3d06217672c49e874bdc91dff2eb523a8405b1c130c4c723246",
+      "repair.py": "62a076b4e0bc75c16bca6a5090c0527741f666ba423781cd1159872f14b37c61",
+      "scan_policy.py": "4f432d9766bb14405d2a59c7fa5c9e5b77c460a2308713c62d4745b1a6a566c9",
+      "scanner.py": "d51dad7b1955c7957250d2084de366cdb25b2d073938281fc889c2ad1b6f331b",
+      "serialization.py": "8dfb6116376402f9db7bb08314031f437921ff78034bacbd77cc8e119eedae7b",
+      "source.py": "b55e5b88102b2968b6d081bc717b6a49e8c84410aef6d841da84ec9323a6d3e3",
+      "static_parameters.py": "7324f02a2cd1783cd26c5ac2e29ac3fdc8acb9554758940861cbe56a1a66ba18",
+      "storage.py": "84a7b4821b6626729cdf7b959de6816e1abeca50c2d8aff32ea10deba40435d5",
+      "syntax.py": "97755d2587a5d0e454bccb0f81b9fab938af83494f679c5ed88230b571a4e08e",
+      "task_worker.py": "a5d465151b7e8feca32c0c29c0ec2894a72b7497b2a2a130bb584524445da7c2",
+      "tasks.py": "356e1ad432dfe2fe2161d2fd80dbc3c1fa29e9257f1cfa6961479a57f533bc79",
+      "toml_compat.py": "686e212d2afdf8367ff48f65b7da7d10e8a8fcdfdb59f59a44dec1ef8d01820f",
+      "ui.py": "a81e586ce925211aa74d0614240461150f92ce85eba7239b15a25c8d59377a5d",
+      "workflows.py": "c21bc2adb700b6d555ed37164a05d7c7655d5f2adc0fcd1e5df82ac4367483a8"
+    },
+    "format": "r2s-compiler-identity-v1",
+    "optional_parsers": {
+      "tree-sitter": "0.25.2",
+      "tree-sitter-go": "0.25.0",
+      "tree-sitter-javascript": "0.25.0",
+      "tree-sitter-typescript": "0.23.2"
+    },
+    "profile": {
+      "id": "portable-agent-skills-v1",
+      "plugin_manifest_version": null,
+      "skill_spec_version": "1",
+      "target": "portable"
+    },
+    "runtime": {
+      "implementation": "cpython",
+      "platform": "linux",
+      "python": "3.12.14"
+    },
+    "sha256": "cd03d3f8717f973a92e346c86ffa6157945c0f5db1353642bafe9a4f2564dffd"
+  },
+  "format": "r2s-local-verification-v1",
+  "mypy": "passed",
+  "platform": "Linux-5.15.0-191-generic-x86_64-with-glibc2.35",
+  "pytest": {
+    "log_sha256": "319db8eee22312b210d3aee01bbebcf136b4ebe78e4efb041830ab5e470f5a63",
+    "passed": 462,
+    "scope": "Full local suite with explicit Docker image and Chromium integration enabled",
+    "skipped": 0,
+    "subtests_passed": 12,
+    "test_sources_sha256": "0a06ae621b8d5f822944b1e989de770a3bc77195cdec23ffba0756b9de32a1d1"
+  },
+  "python": "3.12.14",
+  "remaining": "Full semantic gold and human review, unseen-repository generalization, Agent arms, native-client loading and complete U00-U22 acceptance remain open",
+  "ruff": "passed",
+  "structural_hardening": {
+    "historical_compilers_reconstructed_exactly": [
+      "v20",
+      "v21"
+    ],
+    "new_literal_array_cases": 9,
+    "new_negative_flow_cases": 3,
+    "prior_diagnostic": "benchmark/history/2026-09-22-v21-patterns.json"
+  },
+  "upstream_notice": {
+    "path": "r2s/resources/notices/prettier.txt",
+    "sha256": "5432b0357b7096a3c48f0405e4e99090fb4bdfa9a40d77f965becec86e6a7a6a",
+    "wheel_byte_match": true
+  },
+  "wheel": {
+    "checks": [
+      "version",
+      "inspect + scan scope",
+      "build codex",
+      "validate",
+      "install preview",
+      "schema equality",
+      "migrate"
+    ],
+    "dependencies": {
+      "Jinja2": "3.1.6",
+      "MarkupSafe": "3.0.3",
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "annotated-doc": "0.0.5",
+      "annotated-types": "0.8.0",
+      "markdown-it-py": "4.2.0",
+      "mdurl": "0.1.2",
+      "pydantic": "2.13.5",
+      "pydantic_core": "2.46.5",
+      "repo-to-skill": "0.1.0",
+      "rich": "15.0.0",
+      "shellingham": "1.5.4",
+      "typer": "0.27.2",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0"
+    },
+    "dependency_mode": "virtualenv dependencies; installation method must be recorded by the caller",
+    "format": "r2s-wheel-verification-v1",
+    "package_import": "wheel contents match installed package inside virtualenv; isolated Python mode; system site-packages disabled",
+    "scope": "controlled fixture CLI checks on Linux; not target repository execution or native client loading",
+    "status": "passed",
+    "version": "0.1.0",
+    "wheel_sha256": "6218824951401e2e2b14d1cd50d139a0d03aa773a10ef00e76ff96ffcbcdcef8"
+  },
+  "wheel_installation": "uv build; wheel and dependencies installed with network/package cache into fresh virtualenv; isolated Python mode, system site-packages disabled"
+}

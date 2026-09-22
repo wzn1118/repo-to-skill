@@ -5,6 +5,9 @@ portable Skills, client projections and independent task checks. This is a produ
 not a claim that arbitrary natural-language goals are understood. The
 [source-validator rules](source-validators.md) additionally reject invalid regex inputs and
 unsupported enum values before generating supported invocations.
+The [declarative JS flow](javascript-option-flow.md) additionally traces compatible option
+tables through their actual parser and schema-normalization path; disconnected tables do not
+supply executable parameters.
 
 ## Start with a discovered command
 

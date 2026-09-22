@@ -1,0 +1,20 @@
+{
+  "files": {
+    "README.md": "f8616383db43f84bc575762d4484c6480c5fb163b1ad5e35167ac9f378d2026b",
+    "expanded.json": "defbf055d61e5df7f86c3ab41a305b1236b444a9162caeeebf068c7dc23a5cbb",
+    "version-comparison.json": "19acc65fdebe81c2cdf3acf389b0a9028bb72b75e33456d4100099a8e1b9f5cf"
+  },
+  "format": "r2s-workflow-artifacts-v1",
+  "inputs": {
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96",
+    "benchmark/workflow-runs/2026-09-22-v21-glibc/complete-native-addition.json": "17f2ffbd6829f93cfa6047c3c57a011c1ebfd6aed136b4c73c5b3bb3257758d8",
+    "scripts/compare_runtime_addition.py": "cf247318669ab8a09ed1977271c6ea53d195049bfa414895b19608c4aa860a65",
+    "scripts/compare_workflow_measurements.py": "ae46e80c99ad782cdacfcc5db89a189a470f7864fadd70d6da2e725c02bde60a",
+    "scripts/render_workflow_progress.py": "d95d596cd5eaefd7fbae1fa511e4d07ff2e7818c55c7783613dbd6db6ac31c21"
+  },
+  "run_id": "2026-09-22-v22",
+  "scope": "Separate unchanged-environment source improvement and explicitly additive runtime repair; authored structured inputs, fixed task oracles, no Agent trials. All failures retained.",
+  "source_authentication": "Unsigned local integrity manifest, not external attestation"
+}

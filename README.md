@@ -15,7 +15,7 @@ executing the target repository.
 > runs, structured workflows, independent task checks and thin client projections. Claude/Cursor native loading is not verified. Agent A/B evidence and
 > private/hosted workflows remain incomplete.
 
-[English](#english) · [Latest static run](benchmark/runs/2026-09-22-upgrade-v19/report.md) · [Generated workflow tasks](benchmark/workflow-runs/2026-09-22-v19/README.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
+[English](#english) · [Latest static run](benchmark/runs/2026-09-22-upgrade-v22/report.md) · [Generated workflow tasks](benchmark/workflow-runs/2026-09-22-v22-native/README.md) · [Upgrade progress](docs/upgrade-status.md) · [Official gh comparison](docs/case-studies/github-cli.md)
 
 ## From command lists to usable workflows
 
@@ -24,31 +24,33 @@ the complete invocation, multi-step instructions, input/output checks and source
 The CLI and UI share one compiler. Background jobs support phase progress, cancellation/retry
 and validated ZIP download. See the [workflow guide](docs/bound-workflows.md).
 
-**Measured: 32/36 five-tool tasks pass with generated invocations**, up from **29/36** with
-the same expanded scan budget and 1,024-open-file limit: Black **10/10**, pre-commit **10/10**,
-fzf **6/6**, Prettier **2/6**, GitHub CLI **4/4**. Standard scanning passes **26/36**, previously
-25/36. Source pins, task/oracle hashes and recorded runtime environments match; all four remaining
-expanded failures are retained. These are **structured-input tests, not Agent trials or uplift**.
+**Measured: 36/36 five-tool tasks pass with generated invocations** using expanded scans,
+1,024 open files and repaired native dependencies: Black **10/10**, pre-commit **10/10**,
+fzf **6/6**, Prettier **6/6**, GitHub CLI **4/4**. Standard scanning remains **26/36**.
+The analyzer improvement alone is **32 → 33/36 in the unchanged recorded environment**; adding
+two manifest-declared Linux native packages then yields **33 → 36/36**. All original failures
+are retained. These are **structured-input tests, not Agent trials or uplift**.
 
-![Generated task outcomes including failures and scan budgets](benchmark/workflow-runs/2026-09-22-v19/tasks.svg)
+![Separate measured source improvement and native dependency repair](benchmark/workflow-runs/2026-09-22-v22-native/progress.svg)
 
-New source-backed regex and enum checks unblock Black exclusions and gh Bash/Zsh completion.
-They reject invalid values before compilation while keeping unrecognized custom behavior blocked.
-[Measured transitions](benchmark/workflow-runs/2026-09-22-v19/version-comparison.json) ·
-[Parameter semantics and limits](docs/source-validators.md).
+Prettier workflows now include JSON/stdin formatting, file writes and supplied configuration.
+The analyzer traces option tables into their actual parser and normalizer, retaining source
+witnesses and rejecting disconnected declarations. [Prettier case study](docs/case-studies/prettier.md) ·
+[Implementation limits](docs/javascript-option-flow.md) ·
+[Checked source/runtime transitions](benchmark/workflow-runs/2026-09-22-v22-native/progress.json).
 
 The same five snapshots also run through **Skill Seekers 3.9.0**, offline and without model
 enhancement. It generates output for all five; this is not a correctness ranking. Two-version
 sample workflows and registered holdouts have real results. [Raw measurements and limits](benchmark/workflow-runs/2026-09-21-v14/README.md).
 
 **Latest static benchmark:** all **45** pinned snapshots complete, including **36 high-star Core**
-repositories. Selected fact coverage rises from **16/40 → 23/40**; static task prerequisites from
-**6/30 → 12/30**. **1,115** emitted facts have hash/pin checks, but full semantic review remains
-pending. Core static readiness stays **20/36**. [v19 report](benchmark/runs/2026-09-22-upgrade-v19/report.md).
+repositories. Selected fact coverage rises from **16/40 → 24/40**; static task prerequisites from
+**6/30 → 13/30**. **1,130** emitted facts have hash/pin checks; full semantic review remains pending.
+Core static readiness stays **20/36**. [v22 report](benchmark/runs/2026-09-22-upgrade-v22/report.md).
 
 ## Public Repo Benchmark 1.0 — retained v13 baseline
 
-This section preserves the v13 comparison point; use the linked v19 report and workflow results
+This section preserves the v13 comparison point; use the linked v22 report and workflow results
 for the current upgrade. Static generation and task execution are deliberately separate metrics.
 
 **High-Star Public Repositories Tested: 36** — plus 6 Rust challenges and 3 secondary edge cases.
@@ -131,7 +133,7 @@ and generator consume the IR; they do not inspect raw repository text to invent 
 | Sources | Local directories, clean local Git snapshots, public GitHub HTTPS URLs |
 | Static analyzers | Python, JavaScript/TypeScript, Go CLI entrypoints |
 | Python | PEP 621/Poetry/`setup.cfg`, bounded static import/delegation graph, parsed argparse command paths/helper bindings and Click command options |
-| JavaScript/TypeScript | Manifest bins and optional bounded AST analysis: Commander and selected declarative option tables |
+| JavaScript/TypeScript | Manifest bins, bounded Commander declarations and source-bound normalized minimist/vnopts option flows |
 | Go | Root/`cmd` main packages, bounded AST calls/argv switches and direct Cobra factories; dynamic/inherited scope remains unknown |
 | Outputs | Portable Skills, Codex plugin; experimental Claude/Cursor directory projections |
 | Integrity | Strict nested IR/schema, source and graph checks, scoped compiler identities, generation locks and SQLite artifact index |
@@ -325,16 +327,17 @@ analyzes committed fixtures. Public measurements are separate, opt-in scripts do
 
 ### 核心价值
 
-**新实测：相同扩大扫描预算和 1,024 文件句柄下，生成调用从 29/36 提高到 32/36。**
-Black 10/10、pre-commit 10/10、fzf 6/6、Prettier 2/6、GitHub CLI 4/4；标准扫描从 25/36 到 26/36。
-新增正则回调与枚举包装的源码校验，修复 Black 排除规则及 gh Bash/Zsh 补全绑定。4 项失败全部保留。
-源码、任务/oracle 和记录的运行环境均核对一致；这不是 Agent 成功率或效果提升。
-[完整结果及复现](benchmark/workflow-runs/2026-09-22-v19/README.md)。
+**新实测：扩大扫描、1,024 文件句柄并补齐原生依赖后，生成调用通过 36/36 项任务。**
+Black 10/10、pre-commit 10/10、fzf 6/6、Prettier 6/6、GitHub CLI 4/4；标准扫描仍为 26/36。
+分析器改进在原运行环境下仅为 **32 → 33/36**；另外 **33 → 36/36** 来自两个原生模块的依赖修复，
+分别核验并展示。Prettier 新增 JSON/stdin 格式化、文件写入与配置调用；中途失败和 AST 匹配回归全部保留。
+固定源码、结构化输入和独立 oracle；这不是自然语言目标理解或 Agent 效果提升。
+[完整结果及复现](benchmark/workflow-runs/2026-09-22-v22-native/README.md) · [Prettier 案例](docs/case-studies/prettier.md)。
 现在可选择命令和参数、生成带调用与输出检查的 Skill、查看持久化进度、取消/重试、下载已校验产物。
 [操作指南与当前限制](docs/bound-workflows.md)。
 
-最新 v19 静态复测完成全部 45 个固定快照，含 36 个高 Star 核心仓库。所选事实覆盖
-**16/40 → 23/40**，静态任务前提 **6/30 → 12/30**；1,115 条生成事实完成哈希/commit 核对，
+最新 v22 静态复测完成全部 45 个固定快照，含 36 个高 Star 核心仓库。所选事实覆盖
+**16/40 → 24/40**，静态任务前提 **6/30 → 13/30**；1,130 条生成事实有哈希/commit 核对，
 **完整语义审查仍未完成**。Core 静态就绪仍为 20/36，不能把事实数量当作任务成功率。
 
 普通的“README → 提示词”方案很容易编造参数、混淆文档与真实 API，或把错误 commit 的命令写进
@@ -405,7 +408,7 @@ python -m pytest
 
 ### 公共高 Star 基准集（v13 历史对照）
 
-本节保留 v13 的对照口径，并非当前编译器的最新成绩；最新结果以 [v19 报告](benchmark/runs/2026-09-22-upgrade-v19/report.md)
+本节保留 v13 的对照口径，并非当前编译器的最新成绩；最新结果以 [v22 报告](benchmark/runs/2026-09-22-upgrade-v22/report.md)
 和首页五工具任务结果为准，静态生成、执行验收与 Agent 效果分别统计。
 
 首份 Public Repo Benchmark 1.0 不用小型 toy repo 凑成功率，而是固定真实、高使用量、CLI 边界复杂的公共仓库。

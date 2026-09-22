@@ -1,0 +1,24 @@
+{
+  "name": "native-v2",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "dependencies": {
+        "@yuku-parser/binding-linux-x64-gnu": "^0.10.1"
+      }
+    },
+    "node_modules/@yuku-parser/binding-linux-x64-gnu": {
+      "version": "0.10.1",
+      "resolved": "https://registry.npmmirror.com/@yuku-parser/binding-linux-x64-gnu/-/binding-linux-x64-gnu-0.10.1.tgz",
+      "integrity": "sha512-zImXKxVTcFfVihgTCBOta/eM8VM6xz4lOw/ILPuLB+dCt2j0th4O0N7RS2s/F7UjJlkqL2tEooUWgovA6sTq2g==",
+      "cpu": [
+        "x64"
+      ],
+      "license": "MIT",
+      "os": [
+        "linux"
+      ]
+    }
+  }
+}

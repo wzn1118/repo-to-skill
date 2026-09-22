@@ -1,0 +1,33 @@
+{
+  "added_files": {
+    "@oxc-parser/binding-linux-x64-gnu/README.md": "351f996c9e69ec678ebda5baad8dc5bb394c77aa02c020851df2db91afcad5a9",
+    "@oxc-parser/binding-linux-x64-gnu/package.json": "9542cf906f55aa68e6af167519abd4d95b3bb29cdb021050621b7abc146cf3f2",
+    "@oxc-parser/binding-linux-x64-gnu/parser.linux-x64-gnu.node": "d29b7c15835c515d2388a3635344fbe01a8c389b80256169ca4f25cb99584180",
+    "@yuku-parser/binding-linux-x64-gnu/package.json": "b42b826fa712173bf0fc3176f12ae26aeeac56047ed6302fbeb59a4ca121add7",
+    "@yuku-parser/binding-linux-x64-gnu/yuku-parser.node": "69ddbb2718d4ffccc0c90a497b9f933658fb70e8230db1568202e3e2f36f9720"
+  },
+  "all_existing_files_unchanged": true,
+  "format": "r2s-runtime-dependency-addition-v1",
+  "native_lock_sha256": "9fd4aad0e44ec7befef3059e6e4b22541b9f00e2cc5d7cec02b807a1cc21081f",
+  "offline_preflight": {
+    "argv": [
+      "/deps/node-toolchain/bin/node",
+      "-e",
+      "require('/deps/node_modules-complete/@oxc-parser/binding-linux-x64-gnu/parser.linux-x64-gnu.node'); require('/deps/node_modules-complete/@yuku-parser/binding-linux-x64-gnu/yuku-parser.node'); console.log('Both native modules loaded')"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "Both native modules loaded\n"
+  },
+  "original_inventory_sha256": "5a8043a0c95157c5e91f3eaffccc92774f0c2cc5dd953109dead10d0c35d31ee",
+  "packages": [
+    "@oxc-parser/binding-linux-x64-gnu",
+    "@yuku-parser/binding-linux-x64-gnu"
+  ],
+  "preparation_reports_sha256": {
+    "first": "cec5fd39aae99b54335337747371c33731e764cd889fb6820f7827a71688e284",
+    "second": "e11360f86807e03d51aae02c870141275b68d8ad38a16a28cb87246522adfee2"
+  },
+  "scope": "Add only two manifest-declared GNU/Linux optional bindings. All original regular files unchanged. Native loading is not the task oracle; dependency environment differs from the original run.",
+  "updated_inventory_sha256": "af2e6bebcb3cf21b5fe8d2bfe9e6054fcd6b8038d074bada2ee654f5e9930afc"
+}

@@ -16,7 +16,7 @@ reviewable implementation, not that the work package or release gate is passed.
 | U06 IR v2 / migration | partial | Discovery IR 1.6 adds bounded source-backed regex/enum validation to positional arguments, parameter shapes and workflow bindings. Historical 1.2–1.5 imports remain review-blocked without invented facts. Full runtime semantics, byte ranges and external attestation remain pending. See [contract](discovery-contract.md). |
 | U07 workspace scanning | partial | CLI/UI now offer standard and expanded bounded scans; TaskSpec/verify preserve known bundle profiles during source preparation. Partial scans remain review-required. Expanded update automation, resolver consolidation, complete workspace graphs, process quotas and hostile-filesystem race isolation remain pending. See [scope contract](scan-budgets.md). |
 | U08 Python command graph | partial | Bounded local import/re-export/alias resolution, direct delegation and argparse helper parameter binding preserve source hops. Parsed argparse subcommands, groups and nested children retain their own option paths; fixed pre-commit exposes 16 child paths and 108 scoped options. Black/blackd adds 43 options and Cookiecutter 21 on fixed pins. Dynamic registration, aliases, parser inheritance, local import semantics and complete framework coverage remain pending. See [implemented boundary](python-entrypoint-graph.md). |
-| U09 JS/TS command graph | partial | Optional pinned tree-sitter support for bounded Commander declarations, local imports and explicit option-table normalization. Prettier API-option forwarding, dynamic wrappers and complete framework scopes remain unsupported; no full JS support claim. |
+| U09 JS/TS command graph | partial | Optional pinned tree-sitter support for bounded Commander declarations and normalized minimist/vnopts flows. Named/default re-exports, object export projections, CLI/core table forwarding and positional consumption retain source witnesses. The disconnected-table shortcut is removed. Dynamic wrappers, complete framework scopes and whole-program semantics remain unsupported; see [implemented boundary](javascript-option-flow.md). |
 | U10 Go AST/Cobra graph | partial | Bounded call/argv traversal, Cobra factories and scoped options include literal ExactArgs positionals, literal scalar switch assignments and structurally verified local string-enum wrappers. Required-flag markers retain their own witnesses. Conditional registration/build-tag files, inherited scope and other custom consumption remain unknown. |
 | U11 workflows/documents | partial | Same-tool multi-step Procedures, explicit stdin/output capture, bound quickstarts, input types/choices/required/exclusive checks and acceptance descriptions. Cross-tool composition and evidence-backed automatic recovery remain pending. |
 | U12 application jobs/policy | partial | CLI/UI share build service. SQLite jobs/events, two worker slots, cancellation boundaries, attempt history and expired-lease recovery implemented. Hosted approvals, transactional artifact publication recovery and distributed scheduling remain pending. |
@@ -31,29 +31,36 @@ reviewable implementation, not that the work package or release gate is passed.
 | U21 new domains | pending | Rust remains challenge coverage; no complete Rust/library/HTTP support claim. |
 | U22 private/hosted | pending | No multi-tenant deployment, private-model transfer authorization or hosted SLO claim. |
 
-## Current v19 measurements
+## Current v22 measurements
 
-[The new paired run](../benchmark/workflow-runs/2026-09-22-v19/README.md) passes **26/36** with
-standard scans and **32/36** with expanded scans, compared with v17's 25/36 and 29/36. Both use
-an explicit 1,024-open-file allowance. Version comparison verifies unchanged source/task hashes,
-scan limits, runner and recorded runtime contexts. Expanded results: Black 10/10, pre-commit
-10/10, fzf 6/6, Prettier 2/6, gh 4/4. The three new passes are Black exclusion and Bash/Zsh
-completion; none of the previous 29 passes regresses. This is not Agent uplift. Current defaults
-still use standard scans and 128 open files; all four failures remain selected.
+[The new paired run](../benchmark/workflow-runs/2026-09-22-v22-native/README.md) passes **26/36**
+with standard scans and **36/36** with expanded scans after native dependency repair. Both use
+an explicit 1,024-open-file allowance. Expanded results: Black 10/10, pre-commit 10/10, fzf 6/6,
+Prettier 6/6, gh 4/4. The authored inputs, task oracles and fixed source commits remain unchanged.
+This is not Agent uplift. Defaults still use standard scans and 128 open files.
 
-[v19 static regression](../benchmark/runs/2026-09-22-upgrade-v19/report.md) completes all 45
-pinned snapshots with standard budgets: 36 Core, 20 STATIC_READY, 10 REVIEW_REQUIRED, 6 UNSUITABLE.
-Selected facts remain 23/40 and task prerequisites 12/30. Emitted/hash-checked facts rise to
-1,115; this is not semantic precision. Local verification: **398 passed, 12 subtests passed**,
-including real Docker checks and nine browser interactions; Ruff, mypy and seven isolated-wheel
-checks pass. All 45 historical JSON imports remain review-required; a real 1.5 directory and its
-SQLite index also migrate without rewriting original artifacts. The v18 directory-migration
-defect, regression and diagnostic measurements are retained separately; v19 repeats all runs.
+The improvement is separated: **32→33/36** from v19 to v22 in the original recorded environment;
+**33→36/36** after two declared GNU/Linux native packages add five files to the Prettier cache.
+The comparison verifies that all 10,199 old regular files, the compiler, runner, source, oracles
+and resource limits stay unchanged for that repair. Original failures, a rejected symlink-copy
+assembly and an insufficient OXC-only repair remain recorded. No attempts are pooled.
 
-Remaining immediate failures: Prettier API option forwarding, positional bindings and configuration
-validation. [Source-validator boundaries](source-validators.md) document the supported Python/Go
-subset. The 200-fact gold, model arms, native-client loading and full semantic review remain open.
-U00–U22 is not complete.
+[v22 static regression](../benchmark/runs/2026-09-22-upgrade-v22/report.md) completes all 45
+pinned snapshots: 36 Core, 20 STATIC_READY, 10 REVIEW_REQUIRED, 6 UNSUITABLE. Selected facts are
+**24/40**, task prerequisites **13/30**, and emitted/hash-checked facts **1,130**. These are not
+semantic precision. Local verification: **462 passed, 12 subtests passed**, including real Docker
+checks and nine browser interactions, with no skips; Ruff, mypy and seven isolated-wheel checks pass.
+Linux/Windows CI remains a separate published-commit gate.
+
+The JS option-flow implementation binds both CLI/API tables through the actual minimist/vnopts
+path. The v20 unrelated-context-field false negative and three v21 structural-matcher defects
+remain in retained diagnostic records with exact compiler-reconstruction patches. v22 fixes
+them and repeats all source and task measurements. [JS boundaries](javascript-option-flow.md)
+and [Python/Go validator boundaries](source-validators.md) document the supported subset.
+
+Next acceptance gaps: broaden independent semantic gold, test generalization on unexposed repos,
+run configured model arms, verify native-client loading and preserve behavior across real upstream
+updates. Complete dynamic framework semantics and full U00–U22 acceptance remain open.
 
 ## Historical v14 workflow measurements
 

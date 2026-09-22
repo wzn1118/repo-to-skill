@@ -1,0 +1,31 @@
+--- a/src/r2s/javascript_patterns.py
++++ b/src/r2s/javascript_patterns.py
+@@ -7,18 +7,7 @@
+ 
+ 
+ def children(node: Any) -> list[Any]:
+-    selected = []
+-    previous = None
+-    for child in node.children:
+-        if child.type == "comment":
+-            continue
+-        if not child.is_named and child.type == ",":
+-            if node.type in {"array", "array_pattern"} and previous in {"[", ","}:
+-                selected.append(child)
+-        elif child.is_named or child.type != ";" and text(child):
+-            selected.append(child)
+-        previous = child.type
+-    return selected
++    return [child for child in node.children if child.type != "comment" and (child.is_named or text(child)) and text(child) not in {";", ","}]
+ 
+ 
+ def match(pattern: Any, actual: Any, captures: dict[str, Any]) -> bool:
+@@ -64,7 +53,7 @@
+     captures: dict[str, Any] = {}
+     if actual is None or actual.type not in {"function_declaration", "function_expression", "generator_function_declaration", "method_definition"}:
+         return None
+-    if any(item.type == "*" for item in expected.children) != any(item.type == "*" for item in actual.children):
++    if (expected.type == "generator_function_declaration") != (actual.type == "generator_function_declaration"):
+         return None
+     if any(item.type == "async" for item in expected.children) != any(item.type == "async" for item in actual.children):
+         return None

@@ -1,0 +1,74 @@
+{
+  "comparison_script_sha256": "ae46e80c99ad782cdacfcc5db89a189a470f7864fadd70d6da2e725c02bde60a",
+  "current_compiler_sha256": "cd03d3f8717f973a92e346c86ffa6157945c0f5db1353642bafe9a4f2564dffd",
+  "current_passed": 33,
+  "format": "r2s-workflow-version-comparison-v1",
+  "inputs_sha256": {
+    "current": "defbf055d61e5df7f86c3ab41a305b1236b444a9162caeeebf068c7dc23a5cbb",
+    "previous": "80557f0b2222d96ac8c891d0a78c333a352ac91cb9f261a23c09e2dbb23f1e85"
+  },
+  "newly_passing": [
+    "prettier-format-json"
+  ],
+  "paired_execution_ids": [
+    "black-code",
+    "black-file",
+    "black-check-clean",
+    "black-check-dirty",
+    "black-diff",
+    "black-exclude",
+    "black-quotes",
+    "black-config",
+    "black-invalid",
+    "black-idempotence",
+    "pre-commit-empty",
+    "pre-commit-local",
+    "pre-commit-regex",
+    "pre-commit-stages",
+    "pre-commit-language",
+    "pre-commit-missing-id",
+    "pre-commit-install-type",
+    "pre-commit-manifest",
+    "pre-commit-manifest-missing-entry",
+    "pre-commit-sample",
+    "prettier-file-info-js",
+    "prettier-file-info-json",
+    "fzf-exact",
+    "fzf-fuzzy",
+    "fzf-no-match",
+    "fzf-inverse-query",
+    "fzf-preserve-order",
+    "fzf-output-file",
+    "gh-completion-bash",
+    "gh-completion-zsh",
+    "gh-config-protocol",
+    "gh-alias-workflow"
+  ],
+  "previous_compiler_sha256": "89147c6a1229b751832cb65095a73f45b37eae49194484932bc03966223ca470",
+  "previous_passed": 32,
+  "regressions": [],
+  "runtime_contexts_by_repository": {
+    "cli/cli": [
+      "51827bd8ec8d565b0e31ef21b5bf644599829c13c25f03280daac91e6df27aeb"
+    ],
+    "junegunn/fzf": [
+      "9c5e409c20ec8003fe80e87176555560863e0bf84956b6e2af3c02eda5fb099c"
+    ],
+    "pre-commit/pre-commit": [
+      "c6edb8e7c66111ef2ebb6fbff49c3cce7e6986e180fbd152aa1db055f05e8cde"
+    ],
+    "prettier/prettier": [
+      "31927c271c2430eb0c628ab397b6c7fdb28194645639ceee093fedad88337084"
+    ],
+    "psf/black": [
+      "eb2816198a39fd8dcf27c19514aaa2092f645f62d3a7799c53177aaa018d6ec5"
+    ]
+  },
+  "scope": "Same task/source hashes, scan limits and runner. Executed tasks additionally retain identical runtime contexts by repository; paired executed tasks have identical bound inputs/oracles. Previously blocked tasks had no runtime result. No timing ranking, Agent trial or uplift claim.",
+  "selected": 36,
+  "still_failing": [
+    "prettier-format-js",
+    "prettier-write-js",
+    "prettier-config-js"
+  ]
+}

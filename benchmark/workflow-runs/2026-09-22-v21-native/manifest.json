@@ -1,0 +1,19 @@
+{
+  "files": {
+    "README.md": "6548ac4fb1922129fc3f43258b6e5fc057a9c0ec7eed4149390dcbfc58ce3828",
+    "expanded.json": "5b15feabd57750e74f9cbf673938944b254844d7be589d4b8d7a8c451eeb6a5e",
+    "runtime-repair-comparison.json": "79e80c43dfe9e223cd5348fcc4b25c4cc1bb7d57b248eb7639dd08c6ac967f20",
+    "standard.json": "3bdca8d7a97703c1e3dc4afabe4127a2e1cb2349bad752ea2bdaf6610306d70d"
+  },
+  "format": "r2s-workflow-artifacts-v1",
+  "inputs": {
+    "benchmark/history/2026-09-22-v21-patterns.json": "2811b3f07e1f4665e8174a849454d698acf3c84a7cb5eeef08fbc4e4ddf993f2",
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96",
+    "benchmark/workflow-runs/2026-09-22-v21-glibc/complete-native-addition.json": "17f2ffbd6829f93cfa6047c3c57a011c1ebfd6aed136b4c73c5b3bb3257758d8"
+  },
+  "run_id": "2026-09-22-v21-native",
+  "scope": "Retained v21 measurement, superseded by v22 after matcher regressions. Source/runtime changes separately measured, not Agent utility.",
+  "source_authentication": "Unsigned local integrity manifest, not external attestation"
+}

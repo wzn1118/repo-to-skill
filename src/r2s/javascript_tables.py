@@ -4,136 +4,165 @@ import re
 from pathlib import Path
 from typing import Any
 
-from r2s.domain import Claim, DiscoveryIR, Evidence, SourceLocation
+from r2s.domain import Claim, DiscoveryIR, Finding
+from r2s.javascript_symbols import JavaScriptGraph, Resolved, property_name
+from r2s.javascript_table_flow import flows
 from r2s.scanner import ScanResult
-from r2s.serialization import stable_id
-from r2s.static_parameters import add_parameter, shape
-from r2s.syntax import field, literal, parse, relative_import, text, walk
+from r2s.static_parameters import add_parameter, add_trace, shape
+from r2s.syntax import field, literal, text
+
+
+def _properties(node: Any) -> dict[str, Any] | None:
+    if node is None or node.type != "object":
+        return None
+    result = {}
+    for item in node.named_children:
+        if item.type == "comment":
+            continue
+        key = property_name(field(item, "key"))
+        if item.type != "pair" or key is None or key in result:
+            return None
+        result[key] = field(item, "value")
+    return result
+
+
+def _pure_exception(node: Any) -> bool:
+    if node.type != "arrow_function" or any(child.type == "async" for child in node.children):
+        return False
+    parameter = field(node, "parameter")
+    if parameter is None:
+        parameters = field(node, "parameters")
+        parameter = parameters.named_children[0] if parameters is not None and len(parameters.named_children) == 1 else None
+    if parameter is None or parameter.type != "identifier":
+        return False
+
+    def pure(expression: Any) -> bool:
+        if expression is None:
+            return False
+        if expression.type == "parenthesized_expression":
+            return len(expression.named_children) == 1 and pure(expression.named_children[0])
+        if expression.type == "identifier":
+            return text(expression) == text(parameter)
+        if expression.type == "unary_expression":
+            return text(field(expression, "operator")) in {"typeof", "!"} and pure(field(expression, "argument"))
+        if expression.type == "binary_expression":
+            return text(field(expression, "operator")) in {"===", "!==", "&&", "||"} and pure(field(expression, "left")) and pure(field(expression, "right"))
+        try:
+            literal(expression)
+            return True
+        except ValueError:
+            return False
+
+    return pure(field(node, "body"))
+
+
+def _parameter(entry: Claim, key: str, node: Any) -> dict[str, Any] | None:
+    fields = _properties(node)
+    if fields is None:
+        return None
+    values = {}
+    for attribute in ("type", "name", "default", "alias", "cliName", "array", "deprecated"):
+        if attribute not in fields:
+            continue
+        try:
+            values[attribute] = literal(fields[attribute])
+        except ValueError:
+            pass
+    kind = values.get("type")
+    if kind not in {"boolean", "path", "int", "string", "choice"}:
+        return None
+    name: Any = values.get("name", key)
+    if "name" in fields and "name" not in values:
+        return None
+    if "cliName" in fields:
+        name = values.get("cliName")
+    elif isinstance(name, str) and re.fullmatch(r"[a-z][a-z0-9]*(?:[A-Z][a-z0-9]+)*|[a-z][a-z0-9]*(?:-[a-z0-9]+)+", name):
+        name = re.sub(r"([a-z0-9])([A-Z])", r"\1-\2", name).lower()
+    else:
+        return None
+    if not isinstance(name, str) or not re.fullmatch(r"[a-z][a-z0-9-]*", name):
+        return None
+    option = "--" + name
+    aliases = [option]
+    unknown = []
+    if "alias" in fields:
+        alias = values.get("alias")
+        if isinstance(alias, str) and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9-]*", alias):
+            aliases.append(("-" if len(alias) == 1 else "--") + alias)
+        else:
+            unknown.append("dynamic_alias")
+    if "array" in fields and values.get("array") is not False:
+        unknown.append("array_arity_not_modeled")
+    if "redirect" in fields:
+        unknown.append("redirect_processing_not_modeled")
+    if "exception" in fields and not _pure_exception(fields["exception"]):
+        unknown.append("custom_option_processing")
+    semantics: dict[str, Any] = {"framework": "js-option-table", "scope": "explicit_source_keywords", "value_type": {"boolean": "bool", "path": "path", "int": "int"}.get(kind, "str")}
+    if kind == "choice":
+        declared = fields.get("choices")
+        choices: list[Any] = []
+        if declared is not None and declared.type == "array":
+            for choice in declared.named_children:
+                if choice.type == "comment":
+                    continue
+                if choice.type == "object":
+                    properties = _properties(choice)
+                    if properties is None or "redirect" in properties:
+                        choices.append(None)
+                        continue
+                    choice = properties.get("value")
+                try:
+                    choices.append(literal(choice))
+                except ValueError:
+                    choices.append(None)
+        if choices and all(isinstance(item, str) for item in choices):
+            semantics["choices"] = choices
+        else:
+            unknown.append("dynamic_choices")
+    if "default" in values:
+        semantics["default"] = values["default"]
+    return {"command": entry.object.get("command"), "option": option, "command_path": [],
+            "shape": shape("js-option-table", 0 if kind == "boolean" else 1, aliases, unknown=tuple(unknown)), "semantics": semantics}
+
+
+def _table(entry: Claim, table: Resolved) -> list[tuple[Any, dict[str, Any]]]:
+    properties = _properties(table.node)
+    if properties is None:
+        return []
+    result = []
+    for name, node in properties.items():
+        value = _parameter(entry, name, node)
+        if value is not None:
+            result.append((node, value))
+    return result
 
 
 def analyze_tables(discovery: DiscoveryIR, scan: ScanResult, entry: Claim, target: Path) -> None:
-    admitted = set(scan.source_index)
-    visited: set[Path] = set()
-    pending = [(target, entry.evidence_ids)]
-    while pending and len(visited) < 64:
-        path, hops = pending.pop(0)
-        if path in visited:
-            continue
-        visited.add(path)
-        tree = parse(scan.read_text(path), "javascript")
-        if tree is None:
-            continue
-        imports = {}
-        dynamic_loaders = set()
-        for node in walk(tree):
-            if node.type == "variable_declarator":
-                value = field(node, "value")
-                if value is not None and value.type == "new_expression" and text(field(value, "constructor")) == "Function":
-                    arguments = field(value, "arguments").named_children
-                    try:
-                        values = [literal(argument) for argument in arguments]
-                    except ValueError:
-                        continue
-                    if values == ["module", "return import(module)"]:
-                        dynamic_loaders.add(text(field(node, "name")))
-        for node in walk(tree):
-            relative = None
-            local = None
-            try:
-                if node.type == "import_statement":
-                    relative = literal(field(node, "source"))
-                    clause = next((child for child in node.named_children if child.type == "import_clause"), None)
-                    local = next((text(child) for child in clause.named_children if child.type == "identifier"), None) if clause else None
-                elif node.type == "call_expression" and text(field(node, "function")) in {"import", *dynamic_loaders}:
-                    arguments = field(node, "arguments").named_children
-                    if len(arguments) == 1:
-                        relative = literal(arguments[0])
-            except ValueError:
-                continue
-            if not isinstance(relative, str):
-                continue
-            resolved = relative_import(path, relative, admitted)
-            if resolved is None:
-                continue
-            location = scan.source_index[path]
-            source = SourceLocation(path.relative_to(scan.root).as_posix(), "ast:javascript:import", location.content_sha256 or "", node.start_point.row+1, node.end_point.row+1, scan.snapshot.resolved_commit_sha if scan.snapshot.git_dirty is False else None, location.blob_sha)
-            value = {"import": relative, "target": resolved.relative_to(scan.root).as_posix()}
-            identifier = stable_id("ev", [value, source.content_sha256, source.start_line])
-            if not any(item.id == identifier for item in discovery.evidence):
-                discovery.evidence.append(Evidence(identifier, "javascript.import", value, value, source, "javascript-table-graph@1", 0.9))
-            chain = (*hops, identifier)
-            if local:
-                imports[local] = (resolved, chain)
-            pending.append((resolved, chain))
-        normalizations = [node for node in walk(tree) if node.type == "pair" and text(field(node, "key")) == "name" and text(field(node, "value")) == "option.cliName ?? dashify(option.name)"]
-        if not normalizations:
-            continue
-        for node in walk(tree):
-            if node.type != "call_expression" or text(field(node, "function")) != "normalizeOptionSettings":
-                continue
-            arguments = field(node, "arguments").named_children
-            if len(arguments) != 1 or text(arguments[0]) not in imports:
-                continue
-            table_path, chain = imports[text(arguments[0])]
-            _table(discovery, scan, entry, table_path, chain)
-
-
-def _table(discovery: DiscoveryIR, scan: ScanResult, entry: Claim, path: Path, hops: tuple[str, ...]) -> None:
-    tree = parse(scan.read_text(path), "javascript")
-    if tree is None:
+    graph = JavaScriptGraph(scan)
+    selected = flows(graph, target)
+    if len(selected) != 1:
+        if selected:
+            discovery.findings.append(Finding("JS_OPTION_FLOW_AMBIGUOUS", "warning", "Multiple declarative argument flows require review", target.relative_to(scan.root).as_posix()))
         return
-    exports = [text(field(node, "value")) for node in tree.named_children if node.type == "export_statement"]
-    objects = [field(node, "value") for node in walk(tree) if node.type == "variable_declarator" and text(field(node, "name")) in exports]
-    for table in objects:
-        if table is None or table.type != "object":
+    flow = selected[0]
+    traces = list(entry.evidence_ids)
+    for site in flow.sites:
+        traces.append(add_trace(discovery, scan, site.path, site.node.start_point.row+1, site.node.end_point.row+1, site.kind, {"rule": "normalized-minimist-flow-v1", "syntax": site.node.type}))
+    for path in flow.manifests:
+        traces.append(add_trace(discovery, scan, path, 1, len(scan.read_text(path).splitlines()), "javascript.framework_dependencies", {"rule": "normalized-minimist-flow-v1"}))
+    hops = tuple(dict.fromkeys(traces))
+    parameters = [(table, node, value) for table in flow.tables for node, value in _table(entry, table)]
+    aliases = [alias for _, _, value in parameters for alias in value["shape"]["aliases"]]
+    if len(aliases) != len(set(aliases)):
+        discovery.findings.append(Finding("JS_OPTION_FLOW_ALIAS_COLLISION", "warning", "Competing normalized option spellings require review", target.relative_to(scan.root).as_posix()))
+        return
+    for table, node, value in parameters:
+        try:
+            add_parameter(discovery, scan, entry, table.path, node.start_point.row+1, value, "js-option-table", hops, node.end_point.row+1)
+        except ValueError:
             continue
-        for pair in table.named_children:
-            if pair.type != "pair" or field(pair, "value").type != "object":
-                continue
-            name = text(field(pair, "key")).strip('"\'')
-            fields: dict[str, Any] = {}
-            children = {text(field(child, "key")): field(child, "value") for child in field(pair, "value").named_children if child.type == "pair"}
-            for key in ("type", "default", "alias", "cliName"):
-                if key in children:
-                    try:
-                        fields[key] = literal(children[key])
-                    except ValueError:
-                        pass
-            if fields.get("type") not in {"boolean", "path", "int", "string", "choice"}:
-                continue
-            name = fields.get("cliName") or re.sub(r"([a-z0-9])([A-Z])", r"\1-\2", name).lower()
-            if not re.fullmatch(r"[a-z][a-z0-9-]*", name):
-                continue
-            option = "--" + name
-            arity = 0 if fields["type"] == "boolean" else 1
-            value = {"command": entry.object.get("command"), "option": option, "command_path": [],
-                     "shape": shape("js-option-table", arity, [option], unknown=("custom_option_processing",) if "exception" in children else ())}
-            semantics: dict[str, Any] = {"framework": "js-option-table", "scope": "explicit_source_keywords"}
-            if fields["type"] == "choice":
-                choices = children.get("choices")
-                values = []
-                if choices is not None and choices.type == "array":
-                    for choice in choices.named_children:
-                        try:
-                            if choice.type == "object":
-                                selected = [field(item, "value") for item in choice.named_children if item.type == "pair" and text(field(item, "key")) == "value"]
-                                values.append(literal(selected[0]) if len(selected) == 1 else None)
-                            else:
-                                values.append(literal(choice))
-                        except ValueError:
-                            values.append(None)
-                if values and all(isinstance(item, str) for item in values):
-                    semantics["choices"] = values
-                else:
-                    value["shape"] = shape("js-option-table", arity, [option], unknown=("dynamic_choices",))
-            if "default" in fields:
-                semantics["default"] = fields["default"]
-            kind = {"boolean": "bool", "path": "path", "int": "int", "string": "str"}.get(fields["type"])
-            if kind:
-                semantics["value_type"] = kind
-            if len(semantics) > 2:
-                value["semantics"] = semantics
-            try:
-                add_parameter(discovery, scan, entry, path, pair.start_point.row+1, value, "js-option-table", hops)
-            except ValueError:
-                continue
+    site = flow.positional_site
+    value = {"command": entry.object.get("command"), "command_path": [], "argument": flow.positional, "position": 0,
+             "shape": shape("js-option-table", "*", [], required=False),
+             "semantics": {"framework": "js-option-table", "scope": "explicit_source_keywords", "value_type": "str"}}
+    add_parameter(discovery, scan, entry, site.path, site.node.start_point.row+1, value, "js-option-table", hops, site.node.end_point.row+1)

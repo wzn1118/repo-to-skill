@@ -1,0 +1,23 @@
+{
+  "files": {
+    "README.md": "031e4bade28a55b963544817d569f76c47e1d53a039651cb060bb8300e75f4dc",
+    "complete-native-addition.json": "17f2ffbd6829f93cfa6047c3c57a011c1ebfd6aed136b4c73c5b3bb3257758d8",
+    "expanded.json": "a1c9bae4b98db6bcd3c3b245c4eeb0ef623cd5355251a34aba650c43973ec286",
+    "native-dependency-attempt-2.json": "e11360f86807e03d51aae02c870141275b68d8ad38a16a28cb87246522adfee2",
+    "native-package-lock-v2.json": "9fd4aad0e44ec7befef3059e6e4b22541b9f00e2cc5d7cec02b807a1cc21081f",
+    "runtime-repair-comparison.json": "a6b1f4ab72288c7755cb4953cd82520b14c40a8fa54a9f9d0e032241ae083cd3",
+    "standard.json": "87d431e01aefd89351134132ffe2840e50f8730ffaf935594c148ccaa60dab46"
+  },
+  "format": "r2s-workflow-artifacts-v1",
+  "inputs": {
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96",
+    "benchmark/workflow-runs/2026-09-22-v21/expanded.json": "26da7625c83025d817775b4a41c8cdef887e53f0a900fa6603c9432c6be99199",
+    "benchmark/workflow-runs/2026-09-22-v21/native-dependency-addition.json": "78bdad60887e7057d419d1903fa4cae4a352afec11281d68f4c2258323fb595a",
+    "scripts/compare_runtime_addition.py": "cf247318669ab8a09ed1977271c6ea53d195049bfa414895b19608c4aa860a65"
+  },
+  "run_id": "2026-09-22-v21-glibc",
+  "scope": "OXC-only dependency repair retains three runtime failures; second dependency preparation is a separate receipt, not counted as a successful task.",
+  "source_authentication": "Unsigned local integrity manifest; not external authentication"
+}

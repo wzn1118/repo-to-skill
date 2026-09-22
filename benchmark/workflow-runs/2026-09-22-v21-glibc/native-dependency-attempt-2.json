@@ -1,0 +1,29 @@
+{
+  "commit_sha": "0017ecf34df0b6a0bdd156bb02fe62603d4aa682",
+  "format": "r2s-native-dependency-preparation-v1",
+  "image_id": "sha256:dcca26b2248580b289b0ed070712e2ccd3447e9ef93e986c2a288c8fcfa445a0",
+  "node_sha256": "1abce2374a485bddae3c27b17a3e3143e2780232026e627c4fe74ddde3f380a1",
+  "package": "@yuku-parser/binding-linux-x64-gnu",
+  "preparation": {
+    "argv": [
+      "/deps/node-toolchain/bin/node",
+      "/deps/node-toolchain/lib/node_modules/npm/bin/npm-cli.js",
+      "install",
+      "--prefix=/deps/native-v2",
+      "--ignore-scripts",
+      "--no-audit",
+      "--no-fund",
+      "--workspaces=false",
+      "--registry=https://registry.npmmirror.com",
+      "--cache=/tmp/npm",
+      "@yuku-parser/binding-linux-x64-gnu@0.10.1"
+    ],
+    "exit_code": 0,
+    "stderr": "npm notice\nnpm notice New major version of npm available! 10.9.2 -> 12.0.2\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2\nnpm notice To update run: npm install -g npm@12.0.2\nnpm notice\n",
+    "stdout": "\nadded 1 package in 2s\n"
+  },
+  "repository": "prettier/prettier",
+  "scope": "Additional manifest-declared GNU/Linux binding after OXC repair exposed a yuku binding failure; not a successful task result",
+  "source_optional_dependency_manifest_sha256": "c3c969679a1c663d56092a646b47097deac1defe526d9877535ee3e934c635c8",
+  "version": "0.10.1"
+}

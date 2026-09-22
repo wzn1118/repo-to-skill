@@ -1,0 +1,60 @@
+--- a/src/r2s/javascript_table_flow.py
++++ b/src/r2s/javascript_table_flow.py
+@@ -263,7 +263,6 @@
+         return []
+     if "Function" in module.bindings or "Function" in local_names(scope.node):
+         loaders.clear()
+-    loaders.difference_update(assigned_names(body))
+     calls = []
+     for node in nodes:
+         if node.type != "call_expression":
+@@ -330,8 +329,6 @@
+         body = field(scope.node, "body")
+         if "rawArguments" in assigned_names(body):
+             continue
+-        if any(node.type == "call_expression" and field(node, "function").type == "member_expression" and text(field(field(node, "function"), "object")) == "rawArguments" for node in statements(body)):
+-            continue
+         for declaration in statements(body):
+             if declaration.type != "variable_declarator" or not unconditional(declaration, scope.node):
+                 continue
+@@ -343,8 +340,7 @@
+             if len(arguments) != 1 or text(arguments[0]).replace(" ", "") != "{rawArguments,logger}" or constructor is None or constructor.node.type != "class_declaration":
+                 continue
+             owner = text(field(declaration, "name"))
+-            replacements = {owner, owner + ".rawArguments", owner + ".detailedOptions", owner + ".init"}
+-            if any(node.type in {"assignment_expression", "augmented_assignment_expression", "update_expression"} and text(field(node, "left") or field(node, "argument")) in replacements for node in statements(body)) or text(field(value, "constructor")) in local_names(scope.node):
++            if owner in assigned_names(body) or text(field(value, "constructor")) in local_names(scope.node):
+                 continue
+             if not any(node.type == "call_expression" and text(field(node, "function")) == owner + ".init" and not field(node, "arguments").named_children and unconditional(node, scope.node) for node in statements(body)):
+                 continue
+--- a/src/r2s/javascript_patterns.py
++++ b/src/r2s/javascript_patterns.py
+@@ -7,18 +7,7 @@
+ 
+ 
+ def children(node: Any) -> list[Any]:
+-    selected = []
+-    previous = None
+-    for child in node.children:
+-        if child.type == "comment":
+-            continue
+-        if not child.is_named and child.type == ",":
+-            if node.type in {"array", "array_pattern"} and previous in {"[", ","}:
+-                selected.append(child)
+-        elif child.is_named or child.type != ";" and text(child):
+-            selected.append(child)
+-        previous = child.type
+-    return selected
++    return [child for child in node.children if child.type != "comment" and (child.is_named or text(child)) and text(child) not in {";", ","}]
+ 
+ 
+ def match(pattern: Any, actual: Any, captures: dict[str, Any]) -> bool:
+@@ -64,7 +53,7 @@
+     captures: dict[str, Any] = {}
+     if actual is None or actual.type not in {"function_declaration", "function_expression", "generator_function_declaration", "method_definition"}:
+         return None
+-    if any(item.type == "*" for item in expected.children) != any(item.type == "*" for item in actual.children):
++    if (expected.type == "generator_function_declaration") != (actual.type == "generator_function_declaration"):
+         return None
+     if any(item.type == "async" for item in expected.children) != any(item.type == "async" for item in actual.children):
+         return None

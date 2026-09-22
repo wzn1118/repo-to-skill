@@ -1,0 +1,39 @@
+{
+  "added_runtime_files": {
+    "@oxc-parser/binding-linux-x64-gnu/README.md": "351f996c9e69ec678ebda5baad8dc5bb394c77aa02c020851df2db91afcad5a9",
+    "@oxc-parser/binding-linux-x64-gnu/package.json": "9542cf906f55aa68e6af167519abd4d95b3bb29cdb021050621b7abc146cf3f2",
+    "@oxc-parser/binding-linux-x64-gnu/parser.linux-x64-gnu.node": "d29b7c15835c515d2388a3635344fbe01a8c389b80256169ca4f25cb99584180",
+    "@yuku-parser/binding-linux-x64-gnu/package.json": "b42b826fa712173bf0fc3176f12ae26aeeac56047ed6302fbeb59a4ca121add7",
+    "@yuku-parser/binding-linux-x64-gnu/yuku-parser.node": "69ddbb2718d4ffccc0c90a497b9f933658fb70e8230db1568202e3e2f36f9720"
+  },
+  "checked_dependency_change_tasks": [
+    "prettier-file-info-js",
+    "prettier-file-info-json",
+    "prettier-format-json",
+    "prettier-format-js",
+    "prettier-write-js",
+    "prettier-config-js"
+  ],
+  "comparison_script_sha256": "cf247318669ab8a09ed1977271c6ea53d195049bfa414895b19608c4aa860a65",
+  "current_passed": 36,
+  "format": "r2s-runtime-addition-comparison-v1",
+  "identical_compiler_and_runner": true,
+  "identical_environment": false,
+  "identical_inputs_and_oracles": true,
+  "inputs_sha256": {
+    "addition": "17f2ffbd6829f93cfa6047c3c57a011c1ebfd6aed136b4c73c5b3bb3257758d8",
+    "current": "5b15feabd57750e74f9cbf673938944b254844d7be589d4b8d7a8c451eeb6a5e",
+    "previous": "26da7625c83025d817775b4a41c8cdef887e53f0a900fa6603c9432c6be99199"
+  },
+  "newly_passing": [
+    "prettier-format-js",
+    "prettier-write-js",
+    "prettier-config-js"
+  ],
+  "previous_passed": 33,
+  "regressions": [],
+  "repository_with_changed_environment": "prettier/prettier",
+  "scope": "Same compiler, source, task, oracle and resource limits. Only the explicit dependency-file addition changes the selected repository's runtime; not analyzer uplift, same-environment comparison or Agent trials.",
+  "selected": 36,
+  "still_failing": []
+}

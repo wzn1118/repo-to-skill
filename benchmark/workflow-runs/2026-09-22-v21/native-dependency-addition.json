@@ -1,0 +1,16 @@
+{
+  "added_files": {
+    "@oxc-parser/binding-linux-x64-gnu/README.md": "351f996c9e69ec678ebda5baad8dc5bb394c77aa02c020851df2db91afcad5a9",
+    "@oxc-parser/binding-linux-x64-gnu/package.json": "9542cf906f55aa68e6af167519abd4d95b3bb29cdb021050621b7abc146cf3f2",
+    "@oxc-parser/binding-linux-x64-gnu/parser.linux-x64-gnu.node": "d29b7c15835c515d2388a3635344fbe01a8c389b80256169ca4f25cb99584180"
+  },
+  "all_existing_files_unchanged": true,
+  "format": "r2s-runtime-dependency-addition-v1",
+  "native_lock_sha256": "b16167322f9467b85f2858bb4c06fd03058e887cb3e0da1f9830ac27698bfcdd",
+  "original_inventory_sha256": "5a8043a0c95157c5e91f3eaffccc92774f0c2cc5dd953109dead10d0c35d31ee",
+  "package": "@oxc-parser/binding-linux-x64-gnu",
+  "preparation_report_sha256": "cec5fd39aae99b54335337747371c33731e764cd889fb6820f7827a71688e284",
+  "scope": "Only add the manifest-declared GNU/Linux optional binding; original dependency cache is immutable; task environments now differ and require a separate result",
+  "updated_inventory_sha256": "12f3c56e197668fdb2e0d5ec856a0f66d6f87e4eef8eb387127eb5796bccf223",
+  "version": "0.150.0"
+}

@@ -1,0 +1,20 @@
+{
+  "original_files_unchanged": true,
+  "reason": "Default copy dereferenced .bin symlinks, adding unintended regular files; not used for task execution",
+  "status": "REJECTED_ASSEMBLY",
+  "unexpected_added_files": [
+    ".bin/acorn",
+    ".bin/editorconfig",
+    ".bin/js-yaml",
+    ".bin/json5",
+    ".bin/katex",
+    ".bin/nanoid",
+    ".bin/parser",
+    ".bin/prettier",
+    ".bin/prettier-next",
+    ".bin/semver",
+    ".bin/tsc",
+    ".bin/tsserver",
+    ".bin/yaml"
+  ]
+}

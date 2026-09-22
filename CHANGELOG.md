@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — evidence-bound JavaScript option flow
+
+- Replace disconnected option-table name matching with bounded import/export/object resolution and a verified parser-consumption chain for normalized minimist/vnopts tables.
+- Trace CLI/core table conversion, explicit CLI names, literal aliases, declared choices and raw positional arrays into the same parameter IR. Unknown processing, arrays, redirects and ambiguous bindings remain blocked.
+- Retain source witnesses for context initialization, subset/full parsing, schema construction and framework dependencies. Analysis does not import or execute target JavaScript.
+- Add renamed-symbol, tampered-flow, dependency-substitution, scope and collision regression tests. Retain the adapted upstream structural-pattern license notice in the wheel.
+- Preserve literal punctuation, array holes and generator-method distinctions in structural matching; retain the v20/v21 diagnostic regressions and repeat fixed public measurements after the fixes.
+- Compare source changes and additive runtime repairs separately, rejecting changed task inputs, oracles, resource limits or undeclared dependency files. Preserve failed native-module preparations and execution attempts.
+
 ## Unreleased — source-backed parameter validators
 
 - Discovery 1.6 records two bounded validation rules: nullable Click regex callbacks and local Cobra string-enum helpers. Source hops include validator implementations; unknown custom behavior remains blocked.

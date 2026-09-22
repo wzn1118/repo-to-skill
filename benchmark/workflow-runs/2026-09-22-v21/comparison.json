@@ -1,0 +1,60 @@
+{
+  "baseline_passed": 26,
+  "default_passed": 26,
+  "expanded_passed": 33,
+  "format": "r2s-workflow-comparison-v1",
+  "identical_current_compiler_and_runner": true,
+  "identical_task_inputs_and_source_pins": true,
+  "inputs_sha256": {
+    "baseline": "5d7b7350512e4bf05a12c49052292c65c432021042ac0f3847a49e6659b0c071",
+    "default": "1163aa717355f7d073d13534b352a8d8d54decf34ab301077ec8233b865db6e4",
+    "expanded": "26da7625c83025d817775b4a41c8cdef887e53f0a900fa6603c9432c6be99199"
+  },
+  "renderer_sha256": "ae46e80c99ad782cdacfcc5db89a189a470f7864fadd70d6da2e725c02bde60a",
+  "rows": [
+    {
+      "baseline_passed": 10,
+      "default_passed": 10,
+      "expanded_failures": {},
+      "expanded_passed": 10,
+      "repository": "psf/black",
+      "selected": 10
+    },
+    {
+      "baseline_passed": 10,
+      "default_passed": 10,
+      "expanded_failures": {},
+      "expanded_passed": 10,
+      "repository": "pre-commit/pre-commit",
+      "selected": 10
+    },
+    {
+      "baseline_passed": 0,
+      "default_passed": 0,
+      "expanded_failures": {
+        "FAIL": 3
+      },
+      "expanded_passed": 3,
+      "repository": "prettier/prettier",
+      "selected": 6
+    },
+    {
+      "baseline_passed": 6,
+      "default_passed": 6,
+      "expanded_failures": {},
+      "expanded_passed": 6,
+      "repository": "junegunn/fzf",
+      "selected": 6
+    },
+    {
+      "baseline_passed": 0,
+      "default_passed": 0,
+      "expanded_failures": {},
+      "expanded_passed": 4,
+      "repository": "cli/cli",
+      "selected": 4
+    }
+  ],
+  "scope": "Authored structured inputs and fixed independent oracles; no Agent trial or model uplift measurement. The baseline is historical; the current pair differs in scan budget.",
+  "selected": 36
+}

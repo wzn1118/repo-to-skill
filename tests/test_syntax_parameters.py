@@ -63,7 +63,7 @@ normalizeOptionSettings(options);
     assert not any(claim.predicate == "supports_option" for claim in discovery.claims)
 
 
-def test_javascript_choice_values_survive_roundtrip(tmp_path):
+def test_disconnected_normalizer_cannot_invent_supported_options(tmp_path):
     (tmp_path / "LICENSE").write_text("MIT")
     (tmp_path / "package.json").write_text(json.dumps({"name": "demo", "bin": "cli.js"}))
     (tmp_path / "cli.js").write_text('''import options from "./options.js";
@@ -72,8 +72,7 @@ function normalizeDetailedOption(option){return {name: option.cliName ?? dashify
 ''')
     (tmp_path / "options.js").write_text('const options={format:{type:"choice",choices:[{value:"json"},{value:"csv"}]}}; export default options;')
     discovery = parse_discovery(discover(tmp_path).to_dict())
-    option = next(claim for claim in discovery.claims if claim.object.get("option") == "--format")
-    assert option.object.get("semantics", {}).get("choices") == ("json", "csv")
+    assert not any(claim.predicate == "supports_option" for claim in discovery.claims)
 
 
 def test_conflicting_entrypoints_cannot_leave_supported_child_parameters(tmp_path):
