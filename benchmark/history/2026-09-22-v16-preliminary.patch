@@ -1,0 +1,124 @@
+--- a/src/r2s/execution.py
++++ b/src/r2s/execution.py
+@@ -15,7 +15,7 @@
+ from r2s.bundle_contracts import BundleProvenance
+ from r2s.bundle_validation import bundle_digest, inventory, validate_path
+ from r2s.domain import Finding
+-from r2s.scan_policy import INCOMPLETE_REASONS, scan_policy_for, scan_profile_for_id
++from r2s.scan_policy import INCOMPLETE_REASONS
+ from r2s.scanner import scan
+ from r2s.serialization import canonical_json, canonical_sha256, file_sha256
+ 
+@@ -102,10 +102,10 @@
+     )
+ 
+ 
+-def _source_files(source: Path, scan_profile: str = "default") -> dict[str, str]:
++def _source_files(source: Path) -> dict[str, str]:
+     if source.is_symlink() or source.resolve() in {Path("/"), Path.home()}:
+         raise ValueError("EXECUTION_SOURCE_INVALID")
+-    scanned = scan(source, policy=scan_policy_for(scan_profile))
++    scanned = scan(source)
+     if any(item.reason in INCOMPLETE_REASONS for item in scanned.inventory):
+         raise ValueError("EXECUTION_SOURCE_SCAN_INCOMPLETE")
+     if sum(item.size for item in scanned.inventory if item.classification == "source") > MAX_SOURCE_BYTES:
+@@ -223,10 +223,9 @@
+ def run_sandbox(
+     source: Path, command: tuple[str, ...], policy: ExecutionPolicy, execute: bool = False,
+     expected_source_sha256: str | None = None,
+-    scan_profile: str = "default",
+ ) -> ExecutionResult:
+     _policy(policy, command)
+-    source_files = _source_files(source, scan_profile)
++    source_files = _source_files(source)
+     source_sha = canonical_sha256(source_files)
+     if expected_source_sha256 is not None and source_sha != expected_source_sha256:
+         raise ValueError("EXECUTION_SOURCE_CHANGED")
+@@ -292,8 +291,7 @@
+             raise ValueError("EXECUTION_BUNDLE_CHANGED")
+         provenance_key = (skill / "PROVENANCE.json").relative_to(bundle).as_posix()
+         provenance = BundleProvenance.model_validate_json(bundle_files[provenance_key])
+-        scan_profile = scan_profile_for_id(provenance.source_snapshot.scan_policy_id)
+-        files = _source_files(source, scan_profile)
++        files = _source_files(source)
+         for evidence in provenance.evidence:
+             if files.get(evidence.source.path) != evidence.source.content_sha256:
+                 raise ValueError("EXECUTION_SOURCE_MISMATCH")
+@@ -321,7 +319,6 @@
+             raise ValueError("EXECUTION_BUILD_PROFILE_REQUIRED")
+         result = run_sandbox(
+             source, command, policy, execute, expected_source_sha256=canonical_sha256(files),
+-            scan_profile=scan_profile,
+         )
+         result = replace(result, bundle_sha256=verified_bundle_sha256)
+         return result, []
+--- a/src/r2s/go_cobra.py
++++ b/src/r2s/go_cobra.py
+@@ -52,9 +52,7 @@
+         if not identifier:
+             return
+         declared = next(claim for claim in discovery.claims if claim.id == identifier)
+-    overwritten = any(node.type == "assignment_statement" and any(text(left) in {owner, owner + ".Args", owner + ".Use"} for left in field(node, "left").named_children) for node in walk(field(function, "body")))
+-    if not overwritten:
+-        _positionals(discovery, scan, root, filename, declaration, use, imports, path, declared)
++    _positionals(discovery, scan, root, filename, declaration, use, imports, path, declared)
+     required = set()
+     for node in walk(field(function, "body")):
+         if node.type == "call_expression" and unconditional(node, function) and text(field(node, "function")) == owner + ".MarkFlagRequired":
+--- a/src/r2s/scan_policy.py
++++ b/src/r2s/scan_policy.py
+@@ -59,14 +59,6 @@
+     raise ValueError("SCAN_PROFILE_INVALID")
+ 
+ 
+-def scan_profile_for_id(policy_id: str) -> str:
+-    for profile in ("default", "expanded"):
+-        identifier = scan_policy_for(profile).id
+-        if policy_id == identifier or policy_id.startswith(identifier + ":"):
+-            return profile
+-    raise ValueError("EXECUTION_SCAN_POLICY_UNSUPPORTED")
+-
+-
+ def path_role(path: str) -> Literal["product", "test", "example"]:
+     parts = {part.casefold() for part in PurePosixPath(path).parts[:-1]}
+     if parts & TEST_PARTS:
+--- a/src/r2s/tasks.py
++++ b/src/r2s/tasks.py
+@@ -23,7 +23,6 @@
+     _source_files,
+     docker_argv,
+ )
+-from r2s.scan_policy import scan_profile_for_id
+ from r2s.serialization import canonical_json, canonical_sha256, file_sha256
+ 
+ 
+@@ -112,8 +111,7 @@
+         raise ValueError("TASK_INDEPENDENT_ORACLE_REQUIRED")
+     if sum(len(content.encode()) for content in task.files.values()) > 1_000_000:
+         raise ValueError("TASK_INPUT_TOO_LARGE")
+-    scan_profile = scan_profile_for_id(provenance.source_snapshot.scan_policy_id)
+-    source_files = _source_files(source, scan_profile)
++    source_files = _source_files(source)
+     if any(source_files.get(item.source.path) != item.source.content_sha256 for item in provenance.evidence):
+         raise ValueError("TASK_SOURCE_CHANGED")
+     entry = next(claim for claim in provenance.claims if claim.id == provenance.document.entrypoint_claim_id)
+@@ -140,7 +138,7 @@
+             raise ValueError("TASK_DEPENDENCIES_REQUIRED")
+     record: dict[str, Any] = {"format": "r2s-task-result-v1", "task_sha256": canonical_sha256(task.model_dump()),
+         "task": task.model_dump(), "worker_sha256": file_sha256(Path(__file__).with_name("task_worker.py")),
+-        "source_files_sha256": canonical_sha256(source_files), "wheel_sha256": wheel_files, "scan_profile": scan_profile,
++        "source_files_sha256": canonical_sha256(source_files), "wheel_sha256": wheel_files,
+         "runtime_files_sha256": runtime_files,
+         "status": "PREVIEW", "scope": "Generated bound invocation checked by supplied independent oracle; no Agent trial", "attempts": []}
+     if not execute:
+--- a/scripts/measure_bound_workflows.py
++++ b/scripts/measure_bound_workflows.py
+@@ -112,7 +112,7 @@
+                     if tool in {"fzf", "github-cli"}:
+                         verify_native_receipt(record, executable, args.fzf_build_report if tool == "fzf" else args.gh_build_report)
+                     node_dependencies = args.node_dependencies if tool == "prettier" else None
+-                    runtime = TaskRuntime(kind="node" if tool == "prettier" else "native", executable_sha256=file_sha256(executable), build_source_sha256=canonical_sha256(_source_files(cached / "source", args.scan_profile)), dependency_files_sha256=canonical_sha256(dependency_inventory(node_dependencies)) if node_dependencies else None)
++                    runtime = TaskRuntime(kind="node" if tool == "prettier" else "native", executable_sha256=file_sha256(executable), build_source_sha256=canonical_sha256(_source_files(cached / "source")), dependency_files_sha256=canonical_sha256(dependency_inventory(node_dependencies)) if node_dependencies else None)
+                     task = task.model_copy(update={"runtime": runtime})
+                 measured = run_task(bundle, cached / "source", task, ExecutionPolicy(args.image), args.wheels, True, executable, node_dependencies)
+                 (output / "task.json").write_text(canonical_json(task.model_dump()))

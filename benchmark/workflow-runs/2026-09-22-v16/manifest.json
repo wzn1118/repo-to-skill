@@ -1,0 +1,24 @@
+{
+  "files": {
+    "README.md": "e26cbdba236acaaa515e0a98840c96995fdec40ddde5c60d2a506d72fac723df",
+    "default-final.json": "50e4eb623d41866276c53b93a0be2036f1f0352f90ba68e61a8f6f3f6f3b2865",
+    "default.json": "2edb7d3a5b594da2a83696b612158a3980dcdddd15f46aabfd3f39c27777c085",
+    "expanded-final.json": "4f5a6dc7e6444e253e0379b2bec68b724c4691c42e40efe4a680e0ab3bd76d3a",
+    "expanded-prepared.json": "b1b7798435f7d36ec4f26ccb560aeded9fd2b5dad6c0da98c89dce116dd0a590",
+    "expanded.json": "5b80320a7f6ecff291a542bc90966183637ab05841c8c9d807fe84d007e50d65",
+    "gh-build-attempt-2.json": "ad74a539b09c148d76f620f302f268ce664d4a54965bc5ffbfe1f93350cb6a8f",
+    "gh-build-attempt-3.json": "1a2105333ec971e566bef871fcd4fb9cac0a39a4dda9d85cc96b29567343d202",
+    "gh-build.json": "c1e8aea810a3cbe79ad467bff1657737ab3708cea328e6ffa37b2efb27f5d512",
+    "standard-prepared.json": "32b5aa8f020cac9018dc519c7fe4d420b9ed4ff37906cd675a82b24a3ec90074",
+    "toolchain-preparation.json": "ee5264d149f313f8276c3f9fcc78eec1d434a41d7c8bc90f492f38337fb158b0"
+  },
+  "format": "r2s-workflow-artifacts-v1",
+  "inputs": {
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96"
+  },
+  "run_id": "2026-09-22-v16",
+  "scope": "Each attempt separately retained; no pooled task score, no Agent trial",
+  "source_authentication": "Unsigned local integrity manifest; source snapshots fixed by commit and checked against retained download locks"
+}

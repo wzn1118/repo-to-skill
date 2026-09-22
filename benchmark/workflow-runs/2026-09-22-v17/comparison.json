@@ -1,0 +1,64 @@
+{
+  "baseline_passed": 24,
+  "default_passed": 25,
+  "expanded_passed": 29,
+  "format": "r2s-workflow-comparison-v1",
+  "identical_current_compiler_and_runner": true,
+  "identical_task_inputs_and_source_pins": true,
+  "inputs_sha256": {
+    "baseline": "aa6ad6843c0bb8ee29c9cb1dbaa9fbd69bb71bbf40a42cc900b3e366f6491b04",
+    "default": "c77fc1c698a3f49b9f0f6235fc898e94279abde9ee95ae0ff31edfbea20d7296",
+    "expanded": "3142faf0fc75113a80c6051572a536f7fc6d33dcb67f8c131774a17877077595"
+  },
+  "renderer_sha256": "f4b4350f4648374ca6a589f33705051f96ca391dcbca557a28517815024e5922",
+  "rows": [
+    {
+      "baseline_passed": 9,
+      "default_passed": 9,
+      "expanded_failures": {
+        "PARAMETER_SEMANTICS_UNKNOWN": 1
+      },
+      "expanded_passed": 9,
+      "repository": "psf/black",
+      "selected": 10
+    },
+    {
+      "baseline_passed": 10,
+      "default_passed": 10,
+      "expanded_failures": {},
+      "expanded_passed": 10,
+      "repository": "pre-commit/pre-commit",
+      "selected": 10
+    },
+    {
+      "baseline_passed": 0,
+      "default_passed": 0,
+      "expanded_failures": {
+        "WORKFLOW_PARAMETER_UNKNOWN_OR_WRONG_OWNER": 4
+      },
+      "expanded_passed": 2,
+      "repository": "prettier/prettier",
+      "selected": 6
+    },
+    {
+      "baseline_passed": 5,
+      "default_passed": 6,
+      "expanded_failures": {},
+      "expanded_passed": 6,
+      "repository": "junegunn/fzf",
+      "selected": 6
+    },
+    {
+      "baseline_passed": 0,
+      "default_passed": 0,
+      "expanded_failures": {
+        "WORKFLOW_PARAMETER_UNKNOWN_OR_WRONG_OWNER": 2
+      },
+      "expanded_passed": 2,
+      "repository": "cli/cli",
+      "selected": 4
+    }
+  ],
+  "scope": "Authored structured inputs and fixed independent oracles; no Agent trial or model uplift measurement. The baseline is historical; the current pair differs in scan budget.",
+  "selected": 36
+}

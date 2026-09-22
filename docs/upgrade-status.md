@@ -1,6 +1,6 @@
 # Upgrade status / 升级进度
 
-Updated: 2026-09-21. **Execution resumed; M0 is not fully accepted and the full upgrade is not complete.**
+Updated: 2026-09-22. **Execution resumed; M0 is not fully accepted and the full upgrade is not complete.**
 
 The [U00–U22 plan](upgrade-plan.md) remains the acceptance contract. “Partial” means there is
 reviewable implementation, not that the work package or release gate is passed.
@@ -14,13 +14,13 @@ reviewable implementation, not that the work package or release gate is passed.
 | U04 goal matching | partial | Structured workflow inputs and explicit command selection bind to source facts. Optional, separately authorized model gateway candidates pass the same binder. Free natural-language interpretation remains unmeasured. |
 | U05 source identity | partial | Raw byte hashes and committed Git blob IDs separated; CRLF, BOM, dirty trees and SHA-256 Git cases tested. Git filters/fsmonitor disabled. Byte-range mappings and complete snapshot attestations remain open. |
 | U06 IR v2 / migration | partial | Discovery IR 1.5 adds positional arguments, bounded parameter shapes and workflow bindings. Historical 1.2–1.4 imports remain review-blocked without invented facts. Full runtime semantics, byte ranges and external attestation remain pending. See [contract](discovery-contract.md). |
-| U07 workspace scanning | partial | Deterministic workspace/role content budgets, independent metadata limits, tracked-directory inclusion and scanner-gated analyzer reads implemented. Partial scans carry indexed scan.json plus bundle scope, and remain review-required through standalone validation/install. TypeScript/webpack now return partial discoveries. Resolver consolidation, complete workspace graphs, process quotas and hostile-filesystem race isolation remain pending. See [scope contract](scan-budgets.md). |
+| U07 workspace scanning | partial | CLI/UI now offer standard and expanded bounded scans; TaskSpec/verify preserve known bundle profiles during source preparation. Partial scans remain review-required. Expanded update automation, resolver consolidation, complete workspace graphs, process quotas and hostile-filesystem race isolation remain pending. See [scope contract](scan-budgets.md). |
 | U08 Python command graph | partial | Bounded local import/re-export/alias resolution, direct delegation and argparse helper parameter binding preserve source hops. Parsed argparse subcommands, groups and nested children retain their own option paths; fixed pre-commit exposes 16 child paths and 108 scoped options. Black/blackd adds 43 options and Cookiecutter 21 on fixed pins. Dynamic registration, aliases, parser inheritance, local import semantics and complete framework coverage remain pending. See [implemented boundary](python-entrypoint-graph.md). |
 | U09 JS/TS command graph | partial | Optional pinned tree-sitter support for bounded Commander declarations, local imports and explicit option-table normalization. Prettier API-option forwarding, dynamic wrappers and complete framework scopes remain unsupported; no full JS support claim. |
-| U10 Go AST/Cobra graph | partial | Bounded local call/argv traversal, direct Cobra factories, command paths, option ownership and explicit scalar declarations. Conditional registration/build-tag files are excluded; inherited scope and custom consumption remain unknown. |
+| U10 Go AST/Cobra graph | partial | Bounded call/argv traversal, Cobra factories and scoped options now include positionals corroborated by literal ExactArgs validators, plus literal scalar switch assignments. Conditional registration/build-tag files, inherited scope and custom consumption remain unknown. |
 | U11 workflows/documents | partial | Same-tool multi-step Procedures, explicit stdin/output capture, bound quickstarts, input types/choices/required/exclusive checks and acceptance descriptions. Cross-tool composition and evidence-backed automatic recovery remain pending. |
 | U12 application jobs/policy | partial | CLI/UI share build service. SQLite jobs/events, two worker slots, cancellation boundaries, attempt history and expired-lease recovery implemented. Hosted approvals, transactional artifact publication recovery and distributed scheduling remain pending. |
-| U13 sandbox/replay | partial | Identity-bound TaskSpecs, offline wheel preparation, native/Node artifact profiles, isolated writable tasks, independent file/JSON/output oracles and Python repair SDK. Quotas, cleanup and wrong-output negatives tested; multi-tenant and universal dependency preparation remain pending. |
+| U13 sandbox/replay | partial | Identity-bound TaskSpecs, offline runtime profiles, independent oracles and Python repair SDK. Native benchmark binaries require matching successful build receipts; bounded open-file limits and complete execution policies are recorded. Multi-tenant and universal dependency preparation remain pending. |
 | U14 gold/tasks/evaluator | partial | 36 structured-input tasks across the five target tools: first attempt 24 pass, 12 retained failures. Existing reference tasks and static prerequisites stay separate. Three registered holdouts now have retained first outcomes. 200-fact semantic gold and human review are not complete. |
 | U15 Agent A/B / official gh | partial | Skill Seekers 3.9.0 offline generation measured on the five fixed snapshots; two-version sample workflows pass on Black/pre-commit. Neither result measures Agent utility or superiority. Four-arm Agent execution, model-enhanced comparison and native-client tests remain pending. |
 | U16 UI/API | partial | Browser-tested command selection, parameter binding and locked ZIP download, plus inspect/build/evidence/errors. Persisted background jobs, phase progress, cancel/retry and refresh reconnect exist; native installation/execution still use CLI. |
@@ -31,7 +31,26 @@ reviewable implementation, not that the work package or release gate is passed.
 | U21 new domains | pending | Rust remains challenge coverage; no complete Rust/library/HTTP support claim. |
 | U22 private/hosted | pending | No multi-tenant deployment, private-model transfer authorization or hosted SLO claim. |
 
-## New workflow measurements
+## Current v17 measurements
+
+[The new paired run](../benchmark/workflow-runs/2026-09-22-v17/README.md) passes **25/36** with
+standard scans and **29/36** with expanded scans. Both use an explicit 1,024-open-file allowance,
+the same compiler/runner, source pins and unchanged task/oracle hashes. Expanded results:
+Black 9/10, pre-commit 10/10, fzf 6/6, Prettier 2/6, gh 2/4. This is not Agent uplift; the
+historical 24/36 also differs in resource/preparation conditions. Seven remaining failures and all
+diagnostic/build attempts are retained. Current defaults still use standard scans and 128 open files.
+
+[v17 static regression](../benchmark/runs/2026-09-22-upgrade-v17/report.md) completes all 45
+pinned snapshots with standard budgets: 36 Core, 20 STATIC_READY, 10 REVIEW_REQUIRED, 6 UNSUITABLE.
+Selected facts remain 23/40 and task prerequisites 12/30. Emitted/hash-checked facts rise to
+1,094; this is not semantic precision. Local verification: **355 passed, 12 subtests passed**,
+including real Docker checks and nine browser interactions; Ruff and strict mypy pass.
+
+Remaining immediate failures: Black's custom exclude callback, Prettier API option forwarding
+and positional bindings, and gh's custom shell enum wrapper. The 200-fact gold, model arms,
+native-client loading and full semantic review remain open. U00–U22 is not complete.
+
+## Historical v14 workflow measurements
 
 The [five-tool run](../benchmark/workflow-runs/2026-09-21-v14/README.md) first passes **24/36**:
 Black 9/10, pre-commit 10/10, fzf 5/6, Prettier 0/6 and gh 0/4. The failed bindings and scan-gated
@@ -51,7 +70,7 @@ All 45 snapshots now complete: selected source facts **23/40**, static prerequis
 and **1,085** emitted Core facts with hash/pin checks. Core outcomes remain 20 STATIC_READY,
 10 REVIEW_REQUIRED, 6 UNSUITABLE; full semantic precision remains unmeasured.
 
-Current local verification: **335 passed, 12 subtests passed**, with all explicitly enabled
+The v15 local verification recorded **335 passed, 12 subtests passed**, with all explicitly enabled
 Docker/browser checks included. Browser coverage includes eight interactions, now including
 parameter binding and locked ZIP download. Ruff and strict mypy pass. The 45 v13 IR files migrate
 to review-required 1.5 records without changing originals. Windows CI is a separate platform gate,

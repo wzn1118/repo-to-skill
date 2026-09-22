@@ -1,6 +1,13 @@
 # GitHub CLI: generated vs official Skill / 官方 Skill 对照实测
 
-## Workflow-stage update (2026-09-21)
+## Current workflow result (2026-09-22)
+
+The [v17 run](../../benchmark/workflow-runs/2026-09-22-v17/README.md) passes **2/4 gh tasks**
+with the expanded scan budget: default protocol lookup and a two-step local alias workflow.
+Both completion tasks still fail binding. The current standard scan passes 0/4 because its
+remaining scan gap blocks execution. No Agent comparison against the official Skill is claimed.
+
+## Retained workflow-stage update (2026-09-21)
 
 The bounded Cobra analyzer now extracts substantially more scoped interface declarations, but
 the four frozen gh workflow tasks all fail parameter binding: completion shell selection,
@@ -53,6 +60,23 @@ because source content was excluded by budget; extracting one entrypoint is not 
 
 官方内容还讨论交互、JSON、分页、仓库定位、搜索、API 回退和副作用。生成版只有通用预览步骤和入口溯源，
 没有提取这些业务流程。下一步应补跨文件 Cobra 子命令、选项归属及开发工具过滤。
+
+## Fixed-source local tasks / 固定源码本地任务
+
+The [v16 retained task run](../../benchmark/workflow-runs/2026-09-22-v16/README.md) builds
+the same pinned gh source using Go 1.27.1, then passes two generated workflows offline:
+`gh config get git_protocol` returns the expected `https`, and `gh alias set pv 'pr view'`
+followed by `gh alias list` exposes the saved alias. Home/config storage is isolated from the host.
+Literal Cobra positional validators and source usage names provide the binding evidence.
+The two completion tasks still cannot bind the custom wrapped shell flag; all four remain selected.
+
+This uses the explicit expanded scan profile: the standard budget still leaves one oversized
+test archive unscanned and blocks task preparation. The first two builds fail (tmpfs capacity,
+then wall timeout); their receipts and the successful cached retry are retained. This is a local
+task result, not a model comparison with the official Skill. No authenticated GitHub writes occur.
+
+中文：生成的工作流已可完成本地配置读取和两步别名管理。需要扩大扫描预算，补全未扫描区域；
+补全脚本的自定义参数包装仍未支持。上述结果不代表优于官方 Skill，也不替代 Agent 对照实验。
 
 ## Runtime and maintenance limitations / 运行与维护限制
 

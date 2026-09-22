@@ -15,7 +15,7 @@ from typing import Any, BinaryIO
 from r2s.bundle_contracts import BundleProvenance
 from r2s.bundle_validation import bundle_digest, inventory, validate_path
 from r2s.domain import Finding
-from r2s.scan_policy import INCOMPLETE_REASONS
+from r2s.scan_policy import INCOMPLETE_REASONS, scan_policy_for, scan_profile_for_id
 from r2s.scanner import scan
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256
 
@@ -39,6 +39,7 @@ class ExecutionPolicy:
     memory: str = "768m"
     pids_limit: str = "64"
     timeout_seconds: int = 120
+    open_files: int = 128
 
 
 @dataclass(frozen=True)
@@ -68,6 +69,7 @@ def _policy(policy: ExecutionPolicy, command: tuple[str, ...]) -> None:
         or policy.cpus not in {"1", "2"} or policy.memory not in {"256m", "512m", "768m", "1024m"}
         or policy.pids_limit not in {"32", "64", "128"}
         or type(policy.timeout_seconds) is not int or not 1 <= policy.timeout_seconds <= 600
+        or type(policy.open_files) is not int or policy.open_files not in {128, 256, 512, 1024}
         or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_./:@-]{0,255}", policy.image)
     ):
         raise ValueError("EXECUTION_POLICY_UNSAFE")
@@ -92,7 +94,7 @@ def docker_argv(
         "--cap-drop=ALL", "--security-opt=no-new-privileges", "--user", policy.user,
         "--cpus", policy.cpus, "--memory", policy.memory, "--memory-swap", policy.memory,
         "--pids-limit", policy.pids_limit, "--ulimit", "fsize=67108864:67108864",
-        "--ulimit", "nofile=128:128", "--log-driver=none",
+        "--ulimit", f"nofile={policy.open_files}:{policy.open_files}", "--log-driver=none",
         "--tmpfs", "/tmp:rw,exec,nosuid,nodev,size=128m",
         "--workdir=/tmp", "--env=HOME=/tmp", "--env=XDG_CACHE_HOME=/tmp/cache",
         "--env=PYTHONDONTWRITEBYTECODE=1", "--env=PYTHONPATH=/source/src:/source",
@@ -102,10 +104,10 @@ def docker_argv(
     )
 
 
-def _source_files(source: Path) -> dict[str, str]:
+def _source_files(source: Path, scan_profile: str = "default") -> dict[str, str]:
     if source.is_symlink() or source.resolve() in {Path("/"), Path.home()}:
         raise ValueError("EXECUTION_SOURCE_INVALID")
-    scanned = scan(source)
+    scanned = scan(source, policy=scan_policy_for(scan_profile))
     if any(item.reason in INCOMPLETE_REASONS for item in scanned.inventory):
         raise ValueError("EXECUTION_SOURCE_SCAN_INCOMPLETE")
     if sum(item.size for item in scanned.inventory if item.classification == "source") > MAX_SOURCE_BYTES:
@@ -223,9 +225,10 @@ def _capture(
 def run_sandbox(
     source: Path, command: tuple[str, ...], policy: ExecutionPolicy, execute: bool = False,
     expected_source_sha256: str | None = None,
+    scan_profile: str = "default",
 ) -> ExecutionResult:
     _policy(policy, command)
-    source_files = _source_files(source)
+    source_files = _source_files(source, scan_profile)
     source_sha = canonical_sha256(source_files)
     if expected_source_sha256 is not None and source_sha != expected_source_sha256:
         raise ValueError("EXECUTION_SOURCE_CHANGED")
@@ -291,7 +294,8 @@ def verify_bundle(
             raise ValueError("EXECUTION_BUNDLE_CHANGED")
         provenance_key = (skill / "PROVENANCE.json").relative_to(bundle).as_posix()
         provenance = BundleProvenance.model_validate_json(bundle_files[provenance_key])
-        files = _source_files(source)
+        scan_profile = scan_profile_for_id(provenance.source_snapshot.scan_policy_id)
+        files = _source_files(source, scan_profile)
         for evidence in provenance.evidence:
             if files.get(evidence.source.path) != evidence.source.content_sha256:
                 raise ValueError("EXECUTION_SOURCE_MISMATCH")
@@ -319,6 +323,7 @@ def verify_bundle(
             raise ValueError("EXECUTION_BUILD_PROFILE_REQUIRED")
         result = run_sandbox(
             source, command, policy, execute, expected_source_sha256=canonical_sha256(files),
+            scan_profile=scan_profile,
         )
         result = replace(result, bundle_sha256=verified_bundle_sha256)
         return result, []

@@ -40,6 +40,7 @@ def parser() -> argparse.ArgumentParser:
     inspect.add_argument("--ref")
     inspect.add_argument("--output", default="run-output")
     inspect.add_argument("--json", action="store_true")
+    inspect.add_argument("--scan-profile", choices=["default", "expanded"], default="default", help="Bounded content budget; expanded allows larger repositories")
 
     plan_command = commands.add_parser("plan")
     plan_command.add_argument("source", help="Repository path, discovery run path, or run ID")
@@ -57,6 +58,7 @@ def parser() -> argparse.ArgumentParser:
     )
     build_command.add_argument("--output", default="run-output")
     for command_parser in (plan_command, build_command):
+        command_parser.add_argument("--scan-profile", choices=["default", "expanded"], help="Budget for fresh discovery; not allowed on an existing run")
         command_parser.add_argument("--workflow", type=Path, help="Structured task inputs and evidence-checked steps (JSON)")
         command_parser.add_argument("--capability", action="append", help="Select an existing capability ID")
 
@@ -109,6 +111,7 @@ def parser() -> argparse.ArgumentParser:
     verify.add_argument("--execute", action="store_true")
     verify.add_argument("--arg", action="append", help="Explicit CLI argument; use --arg=--flag")
     verify.add_argument("--report", type=Path, help="Write a new execution report")
+    verify.add_argument("--open-files", type=int, choices=[128, 256, 512, 1024], default=128)
     task = commands.add_parser("task", help="Prepare or execute independent output checks for a generated workflow")
     task.add_argument("action", choices=["prepare", "run"])
     task.add_argument("bundle", type=Path)
@@ -120,6 +123,7 @@ def parser() -> argparse.ArgumentParser:
     task.add_argument("--image", default="python:3.12-slim")
     task.add_argument("--report", type=Path, required=True)
     task.add_argument("--execute", action="store_true")
+    task.add_argument("--open-files", type=int, choices=[128, 256, 512, 1024], default=128)
     proposal = commands.add_parser("propose", help="Preview or request a fact-checked workflow from a configured model adapter")
     proposal.add_argument("source")
     proposal.add_argument("--goal", required=True)
@@ -135,13 +139,16 @@ def _discovery(
     source: str,
     output_root: Path,
     ref: str | None = None,
+    scan_profile: str | None = None,
 ) -> tuple[Any, Path]:
     cached, run_root = resolve_discovery(source, output_root)
     if cached is not None and run_root is not None:
         if ref is not None:
             raise ValueError("REF_NOT_ALLOWED_FOR_CACHED_RUN")
+        if scan_profile is not None:
+            raise ValueError("SCAN_PROFILE_NOT_ALLOWED_FOR_CACHED_RUN")
         return cached, run_root
-    value = discover_source(source, output_root, ref)
+    value = discover_source(source, output_root, ref, scan_profile or "default")
     return value, write_discovery(value, output_root)
 
 
@@ -185,14 +192,14 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 if args.source is None:
                     raise ValueError("TASK_SOURCE_REQUIRED")
-                task_result = run_task(args.bundle, args.source, TaskSpec.model_validate(value), ExecutionPolicy(args.image), args.wheels, args.execute, args.executable, args.dependencies)
+                task_result = run_task(args.bundle, args.source, TaskSpec.model_validate(value), ExecutionPolicy(args.image, open_files=args.open_files), args.wheels, args.execute, args.executable, args.dependencies)
             args.report.parent.mkdir(parents=True, exist_ok=True)
             with args.report.open("x", encoding="utf-8") as handle:
                 handle.write(canonical_json(task_result))
             print(canonical_json(task_result), end="")
             return 0 if args.action == "prepare" or task_result["status"] in {"PASS", "PREVIEW"} else 3
         elif args.command == "inspect":
-            discovery = discover_source(args.repo, Path(args.output), args.ref)
+            discovery = discover_source(args.repo, Path(args.output), args.ref, args.scan_profile)
             run_root = write_discovery(discovery, Path(args.output))
             inspect_result = {
                 "run_id": run_root.name,
@@ -210,7 +217,7 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 print(f"{run_root.name}: {len(discovery.capabilities)} capabilities")
         elif args.command == "plan":
-            discovery, _ = _discovery(args.source, Path(args.output), args.ref)
+            discovery, _ = _discovery(args.source, Path(args.output), args.ref, args.scan_profile)
             workflow = WorkflowRequest.model_validate(strict_json_loads(args.workflow.read_bytes())) if args.workflow else None
             procedures = plan(discovery, args.goal, set(args.capability) if args.capability else None, workflow)
             plan_value = [asdict(item) for item in procedures]
@@ -223,6 +230,7 @@ def main(argv: list[str] | None = None) -> int:
                 args.source,
                 Path(args.output),
                 args.ref,
+                args.scan_profile,
             )
             workflow = WorkflowRequest.model_validate(strict_json_loads(args.workflow.read_bytes())) if args.workflow else None
             selected = set(args.capability) if args.capability else None
@@ -372,7 +380,7 @@ def main(argv: list[str] | None = None) -> int:
 
             execution, findings = verify_bundle(
                 Path(args.bundle),
-                ExecutionPolicy(args.image),
+                ExecutionPolicy(args.image, open_files=args.open_files),
                 args.source,
                 args.execute,
                 tuple(args.arg) if args.arg is not None else None,

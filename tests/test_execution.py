@@ -39,10 +39,16 @@ def test_execution_rejects_symlink_source(tmp_path: Path) -> None:
 @pytest.mark.parametrize("changes", [
     {"user": "root"}, {"pids_limit": "-1"}, {"cpus": "999"}, {"memory": "128g"},
     {"timeout_seconds": 0}, {"timeout_seconds": True}, {"image": "--privileged"},
+    {"open_files": -1}, {"open_files": 65536}, {"open_files": True},
 ])
 def test_resource_limits_cannot_be_disabled(tmp_path: Path, changes: dict) -> None:
     with pytest.raises(ValueError, match="POLICY_UNSAFE"):
         run_sandbox(tmp_path, ("true",), replace(ExecutionPolicy("python:3.12-slim"), **changes))
+
+
+def test_open_file_limit_is_explicit_and_bounded(tmp_path):
+    assert "nofile=128:128" in docker_argv(ExecutionPolicy("python:3.12-slim"), tmp_path, ("true",))
+    assert "nofile=1024:1024" in docker_argv(ExecutionPolicy("python:3.12-slim", open_files=1024), tmp_path, ("true",))
 
 
 def test_preview_excludes_secrets_and_never_starts_docker(tmp_path: Path) -> None:

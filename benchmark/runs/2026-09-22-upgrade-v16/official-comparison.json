@@ -1,0 +1,43 @@
+{
+  "commit_sha": "38316c1c4f275030e3df6666382922e75410d68b",
+  "generated_bytes": 976994,
+  "generated_explicit_source_pin": true,
+  "generated_files": 5,
+  "generated_task_pass_rate": null,
+  "interpretation": "Textual mention comparison for five preselected facts; not exhaustive command coverage or proof of superiority",
+  "maintenance_experiment": "not executed across two real upstream commits",
+  "official_bytes": 11958,
+  "official_explicit_source_pin_in_text": false,
+  "official_files": 1,
+  "official_sha256": "262301bdc39ea698034c68b0a9b80ce526199c91ab9295a53e348d65eb5304bb",
+  "official_task_pass_rate": null,
+  "official_url": "https://github.com/cli/cli/blob/38316c1c4f275030e3df6666382922e75410d68b/skills/gh/SKILL.md",
+  "repository": "cli/cli",
+  "selected_facts": [
+    {
+      "fact": "gh",
+      "generated": true,
+      "official_text_mentions": true
+    },
+    {
+      "fact": "status",
+      "generated": true,
+      "official_text_mentions": false
+    },
+    {
+      "fact": "issue create",
+      "generated": false,
+      "official_text_mentions": true
+    },
+    {
+      "fact": "pr list",
+      "generated": false,
+      "official_text_mentions": true
+    },
+    {
+      "fact": "--json",
+      "generated": false,
+      "official_text_mentions": true
+    }
+  ]
+}

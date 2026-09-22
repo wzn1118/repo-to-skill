@@ -48,6 +48,25 @@ class ScanPolicy:
         })
 
 
+def scan_policy_for(profile: str) -> ScanPolicy:
+    if profile == "default":
+        return ScanPolicy()
+    if profile == "expanded":
+        return ScanPolicy(max_files=40_000, max_workspace_files=30_000,
+                          max_nonproduct_files=20_000, max_file_bytes=16 * 1024 * 1024,
+                          max_bytes=512 * 1024 * 1024, max_workspace_bytes=384 * 1024 * 1024,
+                          max_nonproduct_bytes=256 * 1024 * 1024)
+    raise ValueError("SCAN_PROFILE_INVALID")
+
+
+def scan_profile_for_id(policy_id: str) -> str:
+    for profile in ("default", "expanded"):
+        identifier = scan_policy_for(profile).id
+        if policy_id == identifier or policy_id.startswith(identifier + ":"):
+            return profile
+    raise ValueError("EXECUTION_SCAN_POLICY_UNSUPPORTED")
+
+
 def path_role(path: str) -> Literal["product", "test", "example"]:
     parts = {part.casefold() for part in PurePosixPath(path).parts[:-1]}
     if parts & TEST_PARTS:

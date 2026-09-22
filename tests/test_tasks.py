@@ -8,6 +8,7 @@ import pytest
 from r2s.analyzers import discover
 from r2s.execution import ExecutionPolicy
 from r2s.generator import generate
+from r2s.scan_policy import scan_policy_for
 from r2s.task_worker import oracle_failures, process
 from r2s.tasks import TaskOracle, run_task, task_for_bundle
 from r2s.workflows import WorkflowRequest
@@ -40,7 +41,7 @@ def test_stdin_is_retained_in_generated_workflow(tmp_path):
     assert json.loads((bundle / "PROVENANCE.json").read_text())["procedure"]["steps"][0]["stdin"] == "one\ntwo\n"
 
 
-def task_bundle(tmp_path: Path):
+def task_bundle(tmp_path: Path, expanded: bool = False):
     source = tmp_path / "source"
     source.mkdir()
     (source / "LICENSE").write_text("MIT")
@@ -56,10 +57,24 @@ def main():
     Path(args.output).write_text(json.dumps({"records":Path(args.source).read_text().splitlines()}))
 ''')
     workflow = WorkflowRequest.model_validate({"title": "Export JSON", "steps": [{"command": "demo", "parameters": {"source": ["input.txt"], "--output": ["result.json"]}, "expected_observation": "JSON has all input records"}]})
-    result = generate(discover(source), "导出 JSON 文件", tmp_path / "build", "portable", workflow=workflow)
+    if expanded:
+        (source / "large.txt").write_text("a" * (2 * 1024 * 1024 + 1))
+    result = generate(discover(source, scan_policy=scan_policy_for("expanded" if expanded else "default")), "导出 JSON 文件", tmp_path / "build", "portable", workflow=workflow)
     bundle = Path(result.bundles[0])
     task = task_for_bundle(bundle, "export-json", {"input.txt": "one\ntwo\n"}, [0], TaskOracle(json_files={"result.json": {"records": ["one", "two"]}}))
     return source, bundle, task
+
+
+def test_execution_preserves_expanded_bundle_scope_without_bypassing_default(tmp_path):
+    from r2s.execution import _source_files, verify_bundle
+
+    source, bundle, task = task_bundle(tmp_path, expanded=True)
+    with pytest.raises(ValueError, match="EXECUTION_SOURCE_SCAN_INCOMPLETE"):
+        _source_files(source)
+    result = run_task(bundle, source, task, ExecutionPolicy("python:3.12-slim"))
+    assert result["status"] == "PREVIEW" and result["scan_profile"] == "expanded"
+    verified, findings = verify_bundle(bundle, ExecutionPolicy("python:3.12-slim"), source, arguments=("--help",))
+    assert not findings and verified.status == "PREVIEW"
 
 
 def test_task_preview_binds_bundle_source_and_independent_oracle(tmp_path):

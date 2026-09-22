@@ -52,6 +52,9 @@ def expand_cobra(discovery: DiscoveryIR, scan: ScanResult, root: Claim, function
         if not identifier:
             return
         declared = next(claim for claim in discovery.claims if claim.id == identifier)
+    overwritten = any(node.type == "assignment_statement" and any(text(left) in {owner, owner + ".Args", owner + ".Use"} for left in field(node, "left").named_children) for node in walk(field(function, "body")))
+    if not overwritten:
+        _positionals(discovery, scan, root, filename, declaration, use, imports, path, declared)
     required = set()
     for node in walk(field(function, "body")):
         if node.type == "call_expression" and unconditional(node, function) and text(field(node, "function")) == owner + ".MarkFlagRequired":
@@ -109,3 +112,32 @@ def expand_cobra(discovery: DiscoveryIR, scan: ScanResult, root: Claim, function
         value = {"command": root.object.get("command"), "command_path": list(path), "option": option,
                  "shape": shape("cobra", 0 if match.group(2) == "Bool" else 1, aliases, flag_name in required, unknown), "semantics": semantics}
         add_parameter(discovery, scan, root, filename, node.start_point.row+1, value, "cobra", declared.evidence_ids)
+
+
+def _positionals(discovery: DiscoveryIR, scan: ScanResult, root: Claim, filename: Path, declaration: Any, use: str, imports: dict[str, str], path: tuple[str, ...], declared: Claim) -> None:
+    tokens = use.split()[1:]
+    if not tokens or not all(re.fullmatch(r"<[A-Za-z][\w-]*>", token) for token in tokens):
+        return
+    validators = [field(item, "value") for item in field(declaration, "body").named_children
+                  if item.type == "keyed_element" and text(field(item, "key")) == "Args"]
+    if len(validators) != 1 or len(validators[0].named_children) != 1:
+        return
+    validator = validators[0].named_children[0]
+    if validator.type != "call_expression":
+        return
+    called = field(validator, "function")
+    if called.type != "selector_expression" or text(field(called, "field")) != "ExactArgs" or imports.get(text(field(called, "operand"))) != "github.com/spf13/cobra":
+        return
+    arguments = field(validator, "arguments").named_children
+    try:
+        count = literal(arguments[0]) if len(arguments) == 1 else None
+    except ValueError:
+        return
+    if type(count) is not int or count != len(tokens) or len(set(tokens)) != len(tokens):
+        return
+    for position, token in enumerate(tokens):
+        value = {"command": root.object.get("command"), "command_path": list(path),
+                 "argument": token[1:-1], "position": position,
+                 "shape": shape("cobra", 1, [], required=True),
+                 "semantics": {"framework": "cobra", "scope": "explicit_source_keywords", "value_type": "str"}}
+        add_parameter(discovery, scan, root, filename, declaration.start_point.row+1, value, "cobra", declared.evidence_ids, declaration.end_point.row+1)

@@ -26,6 +26,22 @@ turns receiving slots. This is a deterministic heuristic, not a complete package
 | Admitted bytes per workspace | 64 MiB |
 | Admitted bytes per non-product role | 16 MiB |
 
+Use `r2s inspect REPO --scan-profile expanded` (also available for fresh `plan`/`build`),
+or choose **Large repository** in the UI, when a standard scan reports budget exclusions.
+The expanded profile allows 40,000 files, 30,000 per workspace, 20,000 per non-product role,
+16 MiB per file, 512 MiB total content, 384 MiB per workspace and 256 MiB per non-product role.
+Metadata/depth limits and sensitive-file protections stay in force. This is an explicit larger
+resource budget, not a guarantee of complete semantic analysis. Any remaining exclusion still
+blocks static readiness. The selected limits contribute to scan identity; reusing an existing run
+with a different profile is rejected. Rescan the source to obtain a new run.
+Task execution and `verify` recover the known profile from the locked bundle and rescan under
+that budget; the independent 64 MiB source-pack bound still applies. Custom SDK policies without
+a known execution profile are rejected. `update` currently uses standard discovery; for an
+expanded scan, inspect the new source explicitly and compare the two runs.
+
+CLI 示例：`r2s inspect /data/project --scan-profile expanded --json`。UI 选择“大型仓库”即可；
+扩大预算会读取更多文件，任何仍未覆盖的区域继续阻断就绪状态，旧运行与报告不会被改写。
+
 These are content admission bounds, not peak process memory or total parser CPU limits. Parsing,
 serialization and repeated consistency checks need additional resources. The benchmark worker
 has a separate wall-clock timeout; process-level CPU/RSS limits for every product analysis are

@@ -36,7 +36,7 @@ func main(){ parse(os.Args[1:]) }
 func parse(args []string){
  for index:=0; index<len(args); index++ {
   arg:=args[index]
-  switch arg { case "--exact": exact=true; case "--dynamic": configure() }
+  switch arg { case "--exact": exact=true; case "--dynamic": configure(); case "--no-sort": opts.Sort=0; case "--advance": index=1; case "--consume": opts.Sort=0; index++ }
  }
 }
 func unused(args []string){ for index:=0; index<len(args); index++ { arg:=args[index]; switch arg {case "--fake": exact=true} } }
@@ -45,6 +45,9 @@ func unused(args []string){ for index:=0; index<len(args); index++ { arg:=args[i
     options = {claim.object.get("option"): claim.object.get("shape") for claim in discovery.claims if claim.predicate == "supports_option"}
     assert options["--exact"]["arity"] == 0
     assert options["--dynamic"]["arity"] == "unknown"
+    assert options["--no-sort"]["arity"] == 0
+    assert options["--advance"]["arity"] == "unknown"
+    assert options["--consume"]["arity"] == "unknown"
     assert "--fake" not in options
 
 

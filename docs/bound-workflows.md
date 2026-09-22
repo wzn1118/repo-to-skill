@@ -44,6 +44,8 @@ lock and bundle validators; a modified artifact is not silently exported.
 
 - Exact command path and parameter ownership; no flattening child options to the root.
 - Required arguments, recognized arity/types/choices and supported argparse exclusive groups.
+- Cobra positionals with matching literal `<name>` tokens and `cobra.ExactArgs(N)`; ambiguous
+  usage strings, custom validators and mismatched counts do not supply positional bindings.
 - Alias collisions, ambiguous option-like positional values and unknown custom conversion.
 - One to sixteen steps of the same executable, with JSON argv rather than shell interpolation.
 - Explicit `stdin` and `stdout_file`; supplied inputs and expected observations are not source facts.
@@ -57,6 +59,11 @@ are not guessed. Cross-executable workflows and inferred error recovery remain u
 `SKILL.md` contains the bound quickstart and output checks. Detailed parameter constraints,
 source lines and commit identity are loaded through references. Inventory-only Skills remain
 available; they are not accepted as executable task procedures.
+
+For CLIs that open many modules concurrently, `r2s task run ... --open-files 1024` and
+`r2s verify ... --open-files 1024` select a bounded file-descriptor allowance. The default remains
+128; supported values are 128, 256, 512 and 1024. Task reports record the actual execution policy.
+CPU, memory, process, network and source-write restrictions remain independently enforced.
 
 ## Independent task validation
 

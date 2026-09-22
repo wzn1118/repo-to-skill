@@ -1,0 +1,20 @@
+{
+  "files": {
+    "README.md": "3f01db70495bee6ffc643560d300f270f6f08127e52904432d6b954e628afde6",
+    "comparison.json": "ace285da49edbe41457b9a761424b635f3d59ed7acf8dff20cc31045edae7d23",
+    "expanded.json": "3142faf0fc75113a80c6051572a536f7fc6d33dcb67f8c131774a17877077595",
+    "standard.json": "c77fc1c698a3f49b9f0f6235fc898e94279abde9ee95ae0ff31edfbea20d7296",
+    "tasks.png": "2999452200b7c4e59bfe8e392fe710eed101d055d0a13fcd5a727bad115b56b3",
+    "tasks.svg": "83533cc7213a6b8938f43b81faef504ee5e3ab232624557887243f653fd9a072",
+    "verification.json": "3a86a854ecffb223aa8850358801923fc28d42a1869e77d61cd81604b0fbc644"
+  },
+  "format": "r2s-workflow-artifacts-v1",
+  "inputs": {
+    "benchmark/repository-metadata.json": "63af89a9da5485894c38f9718434175d1482536f996a269355c4589656b4bfcc",
+    "benchmark/tasks/cli-value-v2.json": "a9900b8c15197f8a4a88b7940d25d6e471378469b57584da085bd60d680b3826",
+    "benchmark/tasks/cross-language-v1.json": "0d54f4e5ea1bf1c9735aa657a57c575d9f1ac5f728431e2518d5afcfb7156e96"
+  },
+  "run_id": "2026-09-22-v17",
+  "scope": "Each attempt separately retained; no pooled task score, no Agent trial",
+  "source_authentication": "Unsigned local integrity manifest; source snapshots fixed by commit and checked against retained download locks"
+}

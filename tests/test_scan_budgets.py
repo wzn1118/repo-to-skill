@@ -8,7 +8,7 @@ import pytest
 from r2s.analyzers import discover
 from r2s.discovery_contract import parse_discovery
 from r2s.generator import generate, install_codex_plugin, validate_path
-from r2s.scan_policy import ScanPolicy, scan_coverage
+from r2s.scan_policy import ScanPolicy, scan_coverage, scan_policy_for
 from r2s.scanner import scan
 from r2s.storage import load_discovery, write_discovery
 
@@ -99,6 +99,25 @@ def test_policy_identity_and_partial_scope_survive_storage(tmp_path: Path) -> No
     (run / "scan.json").write_text("{}")
     with pytest.raises(ValueError, match="MISMATCH"):
         load_discovery(run)
+
+
+def test_expanded_profile_reads_larger_source_and_cannot_relabel_cached_run(tmp_path: Path) -> None:
+    from r2s.cli import _discovery
+    from r2s.core import discover_source
+
+    source = tmp_path / "source"
+    write(source, "LICENSE", "MIT")
+    write(source, "large.txt", "a" * (2 * 1024 * 1024 + 1))
+    default = discover_source(str(source), tmp_path / "out")
+    expanded = discover_source(str(source), tmp_path / "out", scan_profile="expanded")
+    assert any(item.code == "SCAN_INCOMPLETE" for item in default.findings)
+    assert not any(item.code == "SCAN_INCOMPLETE" for item in expanded.findings)
+    assert expanded.tree_sha256 != default.tree_sha256
+    run = write_discovery(default, tmp_path / "out")
+    with pytest.raises(ValueError, match="SCAN_PROFILE_NOT_ALLOWED_FOR_CACHED_RUN"):
+        _discovery(str(run), tmp_path / "out", scan_profile="expanded")
+    with pytest.raises(ValueError, match="SCAN_PROFILE_INVALID"):
+        scan_policy_for("unbounded")
 
 
 def test_oversized_python_manifest_is_never_parsed(tmp_path: Path) -> None:

@@ -23,6 +23,7 @@ from r2s.execution import (
     _source_files,
     docker_argv,
 )
+from r2s.scan_policy import scan_profile_for_id
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256
 
 
@@ -111,7 +112,8 @@ def run_task(bundle: Path, source: Path, task: TaskSpec, policy: ExecutionPolicy
         raise ValueError("TASK_INDEPENDENT_ORACLE_REQUIRED")
     if sum(len(content.encode()) for content in task.files.values()) > 1_000_000:
         raise ValueError("TASK_INPUT_TOO_LARGE")
-    source_files = _source_files(source)
+    scan_profile = scan_profile_for_id(provenance.source_snapshot.scan_policy_id)
+    source_files = _source_files(source, scan_profile)
     if any(source_files.get(item.source.path) != item.source.content_sha256 for item in provenance.evidence):
         raise ValueError("TASK_SOURCE_CHANGED")
     entry = next(claim for claim in provenance.claims if claim.id == provenance.document.entrypoint_claim_id)
@@ -138,8 +140,8 @@ def run_task(bundle: Path, source: Path, task: TaskSpec, policy: ExecutionPolicy
             raise ValueError("TASK_DEPENDENCIES_REQUIRED")
     record: dict[str, Any] = {"format": "r2s-task-result-v1", "task_sha256": canonical_sha256(task.model_dump()),
         "task": task.model_dump(), "worker_sha256": file_sha256(Path(__file__).with_name("task_worker.py")),
-        "source_files_sha256": canonical_sha256(source_files), "wheel_sha256": wheel_files,
-        "runtime_files_sha256": runtime_files,
+        "source_files_sha256": canonical_sha256(source_files), "wheel_sha256": wheel_files, "scan_profile": scan_profile,
+        "runtime_files_sha256": runtime_files, "execution_policy": asdict(policy),
         "status": "PREVIEW", "scope": "Generated bound invocation checked by supplied independent oracle; no Agent trial", "attempts": []}
     if not execute:
         return record

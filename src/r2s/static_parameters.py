@@ -11,10 +11,10 @@ from r2s.scanner import ScanResult
 from r2s.serialization import stable_id
 
 
-def add_parameter(discovery: DiscoveryIR, scan: ScanResult, root: Claim, path: Path, line: int, value: dict[str, Any], framework: str, hops: tuple[str, ...] = ()) -> str:
+def add_parameter(discovery: DiscoveryIR, scan: ScanResult, root: Claim, path: Path, line: int, value: dict[str, Any], framework: str, hops: tuple[str, ...] = (), end_line: int | None = None) -> str:
     predicate: Literal["supports_option", "supports_argument", "supports_subcommand"] = "supports_subcommand" if "option" not in value and "argument" not in value else "supports_argument" if "argument" in value else "supports_option"
     source = scan.source_index[path]
-    location = SourceLocation(path.relative_to(scan.root).as_posix(), f"ast:{framework}:{predicate}", source.content_sha256 or "", line, line, scan.snapshot.resolved_commit_sha if scan.snapshot.git_dirty is False else None, source.blob_sha)
+    location = SourceLocation(path.relative_to(scan.root).as_posix(), f"ast:{framework}:{predicate}", source.content_sha256 or "", line, end_line or line, scan.snapshot.resolved_commit_sha if scan.snapshot.git_dirty is False else None, source.blob_sha)
     evidence_id = stable_id("ev", [value, asdict(location)])
     evidence = Evidence(evidence_id, "cli.ast_declaration", value, value, location, framework + "-ast@1", 0.9)
     identifiers = tuple(dict.fromkeys([*root.evidence_ids, *hops, evidence_id]))

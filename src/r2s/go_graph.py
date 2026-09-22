@@ -116,10 +116,19 @@ def analyze_commands(discovery: DiscoveryIR, scan: ScanResult, root: Claim, main
                     unknown: tuple[str, ...] = ("custom_argument_consumption",)
                     assignments = [item for item in walk(body) if item.type == "assignment_statement"] if body is not None else []
                     calls = [item for item in walk(body) if item.type == "call_expression"] if body is not None else []
-                    if len(assignments) == 1 and not calls:
+                    if len(assignments) == 1 and body is not None and body.named_children == assignments:
                         right = field(assignments[0], "right")
-                        if right and len(right.named_children) == 1 and right.named_children[0].type in {"true", "false"}:
-                            arity, unknown = 0, ()
+                        left = field(assignments[0], "left")
+                        if right and left and len(right.named_children) == len(left.named_children) == 1:
+                            destination = left.named_children[0]
+                            if destination.type == "selector_expression" and text(field(destination, "operand")) not in tainted:
+                                try:
+                                    literal(right.named_children[0])
+                                    arity, unknown = 0, ()
+                                except ValueError:
+                                    pass
+                            elif right.named_children[0].type in {"true", "false"}:
+                                arity, unknown = 0, ()
                     if len([item for item in calls if text(field(item, "function")) in consumers]) == 1 and all(text(field(item, "function")) in consumers for item in calls):
                         arity, unknown = 1, ()
                     for flag in flags:

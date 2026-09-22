@@ -141,6 +141,8 @@ td { overflow-wrap:anywhere; }
         <input id="source" name="source" required placeholder="/data/project 或 https://github.com/...">
         <label for="ref">Commit / ref（可选）</label>
         <input id="ref" name="ref" placeholder="具体 SHA 最佳">
+        <label for="scan-profile">扫描规模 / Scan budget</label>
+        <select id="scan-profile"><option value="default">标准 / Standard</option><option value="expanded">大型仓库 / Large repository</option></select>
         <button type="submit">静态分析 / Inspect</button>
       </form>
       <div class="subtle" id="action-status" role="status"></div>
@@ -194,7 +196,7 @@ async function inspectSource(event) {
   try {
     const source = $('#source').value.trim();
     const ref = $('#ref').value.trim();
-    const result = await runJob({action:'inspect', source, ...(ref ? {ref} : {})}, status);
+    const result = await runJob({action:'inspect', source, scan_profile:$('#scan-profile').value, ...(ref ? {ref} : {})}, status);
     status.textContent = '分析完成，已加载结果。';
     await refresh();
     await selectRun(result.run_id);
@@ -970,7 +972,7 @@ class R2SUIRequestHandler(BaseHTTPRequestHandler):
                     path = Path(source).resolve(strict=True)
                     if not any(path.is_relative_to(root) for root in self.server.source_roots):
                         raise ValueError("UI_SOURCE_OUTSIDE_ALLOWED_ROOT")
-                discovery = discover_source(source, self.output_root, ref)
+                discovery = discover_source(source, self.output_root, ref, body.get("scan_profile", "default"))
                 run_root = write_discovery(discovery, self.output_root)
                 self._send_json(
                     HTTPStatus.CREATED,

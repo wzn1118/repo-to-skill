@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — bounded scans and Go task bindings
+
+- Expose standard/expanded content budgets through CLI inspection, fresh planning/builds and the UI. Record distinct scan identities; reject attempts to relabel cached runs.
+- Preserve the locked scan profile during TaskSpec and smoke-test source preparation, including the separate 64 MiB source-pack limit.
+- Bind Cobra positional names only when a recognized literal `ExactArgs` validator agrees; reject ambiguous usage, mismatched counts and direct validator replacement. Support zero-argument Go switches assigning literal values to option fields without consuming argv.
+- Require a successful matching native build receipt for both fzf and gh benchmark runtimes. Preserve source/binary hashes and all failed preparation attempts.
+- Add a configurable, bounded open-file limit to task/verify execution and record the execution policy; the default stays 128.
+- Add a same-input workflow comparison that rejects changed task/source identities, duplicate denominators and mismatched current compiler/runner identities. Publish retained diagnostic attempts separately from the final results.
+
 ## Unreleased — bound workflows and task execution
 
 - Discovery 1.5 adds positional arguments, bounded argparse/Click shapes, required/choice/type/arity checks and supported exclusive groups. Historical 1.2–1.4 imports remain review-blocked.

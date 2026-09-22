@@ -4,6 +4,7 @@ import argparse
 import json
 import sys
 import time
+from dataclasses import asdict
 from pathlib import Path
 
 from public_sources import verify_cache
@@ -13,11 +14,21 @@ from r2s.compiler_identity import compiler_identity
 from r2s.domain import RepositorySnapshot
 from r2s.execution import ExecutionPolicy, _source_files
 from r2s.generator import generate
+from r2s.scan_policy import scan_coverage, scan_policy_for
 from r2s.serialization import canonical_json, canonical_sha256, file_sha256
 from r2s.tasks import TaskOracle, TaskRuntime, dependency_inventory, run_task, task_for_bundle
 from r2s.workflows import WorkflowRequest
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def verify_native_receipt(record: dict, executable: Path, receipt: Path | None) -> None:
+    build_records = json.loads(receipt.read_text()) if receipt else {}
+    if not any(item.get("id") == record["id"] and item.get("commit_sha") == record["commit_sha"]
+               and item.get("binary_sha256") == file_sha256(executable)
+               and item.get("offline_build_or_smoke", {}).get("exit_code") == 0
+               for item in build_records.get("repositories", [])):
+        raise ValueError("RUNTIME_BUILD_RECEIPT_MISMATCH")
 
 
 def main() -> None:
@@ -33,6 +44,9 @@ def main() -> None:
     parser.add_argument("--fzf-binary", type=Path)
     parser.add_argument("--fzf-build-report", type=Path)
     parser.add_argument("--gh-binary", type=Path)
+    parser.add_argument("--gh-build-report", type=Path)
+    parser.add_argument("--scan-profile", choices=["default", "expanded"], default="default")
+    parser.add_argument("--open-files", type=int, choices=[128, 256, 512, 1024], default=128)
     parser.add_argument("--execute", action="store_true")
     args = parser.parse_args()
     if not args.execute:
@@ -52,13 +66,13 @@ def main() -> None:
         cached = args.snapshots / f"{tool}-{record['commit_sha']}"
         verify_cache(cached, record)
         snapshot = RepositorySnapshot("github-archive", tool, f"github://{record['repository']}", record["commit_sha"], record["commit_sha"], "", False, git_object_format="sha1")
-        discovery = discover(cached / "source", snapshot)
+        discovery = discover(cached / "source", snapshot, scan_policy=scan_policy_for(args.scan_profile))
         selected = [task for task in (taskset["tasks"] if tool in {"black", "pre-commit"} else extras["tasks"]) if task["repository_id"] == tool]
         for reference in selected:
             started = time.monotonic()
             output = args.work / reference["id"]
             output.mkdir()
-            result = {"id": reference["id"], "repository": record["repository"], "commit_sha": record["commit_sha"], "reference_sha256": canonical_sha256(reference), "status": "NOT_RUN"}
+            result = {"id": reference["id"], "repository": record["repository"], "commit_sha": record["commit_sha"], "reference_sha256": canonical_sha256(reference), "status": "NOT_RUN", "scan_profile": args.scan_profile, "scan_limits": asdict(scan_policy_for(args.scan_profile)), "scan": scan_coverage(discovery.inventory, discovery.snapshot.scan_policy_id)}
             try:
                 steps = []
                 for reference_step in reference.get("steps", []):
@@ -96,14 +110,12 @@ def main() -> None:
                     executable = args.node if tool == "prettier" else args.fzf_binary if tool == "fzf" else args.gh_binary
                     if executable is None:
                         raise ValueError("RUNTIME_EXECUTABLE_NOT_PREPARED")
-                    if tool == "fzf":
-                        build_records = json.loads(args.fzf_build_report.read_text()) if args.fzf_build_report else {}
-                        if not any(item.get("id") == "fzf" and item.get("commit_sha") == record["commit_sha"] and item.get("binary_sha256") == file_sha256(executable) for item in build_records.get("repositories", [])):
-                            raise ValueError("RUNTIME_BUILD_RECEIPT_MISMATCH")
+                    if tool in {"fzf", "github-cli"}:
+                        verify_native_receipt(record, executable, args.fzf_build_report if tool == "fzf" else args.gh_build_report)
                     node_dependencies = args.node_dependencies if tool == "prettier" else None
-                    runtime = TaskRuntime(kind="node" if tool == "prettier" else "native", executable_sha256=file_sha256(executable), build_source_sha256=canonical_sha256(_source_files(cached / "source")), dependency_files_sha256=canonical_sha256(dependency_inventory(node_dependencies)) if node_dependencies else None)
+                    runtime = TaskRuntime(kind="node" if tool == "prettier" else "native", executable_sha256=file_sha256(executable), build_source_sha256=canonical_sha256(_source_files(cached / "source", args.scan_profile)), dependency_files_sha256=canonical_sha256(dependency_inventory(node_dependencies)) if node_dependencies else None)
                     task = task.model_copy(update={"runtime": runtime})
-                measured = run_task(bundle, cached / "source", task, ExecutionPolicy(args.image), args.wheels, True, executable, node_dependencies)
+                measured = run_task(bundle, cached / "source", task, ExecutionPolicy(args.image, open_files=args.open_files), args.wheels, True, executable, node_dependencies)
                 (output / "task.json").write_text(canonical_json(task.model_dump()))
                 (output / "result.json").write_text(canonical_json(measured))
                 result.update(status=measured["status"], task_result=measured, workflow=workflow.model_dump(), skill_bytes=(bundle / "SKILL.md").stat().st_size)

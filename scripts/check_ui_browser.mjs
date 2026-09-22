@@ -52,6 +52,11 @@ try {
   await until('document.querySelector("#run-count")?.textContent.includes("共 0")');
   await evaluate(`document.querySelector('#source').value=${JSON.stringify(source)}; document.querySelector('#inspect-form button').click()`);
   await until('Boolean(document.querySelector("input[aria-label=用户目标]"))');
+  const standardRun = await evaluate('state.selected');
+  await evaluate("document.querySelector('#scan-profile').value='expanded'; document.querySelector('#inspect-form button').click()");
+  await until(`state.selected !== ${JSON.stringify(standardRun)} && document.querySelector('#action-status').textContent.includes('分析完成')`);
+  const expandedPolicy = await evaluate("(async()=>{const data=await (await fetch('/api/runs/'+state.selected)).json(); return data.discovery.snapshot.scan_policy_id;})()");
+  assert(expandedPolicy.startsWith('workspace-bounded-v1:'));
   await evaluate('document.querySelector("input[aria-label=用户目标]").value="inspect options"; document.querySelector("#detail form button").click()');
   await until('document.querySelector("#detail").textContent.includes("结果：STATIC_READY")');
   await evaluate(`const choice=document.querySelector('select[aria-label="选择命令或子命令"]'); choice.value='0'; choice.dispatchEvent(new Event('change')); document.querySelector('input[aria-label="参数 --output"]').value='result.json'; document.querySelector('input[aria-label="参数 --output"]').dispatchEvent(new Event('input')); document.querySelector('input[aria-label="预期结果"]').value='Review requested output'; document.querySelector('input[aria-label="用户目标"]').value='Bind output'; document.querySelector('#detail form button').click()`);
@@ -72,7 +77,7 @@ try {
   await until('document.querySelector("#action-status").textContent.includes("UI_SOURCE_OUTSIDE_ALLOWED_ROOT")');
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({browser: await call('Browser.getVersion'), checks: [
-    'empty state', 'static inspect', 'successful build', 'parameter binding', 'locked ZIP download', 'evidence view', 'unmatched goal', 'source boundary',
+    'empty state', 'static inspect', 'expanded scan creates distinct run', 'successful build', 'parameter binding', 'locked ZIP download', 'evidence view', 'unmatched goal', 'source boundary',
   ], javascriptExceptions: errors.length}));
 } finally {
   socket.close();

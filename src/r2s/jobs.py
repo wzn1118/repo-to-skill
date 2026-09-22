@@ -117,7 +117,7 @@ class JobStore:
             if not self.checkpoint(identifier, "DISCOVERY" if request["action"] == "inspect" else "COMPILATION"):
                 return
             if request["action"] == "inspect":
-                discovery = discover_source(request["source"], self.output, request.get("ref"))
+                discovery = discover_source(request["source"], self.output, request.get("ref"), request.get("scan_profile", "default"))
                 if not self.checkpoint(identifier, "STORE_DISCOVERY"):
                     return
                 result = {"run_id": write_discovery(discovery, self.output).name}
